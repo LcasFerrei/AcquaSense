@@ -1,0 +1,314 @@
+/* Variáveis de tema claro */
+:root {
+    --bg-color: #f8f8f8;
+    --text-color: #333;
+    --sidebar-bg-color: #f3eaff;
+    --logo-color: #6c63ff;
+    --nav-link-color: #333;
+    --nav-link-hover-bg-color: #e0d4ff;
+    --nav-link-hover-color: #6c63ff;
+    --header-bg-color: #fff;
+    --header-border-color: #ddd;
+    --card-bg-color: #fff;
+    --news-card-bg-color: #eef6ff;
+    --news-button-bg-color: #6c63ff;
+    --news-button-hover-bg-color: #5752d4;
+}
+
+/* Variáveis de tema escuro */
+body.dark-mode {
+    --bg-color: #181818;
+    --text-color: #f0f0f0;
+    --sidebar-bg-color: #222222;
+    --logo-color: #bb86fc;
+    --nav-link-color: #f0f0f0;
+    --nav-link-hover-bg-color: #333333;
+    --nav-link-hover-color: #bb86fc;
+    --header-bg-color: #222222;
+    --header-border-color: #333333;
+    --card-bg-color: #333333;
+    --news-card-bg-color: #2c2c2c;
+    --news-button-bg-color: #bb86fc;
+    --news-button-hover-bg-color: #8e7af7;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg-color);
+    padding: 20px;
+}
+
+.logo-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    margin-bottom: 30px;
+}
+
+.logo h1 {
+    font-size: 35px;
+    color: var(--logo-color);
+}
+
+.nav ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.nav ul li {
+    margin-bottom: 15px;
+}
+
+.nav ul li a {
+    text-decoration: none;
+    color: var(--nav-link-color);
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.nav ul li a:hover {
+    background-color: var(--nav-link-hover-bg-color);
+    color: var(--nav-link-hover-color);
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--header-bg-color);
+    border-bottom: 1px solid var(--header-border-color);
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.search-bar input {
+    padding: 10px;
+    border: 1px solid var(--header-border-color);
+    border-radius: 5px;
+    width: 300px; /* Ajuste a largura conforme necessário */
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-info p {
+    margin: 0;
+    margin-left: 10px; /* Adiciona um espaço entre o ícone e o texto */
+}
+
+.dashboard {
+    padding: 20px;
+}
+
+.dashboard h2 {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.dashboard h2 i {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--card-bg-color);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.card .chart {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card.news {
+    grid-column: span 2;
+    background-color: var(--news-card-bg-color);
+}
+
+.card.news button {
+    background-color: var(--news-button-bg-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.card.news button:hover {
+    background-color: var(--news-button-hover-bg-color);
+}
+
+.nav ul li a {
+    display: flex;
+    align-items: center;
+}
+
+.nav ul li a i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.user-info i {
+    font-size: 18px;
+}
+
+/* Adicionado para centralizar o ícone e texto do título do dashboard */
+.dashboard h2 {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.dashboard h2 i {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+
+/* Estilos para o contêiner de notificações */
+.notification-container {
+    position: relative;
+}
+
+.notification-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 30px;
+    width: 250px;
+    background-color: var(--header-bg-color);
+    border: 1px solid var(--header-border-color);
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.notification-dropdown h3 {
+    margin: 0;
+    padding: 10px;
+    border-bottom: 1px solid var(--header-border-color);
+    background-color: var(--news-card-bg-color);
+}
+
+.notification-dropdown ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.notification-dropdown ul li {
+    padding: 10px;
+    border-bottom: 1px solid var(--header-border-color);
+    cursor: pointer;
+}
+
+.notification-dropdown ul li:hover {
+    background-color: var(--nav-link-hover-bg-color);
+}
+
+/* Estilos para o ícone de notificação */
+#notification-icon {
+    cursor: pointer;
+    position: relative;
+}
+
+/* Estilos para o botão de alternância de tema */
+#theme-toggle {
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#theme-toggle i {
+    margin-right: 5px;
+}
+
+#theme-toggle:hover {
+    background-color: var(--button-hover-bg-color);
+}
+
+/* Remove o sublinhado padrão dos links */
+.logo-link {
+    text-decoration: none; /* Remove o sublinhado dos links */
+    color: inherit; /* Herda a cor do texto do elemento pai */
+}
+
+.logo-link h1 {
+    margin: 0; /* Remove margens padrão do h1 */
+    font-size: 35px; /* Define o tamanho da fonte do título */
+    color: #6c63ff; /* Define a cor do texto do título */
+}
+
+/* Estilo para o efeito hover, se desejado */
+.logo-link:hover h1 {
+    color: #5752d4; /* Cor de destaque ao passar o mouse */
+}

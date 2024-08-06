@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcquaSense Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo-menu">
+                <div class="logo">
+                    <a href="/index.html" class="logo-link">
+                        <h1>AcquaSense</h1>
+                    </a>
+                </div>                
+                <nav class="nav">
+                    <ul>
+                        <li><a href="/index.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                        <li><a href="/Consumptiondaily.html"><i class="fas fa-tint"></i> Consumo Diário</a></li>
+                        <li><a href="/Maintenance.html"><i class="fas fa-tools"></i> Manutenção</a></li>
+                        <li><a href="/SpecificMonitoring.html"><i class="fas fa-eye"></i> Monitoramento Específico</a></li>
+                        <li><a href="#"><i class="fas fa-water"></i> Vazamento</a></li>
+                        <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> Conta de água</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <main class="main-content">
+            <header class="header">
+                <div class="search-bar">
+                    <i class="fas fa-bars"></i>
+                    <input type="text" placeholder="Pesquisar">
+                </div>
+                <div class="user-info">
+                    <div class="notification-container">
+                        <i class="fas fa-bell" id="notification-icon"></i>
+                        <div class="notification-dropdown" id="notification-dropdown">
+                            <h3>Notificações</h3>
+                            <ul>
+                                <li>Nenhuma nova notificação</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p>Bem vindo de volta, <strong>Usuario</strong></p>
+                    <button id="theme-toggle"><i class="fa-solid fa-moon"></i> Modo Escuro</button>
+                </div>
+                
+            </header>
+            <section class="dashboard">
+                <h2><i class="fas fa-chart-line"></i> Dashboard</h2>
+                <div class="cards">
+                    <div class="card news">
+                        <h3>Novidades</h3>
+                        <p>Após a criação do AcquaSense, tivemos uma redução em média de 20% no consumo de água nas condomínios que faturamos.</p>
+                        <button>Veja mais</button>
+                    </div>
+                    <div class="card">
+                        <h3>Consumo do dia</h3>
+                        <p>108 Litros</p>
+                        <div class="chart">
+                            <svg></svg>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Tubulações</h3>
+                        <p>Normal</p>
+                        <div class="chart">
+                            <svg></svg>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Meta diária</h3>
+                        <p>120 Litros</p>
+                        <div class="chart">
+                            <svg></svg>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Consumo acumulado</h3>
+                        <div class="chart">
+                            <svg></svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        document.getElementById('notification-icon').addEventListener('click', function() {
+            const dropdown = document.getElementById('notification-dropdown');
+            dropdown.style.display = dropdown.style.display === 'none' || dropdown.style.display === '' ? 'block' : 'none';
+        });
+    
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('notification-dropdown');
+            const icon = document.getElementById('notification-icon');
+            if (!icon.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            const icon = this.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                this.textContent = ' Modo Claro';
+                this.prepend(icon);
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                this.textContent = ' Modo Escuro';
+                this.prepend(icon);
+            }
+        });
+    </script>
+    
+</body>
+</html>
