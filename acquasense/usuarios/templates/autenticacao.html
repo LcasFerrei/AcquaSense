@@ -7,70 +7,59 @@
       src="https://kit.fontawesome.com/64d58efce2.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="login.css" />
-    <title>ACQUANSE LOGIN</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/login.css' %}">
+    <title>AcquaSense</title>
   </head>
   <body>
     <div class="container">
       <div class="forms-container">
         <div class="signin-signup">
-          <form action="#" class="sign-in-form">
+          <form action="{% url 'authentication' %}" method="post" class="sign-in-form">
+            {% csrf_token %}
+            <div class="col-lg-6 mb-5 mb-lg-0">
+              {% if messages %}
+              {% for message in messages %}
+              <div class="alert alert-{{message.tags}}" role="alert" >
+                  <b>{{message}}</b>
+              </div>
+              {% endfor %}
+              {% endif %}
+          </div>
             <h2 class="title">Login</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" />
+              <input type="text" placeholder="Username" name="username"/>
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" />
+              <input type="password" placeholder="Password" name="password"/>
             </div>
             <input type="submit" value="Entrar" class="btn solid" />
-            <p class="social-text">Ou faça login com plataformas sociais</p>
-            <div class="social-media">
-              <a href="#" class="social-icon">
-                <i class='bx bxl-facebook'></i></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-google"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-            </div>
           </form>
-          <form action="#" class="sign-up-form">
+          <form method="POST" action="{% url 'cadastrar' %}" class="sign-up-form">
+            {% csrf_token %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{message.tags}}" role="alert" >
+                <b>{{message}}</b>
+            </div>
+            {% endfor %}
+            {% endif %}
             <h2 class="title">Inscrever-se</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" />
+              <input type="text" placeholder="Username" name="usernameRegister"/>
             </div>
             <div class="input-field">
               <i class="fas fa-envelope"></i>
-              <input type="email" placeholder="Email" />
+              <input type="email" placeholder="Email" name="emailRegister"/>
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" />
+              <input type="password" placeholder="Password" name="passwordRegister"/>
             </div>
             <input type="submit" class="btn" value="Cadastrar" />
-            <p class="social-text">Ou inscreva-se com plataformas sociais</p>
-            <div class="social-media">
-              <a href="#" class="social-icon">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-google"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-            </div>
           </form>
         </div>
       </div>
@@ -87,7 +76,7 @@
                 Cadastra-se
               </button>
             </div>
-            <img src="img/undraw_visualization_re_1kag.svg" class="image" alt="" />
+            <!-- <img src="img/undraw_visualization_re_1kag.svg" class="image" alt="" /> -->
         </div>
         <div class="panel right-panel">
           <div class="content">
@@ -100,11 +89,11 @@
               Entrar
             </button>
           </div>
-          <img src="img/undraw_visionary_technology_re_jfp7.svg" class="image" alt="" />
+          <!-- <img src="img/undraw_visionary_technology_re_jfp7.svg" class="image" alt="" /> -->
         </div>
       </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="{% static 'usuarios/js/login.js' %}"></script>
   </body>
 </html>
