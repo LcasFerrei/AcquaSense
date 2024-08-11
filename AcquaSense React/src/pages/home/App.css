@@ -1,0 +1,282 @@
+/* Variáveis de tema claro */
+:root {
+    --bg-color: #f8f8f8;
+    --text-color: #333;
+    --sidebar-bg-color: #f3eaff;
+    --logo-color: #6c63ff;
+    --nav-link-color: #333;
+    --nav-link-hover-bg-color: #e0d4ff;
+    --nav-link-hover-color: #6c63ff;
+    --header-bg-color: #fff;
+    --header-border-color: #ddd;
+    --news-card-bg-color: #eef6ff;
+}
+
+/* Variáveis de tema escuro */
+body.dark-mode {
+    --bg-color: #181818;
+    --text-color: #f0f0f0;
+    --sidebar-bg-color: #222222;
+    --logo-color: #bb86fc;
+    --nav-link-color: #f0f0f0;
+    --nav-link-hover-bg-color: #333333;
+    --nav-link-hover-color: #bb86fc;
+    --header-bg-color: #222222;
+    --header-border-color: #333333;
+    --news-card-bg-color: #2c2c2c;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.header {
+    background-color: var(--header-bg-color);
+    color: var(--text-color);
+    padding: 2rem;
+    text-align: center;
+    border-bottom: 2px solid var(--header-border-color);
+}
+
+.header nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.header nav ul li {
+    display: inline;
+    margin: 0 1rem;
+}
+
+.header nav ul li a {
+    color: var(--nav-link-color);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.header nav ul li a:hover {
+    background-color: var(--nav-link-hover-bg-color);
+    color: var(--nav-link-hover-color);
+}
+
+.hero {
+    background: linear-gradient(to right, var(--logo-color), var(--sidebar-bg-color));
+    color: #ffffff;
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 0 0 50% 50% / 0 0 30% 30%;
+}
+
+.hero h2 {
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+.about, .services, .contact, .faq, .reviews {
+    padding: 2rem;
+    text-align: center;
+}
+
+.faq-item, .review-item {
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.faq-item:hover, .review-item:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.02);
+}
+
+.news-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.news {
+    flex: 2;
+    background-color: var(--news-card-bg-color);
+    padding: 2rem;
+    border-radius: 10px;
+    margin: 1rem;
+}
+
+.news h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.news article {
+    margin-bottom: 1rem;
+}
+
+.news article h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.news article p {
+    font-size: 1rem;
+    margin: 0;
+}
+
+.news-image {
+    width: 250px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.acquacast {
+    flex: 1;
+    background-color: var(--news-card-bg-color);
+    padding: 1rem;
+    border-radius: 10px;
+    margin: 1rem 0;
+}
+
+.acquacast h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.acquacast ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.acquacast ul li {
+    margin-bottom: 0.5rem;
+}
+
+.acquacast ul li a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.acquacast ul li a:hover {
+    color: var(--logo-color);
+}
+
+.footer {
+    background-color: var(--logo-color);
+    color: var(--text-color);
+    text-align: center;
+    padding: 1rem;
+    position: static;
+    bottom: 0;
+    width: 100%;
+}
+
+#theme-toggle {
+    background-color: transparent;
+    border: none;
+    color: var(--nav-link-color);
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+#theme-toggle:hover {
+    color: var(--nav-link-hover-color);
+}
+
+/* Para dispositivos móveis (telefones) */
+@media (max-width: 600px) {
+    .header nav ul li {
+        display: block;
+        margin: 0.5rem 0;
+    }
+
+    .hero {
+        padding: 2rem 1rem;
+        border-radius: 0;
+    }
+
+    .about, .services, .contact, .faq, .reviews, .news {
+        padding: 1rem;
+    }
+
+    .news {
+        margin: 0.5rem;
+    }
+}
+
+/* Para tablets */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .header nav ul li {
+        display: inline-block;
+        margin: 0 0.5rem;
+    }
+
+    .hero {
+        padding: 3rem 1.5rem;
+        border-radius: 0 0 30% 30% / 0 0 20% 20%;
+    }
+
+    .about, .services, .contact, .faq, .reviews, .news {
+        padding: 1.5rem;
+    }
+
+    .news {
+        margin: 0.75rem;
+    }
+}
+
+/* Para telas maiores (desktops) */
+@media (min-width: 1025px) {
+    .header nav ul li {
+        display: inline;
+        margin: 0 1rem;
+    }
+
+    .hero {
+        padding: 4rem 2rem;
+        border-radius: 0 0 50% 50% / 0 0 30% 30%;
+    }
+
+    .about, .services, .contact, .faq, .reviews, .news {
+        padding: 2rem;
+    }
+
+    .news {
+        margin: 1rem;
+    }
+}
+
+
+.contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.contact-text {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.contact-image {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.contact-image img {
+    max-width: 50%; /* Define a largura máxima da imagem */
+    height: auto; /* Mantém a proporção da imagem */
+    border-radius: 8px; /* Mantém o arredondamento das bordas */
+    margin-left: -20px; /* Ajusta a margem esquerda para mover a imagem um pouco para a esquerda */
+}
