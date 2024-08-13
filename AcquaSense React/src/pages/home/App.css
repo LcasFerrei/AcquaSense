@@ -345,3 +345,32 @@ body {
     object-fit: cover; /* Garante que a imagem cubra todo o espaço */
     object-position: center; /* Centraliza a imagem */
 }
+
+
+
+
+
+
+
+
+.indicators {
+    position: absolute;
+    bottom: 20px; /* Ajuste conforme necessário */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px; /* Espaçamento entre as bolinhas */
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    background-color: gray;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.indicator.active {
+    background-color: white; /* Ou qualquer cor para o indicador ativo */
+}

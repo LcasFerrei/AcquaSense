@@ -88,23 +88,27 @@ const BannerCarousel = () => {
     const bannerItems = [
         {
             title: "Como economizar água o dia inteiro",
-            image: img1,
-            buttonText: "Saiba Mais",
-        },
-        {
-            title: "Teste",
             image: bannerImg,
             buttonText: "Saiba Mais",
         },
         {
-            title: "Feito com sucesso ou não",
-            image: img3,
+            title: "Teste",
+            image: img1,
             buttonText: "Saiba Mais",
         },
-        // Adicione mais itens de banner conforme necessário
+        {
+            title: "Grupinhoooooooooooooooooooooooo",
+            image: contactImg, 
+            buttonText: "Saiba Mais",
+        },
     ];
 
-    const currentBanner = useCarousel(bannerItems);
+    const [currentBanner, setCurrentBanner] = useState(0);
+
+    // Função para mudar o banner atual ao clicar nos indicadores
+    const handleIndicatorClick = (index) => {
+        setCurrentBanner(index);
+    };
 
     return (
         <div className="banner-carousel">
@@ -115,9 +119,19 @@ const BannerCarousel = () => {
                     <button>{bannerItems[currentBanner].buttonText}</button>
                 </div>
             </div>
+            <div className="indicators">
+                {bannerItems.map((_, index) => (
+                    <span
+                        key={index}
+                        className={`indicator ${currentBanner === index ? 'active' : ''}`}
+                        onClick={() => handleIndicatorClick(index)}
+                    ></span>
+                ))}
+            </div>
         </div>
     );
 };
+
 
 const NewsCarousel = () => {
     const newsItems = [
@@ -135,6 +149,11 @@ const NewsCarousel = () => {
             title: "Novas Tecnologias em Purificação de Água",
             content: "Explore as mais recentes inovações no tratamento e purificação da água.",
             image: img3
+        },
+        {
+            title: "Novas Tecnologias em Purificação de Água",
+            content: "Explore as mais recentes inovações no tratamento e purificação da água.",
+            image: img1
         }
     ];
 
@@ -174,7 +193,7 @@ const Header = () => {
     return (
         <header className="header">
             <nav>
-                <ul>
+                <ul> 
                     <li><a href="#home">Início</a></li>
                     <li><a href="#about">Sobre Nós</a></li>
                     <li><a href="#services">Serviços</a></li>
