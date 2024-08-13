@@ -9,10 +9,11 @@
     ></script>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'usuarios/css/alert.css' %}">
     <title>AcquaSense</title>
   </head>
   <body>
-    <div class="container">
+    <div class="container {% if messages %}{% for message in messages %}{% if 'register' in message.tags %}sign-up-mode{% endif %}{% endfor %}{% endif %}">
       <div class="forms-container">
         <div class="signin-signup">
           <form action="{% url 'authentication' %}" method="post" class="sign-in-form">
@@ -20,9 +21,11 @@
             <div class="col-lg-6 mb-5 mb-lg-0">
               {% if messages %}
               {% for message in messages %}
-              <div class="alert alert-{{message.tags}}" role="alert" >
-                  <b>{{message}}</b>
-              </div>
+                {% if 'auth' in message.tags %}
+                <div class="alert alert-info" role="alert" >
+                    <b>{{message}}</b>
+                </div>
+                {% endif %}
               {% endfor %}
               {% endif %}
           </div>
@@ -41,9 +44,11 @@
             {% csrf_token %}
             {% if messages %}
             {% for message in messages %}
-            <div class="alert alert-{{message.tags}}" role="alert" >
-                <b>{{message}}</b>
-            </div>
+              {% if 'register' in message.tags %}
+              <div class="alert alert-info" role="alert" >
+                  <b>{{message}}</b>
+              </div>
+              {% endif %}
             {% endfor %}
             {% endif %}
             <h2 class="title">Inscrever-se</h2>
@@ -59,7 +64,7 @@
               <i class="fas fa-lock"></i>
               <input type="password" placeholder="Password" name="passwordRegister"/>
             </div>
-            <input type="submit" class="btn" value="Cadastrar" />
+            <input type="submit" class="btn" value="Cadastrar" id="register" />
           </form>
         </div>
       </div>
