@@ -62,18 +62,95 @@ export default HomePage;*/
 
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import Slider from 'react-slick';
 import img1 from '../../Assets/img home/0.jpg';
 import img2 from '../../Assets/img home/agua.jpg';
 import img3 from '../../Assets/img home/indice-3.jpg';
 import contactImg from '../../Assets/img home/grupo.jpg';
+import bannerImg from '../../Assets/img home/agua.jpg'; // Supondo que o banner esteja aqui
 
-const HomePage = () => {
+
+const useCarousel = (items, interval = 5000) => {
+    const [currentItem, setCurrentItem] = useState(0);
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCurrentItem((prev) => (prev + 1) % items.length);
+        }, interval);
+
+        return () => clearInterval(intervalId);
+    }, [items.length, interval]);
+
+    return currentItem;
+};
+
+const BannerCarousel = () => {
+    const bannerItems = [
+        {
+            title: "Como economizar água o dia inteiro",
+            image: img1,
+            buttonText: "Saiba Mais",
+        },
+        {
+            title: "Teste",
+            image: bannerImg,
+            buttonText: "Saiba Mais",
+        },
+        {
+            title: "Feito com sucesso ou não",
+            image: img3,
+            buttonText: "Saiba Mais",
+        },
+        // Adicione mais itens de banner conforme necessário
+    ];
+
+    const currentBanner = useCarousel(bannerItems);
+
     return (
-        <div className="app">
-            <Header />
-            <MainContent />
-            <Footer />
+        <div className="banner-carousel">
+            <div className="banner-slide">
+                <img src={bannerItems[currentBanner].image} alt={bannerItems[currentBanner].title} />
+                <div className="banner-content">
+                    <h2>{bannerItems[currentBanner].title}</h2>
+                    <button>{bannerItems[currentBanner].buttonText}</button>
+                </div>
+            </div>
         </div>
+    );
+};
+
+const NewsCarousel = () => {
+    const newsItems = [
+        {
+            title: "Como Economizar Água em Casa",
+            content: "Descubra dicas simples para reduzir o consumo de água em sua casa e economizar na conta.",
+            image: img1
+        },
+        {
+            title: "Benefícios Financeiros da Economia de Água",
+            content: "Saiba como a economia de água pode impactar positivamente suas finanças e contribuir para um futuro mais sustentável.",
+            image: img2
+        },
+        {
+            title: "Novas Tecnologias em Purificação de Água",
+            content: "Explore as mais recentes inovações no tratamento e purificação da água.",
+            image: img3
+        }
+    ];
+
+    const currentNews = useCarousel(newsItems);
+
+    return (
+        <section id="news" className="news">
+            <h2>Notícias</h2>
+            <div className="carousel">
+                <article key={currentNews}>
+                    <img src={newsItems[currentNews].image} alt={newsItems[currentNews].title} className="news-image" />
+                    <h3>{newsItems[currentNews].title}</h3>
+                    <p>{newsItems[currentNews].content}</p>
+                </article>
+            </div>
+        </section>
     );
 };
 
@@ -184,48 +261,6 @@ const NewsSection = () => (
     </div>
 );
 
-const NewsCarousel = () => {
-    const [currentNews, setCurrentNews] = useState(0);
-    const newsItems = [
-        {
-            title: "Como Economizar Água em Casa",
-            content: "Descubra dicas simples para reduzir o consumo de água em sua casa e economizar na conta.",
-            image: img1
-        },
-        {
-            title: "Benefícios Financeiros da Economia de Água",
-            content: "Saiba como a economia de água pode impactar positivamente suas finanças e contribuir para um futuro mais sustentável.",
-            image: img2
-        },
-        {
-            title: "Novas Tecnologias em Purificação de Água",
-            content: "Explore as mais recentes inovações no tratamento e purificação da água.",
-            image: img3
-        }
-    ];
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentNews((prev) => (prev + 1) % newsItems.length);
-        }, 5000); // Muda a cada 5 segundos
-
-        return () => clearInterval(interval);
-    }, [newsItems.length]);
-
-    return (
-        <section id="news" className="news">
-            <h2>Notícias</h2>
-            <div className="carousel">
-                <article key={currentNews}>
-                    <img src={newsItems[currentNews].image} alt={newsItems[currentNews].title} className="news-image" />
-                    <h3>{newsItems[currentNews].title}</h3>
-                    <p>{newsItems[currentNews].content}</p>
-                </article>
-            </div>
-        </section>
-    );
-};
-
 const AcquaCast = () => {
     return (
         <aside className="acquacast">
@@ -243,8 +278,19 @@ const AcquaCast = () => {
 
 const Footer = () => (
     <footer className="footer">
-        <p>&copy; 2024 AcquaSense. Todos os direitos reservados a © AJLL Tech Solutions.</p>
+        <p>&copy; 2024 AcquaSense. Todos os direitos reservados a © A.J.L.L. Tech Solutions.</p>
     </footer>
 );
+
+const HomePage = () => {
+    return (
+        <div className="app">
+            <Header />
+            <BannerCarousel />
+            <MainContent />
+            <Footer />
+        </div>
+    );
+};
 
 export default HomePage;
