@@ -1,89 +1,27 @@
-/*import React from 'react';
-import './Homepage.css'; // Importa o CSS para a página inicial
-
-import imgTeste from "../../Assets/img home/indice-3.jpg";
-
-const HomePage = () => {
-  return (
-    <div className="homepage">
-      <header className="header">
-        <div className="header-content">
-          <h1 className="project-title">Acquasense</h1>
-          <p className="project-description">
-            Descubra como manter a economia de água em sua vida com Acquasense! Transforme a gestão de água em algo simples e eficiente.
-          </p>
-          <a href="#learn-more" className="cta-button">Saiba Mais</a>
-        </div>
-      </header>
-
-      <section className="carousel">
-        <div className="carousel-content">
-          <img src={imgTeste} alt="Imagem 1" className="carousel-image" />
-          <img src={imgTeste} alt="Imagem 2" className="carousel-image" />
-          <img src={imgTeste} alt="Imagem 3" className="carousel-image" />
-        </div>
-      </section>
-
-      <section id="learn-more" className="learn-more">
-        <div className="learn-more-content">
-          <h2 className="section-title">Sobre o Acquasense</h2>
-          <p className="section-description">
-            O Acquasense é uma plataforma inovadora dedicada a ajudar você a economizar água. Com funcionalidades avançadas e uma interface intuitiva, nossa missão é promover a sustentabilidade e a eficiência no uso dos recursos hídricos.
-          </p>
-        </div>
-      </section>
-
-      <section className="news">
-        <h2 className="news-title">Últimas Notícias</h2>
-        <div className="news-container">
-          <div className="news-card">
-            <h3 className="news-card-title">Notícia 1</h3>
-            <p className="news-card-content">
-              Descubra as últimas atualizações e novidades do Acquasense. Mantenha-se informado sobre novos recursos e melhorias.
-            </p>
-            <a href="#" className="news-card-button">Leia Mais</a>
-          </div>
-          <div className="news-card">
-            <h3 className="news-card-title">Notícia 2</h3>
-            <p className="news-card-content">
-              Acompanhe nossos blogs e artigos sobre sustentabilidade e gestão eficiente da água. Informe-se sobre como fazer a diferença.
-            </p>
-            <a href="#" className="news-card-button">Leia Mais</a>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-};
-
-export default HomePage;*/
-
-// src/App.js
-
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import Slider from 'react-slick';
 import img1 from '../../Assets/img home/0.jpg';
 import img2 from '../../Assets/img home/agua.jpg';
 import img3 from '../../Assets/img home/indice-3.jpg';
 import contactImg from '../../Assets/img home/grupo.jpg';
-import bannerImg from '../../Assets/img home/agua.jpg'; // Supondo que o banner esteja aqui
+import bannerImg from '../../Assets/img home/agua.jpg';
 
-
+// Hook customizado para o carrossel
 const useCarousel = (items, interval = 5000) => {
     const [currentItem, setCurrentItem] = useState(0);
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            setCurrentItem((prev) => (prev + 1) % items.length);
+            setCurrentItem((prevItem) => (prevItem + 1) % items.length);
         }, interval);
 
         return () => clearInterval(intervalId);
     }, [items.length, interval]);
 
-    return currentItem;
+    return { currentItem, setCurrentItem };
 };
 
+// Componente do carrossel de banners
 const BannerCarousel = () => {
     const bannerItems = [
         {
@@ -97,34 +35,29 @@ const BannerCarousel = () => {
             buttonText: "Saiba Mais",
         },
         {
-            title: "Grupinhoooooooooooooooooooooooo",
-            image: contactImg, 
+            title: "Grupinho",
+            image: contactImg,
             buttonText: "Saiba Mais",
         },
     ];
 
-    const [currentBanner, setCurrentBanner] = useState(0);
-
-    // Função para mudar o banner atual ao clicar nos indicadores
-    const handleIndicatorClick = (index) => {
-        setCurrentBanner(index);
-    };
+    const { currentItem, setCurrentItem } = useCarousel(bannerItems);
 
     return (
         <div className="banner-carousel">
             <div className="banner-slide">
-                <img src={bannerItems[currentBanner].image} alt={bannerItems[currentBanner].title} />
+                <img src={bannerItems[currentItem].image} alt={bannerItems[currentItem].title} />
                 <div className="banner-content">
-                    <h2>{bannerItems[currentBanner].title}</h2>
-                    <button>{bannerItems[currentBanner].buttonText}</button>
+                    <h2>{bannerItems[currentItem].title}</h2>
+                    <button>{bannerItems[currentItem].buttonText}</button>
                 </div>
             </div>
             <div className="indicators">
                 {bannerItems.map((_, index) => (
                     <span
                         key={index}
-                        className={`indicator ${currentBanner === index ? 'active' : ''}`}
-                        onClick={() => handleIndicatorClick(index)}
+                        className={`indicator ${currentItem === index ? 'active' : ''}`}
+                        onClick={() => setCurrentItem(index)}
                     ></span>
                 ))}
             </div>
@@ -132,7 +65,7 @@ const BannerCarousel = () => {
     );
 };
 
-
+// Componente do carrossel de notícias
 const NewsCarousel = () => {
     const newsItems = [
         {
@@ -150,29 +83,25 @@ const NewsCarousel = () => {
             content: "Explore as mais recentes inovações no tratamento e purificação da água.",
             image: img3
         },
-        {
-            title: "Novas Tecnologias em Purificação de Água",
-            content: "Explore as mais recentes inovações no tratamento e purificação da água.",
-            image: img1
-        }
     ];
 
-    const currentNews = useCarousel(newsItems);
+    const { currentItem } = useCarousel(newsItems);
 
     return (
         <section id="news" className="news">
             <h2>Notícias</h2>
             <div className="carousel">
-                <article key={currentNews}>
-                    <img src={newsItems[currentNews].image} alt={newsItems[currentNews].title} className="news-image" />
-                    <h3>{newsItems[currentNews].title}</h3>
-                    <p>{newsItems[currentNews].content}</p>
+                <article key={currentItem}>
+                    <img src={newsItems[currentItem].image} alt={newsItems[currentItem].title} className="news-image" />
+                    <h3>{newsItems[currentItem].title}</h3>
+                    <p>{newsItems[currentItem].content}</p>
                 </article>
             </div>
         </section>
     );
 };
 
+// Componente do cabeçalho
 const Header = () => {
     const toggleDarkMode = () => {
         document.body.classList.toggle('dark-mode');
@@ -212,6 +141,7 @@ const Header = () => {
     );
 };
 
+// Componente principal do conteúdo
 const MainContent = () => (
     <main>
         <section id="home" className="hero">
@@ -273,6 +203,7 @@ const MainContent = () => (
     </main>
 );
 
+// Componente da seção de notícias
 const NewsSection = () => (
     <div className="news-section">
         <NewsCarousel />
@@ -280,6 +211,7 @@ const NewsSection = () => (
     </div>
 );
 
+// Componente do AcquaCast (podcast)
 const AcquaCast = () => {
     return (
         <aside className="acquacast">
@@ -287,29 +219,28 @@ const AcquaCast = () => {
             <p>Os podcasts mais recentes sobre sustentabilidade e conservação da água:</p>
             <ul>
                 <li><a href="#">Podcast 1: A importância da economia de água</a></li>
-                <li><a href="#">Podcast 2: Tecnologias emergentes para purificação</a></li>
-                <li><a href="#">Podcast 3: O futuro da água potável</a></li>
-                <li><a href="#">Podcast 4: Impacto financeiro da sustentabilidade</a></li>
+                <li><a href="#">Podcast 2: Tecnologias emergentes em purificação</a></li>
+                <li><a href="#">Podcast 3: Como reduzir o consumo de água na sua casa</a></li>
             </ul>
         </aside>
     );
 };
 
+// Componente do rodapé
 const Footer = () => (
-    <footer className="footer">
-        <p>&copy; 2024 AcquaSense. Todos os direitos reservados a © A.J.L.L. Tech Solutions.</p>
+    <footer>
+        <p>&copy; 2024. Todos os direitos reservados a AcquaSense.</p>
     </footer>
 );
 
-const HomePage = () => {
-    return (
-        <div className="app">
-            <Header />
-            <BannerCarousel />
-            <MainContent />
-            <Footer />
-        </div>
-    );
-};
+// Componente principal
+const Home = () => (
+    <div className="home-page">
+        <Header />
+        <BannerCarousel />
+        <MainContent />
+        <Footer />
+    </div>
+);
 
-export default HomePage;
+export default Home;
