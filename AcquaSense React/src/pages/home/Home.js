@@ -228,8 +228,8 @@ const AcquaCast = () => {
 
 // Componente do rodapé
 const Footer = () => (
-    <footer>
-        <p>&copy; 2024. Todos os direitos reservados a AcquaSense.</p>
+    <footer className="footer">
+        <p>&copy; 2024 AcquaSense. Todos os direitos reservados a © A.J.L.L. Tech Solutions.</p>
     </footer>
 );
 
