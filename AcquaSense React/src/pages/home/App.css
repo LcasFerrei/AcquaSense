@@ -226,27 +226,24 @@ body {
 
 .contact {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
+    align-items: center; /* Centraliza o conteúdo verticalmente */
+    justify-content: space-around; /* Ajusta o espaçamento entre texto e imagem */
+    padding: 2rem;
+    gap: 1.5rem; /* Espaço entre o texto e a imagem */
 }
 
 .contact-text {
-    flex: 1;
-    padding-right: 20px;
+    max-width: 50%; /* Limita a largura do texto */
 }
 
 .contact-image {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
+    max-width: 400px; /* Define uma largura máxima para a imagem */
+    width: 100%; /* Faz a imagem ocupar a largura disponível até o limite */
 }
 
 .contact-image img {
-    max-width: 50%; /* Define a largura máxima da imagem */
-    height: auto; /* Mantém a proporção da imagem */
-    border-radius: 8px; /* Mantém o arredondamento das bordas */
-    margin-left: -20px; /* Ajusta a margem esquerda para mover a imagem um pouco para a esquerda */
+    width: 100%; /* Garante que a imagem se ajuste à largura definida */
+    border-radius: 10px; /* Adiciona um leve arredondamento à imagem */
 }
 
 
@@ -276,9 +273,15 @@ body {
 }
 
 .banner-content h2 {
-    margin: 0;
-    font-size: 24px;
+    position: relative;
+    font-size: 2rem; /* Ajuste o tamanho da fonte conforme necessário */
+    color: white; /* Cor do texto */
+    text-shadow: 
+        1px 1px 2px rgba(0, 0, 0, 0.5), /* Sombra leve */
+        0 0 25px rgba(0, 0, 0, 0.5), /* Sombra mais forte */
+        0 0 5px rgba(0, 0, 0, 0.5); /* Sombra de contorno */
 }
+
 
 .banner-content button {
     background-color: #007bff;
