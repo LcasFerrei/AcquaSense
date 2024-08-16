@@ -109,6 +109,14 @@ body {
     margin: 1rem;
 }
 
+.news-article {
+    position: relative;
+    width: 100%; /* Ajusta a largura da imagem ao contêiner pai */
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
 .news h2 {
     font-size: 2rem;
     margin-bottom: 1rem;
@@ -129,11 +137,35 @@ body {
 }
 
 .news-image {
-    width: 250px;
-    height: 150px;
-    object-fit: cover;
+    width: 100%;
+    height: 300px; /* Ajuste a altura conforme necessário */
+    background-size: cover;
+    background-position: center;
     border-radius: 10px;
-    margin-bottom: 1rem;
+    position: relative;
+    display: flex;
+    align-items: flex-end; /* Alinha o texto na parte inferior da imagem */
+}
+
+.news-content {
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    color: white; /* Cor do texto em branco */
+    padding: 1rem;
+    border-radius: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.news-content h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Sombra no texto */
+}
+
+.news-content p {
+    margin: 0.5rem 0 0;
+    font-size: 1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Sombra no texto */
 }
 
 .footer {

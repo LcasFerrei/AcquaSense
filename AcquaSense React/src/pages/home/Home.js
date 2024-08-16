@@ -95,15 +95,19 @@ const NewsCarousel = () => {
         <section id="news" className="news">
             <h2>Notícias</h2>
             <div className="carousel">
-                <article key={currentItem}>
-                    <img src={newsItems[currentItem].image} alt={newsItems[currentItem].title} className="news-image" />
-                    <h3>{newsItems[currentItem].title}</h3>
-                    <p>{newsItems[currentItem].content}</p>
+                <article key={currentItem} className="news-article">
+                    <div className="news-image" style={{ backgroundImage: `url(${newsItems[currentItem].image})` }}>
+                        <div className="news-content">
+                            <h3>{newsItems[currentItem].title}</h3>
+                            <p>{newsItems[currentItem].content}</p>
+                        </div>
+                    </div>
                 </article>
             </div>
         </section>
     );
 };
+
 
 // Componente do cabeçalho
 const Header = () => {
