@@ -91,7 +91,7 @@ body {
 }
 
 .faq-item:hover, .review-item:hover {
-    background-color: #f0f0f0;
+    background-color: var(--nav-link-hover-color);
     transform: scale(1.02);
 }
 
@@ -134,38 +134,6 @@ body {
     object-fit: cover;
     border-radius: 10px;
     margin-bottom: 1rem;
-}
-
-.acquacast {
-    flex: 1;
-    background-color: var(--news-card-bg-color);
-    padding: 1rem;
-    border-radius: 10px;
-    margin: 1rem 0;
-}
-
-.acquacast h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-}
-
-.acquacast ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.acquacast ul li {
-    margin-bottom: 0.5rem;
-}
-
-.acquacast ul li a {
-    color: var(--text-color);
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.acquacast ul li a:hover {
-    color: var(--logo-color);
 }
 
 .footer {
@@ -345,13 +313,6 @@ body {
     object-fit: cover; /* Garante que a imagem cubra todo o espaço */
     object-position: center; /* Centraliza a imagem */
 }
-
-
-
-
-
-
-
 
 .indicators {
     position: absolute;

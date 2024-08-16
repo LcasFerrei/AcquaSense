@@ -102,6 +102,9 @@ const Login = () => {
 
       <div className="panels-container">
         <div className="panel left-panel">
+          <div className="top-bar">
+            <h1><a href="/">AcquaSense</a></h1>
+          </div>
           <div className="content">
             <h3>BEM VINDO AO ACQUASENSE</h3>
             <p>
@@ -109,12 +112,15 @@ const Login = () => {
               ex ratione. Aliquid!
             </p>
             <button className="btn transparent" id="sign-up-btn">
-              Cadastra-se
+              Cadastrar-se
             </button>
           </div>
           <img src={imgVisualization} className="image" alt="Visualization" />
         </div>
         <div className="panel right-panel">
+          <div className="top-bar">
+            <h1><a href="/">AcquaSense</a></h1>
+          </div>
           <div className="content">
             <h3>Já inscrito?</h3>
             <p>
@@ -128,6 +134,7 @@ const Login = () => {
           <img src={imgVisionaryTechnology} className="image" alt="Visionary Technology" />
         </div>
       </div>
+
     </div>
   );
 };

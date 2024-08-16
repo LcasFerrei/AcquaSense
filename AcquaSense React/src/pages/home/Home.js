@@ -207,24 +207,8 @@ const MainContent = () => (
 const NewsSection = () => (
     <div className="news-section">
         <NewsCarousel />
-        <AcquaCast />
     </div>
 );
-
-// Componente do AcquaCast (podcast)
-const AcquaCast = () => {
-    return (
-        <aside className="acquacast">
-            <h2>Escute o AcquaCast</h2>
-            <p>Os podcasts mais recentes sobre sustentabilidade e conservação da água:</p>
-            <ul>
-                <li><a href="#">Podcast 1: A importância da economia de água</a></li>
-                <li><a href="#">Podcast 2: Tecnologias emergentes em purificação</a></li>
-                <li><a href="#">Podcast 3: Como reduzir o consumo de água na sua casa</a></li>
-            </ul>
-        </aside>
-    );
-};
 
 // Componente do rodapé
 const Footer = () => (

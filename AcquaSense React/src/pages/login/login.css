@@ -410,3 +410,44 @@ form.sign-in-form {
     left: 50%;
   }
 }
+
+
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.3rem 0.8rem; /* Reduzi ainda mais o espaçamento */
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1.2rem; /* Diminuí ainda mais o tamanho da fonte */
+  font-weight: 700; /* Mantenha o peso da fonte forte */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); /* Ajustei a sombra para ser menos pronunciada */
+  z-index: 10;
+  text-align: center;
+  backdrop-filter: blur(5px);
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.panel.left-panel .top-bar {
+  background: linear-gradient(135deg, #6c63ff, #5995fd);
+}
+
+.panel.right-panel .top-bar {
+  background: linear-gradient(135deg, #5752d4, #5995fd);
+}
+
+.top-bar a {
+  color: #fff;
+  text-decoration: none !important;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+@media (max-width: 570px) {
+  .top-bar {
+    font-size: 1rem; /* Ajustar tamanho de fonte em telas menores */
+    padding: 0.2rem 0.6rem; /* Ajustar espaçamento em telas menores */
+  }
+}
