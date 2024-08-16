@@ -5,6 +5,10 @@ import img2 from '../../Assets/img home/agua.jpg';
 import img3 from '../../Assets/img home/indice-3.jpg';
 import contactImg from '../../Assets/img home/grupo.jpg';
 import bannerImg from '../../Assets/img home/agua.jpg';
+import foto1 from '../../Assets/img home/1.jpg';
+import foto2 from '../../Assets/img home/2.jpg';
+import foto3 from '../../Assets/img home/3.jpg';
+import foto4 from '../../Assets/img home/4.jpg';
 
 // Hook customizado para o carrossel
 const useCarousel = (items, interval = 5000) => {
@@ -180,14 +184,40 @@ const MainContent = () => (
         </section>
 
         <section id="reviews" className="reviews">
-            <h2>Avaliações de Clientes</h2>
-            <div className="review-item">
-                <p>"O AcquaSense revolucionou nossa forma de economizar água. Recomendo!" - João Silva</p>
+    <h2>Avaliações de Clientes</h2>
+    <div className="review-list">
+        <div className="review-item water-drop">
+            <img src={foto2} alt="João Silva" />
+            <div className="review-text">
+                <p>"O AcquaSense revolucionou nossa forma de economizar água. Recomendo!"</p>
+                <p>- João Silva</p>
             </div>
-            <div className="review-item">
-                <p>"Excelente serviço e ótimas dicas de economia de água." - Maria Oliveira</p>
+        </div>
+        <div className="review-item water-drop">
+            <img src={foto1} alt="Maria Oliveira" />
+            <div className="review-text">
+                <p>"Excelente serviço e ótimas dicas de economia de água."</p>
+                <p>- Maria Oliveira</p>
             </div>
-        </section>
+        </div>
+        <div className="review-item water-drop">
+            <img src={foto3} alt="Carlos Mendes" />
+            <div className="review-text">
+                <p>"Conseguimos reduzir bastante o consumo. Muito satisfeito."</p>
+                <p>- Carlos Mendes</p>
+            </div>
+        </div>
+        <div className="review-item water-drop">
+            <img src={foto4} alt="Ana Costa" />
+            <div className="review-text">
+                <p>"Uma solução prática e eficiente para economizar água."</p>
+                <p>- Ana Costa</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 
         <section id="contact" className="contact">
             <div className="contact-text">
