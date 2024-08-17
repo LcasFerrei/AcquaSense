@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+
+
+
+
 /* Variáveis de tema claro */
 :root {
     --bg-color: #f8f8f8;
@@ -28,7 +35,10 @@ body.dark-mode {
 
 body {
     margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /*font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;*/;
+    font-family: 'Poppins', sans-serif;
+     /*font-family: 'Montserrat', sans-serif;*/
+    /*font-family: 'Nunito', sans-serif;*/
     background-color: var(--bg-color);
     color: var(--text-color);
 }
@@ -477,4 +487,20 @@ body {
         width: 50px;
         height: 50px;
     }
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600; /* Pode variar de 300 (fino) a 700 (negrito) */
+}
+
+p, li, span {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+button, a {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
 }
