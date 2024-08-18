@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/64d58efce2.js"
+      crossorigin="anonymous"
+    ></script>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'usuarios/css/alert.css' %}">
+    <title>AcquaSense</title>
+  </head>
+  <body>
+    <div class="container {% if messages %}{% for message in messages %}{% if 'register' in message.tags %}sign-up-mode{% endif %}{% endfor %}{% endif %}">
+      <div class="forms-container">
+        <div class="signin-signup">
+          <form action="{% url 'authentication' %}" method="post" class="sign-in-form">
+            {% csrf_token %}
+            <div class="col-lg-6 mb-5 mb-lg-0">
+              {% if messages %}
+              {% for message in messages %}
+                {% if 'auth' in message.tags %}
+                <div class="alert alert-info" role="alert" >
+                    <b>{{message}}</b>
+                </div>
+                {% endif %}
+              {% endfor %}
+              {% endif %}
+          </div>
+            <h2 class="title">Login</h2>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="Username" name="username"/>
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" placeholder="Password" name="password"/>
+            </div>
+            <input type="submit" value="Entrar" class="btn solid" />
+          </form>
+          <form method="POST" action="{% url 'cadastrar' %}" class="sign-up-form">
+            {% csrf_token %}
+            {% if messages %}
+            {% for message in messages %}
+              {% if 'register' in message.tags %}
+              <div class="alert alert-info" role="alert" >
+                  <b>{{message}}</b>
+              </div>
+              {% endif %}
+            {% endfor %}
+            {% endif %}
+            <h2 class="title">Inscrever-se</h2>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="Username" name="usernameRegister"/>
+            </div>
+            <div class="input-field">
+              <i class="fas fa-envelope"></i>
+              <input type="email" placeholder="Email" name="emailRegister"/>
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" placeholder="Password" name="passwordRegister"/>
+            </div>
+            <input type="submit" class="btn" value="Cadastrar" id="register" />
+          </form>
+        </div>
+      </div>
+
+      <div class="panels-container">
+        <div class="panel left-panel">
+            <div class="content">
+              <h3>Novo por aqui?</h3>
+              <p>
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
+                ex ratione. Aliquid!
+              </p>
+              <button class="btn transparent" id="sign-up-btn">
+                Cadastra-se
+              </button>
+            </div>
+            <!-- <img src="img/undraw_visualization_re_1kag.svg" class="image" alt="" /> -->
+        </div>
+        <div class="panel right-panel">
+          <div class="content">
+            <h3>Já inscrito?</h3>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
+              laboriosam ad deleniti.
+            </p>
+            <button class="btn transparent" id="sign-in-btn">
+              Entrar
+            </button>
+          </div>
+          <!-- <img src="img/undraw_visionary_technology_re_jfp7.svg" class="image" alt="" /> -->
+        </div>
+      </div>
+    </div>
+
+    <script src="{% static 'usuarios/js/login.js' %}"></script>
+  </body>
+</html>
