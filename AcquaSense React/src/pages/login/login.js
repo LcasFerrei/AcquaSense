@@ -114,6 +114,10 @@ const Login = () => {
             <button className="btn transparent" id="sign-up-btn">
               Cadastrar-se
             </button>
+
+            <a href="/" className="btn transparent">
+              Voltar a Home
+            </a>
           </div>
           <img src={imgVisualization} className="image" alt="Visualization" />
         </div>
