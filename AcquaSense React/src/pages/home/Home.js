@@ -29,19 +29,19 @@ const useCarousel = (items, interval = 5000) => {
 const BannerCarousel = () => {
     const bannerItems = [
         {
-            title: "Como economizar água o dia inteiro",
+            title: "Qual a importãncia da conscientização sobre o consumo de água?",
             image: bannerImg,
             buttonText: "Saiba Mais",
         },
         {
-            title: "Teste",
+            title: "Venha aprender maneiras sobre como economizar água ",
             image: img1,
             buttonText: "Saiba Mais",
         },
         {
-            title: "Grupinho",
+            title: "Quem está por trás do AcquaSense?",
             image: contactImg,
-            buttonText: "Saiba Mais",
+            buttonText: "Conheça as mentes pensantes por trás desse projeto revolucioário",
         },
     ];
 
