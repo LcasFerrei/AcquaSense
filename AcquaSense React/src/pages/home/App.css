@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
 
 
 
@@ -36,7 +37,7 @@ body.dark-mode {
 body {
     margin: 0;
     /*font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;*/;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Merriweather', sans-serif;
      /*font-family: 'Montserrat', sans-serif;*/
     /*font-family: 'Nunito', sans-serif;*/
     background-color: var(--bg-color);
@@ -328,11 +329,12 @@ body {
 .banner-content button {
     background-color: #007bff;
     color: #fff;
-    border: none;
+    border: 4px solid #0056b3;
     padding: 10px 20px;
     cursor: pointer;
     font-size: 16px;
     margin-top: 10px;
+    border-radius: 20px;
 }
 
 .banner-content button:hover {
@@ -491,7 +493,7 @@ body {
 
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Merriweather', sans-serif;
     font-weight: 600; /* Pode variar de 300 (fino) a 700 (negrito) */
 }
 
