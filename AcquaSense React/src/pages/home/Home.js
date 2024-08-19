@@ -73,18 +73,18 @@ const BannerCarousel = () => {
 const NewsCarousel = () => {
     const newsItems = [
         {
-            title: "Como Economizar Água em Casa",
-            content: "Descubra dicas simples para reduzir o consumo de água em sua casa e economizar na conta.",
+            title: "Venha verificar 5 maneiras para aconomizar água",
+            content: "Aprenda 5 maneiras para se conscientizar sobre o consumo de água.",
             image: img1
         },
         {
-            title: "Benefícios Financeiros da Economia de Água",
-            content: "Saiba como a economia de água pode impactar positivamente suas finanças e contribuir para um futuro mais sustentável.",
+            title: "Como economizar água pode beneficiar financeiramente?",
+            content: "Entenda os benefícios financeiros ao economizar água em sua residência.",
             image: img2
         },
         {
-            title: "Novas Tecnologias em Purificação de Água",
-            content: "Explore as mais recentes inovações no tratamento e purificação da água.",
+            title: "Como o AcquaSense vai realizar o monitoramento de água?",
+            content: "Venha entender as tecnologias usadas para realização do monitoramento de água.",
             image: img3
         },
     ];
