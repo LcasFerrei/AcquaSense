@@ -40,7 +40,8 @@ const Login = () => {
         <div className="signin-signup">
           <form action="#" className="sign-in-form">
             <h2 className="title">Login</h2>
-            <p>Entre para o time dos economizadores e descubra como cada gota conta!</p>
+            <p>Que bom ter você de volta!</p>
+            <p>Continue sua jornada na economia de água e veja o impacto de cada gota.</p>
             <div className="input-field">
               <FontAwesomeIcon icon={faUser} />
               <input type="text" placeholder="Username" />
@@ -65,6 +66,8 @@ const Login = () => {
                 <FontAwesomeIcon icon={faLinkedinIn} />
               </button>
             </div>
+            {/* Botão de "Esqueci minha senha" */}
+            <a href="/forgot-password" className="forgot-password">Esqueci minha senha</a>
           </form>
           <form action="#" className="sign-up-form">
             <h2 className="title">Inscrever-se</h2>
@@ -106,18 +109,13 @@ const Login = () => {
             <h1><a href="/">AcquaSense</a></h1>
           </div>
           <div className="content">
-            <h3>BEM VINDO AO ACQUASENSE</h3>
+            <h2>Bem vindo ao AcquaSense</h2>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-              ex ratione. Aliquid!
+              Entre para o time dos economizadores e descubra como cada gota conta!
             </p>
             <button className="btn transparent" id="sign-up-btn">
-              Cadastrar-se
+              Cadastre-se
             </button>
-
-            <a href="/" className="btn transparent">
-              Voltar a Home
-            </a>
           </div>
           <img src={imgVisualization} className="image" alt="Visualization" />
         </div>
@@ -128,17 +126,16 @@ const Login = () => {
           <div className="content">
             <h3>Já inscrito?</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-              laboriosam ad deleniti.
+              Faça login para acessar sua conta e continuar sua jornada na economia de água.
             </p>
             <button className="btn transparent" id="sign-in-btn">
               Entrar
             </button>
+            
           </div>
           <img src={imgVisionaryTechnology} className="image" alt="Visionary Technology" />
         </div>
       </div>
-
     </div>
   );
 };
