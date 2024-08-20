@@ -241,6 +241,7 @@ const MainContent = () => (
                 <p>Ficou com dúvida? Entre em contato conosco para mais informações.</p>
                 <p>Email: contato@acquasense.com</p>
                 <p>Telefone: (85) 3276-2854</p>
+                <p>Endereço: Av. Washington Soares, 1321 - Edson Queiroz</p>
             </div>
             <div className="contact-image">
                 <img src={contactImg} alt="Contato" />
