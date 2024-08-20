@@ -125,9 +125,11 @@ const Login = () => {
           </div>
           <div className="content">
             <h3>Já inscrito?</h3>
+            <p></p>
             <p>
-              Faça login para acessar sua conta e continuar sua jornada na economia de água.
+            Ótimo, você já faz parte da nossa equipe! Faça login para acessar sua conta e continuar sua jornada de economia de água.
             </p>
+            <p></p>
             <button className="btn transparent" id="sign-in-btn">
               Entrar
             </button>
