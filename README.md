@@ -29,3 +29,5 @@ Possibilitar a gestão eficiente do uso da água.
 
 ### Inicia o servidor de desenvolvimento do Django
 - python manage.py runserver
+- E seja feliz!
+
