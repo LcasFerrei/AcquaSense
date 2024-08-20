@@ -29,7 +29,7 @@ const useCarousel = (items, interval = 5000) => {
 const BannerCarousel = () => {
     const bannerItems = [
         {
-            title: "Qual a importãncia da conscientização sobre o consumo de água?",
+            title: "Qual a importância da conscientização sobre o consumo de água?",
             image: bannerImg,
             buttonText: "Saiba Mais",
         },
@@ -39,9 +39,9 @@ const BannerCarousel = () => {
             buttonText: "Saiba Mais",
         },
         {
-            title: "Quem está por trás do AcquaSense?",
+            title: "Quem são os criadores do AcquaSense?",
             image: contactImg,
-            buttonText: "Conheça as mentes pensantes por trás desse projeto revolucioário",
+            buttonText: "Saiba mais sobre os visionários deste projeto inovador",
         },
     ];
 
@@ -73,18 +73,18 @@ const BannerCarousel = () => {
 const NewsCarousel = () => {
     const newsItems = [
         {
-            title: "Como Economizar Água em Casa",
-            content: "Descubra dicas simples para reduzir o consumo de água em sua casa e economizar na conta.",
+            title: "Venha verificar 5 maneiras para aconomizar água",
+            content: "Aprenda 5 maneiras para se conscientizar sobre o consumo de água.",
             image: img1
         },
         {
-            title: "Benefícios Financeiros da Economia de Água",
-            content: "Saiba como a economia de água pode impactar positivamente suas finanças e contribuir para um futuro mais sustentável.",
+            title: "Como economizar água pode beneficiar financeiramente?",
+            content: "Entenda os benefícios financeiros ao economizar água em sua residência.",
             image: img2
         },
         {
-            title: "Novas Tecnologias em Purificação de Água",
-            content: "Explore as mais recentes inovações no tratamento e purificação da água.",
+            title: "Como o AcquaSense vai realizar o monitoramento de água?",
+            content: "Venha entender as tecnologias usadas para realização do monitoramento de água.",
             image: img3
         },
     ];
@@ -137,7 +137,7 @@ const Header = () => {
                     <li><a href="#news">Notícias</a></li>
                     <li><a href="#contact">Contato</a></li>
                     <li><a href="/login">Portal do Cliente</a></li>
-                    <li><a href="https://wa.me/5585991541634?text=Ol%C3%A1%20Gostaria%20de%20saber%20sobre%20o%20Acquasense%20e%20Entrar%20para%20o%20time%20dos%20economizadores%20e%20descubra%20como%20cada%20gota%20conta%21%2C%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer">Entre em Contato</a></li>
+                    <li><a href="https://wa.me/5585991541634?text=Ol%C3%A1%20Gostaria%20de%20saber%20sobre%20o%20Acquasense%20e%20Entrar%20para%20o%20time%20dos%20economizadores%20e%20descubra%20como%20cada%20gota%20conta%21%2C%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer">Fale conosco</a></li>
                     <li>
                         <button id="theme-toggle" onClick={toggleDarkMode}>
                             <i className="fa-solid fa-moon"></i> Modo Escuro
