@@ -9,6 +9,8 @@ import foto1 from '../../Assets/img home/1.jpg';
 import foto2 from '../../Assets/img home/2.jpg';
 import foto3 from '../../Assets/img home/3.jpg';
 import foto4 from '../../Assets/img home/4.jpg';
+import logoAcquaSense from '../../Assets/img login/LogoAcquaSense.png';
+
 
 // Hook customizado para o carrossel
 const useCarousel = (items, interval = 5000) => {
@@ -31,17 +33,17 @@ const BannerCarousel = () => {
         {
             title: "Qual a importância da conscientização sobre o consumo de água?",
             image: bannerImg,
-            buttonText: "Saiba Mais",
+            buttonText: "Saiba mais...",
         },
         {
             title: "Venha aprender maneiras sobre como economizar água ",
             image: img1,
-            buttonText: "Saiba Mais",
+            buttonText: "Saiba mais...",
         },
         {
             title: "Quem são os criadores do AcquaSense?",
             image: contactImg,
-            buttonText: "Saiba mais sobre os visionários deste projeto inovador",
+            buttonText: "Saiba mais...",
         },
     ];
 
@@ -130,14 +132,15 @@ const Header = () => {
     return (
         <header className="header">
             <nav>
-                <ul> 
+                <ul>
+                     
                     <li><a href="#home">Início</a></li>
                     <li><a href="#about">Sobre Nós</a></li>
                     <li><a href="#services">Serviços</a></li>
                     <li><a href="#news">Notícias</a></li>
                     <li><a href="#contact">Contato</a></li>
                     <li><a href="/login">Portal do Cliente</a></li>
-                    <li><a href="https://wa.me/5585991541634?text=Ol%C3%A1%20Gostaria%20de%20saber%20sobre%20o%20Acquasense%20e%20Entrar%20para%20o%20time%20dos%20economizadores%20e%20descubra%20como%20cada%20gota%20conta%21%2C%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer">Fale conosco</a></li>
+                    <li><a href="https://api.whatsapp.com/send?phone=5585991541634&text=Gostaria%20de%20economizar%20%C3%A1gua!" target="_blank" rel="noopener noreferrer">Fale conosco</a></li>
                     <li>
                         <button id="theme-toggle" onClick={toggleDarkMode}>
                             <i className="fa-solid fa-moon"></i> Modo Escuro
@@ -159,7 +162,7 @@ const MainContent = () => (
 
         <section id="about" className="about">
             <h2>Sobre Nós</h2>
-            <p>Somos uma empresa dedicada à qualidade e sustentabilidade no fornecimento de água. Com anos de experiência no setor, garantimos um serviço eficiente e comprometido com o meio ambiente.</p>
+            <p>Somos uma plataforma que monitora seu consumo de água em tempo real, alertando sobre excessos de consumo e possíveis vazamentos, tudo através de um celular, tablet ou computador.</p>
         </section>
 
         <section id="services" className="services">

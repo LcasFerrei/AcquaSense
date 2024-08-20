@@ -67,10 +67,15 @@ body.dark-mode {
     text-decoration: none;
     border-radius: 5px;
     font-size: 1em;
+    font-weight: 200; /* Remover negrito */
+    border: 1px solid #fff; /* Borda branca */
+
 }
 
 .cta-button:hover {
     background-color: var(--cta-button-hover-bg-color);
+    border-color: var(--cta-button-hover-bg-color); /* Muda a cor da borda ao passar o mouse */
+
 }
 
 .carousel {
