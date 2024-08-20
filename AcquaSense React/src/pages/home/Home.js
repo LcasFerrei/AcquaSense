@@ -132,14 +132,18 @@ const Header = () => {
     return (
         <header className="header">
             <nav>
-                <ul>
-                     
-                    <li><a href="#home">Início</a></li>
+                <ul> 
+                    <li>
+                        <a href="#home">
+                            <img src={logoAcquaSense} alt="Logo AcquaSense" className="logo" />
+                        </a>
+                     </li>
                     <li><a href="#about">Sobre Nós</a></li>
                     <li><a href="#services">Serviços</a></li>
                     <li><a href="#news">Notícias</a></li>
                     <li><a href="#contact">Contato</a></li>
                     <li><a href="/login">Portal do Cliente</a></li>
+
                     <li><a href="https://api.whatsapp.com/send?phone=5585991541634&text=Gostaria%20de%20economizar%20%C3%A1gua!" target="_blank" rel="noopener noreferrer">Fale conosco</a></li>
                     <li>
                         <button id="theme-toggle" onClick={toggleDarkMode}>
@@ -162,14 +166,19 @@ const MainContent = () => (
 
         <section id="about" className="about">
             <h2>Sobre Nós</h2>
+            <p></p>
             <p>Somos uma plataforma que monitora seu consumo de água em tempo real, alertando sobre excessos de consumo e possíveis vazamentos, tudo através de um celular, tablet ou computador.</p>
+            <p></p>
+            <p>o AcquaSense é capaz de fornecer informações sobre o consumo de água de forma diária, disponibilizando a visualização dos dados de hora em hora, com visão geral do dia. Ou de forma mensal, disponibilizando a visualização dia a dia, com visão geral do mês.</p>
+
         </section>
 
         <section id="services" className="services">
             <h2>Serviços</h2>
-            <p>Distribuição de água potável</p>
-            <p>Tratamento e purificação de água</p>
-            <p>Serviços de emergência e manutenção</p>
+            <p></p>
+            <p> AcquaSense é um sistema de monitoramento de consumo de água, que opera em tempo real. Utilizamos tecnologia de ponta em Internet das Coisas (IoT), que permite a comunicação constante entre dispositivos conectados à internet. Além disso, empregamos Inteligência Artificial para analisar e gerenciar o consumo de água, bem como detectar possíveis vazamentos</p>
+            <p></p>
+            <p>Além disso, o sistema fornece a visualização de forma gráfica comparações comportamentais de consumo entre meses ou entre anos, de forma intuitiva e simplista.</p>
         </section>
 
         <NewsSection />
