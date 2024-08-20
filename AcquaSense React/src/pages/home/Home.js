@@ -238,9 +238,9 @@ const MainContent = () => (
         <section id="contact" className="contact">
             <div className="contact-text">
                 <h2>Contato</h2>
-                <p>Entre em contato conosco para mais informações sobre nossos serviços ou para qualquer dúvida.</p>
+                <p>Ficou com dúvida? Entre em contato conosco para mais informações.</p>
                 <p>Email: contato@acquasense.com</p>
-                <p>Telefone: (00) 0000-0000</p>
+                <p>Telefone: (85) 3276-2854</p>
             </div>
             <div className="contact-image">
                 <img src={contactImg} alt="Contato" />
