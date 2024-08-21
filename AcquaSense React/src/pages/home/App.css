@@ -44,6 +44,7 @@ body {
     /*font-family: 'Nunito', sans-serif;*/
     background-color: var(--bg-color);
     color: var(--text-color);
+    overflow-x: hidden;
 }
 
 .header {
@@ -60,12 +61,21 @@ body {
     vertical-align: middle;
 }
 
+.no-hover a:hover,
+.no-hover:hover{
+    background-color: transparent !important;
+    color: inherit !important;
+    cursor: default;
+    pointer-events: none;
+}
 .header nav ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .header nav ul li {
@@ -365,6 +375,7 @@ body {
     width: 100%;
     height: 100%;
     position: relative;
+    object-fit: cover;
 }
 
 .banner-slide img {
