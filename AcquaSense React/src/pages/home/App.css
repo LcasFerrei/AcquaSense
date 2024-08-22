@@ -44,7 +44,12 @@ body {
     /*font-family: 'Nunito', sans-serif;*/
     background-color: var(--bg-color);
     color: var(--text-color);
+    transition: background-color 0.5s ease, color 0.5s ease;
     overflow-x: hidden;
+}
+
+.header, .footer, .news-article {
+    transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .header {
@@ -65,16 +70,18 @@ body {
 .no-hover:hover{
     background-color: transparent !important;
     color: inherit !important;
-    cursor: default;
+    cursos: default;
     pointer-events: none;
+
 }
+
 .header nav ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content:  space-between;
     flex-wrap: wrap;
 }
 
@@ -107,9 +114,37 @@ body {
 }
 
 .hero h2 {
-    font-size: 2.5rem;
+    font-size: 8.5rem;
     margin: 0;
 }
+
+.animated-text {
+    position: relative;
+    display: inline-block;
+}
+
+.animated-text .stroke-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: transparent;
+    -webkit-text-stroke: 2px #ffffff;
+}
+
+.animated-text .fill-text {
+    color: #03a9f4;
+    animation: animate 4s ease-in-out infinite;
+}
+
+@keyframes animate {
+    0%, 100% {
+        clip-path: polygon(0% 49%, 13% 44%, 27% 46%, 43% 55%, 55% 63%, 74% 66%, 89% 65%, 100% 63%, 100% 100%, 0% 99%);
+    }
+    50% {
+        clip-path: polygon(0 60%, 15% 66%, 35% 65%, 47% 55%, 60% 48%, 80% 48%, 95% 53%, 100% 63%, 100% 100%, 0% 99%);
+    }
+}
+
 
 .about, .services, .contact, .faq, .reviews {
     padding: 2rem;
@@ -211,6 +246,7 @@ body {
     bottom: 0;
     width: 100%;
 }
+
 
 #theme-toggle {
     background-color: transparent;
@@ -331,11 +367,13 @@ body {
 
 .banner-content {
     position: absolute;
-    bottom: 20px; /* Ajuste conforme necessário */
-    left: 20px; /* Ajuste conforme necessário */
+    bottom: 0; /* Ajuste conforme necessári, antes era 20px */
+    left: 0; /* Ajuste conforme necessário, antes era 20px */
     color: white; /* Cor do texto */
-    padding: 10px;
+    padding: 20px; /* antes era 10px */
     border-radius: 5px;
+    width: 100%;
+    color: #fff;
 }
 
 .banner-content h2 {
@@ -375,14 +413,14 @@ body {
     width: 100%;
     height: 100%;
     position: relative;
-    object-fit: cover;
 }
 
 .banner-slide img {
     width: 100%;
-    height: 100%;
+    height: 400px;
     object-fit: cover; /* Garante que a imagem cubra todo o espaço */
     object-position: center; /* Centraliza a imagem */
+    filter: brightness(0.8); /* Reduz a luminosidade para destacar o texto */
 }
 
 .indicators {

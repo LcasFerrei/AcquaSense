@@ -160,7 +160,10 @@ const Header = () => {
 const MainContent = () => (
     <main>
         <section id="home" className="hero">
-            <h2>AcquaSense</h2>
+            <h2 className='animated-text'>
+                <span className='stroke-text'>AcquaSense</span>
+                <span className='fill-text'>AcquaSense</span>
+            </h2> 
             <p>Com AcquaSense, economizar água é tão fácil quanto virar a torneira.</p>
         </section>
 
