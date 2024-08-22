@@ -133,7 +133,7 @@ const Header = () => {
         <header className="header">
             <nav>
                 <ul> 
-                    <li>
+                    <li className="no-hover">
                         <a href="#home">
                             <img src={logoAcquaSense} alt="Logo AcquaSense" className="logo" />
                         </a>
