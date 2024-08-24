@@ -75,6 +75,7 @@ const DashboardHeaderNav = () => {
           </div>
           <nav className="dashboard-nav">
             <ul>
+              <li><a href="/index.html"><i className='fa-solid fa-user'></i> Usuário</a></li>
               <li><a href="/index.html"><i className="fas fa-chart-line"></i> Dashboard</a></li>
               <li><a href="/Consumptiondaily.html"><i className="fas fa-tint"></i> Consumo Diário</a></li>
               <li><a href="/Maintenance.html"><i className="fas fa-tools"></i> Manutenção</a></li>
