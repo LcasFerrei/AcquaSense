@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Header.css'; // Importe o CSS correspondente
 
-const DashboardHeaderNav = () => {
+const HeaderNav = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const notificationRef = useRef(null);
 
@@ -89,15 +89,24 @@ const DashboardHeaderNav = () => {
             </a>
           </div>
           <nav className="dashboard-nav">
-            <ul>
-              <li><a href="/index.html"><i className="fa-solid fa-user"></i> Meu Perfil</a></li>
-              <li><a href="/index.html"><i className="fas fa-chart-line"></i> Dashboard</a></li>
-              <li><a href="/Consumptiondaily.html"><i className="fas fa-tint"></i> Consumo Diário</a></li>
-              <li><a href="/Maintenance.html"><i className="fas fa-tools"></i> Manutenção</a></li>
-              <li><a href="/SpecificMonitoring.html"><i className="fas fa-eye"></i> Monitoramento Específico</a></li>
-              <li><a href="#"><i className="fas fa-water"></i> Vazamento</a></li>
-              <li><a href="#"><i className="fas fa-file-invoice-dollar"></i> Conta de água</a></li>
-            </ul>
+          <ul>
+            {/* Link para a página de Perfil do Usuário */}
+            <li><a href="/Userpage"><i className="fa-solid fa-user"></i> Meu Perfil</a></li>
+            
+            {/* Link para a página de Dashboard */}
+            <li><a href="/Dashboard"><i className="fas fa-chart-line"></i> Dashboard</a></li>
+            
+            {/* Link para a página de Consumo Diário */}
+            <li><a href="/Consumptiondaily.html"><i className="fas fa-tint"></i> Consumo Diário</a></li>
+
+          
+            <li><a href="/Maintenance.html"><i className="fas fa-tools"></i> Manutenção</a></li> 
+            <li><a href="/SpecificMonitoring.html"><i className="fas fa-eye"></i> Monitoramento Específico</a></li> 
+           <li><a href="#"><i className="fas fa-water"></i> Vazamento</a></li>
+            {/* <li><a href="#"><i className="fas fa-file-invoice-dollar"></i> Conta de água</a></li> */}
+            <li><a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+          </ul>
+
           </nav>
         </div>
       </aside>
@@ -158,4 +167,4 @@ const DashboardHeaderNav = () => {
 
 
 
-export default DashboardHeaderNav;
+export default HeaderNav;
