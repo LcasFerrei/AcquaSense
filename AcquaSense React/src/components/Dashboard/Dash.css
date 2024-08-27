@@ -1,0 +1,110 @@
+/* Dash.css */
+
+/* Variáveis de tema claro */
+:root {
+    --bg-color: #f8f8f8;
+    --text-color: #333;
+    --sidebar-bg-color: #f3eaff;
+    --logo-color: #6c63ff;
+    --nav-link-color: #333;
+    --nav-link-hover-bg-color: #e0d4ff;
+    --nav-link-hover-color: #6c63ff;
+    --header-bg-color: #fff;
+    --header-border-color: #ddd;
+    --card-bg-color: #fff;
+    --news-card-bg-color: #eef6ff;
+    --news-button-bg-color: #6c63ff;
+    --news-button-hover-bg-color: #5752d4;
+}
+
+/* Variáveis de tema escuro */
+body.dark-mode {
+    --bg-color: #181818;
+    --text-color: #f0f0f0;
+    --sidebar-bg-color: #222222;
+    --logo-color: #bb86fc;
+    --nav-link-color: #f0f0f0;
+    --nav-link-hover-bg-color: #333333;
+    --nav-link-hover-color: #bb86fc;
+    --header-bg-color: #222222;
+    --header-border-color: #333333;
+    --card-bg-color: #333333;
+    --news-card-bg-color: #2c2c2c;
+    --news-button-bg-color: #bb86fc;
+    --news-button-hover-bg-color: #8e7af7;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.dashboard {
+    padding: 20px;
+}
+
+.dashboard h2 {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.dashboard h2 i {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--card-bg-color);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.card .chart {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card.news {
+    grid-column: span 2;
+    background-color: var(--news-card-bg-color);
+}
+
+.card.news button {
+    background-color: var(--news-button-bg-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.card.news button:hover {
+    background-color: var(--news-button-hover-bg-color);
+}
