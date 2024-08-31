@@ -97,11 +97,11 @@ const HeaderNav = () => {
             <li><a href="/Dashboard"><i className="fas fa-chart-line"></i> Dashboard</a></li>
             
             {/* Link para a página de Consumo Diário */}
-            <li><a href="/Consumptiondaily.html"><i className="fas fa-tint"></i> Consumo Diário</a></li>
+            <li><a href="/Consumptiondaily"><i className="fas fa-tint"></i> Consumo Diário</a></li>
 
           
-            <li><a href="/Maintenance.html"><i className="fas fa-tools"></i> Manutenção</a></li> 
-            <li><a href="/SpecificMonitoring.html"><i className="fas fa-eye"></i> Monitoramento Específico</a></li> 
+            <li><a href="/Maintenance"><i className="fas fa-tools"></i> Manutenção</a></li> 
+            <li><a href="/SpecificMonitoring"><i className="fas fa-eye"></i> Monitoramento Específico</a></li> 
            <li><a href="#"><i className="fas fa-water"></i> Vazamento</a></li>
             {/* <li><a href="#"><i className="fas fa-file-invoice-dollar"></i> Conta de água</a></li> */}
             <li><a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
