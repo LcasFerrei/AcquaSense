@@ -1,12 +1,14 @@
 import HeaderNav from "../../components/AcquaNav/Header";
-import '../../components/User/User.css';
+import MonitoramentoAgua from "../../components/Monitoramento/Monitoramento";
+import './HomeMonitoring.css';
 
 
 
 function MonitoringHome(){
     return (
-        <div>
+        <div className="dashboard-container">
             <HeaderNav />
+            <MonitoramentoAgua/>
            
         </div>
 )}
