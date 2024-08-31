@@ -172,7 +172,7 @@ body {
   }
   
   #notification-icon::after {
-    content: "1"; /* Número de notificações não lidas */
+    content: "3"; /* Número de notificações não lidas */
     position: absolute;
     top: -5px;
     right: -5px;

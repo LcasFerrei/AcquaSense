@@ -4,6 +4,10 @@ import Login from "./pages/login/login";
 import HomePage from "./pages/home/Home";
 import Dashboard from "./pages/DashBoard/DashHome";
 import UserHome from "./pages/User/Userpage";
+import ConsumoHome  from "./pages/Consumo/ConsumoHome";
+import ManutenHome from "./pages/Manutencion/ManutenHome";
+import MonitoringHome from "./pages/Monitoramento/HomeMonitoring";
+import WaterHome from "./pages/VazamentoHome/WaterHome";
 
 
 function App() {
@@ -14,6 +18,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/Userpage" element={<UserHome />} />
+        <Route path="/Consumptiondaily" element={<ConsumoHome />} />
+        <Route path="/Maintenance" element={<ManutenHome />} />
+        <Route path="/SpecificMonitoring" element={<MonitoringHome />} />
+        <Route path="/Waterleak" element={<WaterHome />} />
       </Routes>
     </BrowserRouter>
   );
