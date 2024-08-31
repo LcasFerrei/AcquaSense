@@ -5,10 +5,11 @@ import UserProfile from "../../components/User/User";
 
 function UserHome(){
     return (
-        <div>
+        <div className="user-home-container">
             <DashboardHeaderNav />
             <UserProfile />
         </div>
-)}
+    );
+}
 
-export default UserHome
+export default UserHome;
