@@ -1,15 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './User.css';
 
 const UserProfile = () => {
-  const totalConsumption = 850; // Consumo total fictício em litros
-  const consumptionLimit = 1000; // Limite de consumo fictício em litros
+  const [profilePic, setProfilePic] = useState(null); // Estado para armazenar a foto do perfil
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePic(reader.result); // Atualiza o estado com a URL da imagem
+      };
+      reader.readAsDataURL(file); // Lê a imagem como URL de dados
+    }
+  };
 
   return (
     <div className="user-home-container">
       <div className="user-column">
         <h2>Dados do Usuário</h2>
         <div className="user-info">
+          <div className="profile-pic-container">
+            {profilePic ? (
+              <img src={profilePic} alt="Profile" className="profile-pic" />
+            ) : (
+              <div className="profile-pic-placeholder">Nenhuma foto</div>
+            )}
+            <input 
+              type="file" 
+              accept="image/*" 
+              onChange={handleFileChange} 
+              className="file-input" 
+            />
+          </div>
           <p><strong>Nome:</strong> João da Silva</p>
           <p><strong>IP do Cliente:</strong> 192.168.1.1</p>
           <p><strong>Endereço:</strong> Rua das Flores, 123, Fortaleza - CE</p>
