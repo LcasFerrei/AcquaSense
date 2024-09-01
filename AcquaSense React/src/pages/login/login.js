@@ -6,13 +6,12 @@ import { faUser, faLock, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookF, faTwitter, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import imgVisualization from "../../Assets/img login/undraw_visualization_re_1kag.svg";
 import imgVisionaryTechnology from "../../Assets/img login/undraw_visionary_technology_re_jfp7.svg";
+import Cookies from 'js-cookie'; // Instale a biblioteca js-cookie
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: '', password: '', email: '' });
   const [isSignUp, setIsSignUp] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(''); // Estado para a mensagem de erro
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,11 +22,13 @@ const Login = () => {
     const handleSignUpClick = () => {
       container.classList.add("sign-up-mode");
       setIsSignUp(true);
+      setFormData({ username: '', password: '', email: '' }); // Limpar os campos
     };
 
     const handleSignInClick = () => {
       container.classList.remove("sign-up-mode");
       setIsSignUp(false);
+      setFormData({ username: '', password: '', email: '' }); // Limpar os campos
     };
 
     sign_up_btn.addEventListener("click", handleSignUpClick);
@@ -44,6 +45,8 @@ const Login = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const getCsrfToken = () => Cookies.get('csrftoken');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -52,23 +55,23 @@ const Login = () => {
     const data = {
       username: formData.username,
       password: formData.password,
-      ...(isSignUp && { email: formData.email })
+      ...(isSignUp && { email: formData.email }) // Inclui o email apenas para o cadastro
     };
 
     try {
       const response = await axios.post(url, data, {
         headers: {
-          'X-CSRFToken': Cookies.get('csrftoken'),
+          'X-CSRFToken': getCsrfToken(), // Adiciona o token CSRF ao cabeçalho
         },
-        withCredentials: true,
+        withCredentials: true, // Enviar cookies para autenticação de sessão
       });
 
-      console.log('Success:', response.data);
-      
       navigate('/Dashboard');
-      
+      // Redirecionar ou exibir uma mensagem de sucesso
     } catch (error) {
-      setErrorMessage(error.response ? error.response.data.error : error.message); // Mensagem de erro
+      // Exibir mensagem de erro
+      alert(error.response?.data?.error || 'Ocorreu um erro. Tente novamente.');
+      setFormData({ username: '', password: '', email: '' });
     }
   };
 
@@ -199,13 +202,6 @@ const Login = () => {
           <img src={imgVisionaryTechnology} className="image" alt="Visionary Technology" />
         </div>
       </div>
-
-      {/* Exibição do alerta estilizado */}
-      {errorMessage && (
-        <div className="alert">
-          {errorMessage}
-        </div>
-      )}
     </div>
   );
 };
