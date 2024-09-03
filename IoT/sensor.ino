@@ -20,6 +20,11 @@ int rgbAtual = 0;
 unsigned long currentTime;
 unsigned long cloopTime;
 
+unsigned long previousMillis = 0;  // Armazena o tempo da última execução da função
+const unsigned long interval = 30000;  // Intervalo de tempo desejado (1 minuto = 60.000 milissegundos)
+
+
+
 LiquidCrystal_I2C lcd(0x27, 20, 4);
 
 void pulseCounter(){
@@ -31,6 +36,8 @@ void exibeCabecalho(){
   lcd.print("ACQUASENSE");
   lcd.setCursor(0, 1);
   lcd.print("Consumo de Agua:");
+  lcd.setCursor(0, 2);
+  lcd.print("Total: ");
 }
 
 void apagaRGB(){
@@ -91,27 +98,34 @@ void loop(){
   Serial.print(totalMilliLitres);
   Serial.println(" mL");
 
-  lcd.setCursor(0, 2);
-  lcd.print("Total: ");
+  lcd.setCursor(0, 3);
   lcd.print(totalMilliLitres);
   lcd.print(" mL");
 
   acendeRGB(totalMilliLitres);
   
-  if(digitalRead(buttonPin) == HIGH){
+  // Verifica se já passou o intervalo desejado
+  if (currentTime - previousMillis >= interval) {
+    previousMillis = currentTime;  // Atualiza o tempo da última execução
     totalMilliLitres = 0;
-
     lcd.clear();
     exibeCabecalho();
-
-    tone(buzzerPin, 1500);
-    delay(200);
-    noTone(buzzerPin);
-
-    while (digitalRead(buttonPin) == HIGH){
-      delay(10);
-    }
   }
+
+  // if(digitalRead(buttonPin) == HIGH){
+  //   totalMilliLitres = 0;
+
+  //   lcd.clear();
+  //   exibeCabecalho();
+
+  //   tone(buzzerPin, 1500);
+  //   delay(200);
+  //   noTone(buzzerPin);
+
+  //   while (digitalRead(buttonPin) == HIGH){
+  //     delay(100);
+  //   }
+  // }
 
   delay(100);
 }
