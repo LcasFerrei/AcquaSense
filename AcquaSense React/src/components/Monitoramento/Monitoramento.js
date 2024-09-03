@@ -41,7 +41,7 @@ function MonitoramentoAgua() {
             <div className="user-graphs">
                 <div className="graph">
                     <h3>Consumo Diário em Litros da Residência</h3>
-                    <LineChart width={400} height={220} data={dailyConsumptionData}>
+                    <LineChart width={650} height={300} data={dailyConsumptionData}>
                         <Line type="monotone" dataKey="litros" stroke="#3f51b5" strokeWidth={3} />
                         <CartesianGrid stroke="#e0e0e0" />
                         <XAxis dataKey="day" />
@@ -53,7 +53,7 @@ function MonitoramentoAgua() {
 
                 <div className="graph">
                     <h3>Consumo Diário por Compartimentos</h3>
-                    <BarChart width={400} height={220} data={compartmentConsumptionData}>
+                    <BarChart width={650} height={300} data={compartmentConsumptionData}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="day" />
                         <YAxis unit="L" />
