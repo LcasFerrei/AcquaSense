@@ -77,29 +77,6 @@ function MonitoramentoAgua() {
                     <Bar dataKey="litros" fill="#3f51b5" />
                 </BarChart>
             </div>
-
-            <div className="alert-container">
-                <div className="alert">
-                    <h4>Alerta de Consumo de Água</h4>
-                    <div className="alert-details">
-                        <p><strong>Consumo Atual:</strong> {totalConsumption} Litros</p>
-                        <p><strong>Limite de Consumo:</strong> {consumptionLimit} Litros</p>
-                        <p><strong>Consumo Restante:</strong> {remainingConsumption} Litros</p>
-                        <p><strong>Consumo Médio Diário:</strong> {averageDailyConsumption} Litros</p>
-                        <p><strong>Estimativa de Consumo para o Próximo Mês:</strong> {monthlyEstimate} Litros</p>
-                    </div>
-                    <div className="alert-footer">
-                        <h5>Atenção:</h5>
-                        <p>Você está próximo de atingir o limite de consumo!</p>
-                        <h5>Recomendações:</h5>
-                        <ul>
-                            <li>Considere reduzir o consumo em horários de pico.</li>
-                            <li>Verifique possíveis vazamentos em sua residência.</li>
-                            <li>Utilize dispositivos de economia de água.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div>
     );
 }
