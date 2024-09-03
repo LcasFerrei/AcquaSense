@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'usuarios'
+    'usuarios',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -48,7 +49,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    # Adicione outros domínios se necessário
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    # Adicione outros domínios se necessário
+]
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'acquasense.urls'
 
