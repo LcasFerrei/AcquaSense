@@ -1,0 +1,34 @@
+.monitoramento-container {
+    display: flex;
+    padding-top: 85px;
+    margin-left: 400px; /* Aumenta a margem à esquerda para empurrar os gráficos ainda mais para a direita */
+}
+
+.monitoramento-main-content {
+    flex: 1; /* Ocupa o restante do espaço */
+    padding: 0px;
+}
+
+.monitoramento {
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 0px; /* Remove o espaço extra superior */
+    margin-left: auto; /* Alinha os gráficos à direita */
+    margin-right: 0; /* Garante que os gráficos fiquem colados à direita */
+}
+
+.monitoring-header {
+    position: fixed; /* Mantém o header fixo em uma posição */
+    top: 0; /* Move o header para o topo da página */
+    left: 0; /* Certifica que o header esteja alinhado à esquerda */
+    width: 200px; /* Ajuste a largura conforme necessário */
+    height: 100vh; /* Garante que o header vertical cubra toda a altura da tela */
+    z-index: 1000; /* Garante que o header esteja acima de outros conteúdos */
+    padding: -10px; /* Ajuste o padding conforme necessário */
+    background-color: #fff; /* Exemplo de cor de fundo */
+     margin-bottom: 20px;
+}
+     body {
+        margin: 0;
+        padding-bottom: 50px; /* Espaço extra na parte inferior da página */
+    }
