@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importa o useNavigate do React Router v6
 import './Header.css'; // Importe o CSS correspondente
 
 const HeaderNav = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const notificationRef = useRef(null);
+  const navigate = useNavigate(); // Hook para redirecionamento
 
   const handleMenuToggle = () => {
     const sidebar = document.querySelector('.dashboard-sidebar');
@@ -22,22 +24,22 @@ const HeaderNav = () => {
 
   const handleSearchQuery = (query) => {
     const pages = {
-      'dashboard': '/index.html',
-      'consumo diário': '/Consumptiondaily.html',
-      'manutenção': '/Maintenance',
-      'monitoramento específico': '/SpecificMonitoring',
-      'vazamento': '#',
-      'conta de água': '#',
-      'novidades': '#',
-      'tubulações': '#',
-      'meta diária': '#',
-      'consumo acumulado': '#'
+      'dashboard': '/dashboard',
+      'consumo diário': '/consumption-daily',
+      'manutenção': '/maintenance',
+      'monitoramento específico': '/specific-monitoring',
+      'vazamento': '/water-leak',
+      'conta de água': '/water-bill',
+      'novidades': '/news',
+      'tubulações': '/pipes',
+      'meta diária': '/daily-goal',
+      'consumo acumulado': '/accumulated-consumption'
     };
 
     if (pages[query]) {
-      window.location.href = pages[query];
+      navigate(pages[query]); // Usa o navigate para redirecionamento
     } else {
-      const cards = document.querySelectorAll('.dashboard-card');
+      const cards = document.querySelectorAll('.card'); // Busca por cards com a classe .card
       cards.forEach(card => {
         const cardText = card.textContent.toLowerCase();
         card.style.display = cardText.includes(query) ? 'block' : 'none';
@@ -89,24 +91,15 @@ const HeaderNav = () => {
             </a>
           </div>
           <nav className="dashboard-nav">
-          <ul>
-            {/* Link para a página de Perfil do Usuário */}
-            <li><a href="/Userpage"><i className="fa-solid fa-user"></i> Meu Perfil</a></li>
-            
-            {/* Link para a página de Dashboard */}
-            <li><a href="/Dashboard"><i className="fas fa-chart-line"></i> Dashboard</a></li>
-            
-            {/* Link para a página de Consumo Diário */}
-            <li><a href="/Consumptiondaily"><i className="fas fa-tint"></i> Consumo Diário</a></li>
-
-          
-            <li><a href="/Maintenance"><i className="fas fa-tools"></i> Manutenção</a></li> 
-            <li><a href="/SpecificMonitoring"><i className="fas fa-eye"></i> Monitoramento Específico</a></li> 
-           <li><a href="/Waterleak"><i className="fas fa-water"></i> Vazamento</a></li>
-            {/* <li><a href="#"><i className="fas fa-file-invoice-dollar"></i> Conta de água</a></li> */}
-            <li><a href="/login"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-          </ul>
-
+            <ul>
+              <li><a href="/Userpage"><i className="fa-solid fa-user"></i> Meu Perfil</a></li>
+              <li><a href="/Dashboard"><i className="fas fa-chart-line"></i> Dashboard</a></li>
+              <li><a href="/Consumptiondaily"><i className="fas fa-tint"></i> Consumo Diário</a></li>
+              <li><a href="/Maintenance"><i className="fas fa-tools"></i> Manutenção</a></li>
+              <li><a href="/SpecificMonitoring"><i className="fas fa-eye"></i> Monitoramento Específico</a></li>
+              <li><a href="/Waterleak"><i className="fas fa-water"></i> Vazamento</a></li>
+              <li><a href="/login"><i className="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
           </nav>
         </div>
       </aside>
@@ -164,7 +157,5 @@ const HeaderNav = () => {
     </div>
   );
 };
-
-
 
 export default HeaderNav;
