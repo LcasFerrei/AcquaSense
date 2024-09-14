@@ -8,6 +8,7 @@ import ConsumoHome  from "./pages/Consumo/ConsumoHome";
 import ManutenHome from "./pages/Manutencion/ManutenHome";
 import MonitoringHome from "./pages/Monitoramento/HomeMonitoring";
 import WaterHome from "./pages/VazamentoHome/WaterHome";
+import NotificationHome from "./pages/NotificationHome/NotificationHome";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/Maintenance" element={<ManutenHome />} />
         <Route path="/SpecificMonitoring" element={<MonitoringHome />} />
         <Route path="/Waterleak" element={<WaterHome />} />
+        <Route path="/Notification" element={<NotificationHome />} />
       </Routes>
     </BrowserRouter>
   );

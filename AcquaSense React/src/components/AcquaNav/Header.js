@@ -129,12 +129,12 @@ const HeaderNav = () => {
                   className="dashboard-notification-dropdown"
                   id="dashboard-notification-dropdown"
                 >
-                  <h3>Notificações</h3>
+                 <h3><a href="/Notification">Notificações</a></h3>
                   <ul>
                     <li>
                       AcquaSoft Instalando com Sucesso
                       <span className="notification-time">2 minutos atrás</span>
-                    </li>
+                    </li> 
                     <li>
                       Atualização do sistema disponível
                       <span className="notification-time">1 hora atrás</span>

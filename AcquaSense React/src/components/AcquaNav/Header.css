@@ -269,3 +269,13 @@ body {
 .dashboard-logo-link:hover h1 {
     color: #5752d4; /* Cor de destaque ao passar o mouse */
 }
+
+.dashboard-notification-dropdown a {
+    text-decoration: none; /* Remove o sublinhado */
+    color: inherit; /* Mantém a cor atual do texto */
+  }
+  
+  .dashboard-notification-dropdown a:hover {
+    text-decoration: underline; /* Opcional: adiciona o sublinhado ao passar o mouse */
+  }
+  
