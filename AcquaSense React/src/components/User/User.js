@@ -18,7 +18,7 @@ const UserProfile = () => {
   return (
     <div className="user-home-container">
       <div className="user-column">
-        <h2>Dados do Usuário</h2>
+        <h2><i className="fa-solid fa-user"></i>  Meu Perfil</h2>
         <div className="user-info">
           <div className="profile-pic-container">
             {profilePic ? (

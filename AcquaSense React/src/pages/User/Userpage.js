@@ -5,7 +5,7 @@ import UserProfile from "../../components/User/User";
 
 function UserHome(){
     return (
-        <div className="dashboard-container">
+        <div className="User-container">
             <DashboardHeaderNav />
             <UserProfile />
         </div>
