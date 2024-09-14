@@ -97,7 +97,7 @@ const HeaderNav = () => {
               <li><a href="/Consumptiondaily"><i className="fas fa-tint"></i> Consumo Diário</a></li>
               <li><a href="/Maintenance"><i className="fas fa-tools"></i> Manutenção</a></li>
               <li><a href="/SpecificMonitoring"><i className="fas fa-eye"></i> Monitoramento Específico</a></li>
-              <li><a href="/Waterleak"><i className="fas fa-water"></i> Vazamento</a></li>
+              <li><a href="/Configuration"><i class="fa-solid fa-gear"></i> Configuração</a></li>
               <li><a href="/login"><i className="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
           </nav>
