@@ -1,59 +1,143 @@
 import React, { useState } from 'react';
-import './User.css';
+import './User.css'; // Atualize o nome do CSS se necessário
 
 const UserProfile = () => {
-  const [profilePic, setProfilePic] = useState(null); // Estado para armazenar a foto do perfil
+  const [paymentMethod, setPaymentMethod] = useState('Cartão de Crédito');
+  const [personalInfo, setPersonalInfo] = useState({
+    name: 'Lucas Ferreira',
+    address: 'Rua Exemplo, 123',
+    phone: '123-456-7890',
+    email: 'lucas@example.com'
+  });
+  const [profileImage, setProfileImage] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
+  const handlePaymentChange = (e) => {
+    setPaymentMethod(e.target.value);
+  };
+
+  const handlePersonalInfoChange = (e) => {
+    const { name, value } = e.target;
+    setPersonalInfo({
+      ...personalInfo,
+      [name]: value
+    });
+  };
+
+  const handleImageChange = (e) => {
+    if (e.target.files[0]) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePic(reader.result); // Atualiza o estado com a URL da imagem
+      reader.onload = (e) => {
+        setProfileImage(e.target.result);
       };
-      reader.readAsDataURL(file); // Lê a imagem como URL de dados
+      reader.readAsDataURL(e.target.files[0]);
     }
   };
 
+  const handleUpdate = () => {
+    // Aqui você pode enviar as informações para um backend ou armazenar localmente
+    console.log('Informações Atualizadas:', personalInfo);
+    setIsEditing(false);
+  };
+
   return (
-    <div className="user-home-container">
-      <div className="user-column">
-        <h2><i className="fa-solid fa-user"></i>  Meu Perfil</h2>
-        <div className="user-info">
-          <div className="profile-pic-container">
-            {profilePic ? (
-              <img src={profilePic} alt="Profile" className="profile-pic" />
+    <section className="profile-section">
+      <h2><i className="fas fa-solid fa-user"></i> Meu Perfil</h2>
+      <div className="profile-container">
+        <div className="profile-info">
+          <div className="profile-card">
+            <h3>Informações Pessoais</h3>
+            <img src={profileImage || 'https://via.placeholder.com/100'} alt="Perfil" />
+            <div className="form-group">
+              <label>Nome:</label>
+              <input
+                type="text"
+                name="name"
+                value={personalInfo.name}
+                onChange={handlePersonalInfoChange}
+                disabled={!isEditing}
+              />
+            </div>
+            <div className="form-group">
+              <label>Endereço:</label>
+              <input
+                type="text"
+                name="address"
+                value={personalInfo.address}
+                onChange={handlePersonalInfoChange}
+                disabled={!isEditing}
+              />
+            </div>
+            <div className="form-group">
+              <label>Telefone:</label>
+              <input
+                type="text"
+                name="phone"
+                value={personalInfo.phone}
+                onChange={handlePersonalInfoChange}
+                disabled={!isEditing}
+              />
+            </div>
+            <div className="form-group">
+              <label>Email:</label>
+              <input
+                type="email"
+                name="email"
+                value={personalInfo.email}
+                onChange={handlePersonalInfoChange}
+                disabled={!isEditing}
+              />
+            </div>
+            <div className="form-group upload-btn">
+              <label>Foto de perfil:</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                disabled={!isEditing}
+              />
+            </div>
+            {isEditing ? (
+              <button onClick={handleUpdate}>Atualizar Informações</button>
             ) : (
-              <div className="profile-pic-placeholder">Nenhuma foto</div>
+              <button onClick={() => setIsEditing(true)}>Editar Informações</button>
             )}
-            <input 
-              type="file" 
-              accept="image/*" 
-              onChange={handleFileChange} 
-              className="file-input" 
-            />
           </div>
-          <p><strong>Nome:</strong> João da Silva</p>
-          <p><strong>IP do Cliente:</strong> 192.168.1.1</p>
-          <p><strong>Endereço:</strong> Rua das Flores, 123, Fortaleza - CE</p>
-          <p><strong>Quantidade de Sensores Instalados:</strong> 3</p>
-          <p><strong>IP dos Sensores:</strong></p>
-          <ul>
-            <li>192.168.1.101</li>
-            <li>192.168.1.102</li>
-            <li>192.168.1.103</li>
-          </ul>
-          <p><strong>Último Acesso:</strong> 26/08/2024 14:35</p>
-          <p><strong>Status da Conta:</strong> Ativa</p>
-          <p><strong>Número de Alertas:</strong> 2</p>
-          <p><strong>Histórico de Atividades:</strong></p>
-          <ul>
-            <li>Configuração de novos sensores - 25/08/2024</li>
-            <li>Alteração de senha - 20/08/2024</li>
-          </ul>
+        </div>
+        <div className="profile-payment">
+          <div className="profile-card">
+            <h3>Detalhes da Assinatura</h3>
+            <div className="form-group">
+              <label>Forma de pagamento:</label>
+              <div className="payment-details">
+                <img src="https://via.placeholder.com/50" alt="Cartão de Crédito" /> {/* Substitua com imagem do cartão */}
+                <p>Forma atual: {paymentMethod}</p>
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Próxima cobrança:</label>
+              <p>1 de Outubro de 2024 - R$ 62,90</p>
+            </div>
+            <div className="form-group">
+              <label>Último pagamento:</label>
+              <p>1 de Novembro de 2024 - R$ 62,90</p>
+            </div>
+            <div className="form-group">
+              <label>Alterar forma de pagamento:</label>
+              <select
+                value={paymentMethod}
+                onChange={handlePaymentChange}
+              >
+                <option value="Cartão de Crédito">Cartão de Crédito</option>
+                <option value="Boleto">Boleto</option>
+                <option value="PIX">PIX</option>
+              </select>
+            </div>
+            <button>Atualizar Forma de Pagamento</button>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
