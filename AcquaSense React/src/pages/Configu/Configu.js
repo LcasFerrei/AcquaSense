@@ -3,7 +3,7 @@ import '../../components/User/User.css';
 import UserProfile from "../../components/User/User";
 
 
-function WaterHome(){
+function ConfiguHome(){
     return (
         <div>
             <HeaderNav />
@@ -11,4 +11,4 @@ function WaterHome(){
         </div>
 )}
 
-export default WaterHome
+export default ConfiguHome
