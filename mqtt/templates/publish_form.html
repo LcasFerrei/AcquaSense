@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Publicar Mensagem</title>
+</head>
+<body>
+    <h1>Publicar Mensagem MQTT</h1>
+    <form action="{% url 'publish_message' %}" method="post">
+        {% csrf_token %}
+        <label for="message">Mensagem:</label>
+        <input type="text" id="message" name="message" required>
+        <button type="submit">Publicar Mensagem</button>
+    </form>
+</body>
+</html>
