@@ -1,15 +1,18 @@
 import React from 'react';
 import Noti from '../../components/Notification/Notification';
 import HeaderNav from "../../components/AcquaNav/Header";
+import './NotiHome.css';
 
 function NotificationHome() {
     return (
         <div className="notification-home">
-            <HeaderNav />
+            {/* Sidebar e Header */}
+            <div className="sidebar">
+                <HeaderNav />
+            </div>
+            
+            {/* Conteúdo principal */}
             <div className="main-content">
-                <div className="sidebar">
-                    {/* Coloque aqui os itens da sidebar se não estiverem no Header */}
-                </div>
                 <div className="noti-container">
                     <Noti />
                 </div>

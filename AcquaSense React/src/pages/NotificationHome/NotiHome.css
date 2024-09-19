@@ -1,52 +1,59 @@
-/* Contêiner principal */
+/* Estiliza o container principal do NotificationHome */
 .notification-home {
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* Organiza em linha (sidebar e conteúdo) */
     height: 100vh;
-}
-
-/* Header no topo */
-header {
-    flex-shrink: 0;
-    height: 60px;
-    background-color: var(--header-bg-color); /* Ajuste a cor */
-    border-bottom: 1px solid var(--header-border-color);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000; /* Garante que o header esteja sempre acima do conteúdo */
-}
-
-/* Sidebar e Noti alinhados lado a lado */
-.main-content {
-    display: flex;
-    flex: 1;
-    margin-top: 60px; /* Adiciona espaço abaixo do header */
-    height: calc(100vh - 60px); /* Ajusta altura para não ultrapassar o header */
-}
-
-/* Sidebar à esquerda */
-.sidebar {
-    width: 250px;
-    background-color: var(--sidebar-bg-color); /* Ajuste a cor da sidebar */
-    flex-shrink: 0;
-    border-right: 1px solid var(--header-border-color);
-    height: 100%;
-    position: fixed;
-    top: 60px; /* Garante que a sidebar comece abaixo do header */
-    z-index: 999; /* Garante que a sidebar não fique sobreposta */
-}
-
-/* Notificações ocupando o espaço à direita */
-.noti-container {
-    flex: 1;
-    margin-left: 250px; /* Deixa espaço para a sidebar */
-    padding: 20px;
-    overflow-y: auto;
     background-color: var(--bg-color);
-}
+  }
+  
+  /* Sidebar ou Menu Lateral */
+  .notification-home .sidebar {
+    width: 250px; /* Largura da sidebar */
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #f3f3f3;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+  }
+  
+  /* Container principal do conteúdo, com margem para evitar sobreposição com a sidebar */
+  .notification-home .main-content {
+    margin-left: 250px; /* Espaço equivalente à largura da sidebar */
+    flex: 1;
+    display: flex;
+    justify-content: center; /* Centraliza o conteúdo horizontalmente */
+    align-items: flex-start; /* Alinha o conteúdo ao topo */
+    padding: 20px;
+    height: 100vh;
+    box-sizing: border-box;
+  }
+  
+  /* Container das notificações */
+  .noti-container {
+    width: 60%; /* Ajusta a largura do conteúdo da notificação */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    height: auto;
+    margin-top: 50px; /* Aumente ou diminua o valor conforme necessário */
 
+  }
+  
+  /* Responsividade */
+  @media (max-width: 1200px) {
+    .noti-container {
+      width: 80%; /* Diminui a largura em telas menores */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .notification-home .main-content {
+      margin-left: 0;
+    }
+    .noti-container {
+      width: 100%;
+    }
+  }
