@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mensagens MQTT</title>
+</head>
+<body>
+    <h1>Mensagens MQTT Recebidas</h1>
+    <ul>
+        {% for message in messages %}
+            <li>{{ message.received_at }} - {{ message.content }}</li>
+        {% empty %}
+            <li>Não há mensagens.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
