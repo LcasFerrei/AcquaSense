@@ -8,26 +8,29 @@ class MQTTClient:
         self.client = mqtt.Client()
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
-        self.client.on_disconnect = self.on_disconnect
 
     def on_connect(self, client, userdata, flags, rc):
-        print(f"Conectado com código {rc} ao broker {self.broker}")
+        print(f"Conectado com código {rc}")
+        client.subscribe(self.topic)
 
     def on_message(self, client, userdata, msg):
         message = msg.payload.decode()
         print(f"Mensagem recebida no tópico {msg.topic}: {message}")
         self.handle_message(message)
 
-    def on_disconnect(self, client, userdata, rc):
-        print(f"Desconectado com código {rc} do broker {self.broker}")
+    def handle_message(self, message):
+        from mqtt.models import MessageTest
+
+        if not MessageTest.objects.filter(content=message).exists():
+            MessageTest.objects.create(content=message)
 
     def connect(self):
         self.client.connect(self.broker, self.port, 60)
         self.client.loop_start()
-    
-    def publish(self, message):
-        self.client.publish(self.topic, message)
 
     def disconnect(self):
         self.client.loop_stop()
         self.client.disconnect()
+
+    def publish(self, message):
+        self.client.publish(self.topic, message)
