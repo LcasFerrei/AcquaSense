@@ -25,4 +25,4 @@ class PontoDeUsoDeAgua(models.Model):
     residencia = models.ForeignKey(Residencia, on_delete=models.CASCADE, related_name='pontos_uso_agua')
 
     def __str__(self):
-        return f"{self.nome} - {self.get_tipo_ponto_display()}"
+        return f"{self.get_tipo_ponto_display()} {self.nome}"

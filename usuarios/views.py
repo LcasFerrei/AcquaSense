@@ -25,14 +25,15 @@ class RegisterView(APIView):
         try:
             validate_password(password)
         except ValidationError as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            # Junta todas as mensagens de erro em uma única string
+            return Response({'error': ' '.join(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
 
         if User.objects.filter(username=username).exists():
             return Response({'error': 'Usuário já existe.'}, status=status.HTTP_400_BAD_REQUEST)
 
         user = User.objects.create_user(username=username, password=password, email=email)
         return Response({'message': 'Usuário registrado com sucesso.'}, status=status.HTTP_201_CREATED)
-
+    
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
@@ -50,4 +51,16 @@ class LoginView(APIView):
 
 @login_required
 def check_auth(request):
-    return JsonResponse({'authenticated': True})
+    return JsonResponse({'authenticated': True})    
+
+@api_view(['GET'])
+def config(request):
+    data = {
+        "news": "Após a criação do AcquaSense, tivemos uma redução em média de 20% no consumo de água nas condomínios que faturamos.",
+        "daily_consumption": "108 Litros",
+        "pipes_status": "Normal",
+        "daily_goal": "120 Litros",
+        "accumulated_consumption": "540 Litros"
+    }
+    print("Campo de config")
+    return Response(data)

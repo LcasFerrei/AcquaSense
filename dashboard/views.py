@@ -1,7 +1,13 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required 
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
-@login_required(login_url='/auth/authentication/')
+@api_view(['GET'])
 def dashboard(request):
-
-    return render(request,'index.html',{'username': request.user.username})
+    data = {
+        "news": "Após a criação do AcquaSense, tivemos uma redução em média de 20% no consumo de água nas condomínios que faturamos.",
+        "daily_consumption": "150 Litros",
+        "pipes_status": "Normal",
+        "daily_goal": "120 Litros",
+        "accumulated_consumption": "540 Litros"
+    }
+    return Response(data)

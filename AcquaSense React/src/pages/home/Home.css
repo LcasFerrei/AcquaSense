@@ -70,7 +70,7 @@ body {
 .no-hover:hover{
     background-color: transparent !important;
     color: inherit !important;
-    cursos: default;
+    cursor: default;
     pointer-events: none;
 
 }
