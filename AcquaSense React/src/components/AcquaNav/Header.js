@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa o useNavigate do React Router v6
-import './Header.css'; // Importe o CSS correspondente
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useNavigate } from 'react-router-dom'; 
+import { ThemeContext } from '../ThemeContext'; // Importa o contexto de tema
+import './Header.css'; 
 
 const HeaderNav = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const notificationRef = useRef(null);
-  const navigate = useNavigate(); // Hook para redirecionamento
+  const navigate = useNavigate(); 
+  const { isDarkMode, toggleTheme } = useContext(ThemeContext); // Usa o contexto de tema
 
   const handleMenuToggle = () => {
     const sidebar = document.querySelector('.dashboard-sidebar');
@@ -37,9 +39,9 @@ const HeaderNav = () => {
     };
 
     if (pages[query]) {
-      navigate(pages[query]); // Usa o navigate para redirecionamento
+      navigate(pages[query]);
     } else {
-      const cards = document.querySelectorAll('.card'); // Busca por cards com a classe .card
+      const cards = document.querySelectorAll('.card');
       cards.forEach(card => {
         const cardText = card.textContent.toLowerCase();
         card.style.display = cardText.includes(query) ? 'block' : 'none';
@@ -63,23 +65,6 @@ const HeaderNav = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
-  const handleThemeToggle = () => {
-    document.body.classList.toggle('dark-mode');
-    const themeToggleButton = document.getElementById('theme-toggle');
-    const icon = themeToggleButton.querySelector('i');
-    if (document.body.classList.contains('dark-mode')) {
-      icon.classList.remove('fa-moon');
-      icon.classList.add('fa-sun');
-      themeToggleButton.textContent = ' Modo Claro';
-      themeToggleButton.prepend(icon);
-    } else {
-      icon.classList.remove('fa-sun');
-      icon.classList.add('fa-moon');
-      themeToggleButton.textContent = ' Modo Escuro';
-      themeToggleButton.prepend(icon);
-    }
-  };
 
   return (
     <div className="dashboard-header-nav">
@@ -148,8 +133,9 @@ const HeaderNav = () => {
               )}
             </div>
             <p>Bem-vindo de volta, <strong>Usuário</strong></p>
-            <button id="theme-toggle" onClick={handleThemeToggle}>
-              <i className="fa-solid fa-moon"></i> Modo Escuro
+            <button id="theme-toggle" onClick={toggleTheme}>
+              <i className={`fa-solid ${isDarkMode ? 'fa-sun' : 'fa-moon'}`}></i> 
+              {isDarkMode ? 'Modo Claro' : 'Modo Escuro'}
             </button>
           </div>
         </header>
