@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import HeaderNav from "../../components/AcquaNav/Header";
 import '../../components/User/User.css';
 import './Config.css'; // Ajuste o caminho conforme necessário
+import axios from 'axios';
 
 // Componente para Ajuda e Suporte
 const HelpAndSupport = () => (
@@ -73,6 +74,13 @@ const PrivacySettings = () => (
 );
 
 function ConfiguHome() {
+  const [dashboardData, setDashboardData] = useState({
+    news: "",
+    daily_consumption: "",
+    pipes_status: "",
+    daily_goal: "",
+    accumulated_consumption: ""
+  });
   const [isEditing, setIsEditing] = useState(false);
 
   const handleSave = () => {
@@ -84,6 +92,16 @@ function ConfiguHome() {
     console.log('Alterações canceladas');
     setIsEditing(false);
   };
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/configuration/')
+      .then(response => {
+        setDashboardData(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching dashboard data:", error);
+      });
+  }, []);
 
   return (
     <div>
