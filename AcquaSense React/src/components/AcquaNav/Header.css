@@ -131,7 +131,35 @@ body {
 .dashboard-search-bar {
     display: flex;
     align-items: center;
+    position: relative; /* Permite que a lista de sugestões fique posicionada em relação a este elemento */
+
 }
+
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--card-bg-color); /* Usar a cor de fundo do card baseada no tema */
+    color: var(--text-color); /* Usar a cor do texto baseada no tema */
+    border: 1px solid var(--header-border-color); /* Usar a cor da borda baseada no tema */
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .suggestions-list li {
+    padding: 10px;
+    cursor: pointer;
+    background-color: var(--card-bg-color); /* Cor de fundo para cada item */
+    color: var(--text-color); /* Cor do texto para cada item */
+  }
+  
+  .suggestions-list li:hover {
+    background-color: var(--nav-link-hover-bg-color); /* Destaque no hover baseado no tema */
+    color: var(--nav-link-hover-color); /* Cor do texto no hover baseada no tema */
+  }
+  
 
 .dashboard-search-bar i {
     font-size: 24px;
@@ -277,5 +305,4 @@ body {
   
   .dashboard-notification-dropdown a:hover {
     text-decoration: underline; /* Opcional: adiciona o sublinhado ao passar o mouse */
-  }
-  
+  };

@@ -1,13 +1,30 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import { ThemeContext } from '../ThemeContext'; // Importa o contexto de tema
+import { ThemeContext } from '../ThemeContext';
 import './Header.css'; 
 
 const HeaderNav = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
   const notificationRef = useRef(null);
+  const searchRef = useRef(null); // Ref para a área de pesquisa
   const navigate = useNavigate(); 
-  const { isDarkMode, toggleTheme } = useContext(ThemeContext); // Usa o contexto de tema
+  const { isDarkMode, toggleTheme } = useContext(ThemeContext); 
+
+  const pages = { // Anna ajustar rotas 
+    'dashboard': '/dashboard', 
+    'consumo diário': '/consumption-daily',
+    'manutenção': '/maintenance',
+    'monitoramento específico': '/specific-monitoring',
+    'vazamento': '/water-leak',
+    'conta de água': '/water-bill',
+    'novidades': '/news',
+    'tubulações': '/pipes',
+    'meta diária': '/daily-goal',
+    'consumo acumulado': '/accumulated-consumption',
+    'notificação': '/notification'
+  };
 
   const handleMenuToggle = () => {
     const sidebar = document.querySelector('.dashboard-sidebar');
@@ -17,35 +34,26 @@ const HeaderNav = () => {
   };
 
   const handleSearch = (event) => {
+    const value = event.target.value;
+    setSearchTerm(value);
+    updateSuggestions(value);
+    
     if (event.key === 'Enter') {
       event.preventDefault();
-      const query = event.target.value.trim().toLowerCase();
-      handleSearchQuery(query);
+      navigateToQuery(value.trim().toLowerCase());
     }
   };
 
-  const handleSearchQuery = (query) => {
-    const pages = {
-      'dashboard': '/dashboard',
-      'consumo diário': '/consumption-daily',
-      'manutenção': '/maintenance',
-      'monitoramento específico': '/specific-monitoring',
-      'vazamento': '/water-leak',
-      'conta de água': '/water-bill',
-      'novidades': '/news',
-      'tubulações': '/pipes',
-      'meta diária': '/daily-goal',
-      'consumo acumulado': '/accumulated-consumption'
-    };
+  const updateSuggestions = (query) => {
+    const filteredSuggestions = Object.keys(pages).filter(page => 
+      page.toLowerCase().includes(query.toLowerCase())
+    );
+    setSuggestions(filteredSuggestions);
+  };
 
+  const navigateToQuery = (query) => {
     if (pages[query]) {
       navigate(pages[query]);
-    } else {
-      const cards = document.querySelectorAll('.card');
-      cards.forEach(card => {
-        const cardText = card.textContent.toLowerCase();
-        card.style.display = cardText.includes(query) ? 'block' : 'none';
-      });
     }
   };
 
@@ -53,16 +61,25 @@ const HeaderNav = () => {
     setIsNotificationOpen(!isNotificationOpen);
   };
 
-  const handleClickOutside = (event) => {
+  const handleClickOutsideNotification = (event) => {
     if (notificationRef.current && !notificationRef.current.contains(event.target)) {
       setIsNotificationOpen(false);
     }
   };
 
+  const handleClickOutsideSearch = (event) => {
+    if (searchRef.current && !searchRef.current.contains(event.target)) {
+      setSuggestions([]);
+    }
+  };
+
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutsideNotification);
+    document.addEventListener('mousedown', handleClickOutsideSearch);
+    
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutsideNotification);
+      document.removeEventListener('mousedown', handleClickOutsideSearch);
     };
   }, []);
 
@@ -71,7 +88,7 @@ const HeaderNav = () => {
       <aside className="dashboard-sidebar">
         <div className="dashboard-logo-menu">
           <div className="dashboard-logo">
-            <a className="dashboard-logo-link">
+            <a href="/index.html" className="dashboard-logo-link">
               <h1>AcquaSense</h1>
             </a>
           </div>
@@ -82,7 +99,7 @@ const HeaderNav = () => {
               <li><a href="/Consumptiondaily"><i className="fas fa-tint"></i> Consumo Diário</a></li>
               <li><a href="/Maintenance"><i className="fas fa-tools"></i> Manutenção</a></li>
               <li><a href="/SpecificMonitoring"><i className="fas fa-eye"></i> Monitoramento Específico</a></li>
-              <li><a href="/Configuration"><i class="fa-solid fa-gear"></i> Configuração</a></li>
+              <li><a href="/Configuration"><i className="fa-solid fa-gear"></i> Configuração</a></li>
               <li><a href="/login"><i className="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
           </nav>
@@ -90,14 +107,25 @@ const HeaderNav = () => {
       </aside>
       <main className="dashboard-main-content">
         <header className="dashboard-header">
-          <div className="dashboard-search-bar">
+          <div className="dashboard-search-bar" ref={searchRef}>
             <i id="menu-toggle" className="fas fa-bars" onClick={handleMenuToggle}></i>
             <input
               type="text"
               id="search-input"
               placeholder="Pesquisar"
-              onKeyPress={handleSearch}
+              value={searchTerm}
+              onChange={handleSearch}
+              onKeyDown={handleSearch}
             />
+            {suggestions.length > 0 && (
+              <ul className="suggestions-list">
+                {suggestions.map((suggestion, index) => (
+                  <li key={index} onClick={() => navigateToQuery(suggestion)}>
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <div className="dashboard-user-info">
             <div
@@ -110,11 +138,8 @@ const HeaderNav = () => {
                 onClick={handleNotificationClick}
               ></i>
               {isNotificationOpen && (
-                <div
-                  className="dashboard-notification-dropdown"
-                  id="dashboard-notification-dropdown"
-                >
-                 <h3><a href="/Notification">Notificações</a></h3>
+                <div className="dashboard-notification-dropdown" id="dashboard-notification-dropdown">
+                  <h3><a href="/Notification">Notificações</a></h3>
                   <ul>
                     <li>
                       AcquaSoft Instalando com Sucesso
