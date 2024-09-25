@@ -1,3 +1,4 @@
+
 /* Variáveis de tema claro */
 :root {
     --bg-color: #f8f8f8;
@@ -121,4 +122,3 @@
   .edit-button:hover {
       background-color: var(--info-button-hover-bg-color); /* Cor do botão ao passar o mouse usando variável */
   }
-  
