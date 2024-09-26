@@ -1,86 +1,79 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import HeaderNav from "../../components/AcquaNav/Header";
 import '../../components/User/User.css';
-import './Config.css'; // Ajuste o caminho conforme necessário
-import axios from 'axios';
+import './Configu.css'; // Importando o CSS da nova pasta
 
-// Componente para Ajuda e Suporte
-const HelpAndSupport = () => (
-  <div className="help-support">
-    <h2>Ajuda e Suporte</h2>
-    <div className="support-center">
-      <h3>Central de Suporte</h3>
-      <ul>
-        <li><a href="/articles/setup">Configuração Inicial</a></li>
-        <li><a href="/articles/common-problems">Problemas Comuns</a></li>
-        <li><a href="/articles/advanced-solutions">Soluções Avançadas</a></li>
-      </ul>
+// Componente para Configurações de Notificações
+const NotificationSettings = () => (
+  <div className="notification-settings">
+    <h2>Comunicação com o Usuário</h2>
+    <div>
+      <label>
+        <input type="checkbox" name="emailNotification" />
+        Notificar por E-mail
+      </label>
+      <label>
+        <input type="checkbox" name="appNotification" />
+        Notificar por Aplicativo
+      </label>
     </div>
-    <div className="feedback">
-      <h3>Feedback Rápido</h3>
-      <button>Foi útil?</button>
+    <div>
+      <h3>Alertas de Consumo</h3>
+      <label>
+        <input type="checkbox" name="highConsumptionAlert" />
+        Alertas de Alto Consumo
+      </label>
+      <label>
+        <input type="checkbox" name="anomalousConsumptionAlert" />
+        Alertas de Consumo Anômalo
+      </label>
     </div>
-    <div className="virtual-assistant">
-      <h3>Assistente Virtual</h3>
-      <p>Como posso ajudar você hoje?</p>
-      <input type="text" placeholder="Digite sua pergunta..." />
-      <button>Enviar</button>
+    <div>
+      <h3>Horário de Notificação</h3>
+      <label>
+        Horário de Notificação:
+        <input type="time" name="notificationTime" />
+      </label>
     </div>
   </div>
 );
 
-// Componente para Configurações de Privacidade
-const PrivacySettings = () => (
-  <div className="privacy-settings">
-    <h2>Envio de informações por:</h2>
+// Componente para Configurações de Análise de Dados
+const DataAnalysisSettings = () => (
+  <div className="data-analysis-settings">
+    <h2>Configurações de Análise de Dados</h2>
     <div>
+      <h3>Relatórios de Consumo</h3>
       <label>
-        <input type="radio" name="visibility" value="private" />
-        Aplicativo
+        Frequência dos Relatórios:
+        <select name="reportFrequency">
+          <option value="daily">Diariamente</option>
+          <option value="weekly">Semanalmente</option>
+          <option value="monthly">Mensalmente</option>
+        </select>
       </label>
       <label>
-        <input type="radio" name="visibility" value="friends" />
-        Email
-      </label>
-      <label>
-        <input type="radio" name="visibility" value="public" />
-        SMS
+        Formato dos Relatórios:
+        <select name="reportFormat">
+          <option value="pdf">PDF</option>
+          <option value="excel">Excel</option>
+        </select>
       </label>
     </div>
     <div>
-      <h3>Preferências de Comunicação:</h3>
+      <h3>Intervalos de Dados</h3>
       <label>
-        <input type="checkbox" name="shareCompartment1" />
-        Diurno
-      </label>
-      <label>
-        <input type="checkbox" name="shareCompartment2" />
-        Noturno
-      </label>
-    </div>
-    <div className="data-analysis">
-      <h3>Usar dados quando tiver utilizando dados móveis:</h3>
-      <label>
-        <input type="checkbox" name="shareCompartment1" />
-        Sim
-      </label>
-      <label>
-        <input type="checkbox" name="shareCompartment2" />
-        Não
+        Intervalos de Dados:
+        <select name="dataIntervals">
+          <option value="7days">Últimos 7 dias</option>
+          <option value="30days">Últimos 30 dias</option>
+        </select>
       </label>
     </div>
-    <a href="/privacy-policy">Leia nossa Política de Privacidade</a>
   </div>
 );
 
 function ConfiguHome() {
-  const [dashboardData, setDashboardData] = useState({
-    news: "",
-    daily_consumption: "",
-    pipes_status: "",
-    daily_goal: "",
-    accumulated_consumption: ""
-  });
   const [isEditing, setIsEditing] = useState(false);
 
   const handleSave = () => {
@@ -88,40 +81,25 @@ function ConfiguHome() {
     setIsEditing(false);
   };
 
-  const handleCancel = () => {
-    console.log('Alterações canceladas');
-    setIsEditing(false);
-  };
-
-  useEffect(() => {
-    axios.get('http://localhost:8000/configuration/')
-      .then(response => {
-        setDashboardData(response.data);
-      })
-      .catch(error => {
-        console.error("Error fetching dashboard data:", error);
-      });
-  }, []);
-
   return (
     <div>
       <HeaderNav />
       <div className="config-container">
-        <HelpAndSupport />
-        <PrivacySettings />
-        <div className="buttons">
-          {isEditing ? (
-            <>
-              <button onClick={handleSave}>Salvar</button>
-              <button onClick={handleCancel}>Cancelar</button>
-            </>
-          ) : (
-            <button onClick={() => setIsEditing(true)}>Editar Configurações</button>
-          )}
-        </div>
+        <NotificationSettings />
+        <DataAnalysisSettings />
+      </div>
+      <div className="edit-button-container">
+        <button className="edit-button" onClick={handleSave}>
+          Salvar
+        </button>
+        {isEditing && (
+          <button className="edit-button" onClick={() => setIsEditing(false)}>Cancelar</button>
+        )}
       </div>
     </div>
   );
 }
 
 export default ConfiguHome;
+
+
