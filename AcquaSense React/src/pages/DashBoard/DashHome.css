@@ -8,11 +8,10 @@
 }
 
 .dashboard {
-
   padding: 20px;
   border-radius: 8px;
-  margin-top: 90px; /* Adicione esta linha para mover o componente mais para baixo */
-
+  margin-top: 20px; /* Mantém um espaçamento superior */
+  margin-left: 300px; /* Aumenta a margem à esquerda para mover o Dash mais à direita */
+  position: relative; /* Garante que o componente respeite a posição */
+  width: calc(100% - 300px); /* Ajusta a largura considerando o novo espaço ocupado pela margem */
 }
-
-

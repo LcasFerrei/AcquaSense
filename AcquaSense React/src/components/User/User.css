@@ -42,8 +42,24 @@ body {
 }
 
 .profile-section {
-  padding: 100px;
+  display: flex;
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  flex-direction: column; /* Mantém o conteúdo em coluna */
+  padding: 20px;
+  margin-top: 100px;
+  height: calc(100vh - 150px);
 }
+
+.profile-section h2 {
+  text-align: left; /* Centraliza o texto dentro da largura */
+  font-size: 24px;
+  margin-bottom: 20px;
+  width: auto; /* Remove qualquer ajuste de largura para centralizar melhor */
+}
+
+
+
 
 .profile-container {
   display: flex;
