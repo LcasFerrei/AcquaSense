@@ -47,6 +47,7 @@ body {
 }
 
 .dashboard-sidebar {
+    position: fixed; /* Alterei o Posicionamento fixo */
     width: 340px; /* Muda o roxo do nome AcquaSense */
     background-color: var(--sidebar-bg-color);
     padding: 20px;
