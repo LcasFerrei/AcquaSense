@@ -8,6 +8,10 @@ project/local_settings.py
 gunicorn-error-log
 __localcode
 
+# Arquivo de credenciais
+secrets.h
+
+
 # Backup files #
 *.bak
 
