@@ -97,6 +97,7 @@ body.dark-mode {
     padding-top: 20px; /* Ajuste este valor se necessário */
     padding-left: 350px;
     padding-right: 20px;
+    margin-top: -725px; /* Ajuste para trazer o conteúdo mais para cima */
 }
 
 /* Estilos para o contêiner do botão */

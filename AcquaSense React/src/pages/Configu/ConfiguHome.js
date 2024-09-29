@@ -6,8 +6,8 @@ import ConfiguSettings from "../../components/Configuracoes/ConfiguSettings"; //
 function ConfiguHome() {
   return (
     <div className="configu-container">
-      <HeaderNav />  // Renderiza o cabeçalho
-      <ConfiguSettings />  // Renderiza as configurações
+      <HeaderNav />  
+      <ConfiguSettings /> 
     </div>
   );
 }
