@@ -16,7 +16,7 @@ Identificar e notificar sobre vazamentos e desperdícios de água.
 Gerar relatórios sobre o consumo de água.
 Possibilitar a gestão eficiente do uso da água.
 
-# Configuração de Credenciais
+## Configuração de Credenciais
 
 Para usar este projeto, você precisará configurar suas credenciais de Wi-Fi. Siga os passos abaixo:
 
@@ -42,5 +42,4 @@ Para usar este projeto, você precisará configurar suas credenciais de Wi-Fi. S
 ### Inicia o servidor de desenvolvimento do Django
 - python manage.py runserver
 - 
-Testando sprint 02
 
