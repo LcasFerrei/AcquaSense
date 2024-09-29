@@ -1,10 +1,15 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <time.h>  // Biblioteca para trabalhar com data e hora
+#include "secrets.h"  // Inclua o arquivo com as credenciais
+
 
 const int sensorPin = 13;  // GPIO 13 para o sensor de fluxo
-const char* ssid = "Jardis";           
-const char* password = "85071626";     
+
+// Os dados de conexão ao wifi devem ser criados usando o arquivo secrets, conforme exemplo
+// const char* ssid = "rede wi-fi";           
+// const char* password = "password";     
+
 const char* mqtt_broker = "broker.hivemq.com";  
 const int mqtt_port = 1883;            
 const char *topic = "teste/SaulSantos1";  
