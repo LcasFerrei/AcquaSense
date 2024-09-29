@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Noti.css'; // Certifique-se de ajustar o CSS conforme necessário
+import './Noti.css';
 
 const notificationsData = [
   {
@@ -31,29 +31,40 @@ const Noti = () => {
 
   return (
     <div className="notifications-container">
-      {/* Título de notificações com ícone */}
-      <h2><i className="fas fa-bell"></i> Notificações</h2>
-
-      <div className="notifications-list">
-        {notificationsData.map((notification) => (
-          <div
-            key={notification.id}
-            className={`notification-item ${notification.id === selectedNotification.id ? 'active' : ''}`}
-            onClick={() => handleNotificationClick(notification)}
-          >
-            <h4>{notification.title}</h4>
-            <span className="notification-time">{notification.time}</span>
-          </div>
-        ))}
+      {/* Cabeçalho das notificações */}
+      <div className="notifications-header">
+        <h2><i className="fas fa-bell"></i> Notificações</h2>
       </div>
-      <div className="notification-details">
-        <h3>{selectedNotification.title}</h3>
-        <span className="notification-time-details">{selectedNotification.time}</span>
-        <p>{selectedNotification.details}</p>
+
+      <div className="notifications-content">
+        {/* Lista de notificações */}
+        <div className="notifications-list">
+          {notificationsData.map((notification) => (
+            <div
+              key={notification.id}
+              className={`notification-item ${notification.id === selectedNotification.id ? 'active' : ''}`}
+              onClick={() => handleNotificationClick(notification)}
+            >
+              <div className="notification-info">
+                <h4>{notification.title}</h4>
+                <span className="notification-time">{notification.time}</span>
+              </div>
+              <i className="fas fa-chevron-right"></i>
+            </div>
+          ))}
+        </div>
+
+        {/* Detalhes da notificação */}
+        <div className="notification-details">
+          <div className="details-header">
+            <h3>{selectedNotification.title}</h3>
+            <span className="notification-time-details">{selectedNotification.time}</span>
+          </div>
+          <p>{selectedNotification.details}</p>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Noti;
-
