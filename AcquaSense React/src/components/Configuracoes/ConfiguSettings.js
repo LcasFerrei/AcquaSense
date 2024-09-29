@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../components/Configuracoes/Configu.css'; // Importa o CSS da pasta Configu
+import './Configu.css';// Importa o CSS da pasta Configu
 
 // Componente para Configurações de Notificações
 const NotificationSettings = () => (
@@ -71,7 +71,7 @@ const DataAnalysisSettings = () => (
   </div>
 );
 
-const Configu = () => {
+const ConfiguSettings = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleSave = () => {
@@ -98,4 +98,4 @@ const Configu = () => {
   );
 };
 
-export default Configu;
+export default ConfiguSettings;

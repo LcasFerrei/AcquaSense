@@ -7,7 +7,7 @@ import UserHome from "./pages/User/Userpage";
 import ConsumoHome  from "./pages/Consumo/ConsumoHome";
 import ManutenHome from "./pages/Manutencion/ManutenHome";
 import MonitoringHome from "./pages/Monitoramento/HomeMonitoring";
-import ConfiguHome from "./pages/Configu/Configu";
+import ConfiguHome from "./pages/Configu/ConfiguHome";
 import NotificationHome from "./pages/NotificationHome/NotificationHome";
 
 

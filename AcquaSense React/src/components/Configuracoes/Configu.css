@@ -62,6 +62,7 @@ body.dark-mode {
     font-size: 18px; /* Tamanho dos subtítulos */
     color: var(--text-color); /* Cor do texto usando variável */
 }
+
 .notification-settings label,
 .data-analysis-settings label {
     display: block;
