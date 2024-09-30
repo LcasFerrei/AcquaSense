@@ -13,17 +13,31 @@ const HeaderNav = ({ handleMenuToggle }) => {
   const { isDarkMode, toggleTheme } = useContext(ThemeContext); 
 
   const pages = {
-    'dashboard': '/dashboard', 
-    'consumo diário': '/consumption-daily',
-    'manutenção': '/maintenance',
-    'monitoramento específico': '/specific-monitoring',
-    'vazamento': '/water-leak',
-    'conta de água': '/water-bill',
-    'novidades': '/news',
-    'tubulações': '/pipes',
-    'meta diária': '/daily-goal',
-    'consumo acumulado': '/accumulated-consumption',
-    'notificação': '/notification'
+  'Alerta de Consumo': '/monitoramento-especifico',
+  'Comunicação com o usuário': '/configuracao',
+  'Configurações de análise de dados': '/configuracao',
+  'Consumo acumulado': '/accumulated-consumption',
+  'Consumo acumulado': '/dashboard',
+  'Consumo diário': '/consumption-daily',
+  'Consumo diário em litros em uma residência': '/monitoramento-especifico',
+  'Consumo diário por compartimentos': '/monitoramento-especifico',
+  'Consumo do dia': '/dashboard',
+  'Consumo mensal em litros': '/monitoramento-especifico',
+  'Conta de água': '/water-bill',
+  'Dashboard': '/dashboard',
+  'Detalhes da assinatura': '/meu-perfil',
+  'Informações pessoais': '/meu-perfil',
+  'Login': '/login',
+  'Manutenção': '/maintenance',
+  'Meta diária': '/daily-goal',
+  'Meta diária': '/dashboard',
+  'Monitoramento específico': '/specific-monitoring',
+  'Notificação': '/notification',
+  'Novidades': '/news',
+  'Tubulações': '/dashboard',
+  'Tubulações': '/pipes',
+  'Vazamento': '/water-leak',
+ 
   };
 
   const handleSearch = (event) => {
