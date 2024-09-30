@@ -1,0 +1,21 @@
+.consumo-home {
+    padding: 20px;
+  }
+  
+  .consumo-table {
+    width: 50%;
+    border-collapse: collapse;
+    margin: auto;
+    margin-top: 80px;
+  }
+  
+  .consumo-table th, .consumo-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .consumo-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+  

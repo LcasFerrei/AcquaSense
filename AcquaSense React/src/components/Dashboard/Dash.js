@@ -12,13 +12,18 @@ const Dash = () => {
   });
 
   useEffect(() => {
-    axios.get('http://localhost:8000/dashboard/')
-      .then(response => {
-        setDashboardData(response.data);
-      })
-      .catch(error => {
-        console.error("Error fetching dashboard data:", error);
-      });
+    // Estabelecer conexão WebSocket
+    const socket = new WebSocket('ws://localhost:8000/ws/Dashboard/');
+
+    // Definir comportamento ao receber mensagens do WebSocket
+    socket.onmessage = function(event) {
+      const data = JSON.parse(event.data);
+      setDashboardData(data);
+      console.log(data)
+    };
+
+    // Limpar a conexão ao desmontar o componente
+    return () => socket.close();
   }, []);
 
   return (

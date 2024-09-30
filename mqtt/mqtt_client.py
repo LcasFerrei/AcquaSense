@@ -19,10 +19,14 @@ class MQTTClient:
         self.handle_message(message)
 
     def handle_message(self, message):
-        from mqtt.models import MessageTest
+        from sensors.models import RegistroDeConsumo,SensorDeFluxo
 
-        if not MessageTest.objects.filter(content=message).exists():
-            MessageTest.objects.create(content=message)
+        try:
+            message = float(message)
+            sensor = SensorDeFluxo.objects.filter(identificador="YF-S201").first()
+            RegistroDeConsumo.objects.create(sensor=sensor,consumo=message)
+        except Exception as e:
+            print(f"Erro ao inserir no mqtt -> {e}")
 
     def connect(self):
         self.client.connect(self.broker, self.port, 60)
