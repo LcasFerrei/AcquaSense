@@ -7,3 +7,4 @@ urlpatterns = [
     path('',include('dashboard.urls')),
     path('mqtt/', include('mqtt.urls'))
 ]
+

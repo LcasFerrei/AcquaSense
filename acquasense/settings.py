@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'usuarios',
     'alerts',
     'residences',
@@ -68,6 +69,14 @@ CSRF_TRUSTED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'acquasense.urls'
+
+ASGI_APPLICATION = 'acquasense.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    }
+}
 
 TEMPLATES = [
     {

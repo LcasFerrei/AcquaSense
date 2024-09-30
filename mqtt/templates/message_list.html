@@ -8,7 +8,7 @@
     <h1>Mensagens MQTT Recebidas</h1>
     <ul>
         {% for message in messages %}
-            <li>{{ message.received_at }} - {{ message.content }}</li>
+            <li>{{ message.data_hora }} - {{ message.consumo }}</li>
         {% empty %}
             <li>Não há mensagens.</li>
         {% endfor %}

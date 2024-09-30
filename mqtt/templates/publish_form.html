@@ -6,11 +6,16 @@
 </head>
 <body>
     <h1>Publicar Mensagem MQTT</h1>
-    <form action="{% url 'publish_message' %}" method="post">
+    <form action="{% url 'publish_message' %}" method="post" style="width: 500px;">
         {% csrf_token %}
-        <label for="message">Mensagem:</label>
-        <input type="text" id="message" name="message" required>
-        <button type="submit">Publicar Mensagem</button>
+        <div style="display: flex; flex-direction: column;">
+            <small><code>Envie um texto para verificar se a mensagem está sendo enviada para o HiveMQ</code></small>
+            <label for="message">Mensagem:</label>
+            <div>
+                <input type="text" id="message" name="message" required>
+                <button type="submit">Publicar Mensagem</button>                
+            </div>
+        </div>
     </form>
 </body>
 </html>

@@ -12,7 +12,8 @@ class SensorDeFluxo(models.Model):
     ponto_uso = models.ForeignKey(PontoDeUsoDeAgua, on_delete=models.CASCADE, related_name='sensores_fluxo')
 
     def __str__(self):
-        return f"Sensor {self.identificador} - {self.get_status_display()}"
+        return f"Sensor {self.identificador}"
+        # return f"Sensor {self.identificador} - {self.get_status_display()}"
 
 class RegistroDeConsumo(models.Model):
     sensor = models.ForeignKey(SensorDeFluxo, on_delete=models.CASCADE, related_name='registros_consumo')

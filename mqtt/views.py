@@ -3,6 +3,7 @@ from .mqtt_client import MQTTClient
 from django.views.decorators.http import require_http_methods   
 from django.shortcuts import render,redirect
 from .models import MessageTest
+from sensors.models import RegistroDeConsumo
 import time
 
 def publish_message(request):
@@ -19,7 +20,7 @@ def publish_message(request):
         mqtt_client = MQTTClient(broker, port, topic)
         mqtt_client.connect()
         mqtt_client.publish(message)
-        mqtt_client.disconnect()
+        # mqtt_client.disconnect()
 
         return render(request, 'publish_form.html')
 
@@ -27,6 +28,6 @@ def publish_message(request):
     return render(request, 'publish_form.html')
 
 def message_list(request):
-    messages = MessageTest.objects.all().order_by('-received_at')
+    messages = RegistroDeConsumo.objects.all().order_by('-data_hora')
     return render(request, 'message_list.html', {'messages': messages})
 
