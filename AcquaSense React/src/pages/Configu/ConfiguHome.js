@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import HeaderNav from "../../components/AcquaNav/Header"; // Importa o cabeçalho
-import '../../components/Configuracoes/Configu.css'; // Importa o CSS da pasta Configu
-import ConfiguSettings from "../../components/Configuracoes/ConfiguSettings"; // Importa o conteúdo do ConfiguSettings
+import HeaderNav from "../../components/AcquaNav/Header";
+import '../../components/User/User.css';
 
-function ConfiguHome() {
+function ConsumoHome() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const handleMenuToggle = () => {
@@ -12,6 +11,7 @@ function ConfiguHome() {
 
   return (
     <div className={`dashboard-container ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
+      {/* Sidebar */}
       <aside className={`dashboard-sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
         <div className="dashboard-logo-menu">
           <div className="dashboard-logo">
@@ -33,12 +33,13 @@ function ConfiguHome() {
         </div>
       </aside>
 
+      {/* Main Content */}
       <div className={`dashboard-main-content ${isSidebarOpen ? 'expanded' : 'collapsed'}`}>
         <HeaderNav handleMenuToggle={handleMenuToggle} />
-        <ConfiguSettings /> 
+        {/* Aqui você pode adicionar o conteúdo da tela de consumo diário */}
       </div>
     </div>
   );
 }
 
-export default ConfiguHome;
+export default ConsumoHome;

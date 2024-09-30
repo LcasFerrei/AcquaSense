@@ -1,9 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import HeaderNav from "../../components/AcquaNav/Header";
+import './ConsumoHome.css';
 import '../../components/User/User.css';
 
 function ConsumoHome() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [registros, setRegistros] = useState([]);
+
+  useEffect(() => {
+    // Conectando ao WebSocket no Django
+    const socket = new WebSocket('ws://localhost:8000/ws/consumo/');
+    socket.onopen = () => console.log("Conexão estabelecida");
+    socket.onerror = (error) => console.error("Erro de conexão:", error);
+
+    // Definir comportamento ao receber mensagem
+    socket.onmessage = function(event) {
+      const data = JSON.parse(event.data);
+      console.log(data);  // Para verificar o que está sendo recebido
+
+      if (data.type === "initial") {
+        // Quando receber o tipo inicial, armazena os registros no estado
+        setRegistros(data.data);
+      } else if (data.type === "update") {
+        // Quando receber o tipo de atualização, atualiza os registros
+        setRegistros(data.data);
+      }
+    };
+
+    // Fechar o socket quando o componente desmontar
+    return () => socket.close();
+  }, []);
 
   const handleMenuToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -36,7 +62,28 @@ function ConsumoHome() {
       {/* Main Content */}
       <div className={`dashboard-main-content ${isSidebarOpen ? 'expanded' : 'collapsed'}`}>
         <HeaderNav handleMenuToggle={handleMenuToggle} />
-        {/* Aqui você pode adicionar o conteúdo da tela de consumo diário */}
+        <div className="consumo-home">
+          <table className="consumo-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Data/Hora</th>
+                <th>Consumo</th>
+                <th>Sensor</th>
+              </tr>
+            </thead>
+            <tbody>
+              {registros.map((registro) => (
+                <tr key={registro.id}>
+                  <td>{registro.id}</td>
+                  <td>{registro.data_hora}</td>
+                  <td>{registro.consumo}</td>
+                  <td>{registro.sensor}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
