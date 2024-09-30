@@ -1,34 +1,36 @@
 .monitoramento-container {
     display: flex;
+    flex-direction: column; /* Organiza os itens verticalmente */
     padding-top: 85px;
-    margin-left: 400px; /* Aumenta a margem à esquerda para empurrar os gráficos ainda mais para a direita */
+    margin-left: 15%; /* Ajuste para ser responsivo, empurra o conteúdo para a direita */
 }
 
 .monitoramento-main-content {
     flex: 1; /* Ocupa o restante do espaço */
-    padding: 0px;
+    padding: 0; /* Remove qualquer padding extra */
+    margin: 0; /* Remove qualquer margem extra */
 }
 
 .monitoramento {
     padding: 20px;
     border-radius: 8px;
-    margin-top: 0px; /* Remove o espaço extra superior */
-    margin-left: auto; /* Alinha os gráficos à direita */
-    margin-right: 0; /* Garante que os gráficos fiquem colados à direita */
+    margin: 0 auto 0 0; /* Remove o espaço superior e centraliza o conteúdo à direita */
 }
 
 .monitoring-header {
     position: fixed; /* Mantém o header fixo em uma posição */
-    top: 0; /* Move o header para o topo da página */
-    left: 0; /* Certifica que o header esteja alinhado à esquerda */
-    width: 200px; /* Ajuste a largura conforme necessário */
-    height: 100vh; /* Garante que o header vertical cubra toda a altura da tela */
-    z-index: 1000; /* Garante que o header esteja acima de outros conteúdos */
-    padding: -10px; /* Ajuste o padding conforme necessário */
-    background-color: #fff; /* Exemplo de cor de fundo */
-     margin-bottom: 20px;
+    top: 0;
+    left: 0;
+    width: 15%; /* Ajuste para um layout responsivo */
+    height: 100vh;
+    z-index: 1000; /* Mantém o header acima de outros elementos */
+    padding: 10px; /* Ajuste para uma melhor aparência */
+    background-color: #fff; /* Certifique-se de que o fundo esteja consistente */
+    border-right: 1px solid #ccc; /* Adiciona uma borda para separar o header do conteúdo */
 }
-     body {
-        margin: 0;
-        padding-bottom: 50px; /* Espaço extra na parte inferior da página */
-    }
+
+body {
+    margin: 0;
+    padding-bottom: 50px; /* Espaço extra na parte inferior da página */
+    overflow-x: hidden; /* Remove rolagem horizontal */
+}

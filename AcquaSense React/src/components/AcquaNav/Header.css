@@ -123,7 +123,7 @@ body {
     border-bottom: 1px solid var(--header-border-color);
     position: fixed; /* Fixa o cabeçalho no topo */
     top: 0;
-    left: 340px; /* Alinha ao lado da sidebar a pesquisa */
+    left: 250px; /* Alinha ao lado da sidebar a pesquisa */
     right: 0;
     z-index: 1000; /* Certifica-se de que o cabeçalho fique acima de outros elementos */
     height: 80px; /* Define a altura do cabeçalho */
@@ -307,3 +307,219 @@ body {
   .dashboard-notification-dropdown a:hover {
     text-decoration: underline; /* Opcional: adiciona o sublinhado ao passar o mouse */
   };
+
+  .dashboard-container {
+    display: flex;
+    transition: all 0.3s ease;
+  }
+  
+  .dashboard-sidebar {
+    width: 250px;
+    transition: all 0.3s ease;
+  }
+  
+  .dashboard-sidebar.hidden {
+    width: 0; /* Ocultar a barra lateral */
+    overflow: hidden; /* Esconder o conteúdo interno */
+  }
+  
+  .dashboard-main-content {
+    flex: 1;
+    transition: margin-left 0.3s ease;
+  }
+  
+  .sidebar-open .dashboard-main-content {
+    margin-left: 250px; /* Ajustar a margem quando a barra lateral estiver aberta */
+  }
+  
+  .sidebar-closed .dashboard-main-content {
+    margin-left: 0; /* Ajustar a margem quando a barra lateral estiver fechada */
+  }
+
+  
+  .dashboard-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+  }
+  
+  .dashboard-sidebar {
+    width: 340px;
+    transition: width 0.3s ease;
+  }
+  
+  .dashboard-sidebar.closed {
+    display: none; /* Esconder completamente a barra lateral */
+  }
+  
+  .dashboard-main-content {
+    flex-grow: 1;
+    transition: all 0.3s ease;
+    padding: 20px;
+  }
+  
+  .dashboard-main-content.expanded {
+    margin-left: 250px; /* Espaço deixado quando a sidebar está aberta */
+  }
+  
+  .dashboard-main-content.collapsed {
+    margin-left: 0; /* Sem margem quando a sidebar está fechada */
+  }
+  
+
+  .dashboard-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+  }
+  
+  .dashboard-sidebar {
+    width: 250px;
+    transition: all 0.3s ease;
+  }
+  
+  .dashboard-sidebar.closed {
+    display: none; /* Esconder completamente a barra lateral */
+  }
+  
+  .dashboard-main-content {
+    flex-grow: 1;
+    transition: all 0.3s ease;
+    padding: 20px;
+    margin-left: 0; /* Inicializa sem margem */
+  }
+  
+  .dashboard-header-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Distribuir corretamente os elementos */
+  }
+  
+  .dashboard-search-bar {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  
+  .dashboard-user-info {
+    display: flex;
+    align-items: center;
+  }
+  
+
+  @media (max-width: 768px) {
+    .dashboard-sidebar {
+      width: 200px; /* Ajustar a largura da barra lateral em telas menores */
+    }
+  
+    .dashboard-main-content {
+      padding: 10px; /* Ajustar o padding para telas menores */
+    }
+  }
+  
+
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .dashboard-header-nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Certifique-se de que a barra ocupa a largura total */
+  }
+  
+  .dashboard-search-bar {
+    flex: 1; /* Ocupa o máximo de espaço disponível */
+    display: flex;
+    align-items: center;
+  }
+  
+  .dashboard-search-bar input {
+    margin-left: 10px;
+    width: 100%;
+    max-width: 300px; /* Ajustar para o tamanho desejado */
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .dashboard-user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaçamento entre os elementos */
+  }
+  
+  .dashboard-notification-container {
+    position: relative;
+  }
+  
+  .dashboard-notification-dropdown {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 10px;
+    width: 200px;
+  }
+  
+  #theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  #menu-toggle {
+    cursor: pointer;
+    font-size: 1.2em;
+  }
+  
+
+  .dashboard-notification-dropdown {
+    position: absolute;
+    top: 100%; /* Posiciona logo abaixo do ícone */
+    right: 0;
+    background-color: var(--card-bg-color, #fff); /* Cor de fundo */
+    border: 1px solid #ddd; /* Borda */
+    border-radius: 8px; /* Bordas arredondadas */
+    width: 250px; /* Define uma largura adequada */
+    padding: 10px; /* Espaço interno */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+    z-index: 1000; /* Mantém o dropdown acima de outros elementos */
+  }
+  
+  .dashboard-notification-dropdown h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .dashboard-notification-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px; /* Espaçamento do título */
+  }
+  
+  .dashboard-notification-dropdown ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .dashboard-notification-dropdown ul li:last-child {
+    border-bottom: none; /* Remove a borda do último item */
+  }
+  
+  .notification-time {
+    display: block;
+    font-size: 12px;
+    color: #888;
+  }
+  

@@ -1,17 +1,86 @@
+/* Container principal que mantém a sidebar e o conteúdo principal */
 .dashboard-container {
-  display: flex;
+  display: flex; 
+  width: 100%; /* Ocupa toda a largura da tela */
+  height: 100vh; /* Garante que ocupe toda a altura da tela */
 }
 
+/* Barra lateral */
+.dashboard-sidebar {
+  width: 250px;
+  transition: all 0.3s ease; /* Suaviza a transição */
+}
+
+/* Quando a sidebar estiver fechada */
+.dashboard-sidebar.closed {
+  width: 0; /* Define a largura como 0 para escondê-la */
+  overflow: hidden; /* Esconde o conteúdo */
+}
+
+/* Conteúdo principal da dashboard */
 .dashboard-main-content {
-  flex: 1; /* Ocupa o restante do espaço */
-  padding: 20px;
+  flex-grow: 1; /* Faz com que ocupe o restante do espaço */
+  padding: 20px; /* Espaçamento interno */
+  transition: all 0.3s ease; /* Suaviza a transição */
+  margin-left: 0; /* Inicializa sem margem */
 }
 
+/* Ajuste da largura do conteúdo principal quando a sidebar está aberta */
+.sidebar-open .dashboard-main-content {
+  margin-left: 250px; /* Adiciona espaço para a sidebar */
+}
+
+/* Ajuste da largura quando a sidebar está fechada */
+.sidebar-closed .dashboard-main-content {
+  margin-left: 0; /* Remove margem quando a sidebar está fechada */
+}
+
+/* Comportamento da própria dashboard */
 .dashboard {
   padding: 20px;
   border-radius: 8px;
   margin-top: 20px; /* Mantém um espaçamento superior */
-  margin-left: 300px; /* Aumenta a margem à esquerda para mover o Dash mais à direita */
   position: relative; /* Garante que o componente respeite a posição */
-  width: calc(100% - 300px); /* Ajusta a largura considerando o novo espaço ocupado pela margem */
+  width: 100%; /* Ajusta para ocupar 100% do espaço disponível */
+  box-sizing: border-box; /* Inclui padding e bordas na largura total */
+}
+
+@media (max-width: 768px) {
+  /* Ajustar a largura para telas menores */
+  .dashboard-sidebar {
+    width: 200px;
+  }
+
+  .dashboard-main-content {
+    padding: 10px; /* Ajustar o padding */
+    flex-direction: column;
+    flex: 1;
+    margin-left: 0; /* Inicializa sem margem */
+    transition: margin-left 0.3s ease;
+    display: flex;
+  }
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--header-bg-color);
+  border-bottom: 1px solid var(--header-border-color);
+  position: fixed;
+  top: 0; /* Inicializa na posição certa */
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 80px;
+  transition: all 0.3s ease; /* Transição suave ao mover a barra */
+}
+
+.sidebar-open .dashboard-header {
+  margin-left: 250px; /* Move a barra para a direita quando a sidebar estiver aberta */
+}
+
+.sidebar-closed .dashboard-header {
+  margin-left: 0; /* Move a barra para a esquerda quando a sidebar estiver fechada */
 }
