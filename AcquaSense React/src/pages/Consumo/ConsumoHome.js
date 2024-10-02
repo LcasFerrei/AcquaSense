@@ -5,7 +5,6 @@ import '../../components/User/User.css';
 
 function ConsumoHome() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
   const [registros, setRegistros] = useState([]);
 
   useEffect(() => {
@@ -31,6 +30,11 @@ function ConsumoHome() {
     // Fechar o socket quando o componente desmontar
     return () => socket.close();
   }, []);
+
+  // Definir a função handleMenuToggle
+  const handleMenuToggle = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   return (
     <div className={`dashboard-container ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
