@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import HeaderNav from "../../components/AcquaNav/Header";
 import '../../components/User/User.css';
+import ConfiguSettings from "../../components/Configuracoes/ConfiguSettings"
 
 function ConsumoHome() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -36,7 +37,7 @@ function ConsumoHome() {
       {/* Main Content */}
       <div className={`dashboard-main-content ${isSidebarOpen ? 'expanded' : 'collapsed'}`}>
         <HeaderNav handleMenuToggle={handleMenuToggle} />
-        {/* Aqui você pode adicionar o conteúdo da tela de consumo diário */}
+        <ConfiguSettings />
       </div>
     </div>
   );
