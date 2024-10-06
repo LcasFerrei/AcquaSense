@@ -58,7 +58,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, box-shadow 0.3s;
   box-sizing: border-box; /* Inclui padding e border no cálculo da largura */
-  width: 100%; /* Garantia de largura total disponível */
+  width: 670px; /* Garantia de largura total disponível */
   flex: 0 1 auto; /* Permite que o gráfico se ajuste de acordo com o conteúdo */
 }
 
@@ -167,7 +167,7 @@
   padding: 10px;
   border-radius: 8px;
   display: inline-block;
-  width: auto;
+  width: 670px;
   box-sizing: border-box;
 }
 
