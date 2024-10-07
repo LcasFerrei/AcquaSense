@@ -19,9 +19,17 @@ class PontoDeUsoDeAgua(models.Model):
         ('DUCHA', 'Ducha'),
         ('CHUVEIRO', 'Chuveiro'),
     ]
+    TIPOS_COMODOS = [
+        ('COZINHA', 'Cozinha'),
+        ('LAVANDERIA', 'Lavanderia'),
+        ('BANHEIRO', 'Banheiro'),
+        ('QUARTO', 'Quarto'),
+        ('QUINTAL', 'Quintal'),
+    ]
     
     nome = models.CharField(max_length=100)
     tipo_ponto = models.CharField(max_length=50, choices=TIPOS_PONTO)
+    comodos = models.CharField(default="COZINHA",max_length=50,choices=TIPOS_COMODOS)
     residencia = models.ForeignKey(Residencia, on_delete=models.CASCADE, related_name='pontos_uso_agua')
 
     def __str__(self):
