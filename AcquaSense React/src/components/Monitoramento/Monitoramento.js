@@ -23,6 +23,16 @@ function MonitoramentoAgua() {
         { day: 'Sun', litros: 0 },  // Corrigido para "Dom"
     ]);
 
+    const [compartmentConsumptionData, setCompartmentConsumptionData] = useState([
+        { day: 'Seg', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
+        { day: 'Ter', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
+        { day: 'Qua', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
+        { day: 'Qui', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
+        { day: 'Sex', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
+        { day: 'Sáb', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
+        { day: 'Sun', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },  // Corrigido para "Dom"
+    ]);
+
     useEffect(() => {
         const socket = new WebSocket('ws://localhost:8000/ws/monitoramento/');
 
@@ -52,6 +62,19 @@ function MonitoramentoAgua() {
                     return updatedData;
                 });
             }
+
+            // Atualização do consumo por compartimento
+            if (message.type === 'compartment_sum') {
+                const newCompartmentData = message.data;
+                setCompartmentConsumptionData((prevData) => {
+                    const updatedCompartmentData = prevData.map((data) =>
+                        data.day === newCompartmentData.day
+                            ? { ...data, ...newCompartmentData }
+                            : data
+                    );
+                    return updatedCompartmentData;
+                });
+            }
         };
 
         return () => {
@@ -72,6 +95,22 @@ function MonitoramentoAgua() {
                         <Tooltip formatter={(value) => `${value} Litros`} />
                         <Legend />
                     </LineChart>
+                </div>
+
+                <div className="graph">
+                    <h3>Consumo Diário por Compartimentos</h3>
+                    <BarChart width={650} height={300} data={compartmentConsumptionData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="day" />
+                        <YAxis unit="L" />
+                        <Tooltip formatter={(value) => `${value} Litros`} />
+                        <Legend />
+                        <Bar dataKey="banheiro" fill="#76c7c0" />
+                        <Bar dataKey="lavanderia" fill="#ffbb33" />
+                        <Bar dataKey="cozinha" fill="#ff6f61" />
+                        <Bar dataKey="quarto" fill="#8e44ad" />  {/* Adicionando o quarto */}
+                        <Bar dataKey="quintal" fill="#e67e22" /> {/* Adicionando o quintal */}
+                    </BarChart>
                 </div>
             </div>
         </div>
