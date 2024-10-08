@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import './Configu.css';// Importa o CSS da pasta Configu
+import './Configu.css'; // Importa o CSS da pasta Configu
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCog } from '@fortawesome/free-solid-svg-icons'; // Ícone de engrenagem
 
 // Componente para Configurações de Notificações
 const NotificationSettings = () => (
@@ -79,8 +81,14 @@ const ConfiguSettings = () => {
     setIsEditing(false);
   };
 
+  
   return (
     <div className="config-container">
+      {/* Título e Ícone */}
+      <div className="settings-header">
+        <h2>Configuração</h2>
+        <FontAwesomeIcon icon={faCog} size="lg" className="icon" />
+      </div>
       <NotificationSettings />
       <DataAnalysisSettings />
       {/* Contêiner do botão agora está separado */}
