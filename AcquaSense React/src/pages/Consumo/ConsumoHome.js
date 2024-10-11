@@ -1,44 +1,98 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useEffect, useState } from 'react';
+import {
+  CartesianGrid,
+  Cell,
+  Legend,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
+} from 'recharts';
 import HeaderNav from "../../components/AcquaNav/Header";
-import './ConsumoHome.css';
 import '../../components/User/User.css';
+import './ConsumoHome.css';
 
 function ConsumoHome() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [registros, setRegistros] = useState([]);
 
+  const [fluxoConsumoData, setFluxoConsumoData] = useState([
+    { horario: '08:35', consumo: 0 },
+    { horario: '09:05', consumo: 30 },  
+    { horario: '10:15', consumo: 30 },  
+    { horario: '10:45', consumo: 60 },  
+    { horario: '12:00', consumo: 60 },  
+    { horario: '14:30', consumo: 80 },  
+    { horario: '15:00', consumo: 100 }, 
+  ]);
+
+  const totalConsumo = fluxoConsumoData[fluxoConsumoData.length - 1].consumo;
+  const limiteMaximo = 120; 
+
+  const porcentagemConsumo = (totalConsumo / limiteMaximo) * 100;
+
+  let status;
+  if (porcentagemConsumo <= 50) {
+    status = "Razoável";
+  } else if (porcentagemConsumo <= 80) {
+    status = "Atenção";
+  } else {
+    status = "Alarmante";
+  }
+
+  const COLORS = ['#0088FE', '#FFBB28'];
+
   useEffect(() => {
-    // Conectando ao WebSocket no Django
     const socket = new WebSocket('ws://localhost:8000/ws/consumo/');
     socket.onopen = () => console.log("Conexão estabelecida");
     socket.onerror = (error) => console.error("Erro de conexão:", error);
 
-    // Definir comportamento ao receber mensagem
     socket.onmessage = function(event) {
       const data = JSON.parse(event.data);
-      console.log(data);  // Para verificar o que está sendo recebido
+      console.log("Dados recebidos: ", data);
 
       if (data.type === "initial") {
-        // Quando receber o tipo inicial, armazena os registros no estado
         setRegistros(data.data);
       } else if (data.type === "update") {
-        // Quando receber o tipo de atualização, atualiza os registros
         setRegistros(data.data);
       }
     };
 
-    // Fechar o socket quando o componente desmontar
     return () => socket.close();
   }, []);
 
-  // Definir a função handleMenuToggle
   const handleMenuToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  // Função customizada para renderizar a porcentagem no centro do gráfico
+  const renderCustomLabel = ({ cx, cy }) => {
+    return (
+      <text
+        x={cx}
+        y={cy}
+        fill="#333"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        className="progress-label"
+        style={{ fontSize: '24px', fontWeight: 'bold' }}
+      >
+        {`${porcentagemConsumo.toFixed(2)}%`}
+      </text>
+    );
+  };
+
+  // Obter a data atual formatada
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('pt-BR'); // Formato DD/MM/AAAA
+
   return (
     <div className={`dashboard-container ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-      {/* Sidebar */}
       <aside className={`dashboard-sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
         <div className="dashboard-logo-menu">
           <div className="dashboard-logo">
@@ -60,7 +114,6 @@ function ConsumoHome() {
         </div>
       </aside>
 
-      {/* Main Content */}
       <div className={`dashboard-main-content ${isSidebarOpen ? 'expanded' : 'collapsed'}`}>
         <HeaderNav handleMenuToggle={handleMenuToggle} />
         <div className="consumo-home">
@@ -84,6 +137,54 @@ function ConsumoHome() {
               ))}
             </tbody>
           </table>
+
+          {/* Gráfico de Consumo Acumulado */}
+          <div className="graph">
+            <h3>Consumo Diário: {formattedDate} (Litros)</h3>
+            <LineChart width={650} height={300} data={fluxoConsumoData}>
+              <Line type="monotone" dataKey="consumo" stroke="#3f51b5" strokeWidth={3} />
+              <CartesianGrid stroke="#e0e0e0" />
+              <XAxis dataKey="horario" />
+              <YAxis unit=" L" />
+              <Tooltip formatter={(value) => `${value} Litros`} />
+              <Legend />
+            </LineChart>
+          </div>
+
+          {/* Gráfico de Rosca mostrando o consumo em porcentagem */}
+          <div className="graph">
+            <h3>Progresso do Consumo de Água: {formattedDate} (Porcentagem)</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+              <ResponsiveContainer width={300} height={300}>
+                <PieChart>
+                  <Pie
+                    data={[
+                      { name: 'Consumido', value: totalConsumo },
+                      { name: 'Restante', value: limiteMaximo - totalConsumo }
+                    ]}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={80}
+                    outerRadius={100}
+                    fill="#82ca9d"
+                    paddingAngle={5}
+                    dataKey="value"
+                    labelLine={false}
+                    label={renderCustomLabel}
+                  >
+                    <Cell key="consumido" fill="#0088FE" />
+                    <Cell key="restante" fill="#FFBB28" />
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+
+              {/* Exibir status de consumo */}
+              <div>
+                <h3>Status: {status}</h3>
+                <p>Você já consumiu <strong>{porcentagemConsumo.toFixed(2)}%</strong> do seu limite diário de água.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -91,3 +192,4 @@ function ConsumoHome() {
 }
 
 export default ConsumoHome;
+
