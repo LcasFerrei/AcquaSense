@@ -22,16 +22,16 @@ function ConsumoHome() {
 
   const [fluxoConsumoData, setFluxoConsumoData] = useState([
     { horario: '08:35', consumo: 0 },
-    { horario: '09:05', consumo: 30 },
-    { horario: '10:15', consumo: 30 },
-    { horario: '10:45', consumo: 60 },
-    { horario: '12:00', consumo: 60 },
-    { horario: '14:30', consumo: 80 },
-    { horario: '15:00', consumo: 100 },
+    { horario: '09:05', consumo: 30 },  
+    { horario: '10:15', consumo: 30 },  
+    { horario: '10:45', consumo: 60 },  
+    { horario: '12:00', consumo: 60 },  
+    { horario: '14:30', consumo: 80 },  
+    { horario: '15:00', consumo: 100 }, 
   ]);
 
   const totalConsumo = fluxoConsumoData[fluxoConsumoData.length - 1].consumo;
-  const limiteMaximo = 120;
+  const limiteMaximo = 120; 
 
   const porcentagemConsumo = (totalConsumo / limiteMaximo) * 100;
 
@@ -191,3 +191,4 @@ function ConsumoHome() {
 }
 
 export default ConsumoHome;
+
