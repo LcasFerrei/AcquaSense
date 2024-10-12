@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import {
   CartesianGrid,
@@ -76,7 +75,7 @@ function ConsumoHome() {
       <text
         x={cx}
         y={cy}
-        fill="#333"
+        fill="#333" // Usar uma cor que se destaque em ambos os modos
         textAnchor="middle"
         dominantBaseline="middle"
         className="progress-label"
