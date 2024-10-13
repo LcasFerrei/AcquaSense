@@ -727,3 +727,29 @@ button, a {
         margin-bottom: 20px;
     }
 }
+
+#back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--logo-color); /* Cor do botão conforme variável de cor do logo */
+    color: var(--text-color); /* Cor do texto conforme a variável */
+    border-radius: 50%; /* Mantém o botão circular */
+    padding: 15px; /* Aumenta o tamanho do botão */
+    font-size: 24px; /* Aumenta o tamanho da seta */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    z-index: 1000;
+    display: none; /* Escondido por padrão */
+}
+
+#back-to-top:hover {
+    background-color: var(--nav-link-hover-bg-color); /* Cor de fundo ao passar o mouse */
+    color: var(--nav-link-hover-color); /* Cor do texto ao passar o mouse */
+    transform: scale(1.1); /* Efeito de zoom ao passar o mouse */
+}
+
+/* Exibe o botão quando o estado `showTopBtn` é verdadeiro */
+#back-to-top {
+    display: block;
+}
