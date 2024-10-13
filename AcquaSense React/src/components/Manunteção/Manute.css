@@ -1,0 +1,121 @@
+:root {
+    --bg-color: #f8f8f8;
+    --text-color: #333;
+    --sidebar-bg-color: #f3eaff;
+    --logo-color: #6c63ff;
+    --nav-link-color: #333;
+    --nav-link-hover-bg-color: #e0d4ff;
+    --nav-link-hover-color: #6c63ff;
+    --header-bg-color: #fff;
+    --header-border-color: #ddd;
+    --card-bg-color: #fff;
+    --news-card-bg-color: #eef6ff;
+    --news-button-bg-color: #6c63ff;
+    --news-button-hover-bg-color: #5752d4;
+}
+
+/* Variáveis de tema escuro */
+body.dark-mode {
+    --bg-color: #181818;
+    --text-color: #f0f0f0;
+    --sidebar-bg-color: #222222;
+    --logo-color: #bb86fc;
+    --nav-link-color: #f0f0f0;
+    --nav-link-hover-bg-color: #333333;
+    --nav-link-hover-color: #bb86fc;
+    --header-bg-color: #222222;
+    --header-border-color: #333333;
+    --card-bg-color: #333333;
+    --news-card-bg-color: #2c2c2c;
+    --news-button-bg-color: #bb86fc;
+    --news-button-hover-bg-color: #8e7af7;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.manute-container {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.battery {
+    width: 150px;
+    height: 50px;
+    border: 3px solid #333;
+    border-radius: 5px;
+    margin: 20px auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+}
+
+.battery::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    right: -15px;
+    width: 10px;
+    height: 30px;
+    background-color: #333;
+    border-radius: 2px;
+}
+
+.battery-level {
+    height: 100%;
+    transition: width 0.5s;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.battery-message {
+    color: red;
+    font-weight: bold;
+}
+
+.AcquaSoft-info {
+    margin-top: 30px;
+    text-align: left;
+    padding: 10px;
+    color: var(--text-color);
+}
+
+.AcquaSoft-details ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.contact-button, .send-logs-button, .power-saving-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--news-button-bg-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.contact-button:hover, .send-logs-button:hover, .power-saving-button:hover {
+    background-color: var(--news-button-hover-bg-color);
+}
+
+.battery-history {
+    margin-top: 40px;
+}

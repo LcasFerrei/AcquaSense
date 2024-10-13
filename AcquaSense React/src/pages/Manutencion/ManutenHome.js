@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import HeaderNav from "../../components/AcquaNav/Header";
 import '../../components/User/User.css';
+import Manute from '../../components/Manunteção/Manute';
 
 function ManutenHome() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -33,7 +34,7 @@ function ManutenHome() {
       </aside>
       <div className={`dashboard-main-content ${isSidebarOpen ? 'expanded' : 'collapsed'}`}>
         <HeaderNav handleMenuToggle={handleMenuToggle} />
-        {/* Adicione aqui o conteúdo principal da tela de Manutenção */}
+        <Manute />
       </div>
     </div>
   );
