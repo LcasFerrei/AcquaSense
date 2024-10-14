@@ -11,7 +11,6 @@ import foto3 from '../../Assets/img home/3.jpg';
 import foto4 from '../../Assets/img home/4.jpg';
 import logoAcquaSense from '../../Assets/img login/LogoAcquaSense.png';
 
-
 // Hook customizado para o carrossel
 const useCarousel = (items, interval = 5000) => {
     const [currentItem, setCurrentItem] = useState(0);
@@ -36,7 +35,7 @@ const BannerCarousel = () => {
             buttonText: "Saiba mais...",
         },
         {
-            title: "Venha aprender maneiras sobre como economizar água ",
+            title: "Venha aprender maneiras sobre como economizar água",
             image: img1,
             buttonText: "Saiba mais...",
         },
@@ -75,7 +74,7 @@ const BannerCarousel = () => {
 const NewsCarousel = () => {
     const newsItems = [
         {
-            title: "Venha verificar 5 maneiras para aconomizar água",
+            title: "Venha verificar 5 maneiras para economizar água",
             content: "Aprenda 5 maneiras para se conscientizar sobre o consumo de água.",
             image: img1
         },
@@ -110,7 +109,6 @@ const NewsCarousel = () => {
     );
 };
 
-
 // Componente do cabeçalho
 const Header = () => {
     const toggleDarkMode = () => {
@@ -137,14 +135,13 @@ const Header = () => {
                         <a href="#home">
                             <img src={logoAcquaSense} alt="Logo AcquaSense" className="logo" />
                         </a>
-                     </li>
+                    </li>
                     <li><a href="#about">Sobre Nós</a></li>
                     <li><a href="#services">Serviços</a></li>
                     <li><a href="#news">Notícias</a></li>
                     <li><a href="#contact">Contato</a></li>
                     <li><a href="/login">Portal do Cliente</a></li>
                     <li><a href="/Dashboard">Teste</a></li>
-
                     <li><a href="https://api.whatsapp.com/send?phone=5585991541634&text=Gostaria%20de%20economizar%20%C3%A1gua!" target="_blank" rel="noopener noreferrer">Fale conosco</a></li>
                     <li>
                         <button id="theme-toggle" onClick={toggleDarkMode}>
@@ -168,22 +165,19 @@ const MainContent = () => (
             <p>Com AcquaSense, economizar água é tão fácil quanto virar a torneira.</p>
         </section>
 
-        <section id="about" className="about">
-            <h2>Sobre Nós</h2>
-            <p></p>
-            <p>Somos uma plataforma que monitora seu consumo de água em tempo real, alertando sobre excessos de consumo e possíveis vazamentos, tudo através de um celular, tablet ou computador.</p>
-            <p></p>
-            <p>o AcquaSense é capaz de fornecer informações sobre o consumo de água de forma diária, disponibilizando a visualização dos dados de hora em hora, com visão geral do dia. Ou de forma mensal, disponibilizando a visualização dia a dia, com visão geral do mês.</p>
+        <div className="cards-container">
+            <section id="about" className="about card">
+                <h2>Sobre Nós</h2>
+                <p>Somos uma plataforma que monitora seu consumo de água em tempo real, alertando sobre excessos de consumo e possíveis vazamentos, tudo através de um celular, tablet ou computador.</p>
+                <p>O AcquaSense é capaz de fornecer informações sobre o consumo de água de forma diária, disponibilizando a visualização dos dados de hora em hora, com visão geral do dia. Ou de forma mensal, disponibilizando a visualização dia a dia, com visão geral do mês.</p>
+            </section>
 
-        </section>
-
-        <section id="services" className="services">
-            <h2>Serviços</h2>
-            <p></p>
-            <p> AcquaSense é um sistema de monitoramento de consumo de água, que opera em tempo real. Utilizamos tecnologia de ponta em Internet das Coisas (IoT), que permite a comunicação constante entre dispositivos conectados à internet. Além disso, empregamos Inteligência Artificial para analisar e gerenciar o consumo de água, bem como detectar possíveis vazamentos</p>
-            <p></p>
-            <p>Além disso, o sistema fornece a visualização de forma gráfica comparações comportamentais de consumo entre meses ou entre anos, de forma intuitiva e simplista.</p>
-        </section>
+            <section id="services" className="services card">
+                <h2>Serviços</h2>
+                <p>AcquaSense é um sistema de monitoramento de consumo de água, que opera em tempo real. Utilizamos tecnologia de ponta em Internet das Coisas (IoT), que permite a comunicação constante entre dispositivos conectados à internet. Além disso, empregamos Inteligência Artificial para analisar e gerenciar o consumo de água, bem como detectar possíveis vazamentos.</p>
+                <p>O sistema também fornece a visualização de comparações de consumo entre meses ou entre anos, de forma intuitiva e simplista.</p>
+            </section>
+        </div>
 
         <NewsSection />
 
@@ -204,40 +198,38 @@ const MainContent = () => (
         </section>
 
         <section id="reviews" className="reviews">
-    <h2>Avaliações de Clientes</h2>
-    <div className="review-list">
-        <div className="review-item water-drop">
-            <img src={foto2} alt="João Silva" />
-            <div className="review-text">
-                <p>"O AcquaSense revolucionou nossa forma de economizar água. Recomendo!"</p>
-                <p>- João Silva</p>
+            <h2>Avaliações de Clientes</h2>
+            <div className="review-list">
+                <div className="review-item water-drop">
+                    <img src={foto2} alt="João Silva" />
+                    <div className="review-text">
+                        <p>"O AcquaSense revolucionou nossa forma de economizar água. Recomendo!"</p>
+                        <p>- João Silva</p>
+                    </div>
+                </div>
+                <div className="review-item water-drop">
+                    <img src={foto1} alt="Maria Oliveira" />
+                    <div className="review-text">
+                        <p>"Excelente serviço e ótimas dicas de economia de água."</p>
+                        <p>- Maria Oliveira</p>
+                    </div>
+                </div>
+                <div className="review-item water-drop">
+                    <img src={foto3} alt="Carlos Mendes" />
+                    <div className="review-text">
+                        <p>"Conseguimos reduzir bastante o consumo. Muito satisfeito."</p>
+                        <p>- Carlos Mendes</p>
+                    </div>
+                </div>
+                <div className="review-item water-drop">
+                    <img src={foto4} alt="Ana Costa" />
+                    <div className="review-text">
+                        <p>"Uma solução prática e eficiente para economizar água."</p>
+                        <p>- Ana Costa</p>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div className="review-item water-drop">
-            <img src={foto1} alt="Maria Oliveira" />
-            <div className="review-text">
-                <p>"Excelente serviço e ótimas dicas de economia de água."</p>
-                <p>- Maria Oliveira</p>
-            </div>
-        </div>
-        <div className="review-item water-drop">
-            <img src={foto3} alt="Carlos Mendes" />
-            <div className="review-text">
-                <p>"Conseguimos reduzir bastante o consumo. Muito satisfeito."</p>
-                <p>- Carlos Mendes</p>
-            </div>
-        </div>
-        <div className="review-item water-drop">
-            <img src={foto4} alt="Ana Costa" />
-            <div className="review-text">
-                <p>"Uma solução prática e eficiente para economizar água."</p>
-                <p>- Ana Costa</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-
+        </section>
 
         <section id="contact" className="contact">
             <div className="contact-text">
@@ -268,19 +260,50 @@ const Footer = () => (
     </footer>
 );
 
-// Componente principal
-const Home = () => (
-    <div className="home-page">
-        <Header />
-        <BannerCarousel />
-        <MainContent />
-        <Footer />
-    </div>
-);
+// Botão "Voltar ao Topo"
+const Home = () => {
+    const [showTopBtn, setShowTopBtn] = useState(false);
+
+    // Monitorando o scroll da página
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 300) {
+                setShowTopBtn(true); // Exibe o botão ao rolar mais de 300px
+            } else {
+                setShowTopBtn(false); // Esconde o botão se o scroll for menor
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    // Função para rolar até o topo
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    };
+
+    return (
+        <div className="home-page">
+            <Header />
+            <BannerCarousel />
+            <MainContent />
+            <Footer />
+
+            {/* Botão de Voltar ao Topo */}
+            {showTopBtn && (
+                <button id="back-to-top" onClick={scrollToTop} title="Voltar ao topo">
+                    &#8679;
+                </button>
+            )}
+        </div>
+    );
+};
 
 export default Home;
-
-    //teste Anna Maria
-//Lucas, correções feitas
-//missões feitas
-

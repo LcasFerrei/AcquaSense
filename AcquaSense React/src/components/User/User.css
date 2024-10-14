@@ -1,3 +1,4 @@
+
 /* Variáveis de tema claro */
 :root {
   --bg-color: #f8f8f8;
@@ -43,43 +44,43 @@ body {
 
 .profile-section {
   display: flex;
-  justify-content: center; /* Centraliza o conteúdo horizontalmente */
-  align-items: center; /* Centraliza o conteúdo verticalmente */
-  flex-direction: column; /* Mantém o conteúdo em coluna */
-  padding: 20px;
-  margin-top: 100px;
-  height: calc(100vh - 150px);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px 20px;
+  margin-top: 60px;
 }
 
 .profile-section h2 {
-  text-align: left; /* Centraliza o texto dentro da largura */
-  font-size: 24px;
+  font-family: 'Kanit', sans-serif; /* Aplicando a fonte Kanit */
+  font-size: 28px;
+  font-weight: 600;
   margin-bottom: 20px;
-  width: auto; /* Remove qualquer ajuste de largura para centralizar melhor */
 }
-
-
-
 
 .profile-container {
   display: flex;
+  flex-wrap: wrap; /* Ajusta o layout para telas menores */
   gap: 20px;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .profile-info, .profile-payment {
-  flex: 1;
+  flex: 1 1 45%;
 }
 
 .profile-card {
   background-color: var(--card-bg-color);
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 25px;
 }
 
 .profile-card h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-family: 'Kanit', sans-serif; /* Aplicando a fonte Kanit */
+  font-size: 20px;
+  margin-bottom: 15px;
 }
 
 .profile-card img {
@@ -87,37 +88,37 @@ body {
   width: 100px;
   height: 100px;
   object-fit: cover;
+  margin-bottom: 15px;
 }
 
 .profile-card .form-group {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .profile-card .form-group label {
   display: block;
-  font-weight: bold;
+  font-weight: 600;
+  margin-bottom: 5px;
 }
 
 .profile-card .form-group input,
 .profile-card .form-group select {
   width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-}
-
-.profile-card .form-group.upload-btn input {
-  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 3px;
 }
 
 .payment-details {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
 .payment-details img {
-  width: 50px;
-  height: 30px;
+  width: 60px;
+  height: 40px;
   object-fit: cover;
 }
 
@@ -125,13 +126,50 @@ body {
   background-color: var(--info-button-bg-color);
   color: #fff;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 12px 25px;
+  border-radius: 8px;
   cursor: pointer;
-  margin-top: 10px;
+  transition: background-color 0.3s;
 }
 
 .profile-card button:hover {
   background-color: var(--info-button-hover-bg-color);
+}
+
+.payment-icon {
+  width: 80px; /* Largura do espaço retangular */
+  height: 50px; /* Altura do espaço retangular */
+  overflow: hidden; /* Oculta qualquer parte da imagem que exceda as dimensões */
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente a imagem */
+  align-items: center; /* Centraliza verticalmente a imagem */
+}
+
+.payment-icon img {
+  max-width: 100%; /* A imagem não excede a largura do espaço */
+  max-height: 100%; /* A imagem não excede a altura do espaço */
+  object-fit: contain; /* Faz a imagem manter suas proporções dentro do espaço */
+}
+
+.remove-photo-button {
+  background-color: #ccc; /* Cor de fundo cinza */
+  color: #333; /* Cor do texto */
+  border: none; /* Sem borda */
+  padding: 10px 20px; /* Espaçamento interno */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Cursor em forma de mão */
+  transition: background-color 0.3s; /* Transição suave para a cor de fundo */
+}
+
+.remove-photo-button:hover {
+  background-color: #b3b3b3; /* Cor de fundo ao passar o mouse */
+}
+
+.update-text {
+  font-size: 14px;
+}
+
+.payment-date {
+  font-size: 14px;
 }
 

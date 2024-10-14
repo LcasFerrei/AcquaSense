@@ -1,19 +1,31 @@
+
 import React, { useState } from 'react';
 import './User.css'; // Atualize o nome do CSS se necessário
 
 const UserProfile = () => {
   const [paymentMethod, setPaymentMethod] = useState('Cartão de Crédito');
+  const [tempPaymentMethod, setTempPaymentMethod] = useState('Cartão de Crédito'); // Estado temporário para a forma de pagamento
   const [personalInfo, setPersonalInfo] = useState({
-    name: 'Lucas Ferreira',
+    name: 'Seu nome',
     address: 'Rua Exemplo, 123',
-    phone: '123-456-7890',
-    email: 'lucas@example.com'
+    phone: '(XX) 1234-5678',
+    email: 'meuemail@example.com'
   });
   const [profileImage, setProfileImage] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [updateMessage, setUpdateMessage] = useState(''); // Mensagem para feedback do usuário
+
+  // Atualizar a lógica para os ícones de pagamento
+  const paymentIcons = {
+    'Cartão de Crédito': '/cartao.png', // Imagem do Cartão de Crédito
+    'Boleto': '/boleto.png', // Imagem do Boleto
+    'PIX': '/pix.png' // Imagem do PIX
+  };
+  
+
 
   const handlePaymentChange = (e) => {
-    setPaymentMethod(e.target.value);
+    setTempPaymentMethod(e.target.value); // Atualiza o estado temporário
   };
 
   const handlePersonalInfoChange = (e) => {
@@ -34,10 +46,30 @@ const UserProfile = () => {
     }
   };
 
+  const handleRemoveImage = () => {
+    setProfileImage(null);
+  };
+
+  // Função para atualizar a forma de pagamento
+  const handleUpdatePaymentMethod = () => {
+    setPaymentMethod(tempPaymentMethod); // Atualiza a forma de pagamento com o estado temporário
+    const message = `Forma de pagamento atualizada para: ${tempPaymentMethod}`;
+    setUpdateMessage(message);
+
+    setTimeout(() => {
+      setUpdateMessage('');
+    }, 1000);
+  };
+
+  // Adicionando validação ao atualizar informações
   const handleUpdate = () => {
-    // Aqui você pode enviar as informações para um backend ou armazenar localmente
+    if (!personalInfo.name || !personalInfo.email) {
+      setUpdateMessage('Por favor, preencha todos os campos obrigatórios.');
+      return;
+    }
     console.log('Informações Atualizadas:', personalInfo);
     setIsEditing(false);
+    setUpdateMessage('Informações atualizadas com sucesso!');
   };
 
   return (
@@ -88,17 +120,19 @@ const UserProfile = () => {
                 disabled={!isEditing}
               />
             </div>
-            <div className="form-group upload-btn">
-              <label>Foto de perfil:</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                disabled={!isEditing}
-              />
-            </div>
+            {isEditing && (
+              <div className="form-group">
+                <label>Foto de perfil:</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+                <button className="remove-photo-button" onClick={handleRemoveImage}>Remover Foto</button>
+              </div>
+            )}
             {isEditing ? (
-              <button onClick={handleUpdate}>Atualizar Informações</button>
+              <button onClick={handleUpdate}>Salvar</button>
             ) : (
               <button onClick={() => setIsEditing(true)}>Editar Informações</button>
             )}
@@ -110,22 +144,24 @@ const UserProfile = () => {
             <div className="form-group">
               <label>Forma de pagamento:</label>
               <div className="payment-details">
-                <img src="https://via.placeholder.com/50" alt="Cartão de Crédito" /> {/* Substitua com imagem do cartão */}
+                <div className="payment-icon">
+                  <img src={paymentIcons[paymentMethod]} alt={paymentMethod} />
+                </div>
                 <p>Forma atual: {paymentMethod}</p>
               </div>
             </div>
             <div className="form-group">
               <label>Próxima cobrança:</label>
-              <p>1 de Outubro de 2024 - R$ 62,90</p>
+              <p className="payment-date">1 de Outubro de 2024 - R$ 62,90</p>
             </div>
             <div className="form-group">
               <label>Último pagamento:</label>
-              <p>1 de Novembro de 2024 - R$ 62,90</p>
+              <p className="payment-date">1 de Novembro de 2024 - R$ 62,90</p>
             </div>
             <div className="form-group">
               <label>Alterar forma de pagamento:</label>
               <select
-                value={paymentMethod}
+                value={tempPaymentMethod} // Atualiza o valor do select com o estado temporário
                 onChange={handlePaymentChange}
               >
                 <option value="Cartão de Crédito">Cartão de Crédito</option>
@@ -133,7 +169,9 @@ const UserProfile = () => {
                 <option value="PIX">PIX</option>
               </select>
             </div>
-            <button>Atualizar Forma de Pagamento</button>
+            <button onClick={handleUpdatePaymentMethod}>Confirmar forma de pagamento</button>
+            {updateMessage && <p className="update-message update-text">{updateMessage}</p>} {/* Exibe mensagem de atualização */}
+
           </div>
         </div>
       </div>

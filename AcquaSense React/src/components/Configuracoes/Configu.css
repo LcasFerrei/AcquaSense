@@ -15,6 +15,15 @@
     --info-button-hover-bg-color: #5752d4;
 }
 
+.settings-header {
+    display: flex; /* Habilita o Flexbox */
+    flex-direction: row; /* Alinha os itens horizontalmente */
+    align-items: center; /* Alinha verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+    margin-bottom: 20px; /* Espaço abaixo do cabeçalho */
+}
+
+
 /* Variáveis de tema escuro */
 body.dark-mode {
     --bg-color: #181818;
@@ -53,6 +62,10 @@ body.dark-mode {
     margin-top: 0;
     margin-bottom: 20px; /* Aumenta o espaçamento entre o título e os subtítulos */
     color: var(--text-color); /* Cor do texto usando variável */
+    text-align: center; /* Centraliza o título */
+    display: flex; /* Habilita o Flexbox para o título e ícone */
+    justify-content: space-between; /* Espaça o conteúdo horizontalmente */
+    align-items: center; /* Alinha verticalmente */
 }
 
 .notification-settings h3,
@@ -95,7 +108,7 @@ body.dark-mode {
     align-items: stretch; /* Faz os contêineres filhos terem a mesma altura */
     justify-content: flex-start;
     padding-top: 20px; /* Ajuste este valor se necessário */
-    padding-left: 350px;
+    padding-left: 0px;
     padding-right: 20px;
     margin-top: 50px; /* Ajuste para descer os contêineres */
     z-index: 10; /* Garante que o contêiner fique na frente */
@@ -127,4 +140,9 @@ body.dark-mode {
 
 .edit-button:hover {
     background-color: var(--info-button-hover-bg-color); /* Cor do botão ao passar o mouse usando variável */
+}
+
+/* Estilos do ícone ao lado do título */
+.icon {
+    margin-left: 10px; /* Espaçamento entre o título e o ícone */
 }

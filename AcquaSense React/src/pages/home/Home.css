@@ -605,11 +605,7 @@ button, a {
 
 /* Aplicando as animações */
 .about {
-    animation: slideIn 1s ease-out forwards;
-}
-
-.about h2 {
-    animation: pulse 2s infinite;
+    animation: slideIn 2s ease-out forwards;
 }
 
 .about p {
@@ -676,4 +672,84 @@ button, a {
 
 .services-item:nth-child(3) {
     animation-delay: 0.9s;
+}
+
+/* Container para os cards */
+.cards-container {
+    display: flex;
+    gap: 20px;
+    justify-content: space-around;
+    align-items: stretch; /* Alinha os cards para que tenham a mesma altura */
+    margin: 20px 0;
+}
+
+/* Estilização para os cards */
+.card {
+    background-color: var(--sidebar-bg-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    flex: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Animação ao passar o mouse */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilização específica para títulos */
+.card h2 {
+    margin-bottom: 15px;
+    font-size: 24px;
+    color: var(--logo-color);
+    text-align: center;
+}
+
+/* Estilização específica para os parágrafos */
+.card p {
+    line-height: 1.6;
+    text-align: justify; /* Justifica o texto para formatação consistente */
+}
+
+/* Estilização adicional para layout responsivo */
+@media (max-width: 768px) {
+    .cards-container {
+        flex-direction: column;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+}
+
+#back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--logo-color); /* Cor do botão conforme variável de cor do logo */
+    color: var(--text-color); /* Cor do texto conforme a variável */
+    border-radius: 50%; /* Mantém o botão circular */
+    padding: 15px; /* Aumenta o tamanho do botão */
+    font-size: 24px; /* Aumenta o tamanho da seta */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    z-index: 1000;
+    display: none; /* Escondido por padrão */
+}
+
+#back-to-top:hover {
+    background-color: var(--nav-link-hover-bg-color); /* Cor de fundo ao passar o mouse */
+    color: var(--nav-link-hover-color); /* Cor do texto ao passar o mouse */
+    transform: scale(1.1); /* Efeito de zoom ao passar o mouse */
+}
+
+/* Exibe o botão quando o estado `showTopBtn` é verdadeiro */
+#back-to-top {
+    display: block;
 }
