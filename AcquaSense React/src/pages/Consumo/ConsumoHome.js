@@ -19,7 +19,7 @@ import './ConsumoHome.css';
 function ConsumoHome() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [porcentagemConsumo, setPorcentagemConsumo] = useState(0);
-  const [porcentagemExibida, setPorcentagemExibida] = useState(0); // Novo estado para manter o valor exibido
+  const [porcentagemExibida, setPorcentagemExibida] = useState(0); // Para animar gradualmente
 
   const [fluxoConsumoData, setFluxoConsumoData] = useState([
     { horario: '08:35', consumo: 0 },
@@ -56,21 +56,40 @@ function ConsumoHome() {
       console.log("Dados recebidos: ", data);
 
       if (data.type === "update") {
-        // Atualiza a porcentagem de consumo
-        setPorcentagemConsumo(data.data.percentual);
-        // Atualiza a porcentagem exibida apenas se ela não foi definida ainda
-        setPorcentagemExibida(data.data.percentual);
+        // Inicia a animação gradual para porcentagemExibida, mas mantém porcentagemConsumo atualizada diretamente
+        animateProgress(data.data.percentual);
+        setPorcentagemConsumo(data.data.percentual); // Atualiza diretamente o valor da porcentagem de consumo
       }
     };
 
     return () => socket.close();
   }, []);
 
+  const animateProgress = (newPercentual) => {
+    const start = porcentagemExibida;
+    const end = newPercentual;
+    const duration = 1000; // duração da animação em milissegundos
+    const stepTime = 10; // intervalo de cada atualização
+    let current = start;
+    const increment = (end - start) / (duration / stepTime); // Define o quanto a porcentagem vai mudar em cada passo
+
+    const interval = setInterval(() => {
+      current += increment;
+
+      if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+        clearInterval(interval);
+        setPorcentagemExibida(end);
+      } else {
+        setPorcentagemExibida(current);
+      }
+    }, stepTime);
+  };
+
   const handleMenuToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Função customizada para renderizar a porcentagem no centro do gráfico
+  // Função customizada para renderizar a porcentagem no centro do gráfico - mostra sempre porcentagemConsumo
   const renderCustomLabel = ({ cx, cy }) => {
     return (
       <text
@@ -82,14 +101,13 @@ function ConsumoHome() {
         className="progress-label"
         style={{ fontSize: '24px', fontWeight: 'bold' }}
       >
-        {`${porcentagemExibida.toFixed(2)}%`} {/* Usar o estado porcentagemExibida */}
+        {`${porcentagemConsumo.toFixed(2)}%`} {/* Exibe diretamente o valor de porcentagemConsumo */}
       </text>
     );
   };
 
-  // Obter a data atual formatada
   const today = new Date();
-  const formattedDate = today.toLocaleDateString('pt-BR'); // Formato DD/MM/AAAA
+  const formattedDate = today.toLocaleDateString('pt-BR');
 
   return (
     <div className={`dashboard-container ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
@@ -117,7 +135,6 @@ function ConsumoHome() {
       <div className={`dashboard-main-content ${isSidebarOpen ? 'expanded' : 'collapsed'}`}>
         <HeaderNav handleMenuToggle={handleMenuToggle} />
         <div className="consumo-home">
-          {/* Gráfico de Rosca mostrando o consumo em porcentagem */}
           <div className="graph">
             <h3>Progresso do Consumo de Água</h3>
             <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
@@ -136,7 +153,7 @@ function ConsumoHome() {
                     paddingAngle={5}
                     dataKey="value"
                     labelLine={false}
-                    label={renderCustomLabel} // Exibe a porcentagem no centro
+                    label={renderCustomLabel}
                   >
                     <Cell key="consumido" fill="#0088FE" />
                     <Cell key="restante" fill="#FFBB28" />
@@ -145,14 +162,13 @@ function ConsumoHome() {
                 </PieChart>
               </ResponsiveContainer>
 
-              {/* Exibir status de consumo */}
               <div>
                 <h3>Status: {status}</h3>
                 <p>Você já consumiu <strong>{porcentagemConsumo.toFixed(2)}%</strong> do seu limite diário de água.</p>
               </div>
             </div>
           </div>
-          {/* Gráfico de Consumo Acumulado */}
+
           <div className="graph">
             <h3>Consumo Diário: {formattedDate} (Litros)</h3>
             <LineChart width={650} height={300} data={fluxoConsumoData}>
