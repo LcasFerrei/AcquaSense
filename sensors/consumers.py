@@ -12,44 +12,48 @@ from datetime import datetime
 # Configuração básica do logger
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
-
 class ConsumoConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
+        print("WebSocket conectado")
 
         # Inicia a tarefa de enviar registros a cada 10 segundos
         self.send_records_task = asyncio.create_task(self.send_records_periodically())
 
     async def disconnect(self, close_code):
         # Cancela a tarefa ao desconectar
+        print(f"WebSocket desconectado: {close_code}")
         self.send_records_task.cancel()
 
     async def receive(self, text_data):
-        # Você pode implementar a lógica de recebimento aqui, se necessário
-        pass
+        # Lógica de recebimento de mensagens (se necessário)
+        print(f"Mensagem recebida: {text_data}")
 
     async def send_records_periodically(self):
         while True:
-            registros = await self.get_consumption_records()
-            await self.send(text_data=json.dumps({
-                "type": "update",
-                "data": registros
-            }))
-            await asyncio.sleep(1)  # Espera 10 segundos antes de enviar novamente
+            try:
+                percentual = await self.get_daily_percentage()
+                await self.send(text_data=json.dumps({
+                    "type": "update",
+                    "data": {
+                        "percentual": percentual  # Enviar percentual como um objeto
+                    }
+                }))
+                await asyncio.sleep(1)  # Espera 1 segundo antes de enviar novamente
+            except Exception as e:
+                print(f"Erro: {e}")  # Captura e imprime qualquer erro
 
     @sync_to_async
-    def get_consumption_records(self):
-        # Consulta ao banco de dados para obter os 5 últimos registros de consumo
-        registros = RegistroDeConsumo.objects.all().order_by('-data_hora')[:5]
-        return [
-            {
-                "id": registro.id,
-                "sensor": str(registro.sensor.identificador),  # Para exibir o nome do sensor
-                "data_hora": str(registro.data_hora),
-                "consumo": float(registro.consumo)  # Converte para float para facilitar o uso no frontend
-            }
-            for registro in registros
-        ]
+    def get_daily_percentage(self):
+        limite_litros = 120
+        inicio_do_dia = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+
+        consumo_diario = RegistroDeConsumo.objects.filter(
+            data_hora__gte=inicio_do_dia
+        ).aggregate(total_consumo=Sum('consumo'))['total_consumo'] or 0
+
+        porcentagem = (consumo_diario / limite_litros) * 100 if limite_litros else 0
+        return float(round(porcentagem, 2))  # Converte para float antes de retornar
     
 class MonitoramentoEspecificoConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -68,6 +72,7 @@ class MonitoramentoEspecificoConsumer(AsyncWebsocketConsumer):
         while True:
             daily_consumption_sum = await self.get_daily_compartment_consumption()
             # print(f"Enviando dados de compartimento: {daily_consumption_sum}")  # Adicione um log aqui
+            print(daily_consumption_sum)
             await self.send(text_data=json.dumps({
                 "type": "compartment_sum",
                 "data": daily_consumption_sum

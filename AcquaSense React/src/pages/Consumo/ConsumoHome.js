@@ -18,7 +18,8 @@ import './ConsumoHome.css';
 
 function ConsumoHome() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [registros, setRegistros] = useState([]);
+  const [porcentagemConsumo, setPorcentagemConsumo] = useState(0);
+  const [porcentagemExibida, setPorcentagemExibida] = useState(0); // Novo estado para manter o valor exibido
 
   const [fluxoConsumoData, setFluxoConsumoData] = useState([
     { horario: '08:35', consumo: 0 },
@@ -30,10 +31,9 @@ function ConsumoHome() {
     { horario: '15:00', consumo: 100 }, 
   ]);
 
-  const totalConsumo = fluxoConsumoData[fluxoConsumoData.length - 1].consumo;
   const limiteMaximo = 120; 
-
-  const porcentagemConsumo = (totalConsumo / limiteMaximo) * 100;
+  const consumoAtual = limiteMaximo * (porcentagemConsumo / 100);
+  const consumoRestante = Math.max(0, limiteMaximo - consumoAtual);
 
   let status;
   if (porcentagemConsumo <= 50) {
@@ -55,10 +55,11 @@ function ConsumoHome() {
       const data = JSON.parse(event.data);
       console.log("Dados recebidos: ", data);
 
-      if (data.type === "initial") {
-        setRegistros(data.data);
-      } else if (data.type === "update") {
-        setRegistros(data.data);
+      if (data.type === "update") {
+        // Atualiza a porcentagem de consumo
+        setPorcentagemConsumo(data.data.percentual);
+        // Atualiza a porcentagem exibida apenas se ela não foi definida ainda
+        setPorcentagemExibida(data.data.percentual);
       }
     };
 
@@ -75,13 +76,13 @@ function ConsumoHome() {
       <text
         x={cx}
         y={cy}
-        fill="#333" // Usar uma cor que se destaque em ambos os modos
+        fill="#333"
         textAnchor="middle"
         dominantBaseline="middle"
         className="progress-label"
         style={{ fontSize: '24px', fontWeight: 'bold' }}
       >
-        {`${porcentagemConsumo.toFixed(2)}%`}
+        {`${porcentagemExibida.toFixed(2)}%`} {/* Usar o estado porcentagemExibida */}
       </text>
     );
   };
@@ -116,27 +117,41 @@ function ConsumoHome() {
       <div className={`dashboard-main-content ${isSidebarOpen ? 'expanded' : 'collapsed'}`}>
         <HeaderNav handleMenuToggle={handleMenuToggle} />
         <div className="consumo-home">
-          <table className="consumo-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Data/Hora</th>
-                <th>Consumo</th>
-                <th>Sensor</th>
-              </tr>
-            </thead>
-            <tbody>
-              {registros.map((registro) => (
-                <tr key={registro.id}>
-                  <td>{registro.id}</td>
-                  <td>{registro.data_hora}</td>
-                  <td>{registro.consumo}</td>
-                  <td>{registro.sensor}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {/* Gráfico de Rosca mostrando o consumo em porcentagem */}
+          <div className="graph">
+            <h3>Progresso do Consumo de Água</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+              <ResponsiveContainer width={300} height={300}>
+                <PieChart>
+                  <Pie
+                    data={[
+                      { name: 'Consumido', value: consumoAtual },
+                      { name: 'Restante', value: consumoRestante }
+                    ]}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={80}
+                    outerRadius={100}
+                    fill="#82ca9d"
+                    paddingAngle={5}
+                    dataKey="value"
+                    labelLine={false}
+                    label={renderCustomLabel} // Exibe a porcentagem no centro
+                  >
+                    <Cell key="consumido" fill="#0088FE" />
+                    <Cell key="restante" fill="#FFBB28" />
+                  </Pie>
+                  <Tooltip formatter={(value) => `${value} Litros`} />
+                </PieChart>
+              </ResponsiveContainer>
 
+              {/* Exibir status de consumo */}
+              <div>
+                <h3>Status: {status}</h3>
+                <p>Você já consumiu <strong>{porcentagemConsumo.toFixed(2)}%</strong> do seu limite diário de água.</p>
+              </div>
+            </div>
+          </div>
           {/* Gráfico de Consumo Acumulado */}
           <div className="graph">
             <h3>Consumo Diário: {formattedDate} (Litros)</h3>
@@ -150,40 +165,6 @@ function ConsumoHome() {
             </LineChart>
           </div>
 
-          {/* Gráfico de Rosca mostrando o consumo em porcentagem */}
-          <div className="graph">
-            <h3>Progresso do Consumo de Água: {formattedDate} (Porcentagem)</h3>
-            <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-              <ResponsiveContainer width={300} height={300}>
-                <PieChart>
-                  <Pie
-                    data={[
-                      { name: 'Consumido', value: totalConsumo },
-                      { name: 'Restante', value: limiteMaximo - totalConsumo }
-                    ]}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={80}
-                    outerRadius={100}
-                    fill="#82ca9d"
-                    paddingAngle={5}
-                    dataKey="value"
-                    labelLine={false}
-                    label={renderCustomLabel}
-                  >
-                    <Cell key="consumido" fill="#0088FE" />
-                    <Cell key="restante" fill="#FFBB28" />
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-
-              {/* Exibir status de consumo */}
-              <div>
-                <h3>Status: {status}</h3>
-                <p>Você já consumiu <strong>{porcentagemConsumo.toFixed(2)}%</strong> do seu limite diário de água.</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -191,4 +172,3 @@ function ConsumoHome() {
 }
 
 export default ConsumoHome;
-
