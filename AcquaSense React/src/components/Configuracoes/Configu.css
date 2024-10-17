@@ -15,134 +15,97 @@
     --info-button-hover-bg-color: #5752d4;
 }
 
-.settings-header {
-    display: flex; /* Habilita o Flexbox */
-    flex-direction: row; /* Alinha os itens horizontalmente */
-    align-items: center; /* Alinha verticalmente */
-    justify-content: center; /* Centraliza horizontalmente */
-    margin-bottom: 20px; /* Espaço abaixo do cabeçalho */
-}
-
-
-/* Variáveis de tema escuro */
-body.dark-mode {
-    --bg-color: #181818;
-    --text-color: #f0f0f0;
-    --sidebar-bg-color: #222222;
-    --logo-color: #bb86fc;
-    --nav-link-color: #f0f0f0;
-    --nav-link-hover-bg-color: #333333;
-    --nav-link-hover-color: #bb86fc;
-    --header-bg-color: #222222;
-    --header-border-color: #333333;
-    --card-bg-color: #333333;
-    --info-card-bg-color: #2c2c2c;
-    --info-button-bg-color: #bb86fc;
-    --info-button-hover-bg-color: #8e7af7;
-}
-
 /* Configurações de Notificações */
 .notification-settings,
 .data-analysis-settings {
-    background-color: var(--card-bg-color); /* Cor de fundo usando variável */
+    background-color: var(--card-bg-color);
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 10px; /* Diminuiu o padding para reduzir a altura */
-    margin-right: 20px; /* Espaçamento entre os blocos */
-    flex: 1; /* Permite que o bloco cresça e se ajuste */
-    min-height: 250px; /* Define uma altura mínima para os contêineres */
+    padding: 30px; /* Aumentado para melhor usabilidade */
+    margin: 30px 0; /* Uniformiza a margem acima e abaixo */
+    flex: 1;
 }
 
-.notification-settings {
-    margin-bottom: 20px; /* Adiciona espaço abaixo do contêiner de Notificações */
-}
-
-.notification-settings h2,
-.data-analysis-settings h2 {
-    margin-top: 0;
-    margin-bottom: 20px; /* Aumenta o espaçamento entre o título e os subtítulos */
-    color: var(--text-color); /* Cor do texto usando variável */
-    text-align: center; /* Centraliza o título */
-    display: flex; /* Habilita o Flexbox para o título e ícone */
-    justify-content: space-between; /* Espaça o conteúdo horizontalmente */
-    align-items: center; /* Alinha verticalmente */
-}
-
-.notification-settings h3,
-.data-analysis-settings h3 {
-    margin-top: 10px; /* Aumenta o espaçamento acima dos subtítulos */
-    margin-bottom: 10px; /* Espaço abaixo dos subtítulos */
-    font-size: 18px; /* Tamanho dos subtítulos */
-    color: var(--text-color); /* Cor do texto usando variável */
-}
-
-.notification-settings label,
-.data-analysis-settings label {
-    display: block;
-    margin-bottom: 5px; /* Reduziu o espaço abaixo das labels */
-    color: var(--text-color); /* Cor do texto usando variável */
-}
-
-/* Estilos dos botões */
-.buttons {
-    display: flex;
-    flex-direction: row; /* Alinha os botões horizontalmente */
-    margin-top: 20px;
-}
-
-.buttons button {
-    margin-right: 10px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: var(--info-button-bg-color); /* Cor do botão usando variável */
-    color: #fff; /* Cor do texto do botão */
-    font-size: 16px;
-}
-
-/* Ajustes no contêiner principal */
+/* Estilo do contêiner principal */
 .config-container {
     display: flex;
-    flex-direction: column; /* Alinha os componentes na vertical */
-    align-items: stretch; /* Faz os contêineres filhos terem a mesma altura */
+    flex-direction: column;
+    align-items: stretch;
     justify-content: flex-start;
-    padding-top: 20px; /* Ajuste este valor se necessário */
-    padding-left: 0px;
-    padding-right: 20px;
-    margin-top: 50px; /* Ajuste para descer os contêineres */
-    z-index: 10; /* Garante que o contêiner fique na frente */
-    position: relative; /* Necessário para que o z-index funcione */
+    padding: 20px; /* Aumentado para melhor espaçamento */
+    margin-top: 50px;
 }
 
-/* Estilos para o contêiner do botão */
-.button-container {
-    margin-top: 30px; /* Espaço acima do contêiner do botão */
-    text-align: center; /* Centraliza o conteúdo dentro do contêiner */
-}
-
-/* Estilos para o botão de editar configurações */
+/* Estilos do botão */
 .edit-button-container {
-    display: flex; /* Habilita o Flexbox */
-    justify-content: center; /* Centraliza horizontalmente */
-    margin-top: 10px; /* Ajuste o espaço acima do botão, se necessário */
+    display: flex;
+    justify-content: center;
+    margin-top: 30px; /* Maior espaçamento entre o botão e as seções */
 }
 
 .edit-button {
     padding: 10px 20px;
-    background-color: var(--info-button-bg-color); /* Cor do botão usando variável */
-    color: #fff; /* Cor do texto do botão */
+    background-color: var(--info-button-bg-color);
+    color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    transition: background-color 0.3s; /* Transição suave */
 }
 
 .edit-button:hover {
-    background-color: var(--info-button-hover-bg-color); /* Cor do botão ao passar o mouse usando variável */
+    background-color: var(--info-button-hover-bg-color);
 }
 
-/* Estilos do ícone ao lado do título */
-.icon {
-    margin-left: 10px; /* Espaçamento entre o título e o ícone */
+/* Estilos de notificação */
+.save-notification {
+    background-color: #dff0d8; /* Verde claro para sucesso */
+    color: #3c763d;
+    padding: 15px; /* Aumentado para mais conforto visual */
+    border-radius: 4px;
+    text-align: center;
+    margin-top: 30px; /* Aumentando o espaço acima da notificação */
+    animation: fadeIn 0.5s; /* Animação suave */
 }
+
+/* Animação para a notificação */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Ajuste de espaçamento e tipografia */
+.notification-settings h2,
+.data-analysis-settings h2 {
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 20px; /* Aumentado o espaçamento inferior */
+}
+
+.notification-settings h3,
+.data-analysis-settings h3 {
+    font-size: 18px;
+    color: var(--text-color);
+    margin-bottom: 15px; /* Aumentado o espaçamento inferior */
+}
+
+.notification-settings label,
+.data-analysis-settings label {
+    display: block; /* Faz com que cada label ocupe uma linha */
+    margin-bottom: 10px; /* Espaço entre as labels */
+}
+
+.settings-header {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+    margin-bottom: 20px; /* Espaço abaixo do cabeçalho */
+}
+
+.icon {
+    margin-right: 10px; /* Espaço à direita do ícone */
+    color: var(--text-color); /* Cor do ícone */
+}
+
+

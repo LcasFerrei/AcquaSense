@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import './Configu.css'; // Importa o CSS da pasta Configu
+import './Configu.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog } from '@fortawesome/free-solid-svg-icons'; // Ícone de engrenagem
+import { faCog } from '@fortawesome/free-solid-svg-icons';
 
-// Componente para Configurações de Notificações
 const NotificationSettings = () => (
   <div className="notification-settings">
     <h2>Comunicação com o Usuário</h2>
@@ -38,7 +37,6 @@ const NotificationSettings = () => (
   </div>
 );
 
-// Componente para Configurações de Análise de Dados
 const DataAnalysisSettings = () => (
   <div className="data-analysis-settings">
     <h2>Configurações de Análise de Dados</h2>
@@ -75,23 +73,23 @@ const DataAnalysisSettings = () => (
 
 const ConfiguSettings = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const handleSave = () => {
     console.log('Alterações salvas');
+    setIsSaved(true);
     setIsEditing(false);
+    setTimeout(() => setIsSaved(false), 3000); // Mensagem de salvamento temporário
   };
 
-  
   return (
     <div className="config-container">
-      {/* Título e Ícone */}
       <div className="settings-header">
         <h2>Configuração</h2>
         <FontAwesomeIcon icon={faCog} size="lg" className="icon" />
       </div>
       <NotificationSettings />
       <DataAnalysisSettings />
-      {/* Contêiner do botão agora está separado */}
       <div className="button-container">
         <div className="edit-button-container">
           <button className="edit-button" onClick={handleSave}>
@@ -102,6 +100,7 @@ const ConfiguSettings = () => {
           )}
         </div>
       </div>
+      {isSaved && <div className="save-notification">Alterações salvas com sucesso!</div>}
     </div>
   );
 };
