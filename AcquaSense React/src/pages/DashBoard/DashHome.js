@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import HeaderNav from "../../components/AcquaNav/Header";
 import Dash from "../../components/Dashboard/Dash";
 import './DashHome.css';
 
 function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const navigate = useNavigate();
 
   const handleMenuToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const handleLogout = () => {
+    navigate('/');
   };
 
   return (
@@ -27,7 +33,7 @@ function Dashboard() {
               <li><a href="/Maintenance"><i className="fas fa-tools"></i> Manutenção</a></li>
               <li><a href="/SpecificMonitoring"><i className="fas fa-eye"></i> Monitoramento Específico</a></li>
               <li><a href="/Configuration"><i className="fa-solid fa-gear"></i> Configuração</a></li>
-              <li><a href="/login"><i className="fas fa-sign-out-alt"></i> Logout</a></li>
+              <li><a onClick={handleLogout} style={{ cursor: 'pointer' }}><i className="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
           </nav>
         </div>
