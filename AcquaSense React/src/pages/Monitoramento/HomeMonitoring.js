@@ -10,6 +10,13 @@ function MonitoringHome() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const handleLogout = () => {
+    // Aqui você pode adicionar a lógica de logout, como limpar tokens ou informações de sessão
+    console.log("Usuário deslogado");
+    // Redirecionar para a raiz da página
+    window.location.href = '/';
+  };
+
   return (
     <div className={`dashboard-container ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
       {/* Sidebar */}
@@ -28,7 +35,7 @@ function MonitoringHome() {
               <li><a href="/Maintenance"><i className="fas fa-tools"></i> Manutenção</a></li>
               <li><a href="/SpecificMonitoring"><i className="fas fa-eye"></i> Monitoramento Específico</a></li>
               <li><a href="/Configuration"><i className="fa-solid fa-gear"></i> Configuração</a></li>
-              <li><a href="/login"><i className="fas fa-sign-out-alt"></i> Logout</a></li>
+              <li><a href="/" onClick={handleLogout}><i className="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
           </nav>
         </div>

@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importando useNavigate
 import DashboardHeaderNav from "../../components/AcquaNav/Header";
 import './UserPage.css';
 import UserProfile from "../../components/User/User";
 
 function UserHome() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const navigate = useNavigate(); // Inicializando o navigate
 
   const handleMenuToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  // Função para lidar com o logout
+  const handleLogout = () => {
+    // Aqui você pode adicionar lógica para limpar tokens ou dados de autenticação
+    // Exemplo: localStorage.removeItem('token');
+
+    // Redireciona para a página inicial
+    navigate('/'); // Redireciona para a raiz da página
   };
 
   return (
@@ -27,7 +38,7 @@ function UserHome() {
               <li><a href="/Maintenance"><i className="fas fa-tools"></i> Manutenção</a></li>
               <li><a href="/SpecificMonitoring"><i className="fas fa-eye"></i> Monitoramento Específico</a></li>
               <li><a href="/Configuration"><i className="fa-solid fa-gear"></i> Configuração</a></li>
-              <li><a href="/login"><i className="fas fa-sign-out-alt"></i> Logout</a></li>
+              <li><a href="#" onClick={handleLogout}><i className="fas fa-sign-out-alt"></i> Logout</a></li> {/* Alterado para chamar a função */}
             </ul>
           </nav>
         </div>
