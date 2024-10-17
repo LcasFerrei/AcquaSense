@@ -1,0 +1,11 @@
+{
+  "name": "acquasense",
+  "version": "1.0.0",
+  "description": "AcquaSense é um sistema de monitoramento de consumo de água residencial baseado em sensores IoT (Internet das Coisas). O objetivo do sistema é fornecer aos usuários informações detalhadas sobre seu consumo de água, incluindo relatórios diários, mensais e alertas sobre possíveis vazamentos",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
