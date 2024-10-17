@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import HeaderNav from "../../components/AcquaNav/Header";
 import '../../components/User/User.css';
-import ConfiguSettings from "../../components/Configuracoes/ConfiguSettings"
+import ConfiguSettings from "../../components/Configuracoes/ConfiguSettings";
 
 function ConsumoHome() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const handleMenuToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const handleLogout = () => {
+    // Aqui você deve incluir a lógica de logout, como limpar tokens ou informações de sessão
+    console.log("Usuário deslogado");
+    // Redirecionar para a raiz da página
+    window.location.href = '/';
   };
 
   return (
@@ -28,7 +35,8 @@ function ConsumoHome() {
               <li><a href="/Maintenance"><i className="fas fa-tools"></i> Manutenção</a></li>
               <li><a href="/SpecificMonitoring"><i className="fas fa-eye"></i> Monitoramento Específico</a></li>
               <li><a href="/Configuration"><i className="fa-solid fa-gear"></i> Configuração</a></li>
-              <li><a href="/login"><i className="fas fa-sign-out-alt"></i> Logout</a></li>
+              {/* Alteração do link de Logout para usar a função handleLogout */}
+              <li><a href="/" onClick={handleLogout}><i className="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
           </nav>
         </div>

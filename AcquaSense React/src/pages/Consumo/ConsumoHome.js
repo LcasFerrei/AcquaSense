@@ -132,6 +132,14 @@ function ConsumoHome() {
       .catch(error => console.error('Erro ao gerar PDF:', error));
   };
 
+  const handleLogout = () => {
+    // Aqui você pode adicionar a lógica de logout
+    // Por exemplo, limpar tokens ou informações de sessão
+    console.log("Usuário deslogado");
+    // Redirecionar para a raiz da página
+    window.location.href = '/';
+  };
+
   const today = new Date();
   const formattedDate = today.toLocaleDateString('pt-BR');
 
@@ -152,7 +160,7 @@ function ConsumoHome() {
               <li><a href="/Maintenance"><i className="fas fa-tools"></i> Manutenção</a></li>
               <li><a href="/SpecificMonitoring"><i className="fas fa-eye"></i> Monitoramento Específico</a></li>
               <li><a href="/Configuration"><i className="fa-solid fa-gear"></i> Configuração</a></li>
-              <li><a href="/login"><i className="fas fa-sign-out-alt"></i> Logout</a></li>
+              <li><a href="/" onClick={handleLogout}><i className="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
           </nav>
         </div>
@@ -212,8 +220,8 @@ function ConsumoHome() {
           </div>
         </div>
 
-        <button onClick={handleDownloadPDF} className="download-button">
-          Baixar Gráficos em PDF
+        <button className="pdf-button" onClick={handleDownloadPDF}>
+          <i className="fas fa-file-pdf"></i> Baixar Relatório em PDF
         </button>
       </div>
     </div>
