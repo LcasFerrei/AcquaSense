@@ -12,6 +12,8 @@ import {
   XAxis,
   YAxis
 } from 'recharts';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 import HeaderNav from "../../components/AcquaNav/Header";
 import '../../components/User/User.css';
 import './ConsumoHome.css';
@@ -19,19 +21,18 @@ import './ConsumoHome.css';
 function ConsumoHome() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [porcentagemConsumo, setPorcentagemConsumo] = useState(0);
-  const [porcentagemExibida, setPorcentagemExibida] = useState(0); // Para animar gradualmente
-
+  const [porcentagemExibida, setPorcentagemExibida] = useState(0);
   const [fluxoConsumoData, setFluxoConsumoData] = useState([
     { horario: '08:35', consumo: 0 },
-    { horario: '09:05', consumo: 30 },  
-    { horario: '10:15', consumo: 30 },  
-    { horario: '10:45', consumo: 60 },  
-    { horario: '12:00', consumo: 60 },  
-    { horario: '14:30', consumo: 80 },  
-    { horario: '15:00', consumo: 100 }, 
+    { horario: '09:05', consumo: 30 },
+    { horario: '10:15', consumo: 30 },
+    { horario: '10:45', consumo: 60 },
+    { horario: '12:00', consumo: 60 },
+    { horario: '14:30', consumo: 80 },
+    { horario: '15:00', consumo: 100 },
   ]);
 
-  const limiteMaximo = 120; 
+  const limiteMaximo = 120;
   const consumoAtual = limiteMaximo * (porcentagemConsumo / 100);
   const consumoRestante = Math.max(0, limiteMaximo - consumoAtual);
 
@@ -54,11 +55,9 @@ function ConsumoHome() {
     socket.onmessage = function(event) {
       const data = JSON.parse(event.data);
       console.log("Dados recebidos: ", data);
-
       if (data.type === "update") {
-        // Inicia a animação gradual para porcentagemExibida, mas mantém porcentagemConsumo atualizada diretamente
         animateProgress(data.data.percentual);
-        setPorcentagemConsumo(data.data.percentual); // Atualiza diretamente o valor da porcentagem de consumo
+        setPorcentagemConsumo(data.data.percentual);
       }
     };
 
@@ -68,14 +67,13 @@ function ConsumoHome() {
   const animateProgress = (newPercentual) => {
     const start = porcentagemExibida;
     const end = newPercentual;
-    const duration = 1000; // duração da animação em milissegundos
-    const stepTime = 10; // intervalo de cada atualização
+    const duration = 1000;
+    const stepTime = 10;
     let current = start;
-    const increment = (end - start) / (duration / stepTime); // Define o quanto a porcentagem vai mudar em cada passo
+    const increment = (end - start) / (duration / stepTime);
 
     const interval = setInterval(() => {
       current += increment;
-
       if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
         clearInterval(interval);
         setPorcentagemExibida(end);
@@ -89,7 +87,6 @@ function ConsumoHome() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Função customizada para renderizar a porcentagem no centro do gráfico - mostra sempre porcentagemConsumo
   const renderCustomLabel = ({ cx, cy }) => {
     return (
       <text
@@ -101,9 +98,38 @@ function ConsumoHome() {
         className="progress-label"
         style={{ fontSize: '24px', fontWeight: 'bold' }}
       >
-        {`${porcentagemConsumo.toFixed(2)}%`} {/* Exibe diretamente o valor de porcentagemConsumo */}
+        {`${porcentagemConsumo.toFixed(2)}%`}
       </text>
     );
+  };
+
+  const handleDownloadPDF = () => {
+    const input = document.getElementById('graphs-container');
+    html2canvas(input)
+      .then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgWidth = 190;
+        const pageHeight = 290;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 10;
+
+        // Adiciona o título ao PDF
+        pdf.setFontSize(16);
+        pdf.text('Relatório de Consumo Hídrico Residencial - ACQUASENSE', 10, 10);
+        pdf.addImage(imgData, 'PNG', 10, position + 10, imgWidth, imgHeight); // Adiciona a imagem abaixo do título
+        heightLeft -= pageHeight;
+
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
+        pdf.save('consumo_graficos.pdf');
+      })
+      .catch(error => console.error('Erro ao gerar PDF:', error));
   };
 
   const today = new Date();
@@ -134,17 +160,21 @@ function ConsumoHome() {
 
       <div className={`dashboard-main-content ${isSidebarOpen ? 'expanded' : 'collapsed'}`}>
         <HeaderNav handleMenuToggle={handleMenuToggle} />
-        <div className="consumo-home">
+
+        <div className="consumo-home" id="graphs-container">
           <div className="graph">
             <h3>Progresso do Consumo de Água</h3>
             <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
               <ResponsiveContainer width={300} height={300}>
                 <PieChart>
                   <Pie
-                    data={[
-                      { name: 'Consumido', value: consumoAtual },
-                      { name: 'Restante', value: consumoRestante }
-                    ]}
+                    data={[{
+                      name: 'Consumido',
+                      value: consumoAtual
+                    }, {
+                      name: 'Restante',
+                      value: consumoRestante
+                    }]}
                     cx="50%"
                     cy="50%"
                     innerRadius={80}
@@ -180,8 +210,11 @@ function ConsumoHome() {
               <Legend />
             </LineChart>
           </div>
-
         </div>
+
+        <button onClick={handleDownloadPDF} className="download-button">
+          Baixar Gráficos em PDF
+        </button>
       </div>
     </div>
   );
