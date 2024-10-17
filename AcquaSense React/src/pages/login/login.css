@@ -76,10 +76,10 @@ form.sign-in-form {
   display: grid;
   grid-template-columns: 15% 85%;
   padding: 0 0.4rem;
-  position: relative;
+  position: relative; /* Adicionado para posicionamento absoluto dos ícones */
 }
 
-.input-field i {
+.input-field svg {
   text-align: center;
   line-height: 55px;
   color: #acacac;
@@ -95,11 +95,25 @@ form.sign-in-form {
   font-weight: 600;
   font-size: 1.1rem;
   color: #333;
+  padding-right: 40px; /* Espaço para o ícone de olho */
 }
 
 .input-field input::placeholder {
   color: #aaa;
   font-weight: 500;
+}
+
+.input-field .password-toggle-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #acacac;
+}
+
+.input-field .password-toggle-icon:hover {
+  color: #333;
 }
 
 .social-text {
@@ -150,6 +164,7 @@ form.sign-in-form {
 .btn:hover {
   background-color: #4d84e2;
 }
+
 .panels-container {
   position: absolute;
   height: 100%;
@@ -175,19 +190,14 @@ form.sign-in-form {
 }
 
 .image {
-    width: 20%; /* Ajuste a largura da imagem */
-    transition: transform 1.1s ease-in-out;
-    transition-delay: 0.4s;
-    position: absolute; /* Muda a posição da imagem para absoluta */
-    left: 10%; /* Ajuste a imagem mais para a esquerda */
-    top: 50%; /* Centraliza verticalmente a imagem */
-    transform: translateY(-50%); /* Mantém a imagem centralizada verticalmente */
-
-
-}
-
-.image {
-    display: none; /* Esconde as imagens inicialmente */
+  width: 20%;
+  transition: transform 1.1s ease-in-out;
+  transition-delay: 0.4s;
+  position: absolute;
+  left: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
 }
 
 .panel {
@@ -210,15 +220,14 @@ form.sign-in-form {
 }
 
 .panel .content {
-    color: #fff;
-    transition: transform 0.9s ease-in-out;
-    transition-delay: 0.6s;
-    position: relative;
-    z-index: 14; /* Garante que o texto fique acima da imagem */
-    top: -100px; /* Ajusta a posição vertical do texto */
-    padding-top: 50px; /* Ajusta o preenchimento superior */
+  color: #fff;
+  transition: transform 0.9s ease-in-out;
+  transition-delay: 0.6s;
+  position: relative;
+  z-index: 14;
+  top: -100px;
+  padding-top: 50px;
 }
-
 
 .panel h3 {
   font-weight: 600;
@@ -246,7 +255,7 @@ form.sign-in-form {
   transform: translateX(800px);
 }
 
-/* ANIMATION */
+/* ANIMAÇÃO */
 
 .container.sign-up-mode:before {
   transform: translate(100%, -50%);
@@ -409,21 +418,25 @@ form.sign-in-form {
     bottom: 28%;
     left: 50%;
   }
-}
 
+  .top-bar {
+    font-size: 1rem;
+    padding: 0.2rem 0.6rem;
+  }
+}
 
 .top-bar {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  padding: 0.3rem 0.8rem; /* Reduzi ainda mais o espaçamento */
+  padding: 0.3rem 0.8rem;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   color: #fff;
-  font-size: 1.2rem; /* Diminuí ainda mais o tamanho da fonte */
-  font-weight: 700; /* Mantenha o peso da fonte forte */
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); /* Ajustei a sombra para ser menos pronunciada */
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
   z-index: 10;
   text-align: center;
   backdrop-filter: blur(5px);
@@ -445,13 +458,6 @@ form.sign-in-form {
   font-weight: inherit;
 }
 
-@media (max-width: 570px) {
-  .top-bar {
-    font-size: 1rem; /* Ajustar tamanho de fonte em telas menores */
-    padding: 0.2rem 0.6rem; /* Ajustar espaçamento em telas menores */
-  }
-}
-
 .forgot-password {
   display: block;
   margin-top: 25px;
@@ -465,4 +471,3 @@ form.sign-in-form {
   color: #333;
   text-decoration: underline;
 }
-
