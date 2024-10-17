@@ -14,22 +14,22 @@ import {
 
 function MonitoramentoAgua() {
     const [dailyConsumptionData, setDailyConsumptionData] = useState([
-        { day: 'Seg', litros: 0 },
-        { day: 'Ter', litros: 0 },
-        { day: 'Qua', litros: 0 },
-        { day: 'Qui', litros: 0 },
-        { day: 'Sex', litros: 0 },
-        { day: 'Sáb', litros: 0 },
+        { day: 'Mon', litros: 0 },
+        { day: 'Tue', litros: 0 },
+        { day: 'Wed', litros: 0 },
+        { day: 'Thu', litros: 0 },
+        { day: 'Fri', litros: 0 },
+        { day: 'Sat', litros: 0 },
         { day: 'Sun', litros: 0 },  // Corrigido para "Dom"
     ]);
 
     const [compartmentConsumptionData, setCompartmentConsumptionData] = useState([
-        { day: 'Seg', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
-        { day: 'Ter', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
-        { day: 'Qua', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
-        { day: 'Qui', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
-        { day: 'Sex', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
-        { day: 'Sáb', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
+        { day: 'Mon', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
+        { day: 'Tue', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
+        { day: 'Wed', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
+        { day: 'Thu', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
+        { day: 'Fri', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
+        { day: 'Sat', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
         { day: 'Sun', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },  // Corrigido para "Dom"
     ]);
 

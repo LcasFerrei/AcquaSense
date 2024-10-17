@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import "./login.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faLock, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faLock, faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookF, faTwitter, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import imgVisualization from "../../Assets/img login/undraw_visualization_re_1kag.svg";
 import imgVisionaryTechnology from "../../Assets/img login/undraw_visionary_technology_re_jfp7.svg";
-import Cookies from 'js-cookie'; // Instale a biblioteca js-cookie
+import Cookies from 'js-cookie';
 import axios from 'axios';
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: '', password: '', email: '' });
   const [isSignUp, setIsSignUp] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // Novo estado para controlar a visibilidade da senha
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,13 +23,13 @@ const Login = () => {
     const handleSignUpClick = () => {
       container.classList.add("sign-up-mode");
       setIsSignUp(true);
-      setFormData({ username: '', password: '', email: '' }); // Limpar os campos
+      setFormData({ username: '', password: '', email: '' });
     };
 
     const handleSignInClick = () => {
       container.classList.remove("sign-up-mode");
       setIsSignUp(false);
-      setFormData({ username: '', password: '', email: '' }); // Limpar os campos
+      setFormData({ username: '', password: '', email: '' });
     };
 
     sign_up_btn.addEventListener("click", handleSignUpClick);
@@ -55,24 +56,26 @@ const Login = () => {
     const data = {
       username: formData.username,
       password: formData.password,
-      ...(isSignUp && { email: formData.email }) // Inclui o email apenas para o cadastro
+      ...(isSignUp && { email: formData.email })
     };
 
     try {
       const response = await axios.post(url, data, {
         headers: {
-          'X-CSRFToken': getCsrfToken(), // Adiciona o token CSRF ao cabeçalho
+          'X-CSRFToken': getCsrfToken(),
         },
-        withCredentials: true, // Enviar cookies para autenticação de sessão
+        withCredentials: true,
       });
 
       navigate('/Dashboard');
-      // Redirecionar ou exibir uma mensagem de sucesso
     } catch (error) {
-      // Exibir mensagem de erro
       alert(error.response?.data?.error || 'Ocorreu um erro. Tente novamente.');
       setFormData({ username: '', password: '', email: '' });
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword); // Alterna a visibilidade da senha
   };
 
   return (
@@ -94,16 +97,19 @@ const Login = () => {
                 required
               />
             </div>
-            <div className="input-field">
+            <div className="input-field password-field">
               <FontAwesomeIcon icon={faLock} />
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 name="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleInputChange}
                 required
               />
+              <span onClick={togglePasswordVisibility} className="password-toggle-icon">
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+              </span>
             </div>
             <input type="submit" value="Entrar" className="btn solid" />
             <p className="social-text">Ou faça login com plataformas sociais</p>
@@ -123,6 +129,7 @@ const Login = () => {
             </div>
             <a href="/forgot-password" className="forgot-password">Esqueci minha senha</a>
           </form>
+
           <form onSubmit={handleSubmit} className={`sign-up-form ${isSignUp ? 'active' : ''}`}>
             <h2 className="title">Inscrever-se</h2>
             <div className="input-field">
@@ -147,16 +154,19 @@ const Login = () => {
                 required={isSignUp}
               />
             </div>
-            <div className="input-field">
+            <div className="input-field password-field">
               <FontAwesomeIcon icon={faLock} />
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 name="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleInputChange}
                 required
               />
+              <span onClick={togglePasswordVisibility} className="password-toggle-icon">
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+              </span>
             </div>
             <input type="submit" className="btn" value="Cadastrar" />
             <p className="social-text">Ou inscreva-se com plataformas sociais</p>
