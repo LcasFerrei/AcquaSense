@@ -5,7 +5,7 @@ import { Line } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 
 function Manute() {
- /* const [batteryLevel, setBatteryLevel] = useState(100);
+  /* const [batteryLevel, setBatteryLevel] = useState(100);
   const [powerSavingMode, setPowerSavingMode] = useState(false);
 
   // Simulação do nível da bateria diminuindo
@@ -106,7 +106,6 @@ function Manute() {
     </div>
   );*/
 
-
   return (
     <div className="construction-container">
       <div className="faucet">
@@ -117,11 +116,9 @@ function Manute() {
       <h1>Ambiente em Construção</h1>
       <p>Estamos ajustando os canos e economizando cada gota!</p>
       <p>O sistema AcquaSense está em desenvolvimento.</p>
-      <div class="puddle"></div>
+      <div className="puddle"></div>
     </div>
   );
-
-
 }
 
 export default Manute;
