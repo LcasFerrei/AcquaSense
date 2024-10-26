@@ -10,13 +10,12 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'acquasense.settings')
 django.setup()
 
 from dashboard.consumers import DashboardConsumer
-from sensors.consumers import ConsumoConsumer, MonitoramentoEspecificoConsumer
+from sensors.consumers import ConsumoConsumer
 
 # Definindo as rotas WebSocket
 websocket_urlpatterns = [
     re_path(r'ws/Dashboard/$', DashboardConsumer.as_asgi()),
     re_path(r'ws/consumo/$', ConsumoConsumer.as_asgi()),
-    re_path(r'ws/monitoramento/$', MonitoramentoEspecificoConsumer.as_asgi()),
 ]
 
 # Configurando o ASGI application

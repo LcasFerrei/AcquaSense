@@ -22,15 +22,8 @@ function ConsumoHome() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [porcentagemConsumo, setPorcentagemConsumo] = useState(0);
   const [porcentagemExibida, setPorcentagemExibida] = useState(0);
-  const [fluxoConsumoData, setFluxoConsumoData] = useState([
-    { horario: '08:35', consumo: 0 },
-    { horario: '09:05', consumo: 30 },
-    { horario: '10:15', consumo: 30 },
-    { horario: '10:45', consumo: 60 },
-    { horario: '12:00', consumo: 60 },
-    { horario: '14:30', consumo: 80 },
-    { horario: '15:00', consumo: 100 },
-  ]);
+  const [acumuladoPorHora, setAcumuladoPorHora] = useState([]);
+  const [horaAtual, setHoraAtual] = useState('');
 
   const limiteMaximo = 120;
   const consumoAtual = limiteMaximo * (porcentagemConsumo / 100);
@@ -46,23 +39,37 @@ function ConsumoHome() {
   }
 
   const COLORS = ['#0088FE', '#FFBB28'];
+  const horas = ['00:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
 
   useEffect(() => {
     const socket = new WebSocket('ws://localhost:8000/ws/consumo/');
     socket.onopen = () => console.log("Conexão estabelecida");
     socket.onerror = (error) => console.error("Erro de conexão:", error);
-
+  
     socket.onmessage = function(event) {
       const data = JSON.parse(event.data);
       console.log("Dados recebidos: ", data);
       if (data.type === "update") {
         animateProgress(data.data.percentual);
         setPorcentagemConsumo(data.data.percentual);
+    
+        if (data.data.acumulado_por_hora) {
+          const updatedData = preencherIntervalosVazios(data.data.acumulado_por_hora);
+          setAcumuladoPorHora(updatedData);
+        }
       }
     };
-
-    return () => socket.close();
-  }, []);
+  
+    const interval = setInterval(() => {
+      const now = new Date();
+      setHoraAtual(`${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`);
+    }, 60000);
+  
+    return () => {
+      clearInterval(interval);
+      socket.close();
+    };
+  }, []);  
 
   const animateProgress = (newPercentual) => {
     const start = porcentagemExibida;
@@ -140,6 +147,51 @@ function ConsumoHome() {
     window.location.href = '/';
   };
 
+  const preencherIntervalosVazios = (acumuladoPorHora) => {
+    const now = new Date();
+    const horasPreenchidas = {};
+    let ultimoValor = 0;
+  
+    // Preenche as horas do dia, do início (00:00) até a hora atual
+    for (let hora = 0; hora <= now.getHours(); hora++) {
+      for (let minuto = 0; minuto < 60; minuto++) {
+        const horario = `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`;
+  
+        // Usa o valor do acumuladoPorHora se existir, caso contrário, mantém o último valor conhecido
+        if (acumuladoPorHora[horario] !== undefined) {
+          ultimoValor = acumuladoPorHora[horario];
+        }
+  
+        horasPreenchidas[horario] = ultimoValor;
+        
+        // Para evitar adicionar minutos além do horário atual
+        if (hora === now.getHours() && minuto === now.getMinutes()) {
+          break;
+        }
+      }
+    }
+  
+    // Converte o objeto em um array para o gráfico
+    return Object.keys(horasPreenchidas).map((hora) => ({
+      horario: hora,
+      consumo: horasPreenchidas[hora],
+    }));
+  };
+
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="custom-tooltip" style={{ backgroundColor: '#fff', border: '1px solid #ccc', padding: '10px' }}>
+          <p style={{ color: 'rgb(136, 132, 216)' }}>{`Hora: ${label}`}</p>
+          <p style={{ color: 'rgb(136, 132, 216)' }}>{`Consumo: ${payload[0].value} litros`}</p>
+        </div>
+      );
+    }
+  
+    return null;
+  };
+  
+
   const today = new Date();
   const formattedDate = today.toLocaleDateString('pt-BR');
 
@@ -173,7 +225,7 @@ function ConsumoHome() {
           <div className="graph">
             <h3>Progresso do Consumo de Água</h3>
             <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-              <ResponsiveContainer width={300} height={300}>
+              <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie
                     data={[{
@@ -193,36 +245,48 @@ function ConsumoHome() {
                     labelLine={false}
                     label={renderCustomLabel}
                   >
-                    <Cell key="consumido" fill="#0088FE" />
-                    <Cell key="restante" fill="#FFBB28" />
+                    {([{
+                      name: 'Consumido',
+                      value: consumoAtual
+                    }, {
+                      name: 'Restante',
+                      value: consumoRestante
+                    }]).map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
                   </Pie>
-                  <Tooltip formatter={(value) => `${value} Litros`} />
+                  <Tooltip />
                 </PieChart>
               </ResponsiveContainer>
-
-              <div>
-                <h3>Status: {status}</h3>
-                <p>Você já consumiu <strong>{porcentagemConsumo.toFixed(2)}%</strong> do seu limite diário de água.</p>
+              <div className="progress-info">
+                <p>Status: {status}</p>
+                <p>Consumo Atual: {consumoAtual.toFixed(2)} litros</p>
+                <p>Consumo Restante: {consumoRestante.toFixed(2)} litros</p>
+                <p>Data: {formattedDate}</p>
+                <button onClick={handleDownloadPDF}>Baixar PDF</button>
               </div>
             </div>
           </div>
 
           <div className="graph">
-            <h3>Consumo Diário: {formattedDate} (Litros)</h3>
-            <LineChart width={650} height={300} data={fluxoConsumoData}>
-              <Line type="monotone" dataKey="consumo" stroke="#3f51b5" strokeWidth={3} />
-              <CartesianGrid stroke="#e0e0e0" />
-              <XAxis dataKey="horario" />
-              <YAxis unit=" L" />
-              <Tooltip formatter={(value) => `${value} Litros`} />
-              <Legend />
-            </LineChart>
+            <h3>Consumo Acumulado por Hora</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={acumuladoPorHora}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="horario" ticks={['00:00', '09:00', '12:00', '15:00', '18:00', '21:00']} />
+                <YAxis />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="consumo"
+                  stroke="#8884d8"
+                  dot={false} // Isso remove os pontos, apenas desenhando a linha.
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </div>
-
-        <button className="pdf-button" onClick={handleDownloadPDF}>
-          <i className="fas fa-file-pdf"></i> Baixar Relatório em PDF
-        </button>
       </div>
     </div>
   );
