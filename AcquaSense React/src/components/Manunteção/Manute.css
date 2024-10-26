@@ -14,23 +14,6 @@
     --news-button-hover-bg-color: #5752d4;
 }
 
-/* Variáveis de tema escuro */
-body.dark-mode {
-    --bg-color: #181818;
-    --text-color: #f0f0f0;
-    --sidebar-bg-color: #222222;
-    --logo-color: #bb86fc;
-    --nav-link-color: #f0f0f0;
-    --nav-link-hover-bg-color: #333333;
-    --nav-link-hover-color: #bb86fc;
-    --header-bg-color: #222222;
-    --header-border-color: #333333;
-    --card-bg-color: #333333;
-    --news-card-bg-color: #2c2c2c;
-    --news-button-bg-color: #bb86fc;
-    --news-button-hover-bg-color: #8e7af7;
-}
-
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -40,20 +23,53 @@ body {
     color: var(--text-color);
 }
 
+/* Título */
+h1 {
+    margin-bottom: 20px;
+    margin-top: -120px;
+    font-size: 2.5em; /* Tamanho maior para telas maiores */
+    text-align: center; /* Centraliza o título */
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.8em; /* Reduz o tamanho em telas pequenas */
+    }
+}
+
+p {
+    margin-bottom: 15px; /* Espaço entre os parágrafos */
+    font-size: 1.2em; /* Tamanho maior para telas maiores */
+    text-align: center; /* Centraliza o texto */
+}
+
+@media (max-width: 600px) {
+    p {
+        font-size: 1em; /* Reduz o tamanho em telas pequenas */
+    }
+}
+
+/* Container principal */
 .manute-container {
     font-family: Arial, sans-serif;
     text-align: center;
     padding: 20px;
     background-color: var(--bg-color);
     color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza os itens horizontalmente */
+    justify-content: flex-start; /* Alinha os itens ao topo */
+    min-height: 100vh; /* Ocupa toda a altura da tela */
 }
 
+/* Bateria */
 .battery {
     width: 150px;
     height: 50px;
     border: 3px solid #333;
     border-radius: 5px;
-    margin: 20px auto;
+    margin: 20px auto; /* Ajuste a margem para empurrar a bateria para baixo */
     position: relative;
     display: flex;
     justify-content: center;
@@ -101,8 +117,11 @@ body {
     padding: 0;
 }
 
-.contact-button, .send-logs-button, .power-saving-button {
-    margin-top: 20px;
+/* Botões */
+.contact-button,
+.send-logs-button,
+.power-saving-button {
+    margin: 10px; /* Adiciona um pouco de espaço entre os botões */
     padding: 10px 20px;
     background-color: var(--news-button-bg-color);
     color: white;
@@ -112,30 +131,23 @@ body {
     border-radius: 5px;
 }
 
-.contact-button:hover, .send-logs-button:hover, .power-saving-button:hover {
+.contact-button:hover,
+.send-logs-button:hover,
+.power-saving-button:hover {
     background-color: var(--news-button-hover-bg-color);
 }
 
+/* História da bateria */
 .battery-history {
     margin-top: 40px;
 }
 
-
-  
-.construction-container {
-    text-align: center;
-    color: var(--text-color);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
+/* Torneira */
 .faucet {
     position: relative;
     width: 50px;
     height: 50px;
-    margin: 0 auto 20px;
+    margin: 150px auto; /* Ajuste a margem para posicionar melhor a torneira */
 }
 
 .faucet::before {
@@ -146,14 +158,15 @@ body {
     transform: translateX(-50%);
     width: 25px;
     height: 25px;
-    border-radius: 50% 50% 0 0;
+    border-radius: 50% 50% 0 0; /* Arredonda a base superior */
     background-color: var(--logo-color);
-    box-shadow: 0 15px 0 0 var(--logo-color);
+    box-shadow: 0 15px 0 0 var(--logo-color); /* Alonga a torneira para baixo */
 }
 
+/* Efeito de gotejamento */
 .drop {
     position: absolute;
-    top: 30px;
+    top: 30px; /* Ajusta a posição vertical da gota */
     left: 50%;
     transform: translateX(-50%);
     width: 10px;
@@ -171,6 +184,7 @@ body {
     animation-delay: 1s;
 }
 
+/* Animação de gotejamento */
 @keyframes drip {
     0% {
         opacity: 0;
@@ -185,18 +199,7 @@ body {
     }
 }
 
-h1 {
-    font-size: 2rem;
-    color: var(--text-color);
-    margin-bottom: 10px;
-}
-
-p {
-    font-size: 1rem;
-    color: var(--nav-link-color);
-}
-
-
+/* Poça de água */
 .puddle {
     width: 0px;
     height: 0px;
@@ -221,4 +224,47 @@ p {
         width: 60px;
         height: 15px;
     }
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 600px) {
+    .battery {
+        width: 80%; /* Torna a bateria mais responsiva */
+    }
+
+    .contact-button,
+    .send-logs-button,
+    .power-saving-button {
+        width: 100%; /* Botões ocupam a largura total em telas pequenas */
+    }
+
+    .AcquaSoft-info,
+    .battery-history {
+        width: 90%; /* Ajusta a largura de outros elementos */
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+}
+
+/* Variáveis de tema escuro */
+body.dark-mode {
+    --bg-color: #181818;
+    --text-color: #f0f0f0;
+    --sidebar-bg-color: #222222;
+    --logo-color: #bb86fc;
+    --nav-link-color: #f0f0f0;
+    --nav-link-hover-bg-color: #333333;
+    --nav-link-hover-color: #bb86fc;
+    --header-bg-color: #222222;
+    --header-border-color: #333333;
+    --card-bg-color: #333333;
+    --news-card-bg-color: #2c2c2c;
+    --news-button-bg-color: #bb86fc;
+    --news-button-hover-bg-color: #8e7af7;
 }
