@@ -618,3 +618,32 @@ body {
       font-size: 14px;
   }
 }
+
+/* Estilo padrão para a sidebar */
+.dashboard-sidebar {
+  width: 250px;
+  transition: transform 0.3s ease;
+}
+
+/* Ocultar a sidebar completamente quando estiver fechada */
+.dashboard-sidebar.closed {
+  transform: translateX(-100%);
+  overflow: hidden;
+}
+
+/* Ajustes de responsividade para telas menores */
+@media (max-width: 768px) {
+  .dashboard-sidebar {
+    position: absolute;
+    width: 250px;
+    transform: translateX(-100%); /* Inicialmente escondida */
+  }
+
+  .dashboard-sidebar.open {
+    transform: translateX(0); /* Mostra a sidebar ao abrir */
+  }
+
+  .dashboard-main-content {
+    margin-left: 0; /* Remove o espaço quando a sidebar está oculta */
+  }
+}
