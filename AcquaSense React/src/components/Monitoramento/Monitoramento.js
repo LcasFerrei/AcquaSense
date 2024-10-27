@@ -1,120 +1,59 @@
-import React, { useEffect, useState } from "react";
-import './Monitoramento.css';
-import {
-    LineChart,
-    Line,
-    CartesianGrid,
-    XAxis,
-    YAxis,
-    Tooltip,
-    Legend,
-    BarChart,
-    Bar
-} from 'recharts';
+import React, { useEffect, useState } from 'react';
+import './Monitoramento.css'; // Importa o CSS
 
-function MonitoramentoAgua() {
-    const [dailyConsumptionData, setDailyConsumptionData] = useState([
-        { day: 'Mon', litros: 0 },
-        { day: 'Tue', litros: 0 },
-        { day: 'Wed', litros: 0 },
-        { day: 'Thu', litros: 0 },
-        { day: 'Fri', litros: 0 },
-        { day: 'Sat', litros: 0 },
-        { day: 'Sun', litros: 0 },  // Corrigido para "Dom"
-    ]);
-
-    const [compartmentConsumptionData, setCompartmentConsumptionData] = useState([
-        { day: 'Mon', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
-        { day: 'Tue', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
-        { day: 'Wed', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
-        { day: 'Thu', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
-        { day: 'Fri', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
-        { day: 'Sat', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },
-        { day: 'Sun', banheiro: 0, lavanderia: 0, cozinha: 0, quarto: 0, quintal: 0 },  // Corrigido para "Dom"
-    ]);
+const SpecificMonitoring = () => {
+    const [consumoData, setConsumoData] = useState(null);
+    const [month, setMonth] = useState('2024-10'); // Mês padrão
 
     useEffect(() => {
-        const socket = new WebSocket('ws://localhost:8000/ws/monitoramento/');
-
-        socket.onopen = () => {
-            console.log('Conexão WebSocket estabelecida.');
-        };
-
-        socket.onclose = (event) => {
-            console.log('Conexão WebSocket fechada: ', event);
-        };
-
-        socket.onerror = (error) => {
-            console.error('Erro no WebSocket: ', error);
-        };
-
-        socket.onmessage = (event) => {
-            const message = JSON.parse(event.data);
-            console.log("Mensagem recebida: ", message);
-            
-            // Atualização do consumo total diário
-            if (message.type === 'daily_sum') {
-                const newRecord = message.data;
-                setDailyConsumptionData((prevData) => {
-                    const updatedData = prevData.map((data) =>
-                        data.day === newRecord.day ? { ...data, litros: newRecord.litros } : data
-                    );
-                    return updatedData;
-                });
-            }
-
-            // Atualização do consumo por compartimento
-            if (message.type === 'compartment_sum') {
-                const newCompartmentData = message.data;
-                setCompartmentConsumptionData((prevData) => {
-                    const updatedCompartmentData = prevData.map((data) =>
-                        data.day === newCompartmentData.day
-                            ? { ...data, ...newCompartmentData }
-                            : data
-                    );
-                    return updatedCompartmentData;
-                });
+        const fetchConsumptionData = async () => {
+            try {
+                const response = await fetch(`http://localhost:8000/SpecificMonitoring/?month=${month}`);
+                if (!response.ok) {
+                    throw new Error('Erro na requisição');
+                }
+                const data = await response.json();
+                console.log(data);
+                setConsumoData(data);
+            } catch (error) {
+                console.error('Erro ao buscar dados:', error);
             }
         };
 
-        return () => {
-            socket.close();
-        };
-    }, []);
+        fetchConsumptionData();
+    }, [month]); // Executa a função quando o componente é montado ou o mês é alterado
 
     return (
-        <div className="user-graphs-container">
-            <div className="user-graphs">
-                <div className="graph">
-                    <h3>Consumo Diário em Litros da Residência</h3>
-                    <LineChart width={650} height={300} data={dailyConsumptionData}>
-                        <Line type="monotone" dataKey="litros" stroke="#3f51b5" strokeWidth={3} />
-                        <CartesianGrid stroke="#e0e0e0" />
-                        <XAxis dataKey="day" />
-                        <YAxis unit="L" />
-                        <Tooltip formatter={(value) => `${value} Litros`} />
-                        <Legend />
-                    </LineChart>
+        <div className='container-fluid'>
+            <h1>Monitoramento Específico</h1>
+            <label className="label" htmlFor="month">Selecione o mês:</label>
+            <input
+                type="month"
+                id="month"
+                className="input-month"
+                value={month}
+                onChange={(e) => setMonth(e.target.value)}
+            />
+            {consumoData ? (
+                <div>
+                    <div className="consumo-total">
+                        <h2>Consumo Total: {consumoData.consumo_total} L</h2>
+                    </div>
+                    <h3>Consumo por Ponto de Uso:</h3>
+                    <ul className="pontos-uso">
+                        {Object.entries(consumoData.consumo_por_ponto).map(([ponto, info]) => (
+                            <li key={ponto} className="ponto-uso">
+                                <span>{ponto}</span>
+                                <span>{info.consumo} L ({info.porcentagem}%)</span>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
-
-                <div className="graph">
-                    <h3>Consumo Diário por Compartimentos</h3>
-                    <BarChart width={650} height={300} data={compartmentConsumptionData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="day" />
-                        <YAxis unit="L" />
-                        <Tooltip formatter={(value) => `${value} Litros`} />
-                        <Legend />
-                        <Bar dataKey="banheiro" fill="#76c7c0" />
-                        <Bar dataKey="lavanderia" fill="#ffbb33" />
-                        <Bar dataKey="cozinha" fill="#ff6f61" />
-                        <Bar dataKey="quarto" fill="#8e44ad" />  {/* Adicionando o quarto */}
-                        <Bar dataKey="quintal" fill="#e67e22" /> {/* Adicionando o quintal */}
-                    </BarChart>
-                </div>
-            </div>
+            ) : (
+                <p className="loading">Carregando dados...</p>
+            )}
         </div>
     );
-}
+};
 
-export default MonitoramentoAgua;
+export default SpecificMonitoring;
