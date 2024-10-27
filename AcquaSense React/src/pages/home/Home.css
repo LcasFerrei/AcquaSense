@@ -753,3 +753,145 @@ button, a {
 #back-to-top {
     display: block;
 }
+
+
+/* Ajustes para dispositivos móveis (telas menores que 600px) */
+@media (max-width: 600px) {
+    .header nav ul {
+        display: none; /* Esconde o menu padrão */
+    }
+
+    .hamburger {
+        display: block; /* Exibe o menu hambúrguer */
+    }
+
+    .header .logo {
+        margin: 0 auto; /* Centraliza a logo */
+    }
+
+    .banner-content h2 {
+        font-size: 1.5rem; /* Reduz o tamanho do título no banner */
+    }
+
+    .cards-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .contact {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .contact-text, .contact-image {
+        max-width: 90%;
+    }
+
+    .news {
+        padding: 1rem;
+    }
+
+    .hero h2 {
+        font-size: 3rem; /* Reduz o tamanho do texto principal */
+    }
+
+    .review-list {
+        flex-direction: column;
+    }
+}
+
+/* Ajustes para tablets (telas entre 600px e 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .header nav ul {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .hero h2 {
+        font-size: 5rem; /* Ajusta o tamanho do texto */
+    }
+
+    .cards-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .card {
+        width: 45%; /* Ajusta a largura dos cards */
+    }
+
+    .banner-carousel {
+        height: 300px; /* Ajuste de altura para o carrossel em tablets */
+    }
+
+    .banner-slide img {
+        height: 300px;
+    }
+
+    .contact {
+        flex-direction: column;
+    }
+
+    .review-list {
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .faq-item, .review-item {
+        font-size: 1rem; /* Ajuste para conteúdo de FAQ e avaliações */
+    }
+}
+
+/* Ajustes para desktops grandes (telas acima de 1024px) */
+@media (min-width: 1025px) {
+    .header nav ul {
+        display: flex;
+    }
+
+    .hamburger {
+        display: none; /* Esconde o menu hambúrguer em telas grandes */
+    }
+
+    .cards-container {
+        flex-direction: row;
+    }
+
+    .banner-carousel {
+        height: 400px;
+    }
+
+    .contact {
+        flex-direction: row;
+    }
+}
+
+/* Ajustes Específicos do Carrossel de Banners */
+.banner-slide img {
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Menu Hambúrguer */
+.hamburger {
+    display: none;
+    position: absolute;
+    right: 20px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Centralização da Logo com Menu Hambúrguer */
+.header nav ul.hamburger-open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: var(--header-bg-color);
+    padding: 1rem;
+}
