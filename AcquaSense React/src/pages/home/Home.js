@@ -141,6 +141,7 @@ const Header = () => {
                     <li><a href="#news">Notícias</a></li>
                     <li><a href="#contact">Contato</a></li>
                     <li><a href="/login">Portal do Cliente</a></li>
+                    <li><a href="/Dashboard">Teste</a></li>
                     <li><a href="https://api.whatsapp.com/send?phone=5585991541634&text=Gostaria%20de%20economizar%20%C3%A1gua!" target="_blank" rel="noopener noreferrer">Fale conosco</a></li>
                     <li>
                         <button id="theme-toggle" onClick={toggleDarkMode}>
