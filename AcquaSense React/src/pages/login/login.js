@@ -1,45 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import "./login.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faLock, faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { faFacebookF, faTwitter, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import imgVisualization from "../../Assets/img login/undraw_visualization_re_1kag.svg";
 import imgVisionaryTechnology from "../../Assets/img login/undraw_visionary_technology_re_jfp7.svg";
+import LogoAcqua from "../../Assets/img login/LogoAcquaSense.png";
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import "./login.css";
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: '', password: '', email: '' });
   const [isSignUp, setIsSignUp] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // Novo estado para controlar a visibilidade da senha
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const sign_in_btn = document.querySelector("#sign-in-btn");
-    const sign_up_btn = document.querySelector("#sign-up-btn");
-    const container = document.querySelector(".container");
-
-    const handleSignUpClick = () => {
-      container.classList.add("sign-up-mode");
-      setIsSignUp(true);
-      setFormData({ username: '', password: '', email: '' });
-    };
-
-    const handleSignInClick = () => {
-      container.classList.remove("sign-up-mode");
-      setIsSignUp(false);
-      setFormData({ username: '', password: '', email: '' });
-    };
-
-    sign_up_btn.addEventListener("click", handleSignUpClick);
-    sign_in_btn.addEventListener("click", handleSignInClick);
-
-    return () => {
-      sign_up_btn.removeEventListener("click", handleSignUpClick);
-      sign_in_btn.removeEventListener("click", handleSignInClick);
-    };
-  }, []);
+  const handleFormToggle = () => {
+    setIsSignUp((prev) => !prev);
+    setFormData({ username: '', password: '', email: '' });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -50,23 +29,11 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const url = isSignUp ? 'http://localhost:8000/register/' : 'http://localhost:8000/login/';
-
-    const data = {
-      username: formData.username,
-      password: formData.password,
-      ...(isSignUp && { email: formData.email })
-    };
+    const data = { username: formData.username, password: formData.password, ...(isSignUp && { email: formData.email }) };
 
     try {
-      const response = await axios.post(url, data, {
-        headers: {
-          'X-CSRFToken': getCsrfToken(),
-        },
-        withCredentials: true,
-      });
-
+      await axios.post(url, data, { headers: { 'X-CSRFToken': getCsrfToken() }, withCredentials: true });
       navigate('/Dashboard');
     } catch (error) {
       alert(error.response?.data?.error || 'Ocorreu um erro. Tente novamente.');
@@ -74,76 +41,29 @@ const Login = () => {
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword); // Alterna a visibilidade da senha
-  };
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
   return (
-    <div className="container">
-      <div className="forms-container">
-        <div className="signin-signup">
-          <form onSubmit={handleSubmit} className={`sign-in-form ${!isSignUp ? 'active' : ''}`}>
-            <h2 className="title">Login</h2>
-            <p>Que bom ter você de volta!</p>
-            <p>Continue sua jornada na economia de água e veja o impacto de cada gota.</p>
-            <div className="input-field">
-              <FontAwesomeIcon icon={faUser} />
-              <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                value={formData.username}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div className="input-field password-field">
-              <FontAwesomeIcon icon={faLock} />
-              <input
-                type={showPassword ? 'text' : 'password'}
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-              />
-              <span onClick={togglePasswordVisibility} className="password-toggle-icon">
-                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-              </span>
-            </div>
-            <input type="submit" value="Entrar" className="btn solid" />
-            <p className="social-text">Ou faça login com plataformas sociais</p>
-            <div className="social-media">
-              <button className="social-icon">
-                <FontAwesomeIcon icon={faFacebookF} />
-              </button>
-              <button className="social-icon">
-                <FontAwesomeIcon icon={faTwitter} />
-              </button>
-              <button className="social-icon">
-                <FontAwesomeIcon icon={faGoogle} />
-              </button>
-              <button className="social-icon">
-                <FontAwesomeIcon icon={faLinkedinIn} />
-              </button>
-            </div>
-            <a href="/forgot-password" className="forgot-password">Esqueci minha senha</a>
-          </form>
-
-          <form onSubmit={handleSubmit} className={`sign-up-form ${isSignUp ? 'active' : ''}`}>
-            <h2 className="title">Inscrever-se</h2>
-            <div className="input-field">
-              <FontAwesomeIcon icon={faUser} />
-              <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                value={formData.username}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div className="input-field">
+    <div className={`acqua-login-wrapper ${isSignUp ? "acqua-sign-up-mode" : ""}`}>
+      <div className="acqua-form-panel">
+        <form onSubmit={handleSubmit} className="acqua-login-form">
+          <a href="/" className="acqua-logo-link">
+            <img src={LogoAcqua} alt="Logo AcquaSense" className="acqua-logo" />
+          </a>
+          <h2 className="acqua-form-title">{isSignUp ? "Cadastrar" : "Entrar"}</h2>
+          <div className="acqua-input-group">
+            <FontAwesomeIcon icon={faUser} />
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={formData.username}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          {isSignUp && (
+            <div className="acqua-input-group">
               <FontAwesomeIcon icon={faEnvelope} />
               <input
                 type="email"
@@ -151,66 +71,38 @@ const Login = () => {
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleInputChange}
-                required={isSignUp}
-              />
-            </div>
-            <div className="input-field password-field">
-              <FontAwesomeIcon icon={faLock} />
-              <input
-                type={showPassword ? 'text' : 'password'}
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleInputChange}
                 required
               />
-              <span onClick={togglePasswordVisibility} className="password-toggle-icon">
-                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-              </span>
             </div>
-            <input type="submit" className="btn" value="Cadastrar" />
-            <p className="social-text">Ou inscreva-se com plataformas sociais</p>
-            <div className="social-media">
-              <button className="social-icon">
-                <FontAwesomeIcon icon={faFacebookF} />
-              </button>
-              <button className="social-icon">
-                <FontAwesomeIcon icon={faTwitter} />
-              </button>
-              <button className="social-icon">
-                <FontAwesomeIcon icon={faGoogle} />
-              </button>
-              <button className="social-icon">
-                <FontAwesomeIcon icon={faLinkedinIn} />
-              </button>
-            </div>
-          </form>
-        </div>
+          )}
+          <div className="acqua-input-group acqua-password-group">
+            <FontAwesomeIcon icon={faLock} />
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+            />
+            <FontAwesomeIcon
+              icon={showPassword ? faEyeSlash : faEye}
+              className="acqua-password-toggle-icon"
+              onClick={togglePasswordVisibility}
+            />
+          </div>
+          <button type="submit" className="acqua-action-button acqua-solid-button">{isSignUp ? "Cadastrar" : "Entrar"}</button>
+          {!isSignUp && <a href="/forgot-password" className="acqua-forgot-password-link">Esqueci minha senha</a>}
+        </form>
+        <button className="acqua-action-button acqua-transparent-button" onClick={handleFormToggle}>
+          {isSignUp ? "Entrar" : "Cadastre-se"}
+        </button>
       </div>
-
-      <div className="panels-container">
-        <div className="panel left-panel">
-          <div className="top-bar">
-            <h1><a href="/">AcquaSense</a></h1>
-          </div>
-          <div className="content">
-            <h2>Bem vindo ao AcquaSense</h2>
-            <p>Entre para o time dos economizadores e descubra como cada gota conta!</p>
-            <button className="btn transparent" id="sign-up-btn">Cadastre-se</button>
-          </div>
-          <img src={imgVisualization} className="image" alt="Visualization" />
-        </div>
-        <div className="panel right-panel">
-          <div className="top-bar">
-            <h1><a href="/">AcquaSense</a></h1>
-          </div>
-          <div className="content">
-            <h3>Já inscrito?</h3>
-            <p>Ótimo, você já faz parte da nossa equipe! Faça login para acessar sua conta e continuar sua jornada de economia de água.</p>
-            <button className="btn transparent" id="sign-in-btn">Entrar</button>
-          </div>
-          <img src={imgVisionaryTechnology} className="image" alt="Visionary Technology" />
-        </div>
+      <div className="acqua-info-panel">
+        <h1><a href="/">AcquaSense</a></h1>
+        <img src={isSignUp ? imgVisionaryTechnology : imgVisualization} alt="Ilustração" />
+        <h2>{isSignUp ? "Junte-se a nós" : "Bem-vindo de volta"}</h2>
+        <p>{isSignUp ? "Faça parte do time que transforma cada gota em economia." : "Continue sua jornada de economia de água e veja o impacto de cada gota."}</p>
       </div>
     </div>
   );
