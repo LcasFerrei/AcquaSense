@@ -1,5 +1,3 @@
-/* Dash.css */
-
 /* Variáveis de tema claro */
 :root {
     --bg-color: #f8f8f8;
@@ -68,10 +66,11 @@ body {
 .card {
     background-color: var(--card-bg-color);
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     display: flex;
     flex-direction: column;
+    min-height: 200px;
 }
 
 .card h3 {
@@ -92,7 +91,7 @@ body {
 }
 
 .card.news {
-    grid-column: span 2;
+    grid-column: span 1;
     background-color: var(--news-card-bg-color);
 }
 
@@ -107,4 +106,60 @@ body {
 
 .card.news button:hover {
     background-color: var(--news-button-hover-bg-color);
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    .dashboard {
+        padding: 10px;
+    }
+
+    .dashboard h2 {
+        font-size: 20px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .card h3 {
+        font-size: 16px;
+    }
+
+    .card p {
+        font-size: 14px;
+    }
+
+    .card.news button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cards {
+        grid-template-columns: 1fr;
+        /* Cards ocupam a largura total */
+    }
+
+    .dashboard h2 {
+        font-size: 18px;
+    }
+
+    .card {
+        padding: 10px;
+    }
+
+    .card h3 {
+        font-size: 14px;
+    }
+
+    .card p {
+        font-size: 12px;
+    }
+
+    .card.news button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
 }
