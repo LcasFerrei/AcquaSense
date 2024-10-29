@@ -202,3 +202,58 @@
 .light-mode .user-info {
   color: #000000;
 }
+
+.container-fluid {
+  max-width: 800px;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.consumo-total {
+  background-color: #e7f3fe;
+  border: 1px solid #b3d7ff;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 20px 0;
+}
+
+.pontos-uso {
+  list-style-type: none;
+  padding: 0;
+}
+
+.ponto-uso {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.loading {
+  text-align: center;
+  font-style: italic;
+  color: #666;
+}
+
+.input-month {
+  display: block;
+  margin: 10px 0;
+  padding: 8px; /* Diminui o padding */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 150px; /* Define uma largura menor */
+  max-width: 100%; /* Garante que não ultrapasse o container */
+}
