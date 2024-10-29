@@ -202,3 +202,79 @@
 .light-mode .user-info {
   color: #000000;
 }
+
+/* Responsividade para telas menores */
+@media (max-width: 1200px) {
+  .user-column {
+    width: 100%;
+    padding: 60px;
+    margin-right: 0;
+  }
+
+  .user-graphs-container {
+    width: 100%;
+  }
+
+  .graph {
+    width: 100%;
+  }
+
+  .alert-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-home-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .user-column {
+    width: 90%;
+    padding: 40px;
+    margin-right: 0;
+  }
+
+  .user-graphs-container {
+    width: 100%;
+    padding: 0;
+  }
+
+  .graph {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .alert-container {
+    width: 100%;
+  }
+
+  .alert {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-column {
+    padding: 20px;
+  }
+
+  .user-info {
+    font-size: 0.8rem;
+  }
+
+  .graph {
+    padding: 10px;
+  }
+
+  .alert {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .alert h4 {
+    font-size: 1rem;
+  }
+}
