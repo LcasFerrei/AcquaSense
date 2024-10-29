@@ -194,3 +194,63 @@
 .notification-actions button:hover {
   background-color: #ff6666;
 } 
+
+/* Ajustes para responsividade */
+@media (max-width: 768px) {
+  .notifications-content {
+    flex-direction: column;
+  }
+
+  .notifications-list {
+    width: 100%;
+    border-right: none;
+    padding: 5px;
+  }
+
+  .notification-details {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+  }
+
+  .notifications-header h2 {
+    font-size: 18px;
+  }
+
+  .notification-item h4 {
+    font-size: 13px;
+  }
+
+  .notification-time {
+    font-size: 11px;
+  }
+  
+  .notification-actions button {
+    padding: 5px;
+    font-size: 12px;
+  }
+}
+
+/* Ajustes para telas muito pequenas, como smartphones */
+@media (max-width: 480px) {
+  .notifications-header h2 {
+    font-size: 16px;
+  }
+
+  .notification-item {
+    padding: 8px;
+  }
+
+  .notification-item h4 {
+    font-size: 12px;
+  }
+
+  .notification-time {
+    font-size: 10px;
+  }
+
+  .notification-actions button {
+    padding: 4px;
+    font-size: 11px;
+  }
+}
