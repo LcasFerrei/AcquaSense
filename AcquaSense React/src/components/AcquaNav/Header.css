@@ -647,3 +647,21 @@ body {
     margin-left: 0; /* Remove o espaço quando a sidebar está oculta */
   }
 }
+
+/* Esconde o texto ao lado dos ícones em telas menores */
+@media (max-width: 768px) {
+  .dashboard-nav ul li a span {
+    display: none;
+  }
+
+  /* Ajuste o padding para centralizar os ícones */
+  .dashboard-nav ul li a {
+    padding: 10px; /* Ajuste o padding para o espaçamento desejado */
+    text-align: center;
+  }
+
+  /* Ajuste o tamanho dos ícones, se necessário */
+  .dashboard-nav ul li a i {
+    font-size: 1.5em; /* Ajuste o tamanho do ícone conforme necessário */
+  }
+}
