@@ -26,15 +26,15 @@ function Dashboard() {
             </a>
           </div>
           <nav className="dashboard-nav">
-            <ul>
-              <li><a href="/Userpage"><i className="fa-solid fa-user"></i> Meu Perfil</a></li>
-              <li><a href="/Dashboard"><i className="fas fa-chart-line"></i> Dashboard</a></li>
-              <li><a href="/Consumptiondaily"><i className="fas fa-tint"></i> Consumo Diário</a></li>
-              <li><a href="/Maintenance"><i className="fas fa-tools"></i> Manutenção</a></li>
-              <li><a href="/SpecificMonitoring"><i className="fas fa-eye"></i> Monitoramento Específico</a></li>
-              <li><a href="/Configuration"><i className="fa-solid fa-gear"></i> Configuração</a></li>
-              <li><a onClick={handleLogout} style={{ cursor: 'pointer' }}><i className="fas fa-sign-out-alt"></i> Logout</a></li>
-            </ul>
+          <ul>
+            <li><a href="/Userpage"><i className="fa-solid fa-user"></i><span> Meu Perfil</span></a></li>
+            <li><a href="/Dashboard"><i className="fas fa-chart-line"></i><span> Dashboard</span></a></li>
+            <li><a href="/Consumptiondaily"><i className="fas fa-tint"></i><span> Consumo Diário</span></a></li>
+            <li><a href="/Maintenance"><i className="fas fa-tools"></i><span> Manutenção</span></a></li>
+            <li><a href="/SpecificMonitoring"><i className="fas fa-eye"></i><span> Monitoramento Específico</span></a></li>
+            <li><a href="/Configuration"><i className="fa-solid fa-gear"></i><span> Configuração</span></a></li>
+            <li><a href="/" onClick={handleLogout}><i className="fas fa-sign-out-alt"></i><span> Logout</span></a></li>
+          </ul>
           </nav>
         </div>
       </aside>
