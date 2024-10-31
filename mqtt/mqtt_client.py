@@ -22,7 +22,7 @@ class MQTTClient:
         from sensors.models import RegistroDeConsumo,SensorDeFluxo
 
         try:
-            message = float(message)
+            message = float(message) # YF-S201
             sensor = SensorDeFluxo.objects.filter(identificador="SEN-HZ21WA").first()
             RegistroDeConsumo.objects.create(sensor=sensor,consumo=message)
         except Exception as e:
