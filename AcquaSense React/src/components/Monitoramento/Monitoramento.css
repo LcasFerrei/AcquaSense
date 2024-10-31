@@ -257,3 +257,19 @@ h1 {
   width: 150px; /* Define uma largura menor */
   max-width: 100%; /* Garante que não ultrapasse o container */
 }
+
+.title-container {
+  max-width: 800px; /* Alinha com a largura do container */
+  padding: 20px;
+  margin: 0 auto; /* Centraliza horizontalmente */
+  text-align: left; /* Alinha à esquerda */
+  font-family: Arial, sans-serif;
+}
+
+.title-container h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espaço entre o ícone e o texto */
+  color: #333;
+  font-size: 24px; /* Ajuste o tamanho conforme necessário */
+}

@@ -26,7 +26,7 @@ function UserHome() {
       <aside className={`dashboard-sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
         <div className="dashboard-logo-menu">
           <div className="dashboard-logo">
-            <a href="/index.html" className="dashboard-logo-link">
+            <a href="/Dashboard" className="dashboard-logo-link">
               <h1>AcquaSense</h1>
             </a>
           </div>

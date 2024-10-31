@@ -40,7 +40,7 @@
 .edit-button-container {
     display: flex;
     justify-content: center;
-    margin-top: 30px; /* Maior espaçamento entre o botão e as seções */
+    margin-top: 20px; /* Maior espaçamento entre o botão e as seções */
 }
 
 .edit-button {

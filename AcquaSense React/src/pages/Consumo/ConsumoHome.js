@@ -200,7 +200,7 @@ function ConsumoHome() {
       <aside className={`dashboard-sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
         <div className="dashboard-logo-menu">
           <div className="dashboard-logo">
-            <a href="/index.html" className="dashboard-logo-link">
+            <a href="/Dashboard" className="dashboard-logo-link">
               <h1>AcquaSense</h1>
             </a>
           </div>
@@ -222,8 +222,12 @@ function ConsumoHome() {
         <HeaderNav handleMenuToggle={handleMenuToggle} />
 
         <div className="consumo-home" id="graphs-container">
+          <div className="title-container" style={{ display: 'flex', alignItems: 'center', marginBottom: '-10px' }}>
+            <i className="fas fa-tint" style={{ color: '#007bff', marginRight: '10px' }}></i>
+            <h2>Consumo Diário</h2>
+          </div>
           <div className="graph">
-            <h3>Progresso do Consumo de Água</h3>
+            <h3 style={{ marginTop: '0' }}>Progresso do Consumo de Água</h3>
             <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
@@ -292,4 +296,5 @@ function ConsumoHome() {
   );
 }
 
-export default ConsumoHome;
+export default ConsumoHome; 
+// Tela "Consumo diário" Rota: http://localhost:3000/Consumptiondaily
