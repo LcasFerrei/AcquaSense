@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import './Dash.css';
 
 const Dash = () => {
@@ -18,8 +17,11 @@ const Dash = () => {
     // Definir comportamento ao receber mensagens do WebSocket
     socket.onmessage = function(event) {
       const data = JSON.parse(event.data);
-      setDashboardData(data);
-      console.log(data)
+      setDashboardData(prevData => ({
+        ...prevData,
+        ...data // Atualiza apenas as propriedades necessárias
+      }));
+      console.log(data);
     };
 
     // Limpar a conexão ao desmontar o componente
@@ -69,3 +71,5 @@ const Dash = () => {
 };
 
 export default Dash;
+
+// Componente que alimenta (miolo) a tela DashHome = Dashboard
