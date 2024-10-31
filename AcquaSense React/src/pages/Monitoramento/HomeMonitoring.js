@@ -24,7 +24,7 @@ function MonitoringHome() {
         <div className="dashboard-logo-menu">
           <div className="dashboard-logo">
             <a href="/Dashboard" className="dashboard-logo-link">
-              <h1>AcquaSense</h1>
+              <h2>AcquaSense</h2>
             </a>
           </div>
           <nav className="dashboard-nav">
