@@ -680,7 +680,7 @@ button, a {
     gap: 20px;
     justify-content: space-around;
     align-items: stretch; /* Alinha os cards para que tenham a mesma altura */
-    margin: 20px 0;
+    margin: 20px 50px;
 }
 
 /* Estilização para os cards */
