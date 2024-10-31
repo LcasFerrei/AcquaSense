@@ -35,6 +35,7 @@
 .notifications-content {
   display: flex;
   height: 100%;
+  overflow-y: auto;
 }
 
 /* Lista de notificações */
@@ -42,33 +43,29 @@
   width: 35%;
   background-color: #f9f9f9;
   border-right: 1px solid #ccc;
-  overflow-y: auto;
   padding: 10px;
+  overflow-y: auto;
 }
 
-/* Cada item de notificação */
-.notification-item {
+/* Cada card de notificação */
+.notification-card {
   padding: 12px 15px;
   cursor: pointer;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-between; /* Espaçamento entre o texto e o ícone */
+  align-items: center; /* Alinhamento vertical */
   background-color: #fff;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  margin-bottom: 10px; /* Espaçamento entre os cards */
+  border-radius: 5px; /* Bordas arredondadas */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra do card */
   transition: background-color 0.3s ease;
 }
 
-.notification-item:hover {
-  background-color: #e0e0ff;
+.notification-card:hover {
+  background-color: #e0e0ff; /* Alterar a cor ao passar o mouse */
 }
 
-.notification-item.active {
-  background-color: #d0d0ff;
-  border-left: 5px solid var(--logo-color);
-}
-
-.notification-item h4 {
+.notification-info h4 {
   margin: 0;
   font-size: 14px;
   font-weight: bold;
@@ -109,148 +106,61 @@
   font-size: 14px;
 }
 
-
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-}
-
-.notifications-container {
-  background-color: var(--card-bg-color);
-  color: var(--text-color);
-}
-
-.notifications-list {
-  background-color: var(--sidebar-bg-color);
-}
-
-.notification-item {
-  background-color: var(--card-bg-color);
-}
-
-.notification-item:hover {
-  background-color: var(--news-card-bg-color);
-}
-
-.notification-item.active {
-  background-color: var(--logo-color);
-}
-
-.notification-details {
-  background-color: var(--card-bg-color);
-}
-
-/* Filtros de notificações */
 .notifications-filters {
-display: flex;
-gap: 10px;
-padding: 10px;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
 }
 
 .notifications-filters button {
-padding: 5px 10px;
-cursor: pointer;
-border: none;
-background-color: var(--sidebar-bg-color);
-color: var(--text-color);
-border-radius: 5px;
-transition: background-color 0.3s ease;
+  padding: 5px 10px;
+  cursor: pointer;
+  border: none;
+  background-color: var(--sidebar-bg-color);
+  color: var(--text-color);
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
 .notifications-filters button:hover {
-background-color: var(--logo-color);
+  background-color: var(--logo-color);
 }
 
-/* Indicador visual de nova notificação */
 .new-indicator {
-display: inline-block;
-width: 10px;
-height: 10px;
-background-color: red;
-border-radius: 50%;
-margin-left: 5px;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  margin-left: 5px;
 }
 
-/* Ações da notificação */
 .notification-actions {
-margin-top: 15px;
+  margin-top: 15px;
 }
 
 .notification-actions button {
-padding: 5px 10px;
-cursor: pointer;
-border: none;
-margin-right: 10px;
-background-color: var(--logo-color);
-color: var(--text-color);
-border-radius: 5px;
-transition: background-color 0.3s ease;
+  padding: 5px 10px;
+  cursor: pointer;
+  border: none;
+  margin-right: 10px;
+  background-color: var(--logo-color);
+  color: var(--text-color);
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
 .notification-actions button:hover {
-background-color: #ff6666;
-} 
+  background-color: #ff6666;
+}
 
-/* Ajustes para responsividade */
 @media (max-width: 768px) {
-.notifications-content {
-  flex-direction: column;
-}
+  .notifications-content {
+    flex-direction: column;
+  }
 
-.notifications-list {
-  width: 100%;
-  border-right: none;
-  padding: 5px;
-}
-
-.notification-details {
-  width: 100%;
-  padding: 15px;
-  margin-top: 10px;
-}
-
-.notifications-header h2 {
-  font-size: 18px;
-}
-
-.notification-item h4 {
-  font-size: 13px;
-}
-
-.notification-time {
-  font-size: 11px;
-}
-
-.notification-actions button {
-  padding: 5px;
-  font-size: 12px;
-}
-}
-
-/* Ajustes para telas muito pequenas, como smartphones */
-@media (max-width: 480px) {
-.notifications-header h2 {
-  font-size: 16px;
-}
-
-.notification-item {
-  padding: 8px;
-}
-
-.notification-item h4 {
-  font-size: 12px;
-}
-
-.notification-time {
-  font-size: 10px;
-}
-
-.notification-actions button {
-  padding: 4px;
-  font-size: 11px;
-}
+  .notifications-list,
+  .notification-details {
+    width: 100%;
+  }
 }

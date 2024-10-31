@@ -71,7 +71,7 @@ const Noti = () => {
           {filteredNotifications.map((notification) => (
             <div
               key={notification.id}
-              className={`notification-item ${notification.id === selectedNotification?.id ? 'active' : ''}`}
+              className={`notification-card ${notification.id === selectedNotification?.id ? 'active' : ''}`}
               onClick={() => handleNotificationClick(notification)}
             >
               <div className="notification-info">
