@@ -4,6 +4,7 @@ import img1 from '../../Assets/img home/0.jpg';
 import img2 from '../../Assets/img home/agua.jpg';
 import img3 from '../../Assets/img home/indice-3.jpg';
 import contactImg from '../../Assets/img home/grupo.jpg';
+import img4 from '../../Assets/img home/monitorar.jpg';
 import bannerImg from '../../Assets/img home/agua.jpg';
 import foto1 from '../../Assets/img home/1.jpg';
 import foto2 from '../../Assets/img home/2.jpg';
@@ -35,15 +36,16 @@ const BannerCarousel = () => {
             buttonText: "Saiba mais...",
         },
         {
-            title: "Venha aprender maneiras sobre como economizar água",
-            image: img1,
+            title: "Sistema de Monitoramento de Água: Qual a Importância?",
+            image: img4,
             buttonText: "Saiba mais...",
         },
         {
-            title: "Quem são os criadores do AcquaSense?",
-            image: contactImg,
+            title: "Venha aprender maneiras de como economizar água",
+            image: img1,
             buttonText: "Saiba mais...",
         },
+        
     ];
 
     const { currentItem, setCurrentItem } = useCarousel(bannerItems);
