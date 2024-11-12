@@ -90,7 +90,7 @@ body {
     font-size: 18px;
     display: block;
     width: 100%;
-    padding: 25px 25px;
+    padding: 18px 22px;
     border-radius: 5px; /* Era 5 */ 
     transition: background-color 0.3s;
 }

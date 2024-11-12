@@ -193,6 +193,48 @@
   fill: #ffffff; /* Cor branca para o título dos eixos dos gráficos */
 }
 
+/* Estilos para o Modo Escuro na seção de consumo total */
+.dark-mode .consumo-total {
+  background-color: #2b2b2b; /* Fundo escuro para consumo total */
+  border: 1px solid #444; /* Borda com tom mais escuro */
+  color: #e0e0e0; /* Texto em cor clara */
+}
+
+.dark-mode .pontos-uso {
+  background-color: #333; /* Fundo mais escuro para lista de pontos de uso */
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.dark-mode .ponto-uso {
+  background-color: #3d3d3d; /* Fundo mais escuro para cada ponto de uso */
+  border: 1px solid #555; /* Borda em tom intermediário */
+  color: #e0e0e0; /* Texto claro */
+}
+
+.dark-mode .loading {
+  color: #888; /* Texto de carregamento com tom mais claro */
+}
+
+/* Input para selecionar o mês no modo escuro */
+.dark-mode .input-month {
+  background-color: #3d3d3d; /* Fundo escuro para o campo de entrada */
+  border: 1px solid #555; /* Borda em tom intermediário */
+  color: #ffffff; /* Texto em branco */
+}
+
+/* Outros ajustes para o modo escuro */
+.dark-mode h1 {
+  color: #ffffff;
+}
+
+.dark-mode .label {
+  color: #e0e0e0;
+}
+
+
+
+
 /* Modo Claro */
 .light-mode .user-column {
   background-color: #f0e6ff;
@@ -251,9 +293,9 @@ h1 {
 .input-month {
   display: block;
   margin: 10px 0;
-  padding: 8px; /* Diminui o padding */
+  padding: 10px; /* Diminui o padding */
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 150px; /* Define uma largura menor */
+  width: 20uyhoi90px; /* Define uma largura menor */
   max-width: 100%; /* Garante que não ultrapasse o container */
 }
