@@ -3,6 +3,7 @@
     flex-direction: column; /* Organiza os itens verticalmente */
     padding-top: 85px;
     margin-left: 15%; /* Ajuste para ser responsivo, empurra o conteúdo para a direita */
+    margin-top: 10px;
 }
 
 .monitoramento-main-content {
