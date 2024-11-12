@@ -14,26 +14,30 @@ const HeaderNav = ({ handleMenuToggle }) => {
   const { isDarkMode, toggleTheme } = useContext(ThemeContext); 
 
   const pages = {
-    'Alerta de Consumo': '/specificMonitoring',
+    'Alerta de Consumo': '//Configuration',
     'Comunicação com o usuário': '/Configuration',
     'Configurações de análise de dados': '/Configuration',
-    'Consumo acumulado': '/dashboard',
+    'Consumo Acumulado por hora': '/Consumptiondaily',
+    'Consumo Acumulado': '/dashboard',
     'Consumo diário': '/consumptiondaily',
     'Consumo diário em litros em uma residência': '/specificMonitoring',
     'Consumo diário por compartimentos': '/specificMonitoring',
     'Consumo do dia': '/dashboard',
     'Consumo mensal em litros': '/specificMonitoring',
+    'Consumo por Pontos de Uso': '/SpecificMonitoring',
     'Dashboard': '/dashboard',
     'Detalhes da assinatura': '/userPage',
-    'Informações pessoais': '/userPage',
+    'Horário de Notificação': '/Configuration',
+    'Informações pessoais': '/userPage',    
+    'Intervalo de Dados': '/Configuration',
     'Login': '/login',
     'Manutenção': '/maintenance',
     'Meta diária': '/dashboard',
     'Monitoramento específico': '/specificMonitoring',
     'Notificação': '/notification',
     'Novidades': '/news',
-    'Tubulações': '/pipes',
-    'Vazamento': '/water-leak',
+    'Progresso de Consumo de Água': '/Consumptiondaily',
+    'Relatórios de Consumo': '/Configuration',
   };
 
   const handleSearch = (event) => {

@@ -26,14 +26,16 @@ def specificMonitoring(request):
         # Calcula o consumo total do mês
         consumo_total = registros_consumo.aggregate(total=Sum('consumo'))['total'] or 0
 
+        consumo_total = round(consumo_total,2)
+
         # Calcula o consumo por cada ponto de uso de água
         consumo_por_ponto = {}
         for sensor in SensorDeFluxo.objects.select_related('ponto_uso').all():
             consumo_sensor = registros_consumo.filter(sensor=sensor).aggregate(total=Sum('consumo'))['total'] or 0
             ponto_uso_nome = sensor.ponto_uso.nome
             consumo_por_ponto[ponto_uso_nome] = {
-                'consumo': consumo_sensor,
-                'porcentagem': (consumo_sensor / consumo_total * 100) if consumo_total > 0 else 0
+                'consumo': round(consumo_sensor,2),
+                'porcentagem': (round(consumo_sensor / consumo_total * 100, 2)) if consumo_total > 0 else 0
             }
 
         # Retorna os dados como JSON para o frontend

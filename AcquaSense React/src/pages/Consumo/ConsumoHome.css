@@ -21,6 +21,10 @@
     text-align: center; /* Centraliza o conteúdo na página */
     color: #333; /* Cor do texto para o modo claro */
   }
+
+  .title-container {
+    margin-bottom: 0; /* Remove a margem inferior para aproximar o título do gráfico */
+  }
   
   .consumo-table {
     width: 50%;
@@ -41,7 +45,7 @@
   }
   
   .graph {
-    margin: 40px auto; /* Centraliza os gráficos na tela */
+    margin: 20px auto; /* Centraliza os gráficos na tela */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,13 +53,32 @@
   }
   
   h3 {
-    margin-bottom: 20px;
+    margin: 10px 0; /* Ajusta a margem superior e inferior do subtítulo */
   }
   
   .responsive-container {
     width: 100%;
     max-width: 650px; /* Limita a largura máxima dos gráficos */
     height: auto;
+  }
+  
+  .consumo-table {
+    width: 50%;
+    border-collapse: collapse;
+    margin: auto;
+    margin-top: 80px;
+  }
+  
+  .consumo-table th,
+  .consumo-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .consumo-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+    color: #333; /* Cor do texto do cabeçalho */
   }
   
   @media (max-width: 768px) {
@@ -80,7 +103,7 @@
     border: 1px solid #444; /* Cor da borda para o modo escuro */
   }
   
-  body.dark-mode .consumo-table th, 
+  body.dark-mode .consumo-table th,
   body.dark-mode .consumo-table td {
     color: #fff; /* Cor do texto da tabela no modo escuro */
     background-color: #333; /* Cor do fundo da tabela no modo escuro */
@@ -94,8 +117,7 @@
     fill: #fff; /* Cor do texto dentro do gráfico de rosca (branco) no modo escuro */
   }
   
-  .baixar-pdf{
+  .baixar-pdf {
     padding: 5px;
-    
   }
   

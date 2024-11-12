@@ -85,8 +85,8 @@ const ConfiguSettings = () => {
   return (
     <div className="config-container">
       <div className="settings-header">
-        <h2>Configuração</h2>
         <FontAwesomeIcon icon={faCog} size="lg" className="icon" />
+        <h2>Configuração</h2>
       </div>
       <NotificationSettings />
       <DataAnalysisSettings />

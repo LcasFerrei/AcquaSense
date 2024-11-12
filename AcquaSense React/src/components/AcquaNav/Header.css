@@ -69,7 +69,7 @@ body {
     margin-bottom: 30px;
 }
 
-.dashboard-logo h1 {
+.dashboard-logo h2 {
     font-size: 35px;
     color: var(--logo-color);
 }
@@ -90,7 +90,7 @@ body {
     font-size: 18px;
     display: block;
     width: 100%;
-    padding: 18px 22px;
+    padding: 12px 25px;
     border-radius: 5px; /* Era 5 */ 
     transition: background-color 0.3s;
 }
@@ -574,7 +574,7 @@ body {
   }
 
   .dashboard-sidebar .dashboard-logo h1 {
-      font-size: 28px;
+      font-size: 25px;
   }
 
   .dashboard-search-bar input {
@@ -632,7 +632,7 @@ body {
 }
 
 /* Ajustes de responsividade para telas menores */
-@media (max-width: 768px) {
+@media (max-width: 760px) {
   .dashboard-sidebar {
     position: absolute;
     width: 250px;
@@ -663,5 +663,16 @@ body {
   /* Ajuste o tamanho dos ícones, se necessário */
   .dashboard-nav ul li a i {
     font-size: 1.5em; /* Ajuste o tamanho do ícone conforme necessário */
+  }
+}
+
+.dashboard-logo h1 {
+  font-size: 2.5rem; /* Tamanho padrão da fonte */
+  transition: font-size 0.3s; /* Adiciona uma transição suave ao alterar o tamanho */
+}
+
+@media (max-width: 778px) {
+  .dashboard-logo h1 {
+    font-size: 1.8rem; /* Tamanho da fonte menor para dispositivos móveis */
   }
 }
