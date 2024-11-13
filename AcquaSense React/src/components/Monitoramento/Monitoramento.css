@@ -166,7 +166,8 @@
   color: #ffffff;
   padding: 10px;
   border-radius: 8px;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   width: 670px;
   box-sizing: border-box;
 }
@@ -301,9 +302,9 @@ h1 {
 }
 
 .title-container {
+  margin-top: 50px;
   max-width: 800px; /* Alinha com a largura do container */
   padding: 20px;
-  margin: 0 auto; /* Centraliza horizontalmente */
   text-align: left; /* Alinha à esquerda */
   font-family: Arial, sans-serif;
 }
@@ -313,5 +314,13 @@ h1 {
   align-items: center;
   gap: 8px; /* Espaço entre o ícone e o texto */
   color: #333;
+  font-size: 24px; /* Ajuste o tamanho conforme necessário */
+}
+
+.dark-mode .title-container h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espaço entre o ícone e o texto */
+  color: #ffffff;
   font-size: 24px; /* Ajuste o tamanho conforme necessário */
 }

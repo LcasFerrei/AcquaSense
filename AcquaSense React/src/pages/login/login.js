@@ -92,7 +92,7 @@ const Login = () => {
             />
           </div>
           <button type="submit" className="acqua-action-button acqua-solid-button">{isSignUp ? "Cadastrar" : "Entrar"}</button>
-          {!isSignUp && <a href="/forgot-password" className="acqua-forgot-password-link">Esqueci minha senha</a>}
+          {!isSignUp && <a href="/forgot-password" clas sName="acqua-forgot-password-link">Esqueci minha senha</a>}
         </form>
         <button className="acqua-action-button acqua-transparent-button" onClick={handleFormToggle}>
           {isSignUp ? "Entrar" : "Cadastre-se"}
