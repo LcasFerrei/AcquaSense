@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   CartesianGrid,
   Cell,
@@ -24,6 +25,8 @@ function ConsumoHome() {
   const [porcentagemExibida, setPorcentagemExibida] = useState(0);
   const [acumuladoPorHora, setAcumuladoPorHora] = useState([]);
   const [horaAtual, setHoraAtual] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(null); // Estado para controlar a autenticação
+  const navigate = useNavigate();
 
   const limiteMaximo = 120;
   const consumoAtual = limiteMaximo * (porcentagemConsumo / 100);
@@ -71,7 +74,7 @@ function ConsumoHome() {
     };
   }, []);  
 
-  const animateProgress = (newPercentual) => {
+    const animateProgress = (newPercentual) => {
     const start = porcentagemExibida;
     const end = newPercentual;
     const duration = 1000;
@@ -89,6 +92,69 @@ function ConsumoHome() {
       }
     }, stepTime);
   };
+
+  const preencherIntervalosVazios = (acumuladoPorHora) => {
+    const now = new Date();
+    const horasPreenchidas = {};
+    let ultimoValor = 0;
+  
+    // Preenche as horas do dia, do início (00:00) até a hora atual
+    for (let hora = 0; hora <= now.getHours(); hora++) {
+      for (let minuto = 0; minuto < 60; minuto++) {
+        const horario = `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`;
+  
+        // Usa o valor do acumuladoPorHora se existir, caso contrário, mantém o último valor conhecido
+        if (acumuladoPorHora[horario] !== undefined) {
+          ultimoValor = acumuladoPorHora[horario];
+        }
+  
+        horasPreenchidas[horario] = ultimoValor;
+        
+        // Para evitar adicionar minutos além do horário atual
+        if (hora === now.getHours() && minuto === now.getMinutes()) {
+          break;
+        }
+      }
+    }
+  
+    // Converte o objeto em um array para o gráfico
+    return Object.keys(horasPreenchidas).map((hora) => ({
+      horario: hora,
+      consumo: horasPreenchidas[hora],
+    }));
+  };
+  
+  // Verificação de autenticação com useEffect
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/check-auth/', {
+          method: 'GET',
+          credentials: 'include', // Envia os cookies de sessão
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setIsAuthenticated(data.authenticated);
+        } else {
+          setIsAuthenticated(false); // Se a resposta não for ok, assume que não está autenticado
+          navigate('/login'); // Redireciona para a página de login
+        }
+      } catch (error) {
+        console.error('Erro ao verificar autenticação:', error);
+        setIsAuthenticated(false);
+        navigate('/login');
+      }
+    };
+
+    // Só chama a verificação de autenticação quando o componente for montado
+    checkAuth();
+  }, [navigate]); // O hook é chamado sempre na mesma ordem, pois não está condicional
+
+  // Enquanto a verificação de autenticação não for concluída, exibe "Carregando..."
+  if (isAuthenticated === null) {
+    return <div>Carregando...</div>;
+  }
 
   const handleMenuToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -144,38 +210,7 @@ function ConsumoHome() {
     // Por exemplo, limpar tokens ou informações de sessão
     console.log("Usuário deslogado");
     // Redirecionar para a raiz da página
-    window.location.href = '/';
-  };
-
-  const preencherIntervalosVazios = (acumuladoPorHora) => {
-    const now = new Date();
-    const horasPreenchidas = {};
-    let ultimoValor = 0;
-  
-    // Preenche as horas do dia, do início (00:00) até a hora atual
-    for (let hora = 0; hora <= now.getHours(); hora++) {
-      for (let minuto = 0; minuto < 60; minuto++) {
-        const horario = `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`;
-  
-        // Usa o valor do acumuladoPorHora se existir, caso contrário, mantém o último valor conhecido
-        if (acumuladoPorHora[horario] !== undefined) {
-          ultimoValor = acumuladoPorHora[horario];
-        }
-  
-        horasPreenchidas[horario] = ultimoValor;
-        
-        // Para evitar adicionar minutos além do horário atual
-        if (hora === now.getHours() && minuto === now.getMinutes()) {
-          break;
-        }
-      }
-    }
-  
-    // Converte o objeto em um array para o gráfico
-    return Object.keys(horasPreenchidas).map((hora) => ({
-      horario: hora,
-      consumo: horasPreenchidas[hora],
-    }));
+    window.location.href = '/login';
   };
 
   const CustomTooltip = ({ active, payload, label }) => {
@@ -212,7 +247,7 @@ function ConsumoHome() {
             <li><a href="/Maintenance"><i className="fas fa-tools"></i><span> Manutenção</span></a></li>
             <li><a href="/SpecificMonitoring"><i className="fas fa-eye"></i><span> Monitoramento Específico</span></a></li>
             <li><a href="/Configuration"><i className="fa-solid fa-gear"></i><span> Configuração</span></a></li>
-            <li><a href="/" onClick={handleLogout}><i className="fas fa-sign-out-alt"></i><span> Logout</span></a></li>
+            <li><a onClick={handleLogout}><i className="fas fa-sign-out-alt"></i><span> Logout</span></a></li>
           </ul>
           </nav>
         </div>

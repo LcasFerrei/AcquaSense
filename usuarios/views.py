@@ -1,14 +1,17 @@
 # views.py
+from django.shortcuts import redirect
+from django.utils.deprecation import MiddlewareMixin
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
 class RegisterView(APIView):
@@ -49,8 +52,9 @@ class LoginView(APIView):
         else:
             return Response({'error': 'Credenciais inválidas.'}, status=status.HTTP_401_UNAUTHORIZED)
 
-@login_required
+@login_required()
 def check_auth(request):
+    print('True')
     return JsonResponse({'authenticated': True})    
 
 @api_view(['GET'])
@@ -64,3 +68,9 @@ def config(request):
     }
     print("Campo de config")
     return Response(data)
+
+@csrf_exempt
+@api_view(['POST'])
+def user_logout(request):
+    logout(request)
+    return JsonResponse({"message": "Usuário deslogado com sucesso"})
