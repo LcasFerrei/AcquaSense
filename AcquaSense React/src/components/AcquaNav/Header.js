@@ -7,7 +7,7 @@ const HeaderNav = ({ handleMenuToggle }) => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [noResults, setNoResults] = useState(false); // Estado para controlar a mensagem de sem resultados
+  const [noResults, setNoResults] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
   const notificationRef = useRef(null);
   const searchRef = useRef(null);
@@ -40,7 +40,7 @@ const HeaderNav = ({ handleMenuToggle }) => {
     'Novidades': '/news',
     'Progresso de Consumo de Água': '/Consumptiondaily',
     'Relatórios de Consumo': '/Configuration',
-    'Perfil': '/userPage', // Adicionando o mapeamento para "Perfil"
+    'Perfil': '/userPage',
   };
 
   const handleSearch = (event) => {
@@ -54,16 +54,14 @@ const HeaderNav = ({ handleMenuToggle }) => {
   };
 
   const updateSuggestions = (query) => {
-    // Filtra as páginas com base na pesquisa
     const filteredSuggestions = Object.keys(pages).filter(page =>
       page.toLowerCase().includes(query.toLowerCase())
     );
     setSuggestions(filteredSuggestions);
-    setNoResults(filteredSuggestions.length === 0); // Verifica se não há resultados
+    setNoResults(filteredSuggestions.length === 0);
   };
 
   const navigateToQuery = (query) => {
-    // Verifica se o termo pesquisado corresponde a uma página
     const suggestion = suggestions.find(sug => sug.toLowerCase() === query.toLowerCase());
     if (suggestion) {
       navigate(pages[suggestion]);
@@ -71,11 +69,11 @@ const HeaderNav = ({ handleMenuToggle }) => {
   };
 
   const handleNotificationClick = (event) => {
-    event.stopPropagation();
-    setIsNotificationOpen(!isNotificationOpen);
+    setIsNotificationOpen((prev) => !prev);
   };
 
-  const handleClickOutsideNotification = (event) => {
+  const handleClickOutside = (event) => {
+    // Verifica se o clique foi fora do dropdown de notificação
     if (notificationRef.current && !notificationRef.current.contains(event.target)) {
       setIsNotificationOpen(false);
     }
@@ -88,9 +86,9 @@ const HeaderNav = ({ handleMenuToggle }) => {
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutsideNotification);
-    document.addEventListener('mousedown', handleClickOutsideSearch);
-    
+    document.addEventListener('click', handleClickOutside); 
+    document.addEventListener('click', handleClickOutsideSearch);
+
     const handleResize = () => {
       setIsMobileView(window.innerWidth < 768);
     };
@@ -98,8 +96,8 @@ const HeaderNav = ({ handleMenuToggle }) => {
     handleResize();
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutsideNotification);
-      document.removeEventListener('mousedown', handleClickOutsideSearch);
+      document.removeEventListener('click', handleClickOutside); 
+      document.removeEventListener('click', handleClickOutsideSearch);
       window.removeEventListener('resize', handleResize);
     };
   }, []);
@@ -146,15 +144,15 @@ const HeaderNav = ({ handleMenuToggle }) => {
                   <div className="dashboard-notification-dropdown" id="dashboard-notification-dropdown">
                     <h3><a href="/Notification">Notificações</a></h3>
                     <ul>
-                      <li>
+                      <li onClick={() => navigate('/notification')}>
                         AcquaSoft Instalando com Sucesso
                         <span className="notification-time">2 minutos atrás</span>
                       </li> 
-                      <li>
+                      <li onClick={() => navigate('/notification')}>
                         Atualização do sistema disponível
                         <span className="notification-time">1 hora atrás</span>
                       </li>
-                      <li>
+                      <li onClick={() => navigate('/notification')}>
                         Seja Bem Vindo AcquaSense
                         <span className="notification-time">3 horas atrás</span>
                       </li>
