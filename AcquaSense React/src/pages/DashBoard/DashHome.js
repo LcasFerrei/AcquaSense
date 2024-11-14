@@ -38,7 +38,7 @@ function Dashboard() {
   }, [navigate]);
   
   if (isAuthenticated !== true) {
-    return <div>Carregando...</div>;
+    return <div></div>;
   }
 
   const handleMenuToggle = () => {

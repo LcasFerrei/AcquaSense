@@ -44,12 +44,7 @@ body {
     /*font-family: 'Nunito', sans-serif;*/
     background-color: var(--bg-color);
     color: var(--text-color);
-    transition: background-color 0.5s ease, color 0.5s ease;
     overflow-x: hidden;
-}
-
-.header, .footer, .news-article {
-    transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .header {

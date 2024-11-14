@@ -51,7 +51,7 @@ function UserHome() {
   }, [navigate]);
 
   if (isAuthenticated !== true) {
-    return <div>Carregando...</div>;
+    return <div></div>;
   }
 
   return (

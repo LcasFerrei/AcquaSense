@@ -49,7 +49,7 @@ function MonitoringHome() {
   }, [navigate]);
 
   if (isAuthenticated !== true) {
-    return <div>Carregando...</div>;
+    return <div></div>;
   }
 
   return (
