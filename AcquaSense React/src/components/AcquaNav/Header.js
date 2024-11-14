@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../ThemeContext';
-import './Header.css'; 
+import './Header.css';
 
 const HeaderNav = ({ handleMenuToggle }) => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const [noResults, setNoResults] = useState(false); // Estado para controlar a mensagem de sem resultados
   const [isMobileView, setIsMobileView] = useState(false);
   const notificationRef = useRef(null);
   const searchRef = useRef(null);
-  const navigate = useNavigate(); 
-  const { isDarkMode, toggleTheme } = useContext(ThemeContext); 
+  const navigate = useNavigate();
+  const { isDarkMode, toggleTheme } = useContext(ThemeContext);
 
+  // Mapeamento das páginas
   const pages = {
-    'Alerta de Consumo': '//Configuration',
+    'Alerta de Consumo': '/Configuration',
     'Comunicação com o usuário': '/Configuration',
     'Configurações de análise de dados': '/Configuration',
     'Consumo Acumulado por hora': '/Consumptiondaily',
@@ -28,7 +30,7 @@ const HeaderNav = ({ handleMenuToggle }) => {
     'Dashboard': '/dashboard',
     'Detalhes da assinatura': '/userPage',
     'Horário de Notificação': '/Configuration',
-    'Informações pessoais': '/userPage',    
+    'Informações pessoais': '/userPage',
     'Intervalo de Dados': '/Configuration',
     'Login': '/login',
     'Manutenção': '/maintenance',
@@ -38,13 +40,13 @@ const HeaderNav = ({ handleMenuToggle }) => {
     'Novidades': '/news',
     'Progresso de Consumo de Água': '/Consumptiondaily',
     'Relatórios de Consumo': '/Configuration',
+    'Perfil': '/userPage', // Adicionando o mapeamento para "Perfil"
   };
 
   const handleSearch = (event) => {
     const value = event.target.value;
     setSearchTerm(value);
     updateSuggestions(value);
-
     if (event.key === 'Enter') {
       event.preventDefault();
       navigateToQuery(value.trim().toLowerCase());
@@ -52,15 +54,19 @@ const HeaderNav = ({ handleMenuToggle }) => {
   };
 
   const updateSuggestions = (query) => {
-    const filteredSuggestions = Object.keys(pages).filter(page => 
+    // Filtra as páginas com base na pesquisa
+    const filteredSuggestions = Object.keys(pages).filter(page =>
       page.toLowerCase().includes(query.toLowerCase())
     );
     setSuggestions(filteredSuggestions);
+    setNoResults(filteredSuggestions.length === 0); // Verifica se não há resultados
   };
 
   const navigateToQuery = (query) => {
-    if (pages[query]) {
-      navigate(pages[query]);
+    // Verifica se o termo pesquisado corresponde a uma página
+    const suggestion = suggestions.find(sug => sug.toLowerCase() === query.toLowerCase());
+    if (suggestion) {
+      navigate(pages[suggestion]);
     }
   };
 
@@ -111,8 +117,9 @@ const HeaderNav = ({ handleMenuToggle }) => {
               value={searchTerm}
               onChange={handleSearch}
               onKeyDown={handleSearch}
+              autoFocus
             />
-            {suggestions.length > 0 && (
+            {suggestions.length > 0 ? (
               <ul className="suggestions-list">
                 {suggestions.map((suggestion, index) => (
                   <li key={index} onClick={() => navigateToQuery(suggestion)}>
@@ -120,7 +127,9 @@ const HeaderNav = ({ handleMenuToggle }) => {
                   </li>
                 ))}
               </ul>
-            )}
+            ) : noResults ? (
+              <div className="no-results-message">Sem sugestões de pesquisa</div>
+            ) : null}
           </div>
         )}
         <div className="dashboard-user-info">
