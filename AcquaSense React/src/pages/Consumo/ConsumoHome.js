@@ -153,7 +153,7 @@ function ConsumoHome() {
 
   // Enquanto a verificação de autenticação não for concluída, exibe "Carregando..."
   if (isAuthenticated === null) {
-    return <div>Carregando...</div>;
+    return <div></div>;
   }
 
   const handleMenuToggle = () => {

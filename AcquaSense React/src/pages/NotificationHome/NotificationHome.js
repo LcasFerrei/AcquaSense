@@ -38,7 +38,7 @@ function NotificationHome() {
   }, [navigate]);
 
   if (isAuthenticated !== true) {
-    return <div>Carregando...</div>;
+    return <div></div>;
   }
 
   const handleMenuToggle = () => {
