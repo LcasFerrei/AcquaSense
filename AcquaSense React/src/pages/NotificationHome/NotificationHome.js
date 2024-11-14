@@ -1,10 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importando useNavigate
 import Noti from '../../components/Notification/Notification';
 import HeaderNav from "../../components/AcquaNav/Header";
 import './NotiHome.css';
 
 function NotificationHome() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Verifica a autenticação do usuário ao carregar o componente
+    const checkAuth = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/check-auth/", {
+          method: "GET",
+          credentials: "include", // Envia cookies de autenticação
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setIsAuthenticated(data.authenticated);
+          console.log(data)
+        } else {
+          setIsAuthenticated(false); // Se a resposta não for ok, assume que não está autenticado
+          navigate('/login'); // Redireciona para a página de login
+        }
+      } catch (error) {
+        console.error('Erro ao verificar autenticação:', error);
+        setIsAuthenticated(false);
+        navigate('/login');
+      }
+    };
+
+    checkAuth(); // Chama a função para verificar a autenticação
+
+  }, [navigate]);
+
+  if (isAuthenticated !== true) {
+    return <div>Carregando...</div>;
+  }
 
   const handleMenuToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);

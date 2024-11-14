@@ -15,6 +15,29 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const logoutUser = async () => {
+        try {
+            const csrfToken = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('csrftoken='))
+                ?.split('=')[1];
+
+            await fetch("http://localhost:8000/logout/", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": csrfToken,
+                },
+                credentials: "include",
+            });
+        } catch (error) {
+            console.error("Erro ao deslogar:", error);
+        }
+    };
+
+    logoutUser();
+}, []);
+
   const handleFormToggle = () => {
     setIsSignUp((prev) => !prev);
     setFormData({ username: '', password: '', email: '' });
