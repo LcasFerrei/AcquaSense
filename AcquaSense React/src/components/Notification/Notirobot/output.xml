@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.1.1 (Python 3.8.2 on win32)" generated="2024-11-15T20:28:36.587725" rpa="false" schemaversion="5">
+<suite id="s1" name="Noti Robot" source="C:\Users\lucas\OneDrive\Documentos\FACULDADE\4 semestre\Projeto aplic plataforma web\AcquaSense\AcquaSense React\src\components\Notification\Notirobot\noti_robot.robot">
+<test id="s1-t1" name="Teste de Acesso à Rota Notificação Sem Login" line="27">
+<kw name="Dado que tento acessar a rota de notificação sem login">
+<kw name="Acessar Notificação">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2024-11-15T20:28:36.891572" level="INFO">Opening browser 'chrome' to base url 'http://localhost:3000/Notification'.</msg>
+<arg>${url}</arg>
+<arg>chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2024-11-15T20:28:36.890575" elapsed="3.799713"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2024-11-15T20:28:40.690288" elapsed="0.024727"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-11-15T20:28:41.025895" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-1.png"&gt;&lt;img src="selenium-screenshot-1.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-11-15T20:28:40.715015" elapsed="0.310880"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-11-15T20:28:43.041992" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-11-15T20:28:41.025895" elapsed="2.016097"/>
+</kw>
+<arg>${url}</arg>
+<status status="PASS" start="2024-11-15T20:28:36.890575" elapsed="6.152415"/>
+</kw>
+<arg>${notification.url_notification}</arg>
+<status status="PASS" start="2024-11-15T20:28:36.889577" elapsed="6.153413"/>
+</kw>
+<kw name="Então sou redirecionado para a tela de login">
+<kw name="Verificar Redirecionamento">
+<kw name="Get Location" owner="SeleniumLibrary">
+<msg time="2024-11-15T20:28:43.073665" level="INFO">${current_url} = http://localhost:3000/login</msg>
+<var>${current_url}</var>
+<doc>Returns the current browser window URL.</doc>
+<status status="PASS" start="2024-11-15T20:28:43.046979" elapsed="0.026686"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-11-15T20:28:43.074662" level="INFO">A página atual é: http://localhost:3000/login</msg>
+<arg>A página atual é: ${current_url}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-11-15T20:28:43.074662" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${current_url}</arg>
+<arg>${login.url_login}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-11-15T20:28:43.074662" elapsed="0.001995"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-11-15T20:28:43.302030" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-2.png"&gt;&lt;img src="selenium-screenshot-2.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-11-15T20:28:43.076657" elapsed="0.225373"/>
+</kw>
+<status status="PASS" start="2024-11-15T20:28:43.045986" elapsed="0.256044"/>
+</kw>
+<status status="PASS" start="2024-11-15T20:28:43.043987" elapsed="0.259041"/>
+</kw>
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2024-11-15T20:28:43.303028" elapsed="2.205592"/>
+</kw>
+<status status="PASS" start="2024-11-15T20:28:36.888580" elapsed="8.620040"/>
+</test>
+<status status="PASS" start="2024-11-15T20:28:36.588738" elapsed="8.920853"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Noti Robot">Noti Robot</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

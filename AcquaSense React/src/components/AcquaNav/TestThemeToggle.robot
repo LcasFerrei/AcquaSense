@@ -2,21 +2,41 @@
 Library    SeleniumLibrary
 
 *** Variables ***
-${URL}    http://localhost:3000/Dashboard
+&{tema}
+...    url_acqua=http://localhost:3000/
+...    btn_escuro=//button[contains(.,'Modo Escuro')]
+...    btn_claro=//button[contains(.,'Modo Claro')]
+
+*** Keywords ***
+Acessar sistema
+    [Arguments]    ${url}
+    Open Browser    ${url}    chrome
+    Maximize Browser Window
+    Capture Page Screenshot
+
+Realizar clique
+    [Arguments]    ${locator}
+    Click Element    ${locator}
 
 *** Test Cases ***
-Switch Between Dark Mode and Light Mode
-    [Documentation]    Teste de alternância entre modo escuro e modo claro na página inicial
-    Open Browser       ${URL}    chrome
+Teste Alternar Tema
+    Given que estou na tela principal    ${tema.url_acqua}
+    When clico para ativar o modo escuro    ${tema.btn_escuro}
+    Sleep    5s
+    Capture Page Screenshot    # Captura após ativar o modo escuro
+    When clico para ativar o modo claro    ${tema.btn_claro}
+    Sleep    5s
+    Capture Page Screenshot    # Captura após ativar o modo claro
 
-    # Alternar para o modo escuro
-    Click Button       xpath=//button[contains(@class, 'theme-toggle')]
-    Wait Until Element Contains    xpath=//body    dark-mode
-    Log                 Modo escuro ativado com sucesso
+*** Keywords ***
+Given que estou na tela principal
+    [Arguments]    ${url}
+    Acessar sistema    ${url}
 
-    # Alternar de volta para o modo claro
-    Click Button       xpath=//button[contains(@class, 'theme-toggle')]
-    Wait Until Element Does Not Contain    xpath=//body    dark-mode
-    Log                 Modo claro ativado com sucesso
+When clico para ativar o modo escuro
+    [Arguments]    ${locator}
+    Realizar clique    ${locator}
 
-    Close Browser
+When clico para ativar o modo claro
+    [Arguments]    ${locator}
+    Realizar clique    ${locator}

@@ -1,66 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.1.1 (Python 3.8.2 on win32)" generated="2024-11-12T18:11:27.327526" rpa="false" schemaversion="5">
+<robot generator="Robot 7.1.1 (Python 3.8.2 on win32)" generated="2024-11-15T19:46:40.319000" rpa="false" schemaversion="5">
 <suite id="s1" name="TestThemeToggle" source="C:\Users\lucas\OneDrive\Documentos\FACULDADE\4 semestre\Projeto aplic plataforma web\AcquaSense\AcquaSense React\src\components\AcquaNav\TestThemeToggle.robot">
-<test id="s1-t1" name="Switch Between Dark Mode and Light Mode" line="8">
+<test id="s1-t1" name="Teste Alternar Tema" line="22">
+<kw name="Given que estou na tela principal">
+<kw name="Acessar sistema">
 <kw name="Open Browser" owner="SeleniumLibrary">
-<msg time="2024-11-12T18:11:27.552688" level="INFO">Opening browser 'chrome' to base url 'http://localhost:3000/Dashboard'.</msg>
-<arg>${URL}</arg>
+<msg time="2024-11-15T19:46:40.640448" level="INFO">Opening browser 'chrome' to base url 'http://localhost:3000/'.</msg>
+<arg>${url}</arg>
 <arg>chrome</arg>
 <doc>Opens a new browser instance to the optional ``url``.</doc>
-<status status="PASS" start="2024-11-12T18:11:27.551671" elapsed="4.524466"/>
+<status status="PASS" start="2024-11-15T19:46:40.639708" elapsed="4.017025"/>
 </kw>
-<kw name="Click Button" owner="SeleniumLibrary">
-<msg time="2024-11-12T18:11:32.077133" level="INFO">Clicking button 'xpath=//button[contains(@class, 'theme-toggle')]'.</msg>
-<msg time="2024-11-12T18:11:32.183679" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-4.png"&gt;&lt;img src="selenium-screenshot-4.png" width="800px"&gt;&lt;/a&gt;</msg>
-<msg time="2024-11-12T18:11:32.183679" level="FAIL">Button with locator 'xpath=//button[contains(@class, 'theme-toggle')]' not found.</msg>
-<arg>xpath=//button[contains(@class, 'theme-toggle')]</arg>
-<doc>Clicks the button identified by ``locator``.</doc>
-<status status="FAIL" start="2024-11-12T18:11:32.076137" elapsed="0.109537">Button with locator 'xpath=//button[contains(@class, 'theme-toggle')]' not found.</status>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2024-11-15T19:46:44.656733" elapsed="0.072442"/>
 </kw>
-<kw name="Wait Until Element Contains" owner="SeleniumLibrary">
-<arg>xpath=//body</arg>
-<arg>dark-mode</arg>
-<doc>Waits until the element ``locator`` contains ``text``.</doc>
-<status status="NOT RUN" start="2024-11-12T18:11:32.185674" elapsed="0.000000"/>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-11-15T19:46:45.273791" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-4.png"&gt;&lt;img src="selenium-screenshot-4.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-11-15T19:46:44.730137" elapsed="0.543654"/>
 </kw>
-<kw name="Log" owner="BuiltIn">
-<arg>Modo escuro ativado com sucesso</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" start="2024-11-12T18:11:32.186672" elapsed="0.000000"/>
+<arg>${url}</arg>
+<status status="PASS" start="2024-11-15T19:46:40.639708" elapsed="4.634083"/>
 </kw>
-<kw name="Click Button" owner="SeleniumLibrary">
-<arg>xpath=//button[contains(@class, 'theme-toggle')]</arg>
-<doc>Clicks the button identified by ``locator``.</doc>
-<status status="NOT RUN" start="2024-11-12T18:11:32.186672" elapsed="0.000000"/>
+<arg>${tema.url_acqua}</arg>
+<status status="PASS" start="2024-11-15T19:46:40.638712" elapsed="4.635079"/>
 </kw>
-<kw name="Wait Until Element Does Not Contain" owner="SeleniumLibrary">
-<arg>xpath=//body</arg>
-<arg>dark-mode</arg>
-<doc>Waits until the element ``locator`` does not contain ``text``.</doc>
-<status status="NOT RUN" start="2024-11-12T18:11:32.186672" elapsed="0.000000"/>
+<kw name="When clico para ativar o modo escuro">
+<kw name="Realizar clique">
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2024-11-15T19:46:45.276783" level="INFO">Clicking element '//button[contains(.,'Modo Escuro')]'.</msg>
+<arg>${locator}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2024-11-15T19:46:45.275787" elapsed="0.058660"/>
 </kw>
-<kw name="Log" owner="BuiltIn">
-<arg>Modo claro ativado com sucesso</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" start="2024-11-12T18:11:32.187669" elapsed="0.000000"/>
+<arg>${locator}</arg>
+<status status="PASS" start="2024-11-15T19:46:45.275787" elapsed="0.058660"/>
 </kw>
-<kw name="Close Browser" owner="SeleniumLibrary">
-<doc>Closes the current browser.</doc>
-<status status="NOT RUN" start="2024-11-12T18:11:32.187669" elapsed="0.000000"/>
+<arg>${tema.btn_escuro}</arg>
+<status status="PASS" start="2024-11-15T19:46:45.274790" elapsed="0.059657"/>
 </kw>
-<doc>Teste de alternância entre modo escuro e modo claro na página inicial</doc>
-<status status="FAIL" start="2024-11-12T18:11:27.550674" elapsed="4.636995">Button with locator 'xpath=//button[contains(@class, 'theme-toggle')]' not found.</status>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-11-15T19:46:50.335586" level="INFO">Slept 5 seconds.</msg>
+<arg>5s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-11-15T19:46:45.334447" elapsed="5.002135"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-11-15T19:46:50.889314" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-5.png"&gt;&lt;img src="selenium-screenshot-5.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-11-15T19:46:50.338574" elapsed="0.551735"/>
+</kw>
+<kw name="When clico para ativar o modo claro">
+<kw name="Realizar clique">
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2024-11-15T19:46:50.897292" level="INFO">Clicking element '//button[contains(.,'Modo Claro')]'.</msg>
+<arg>${locator}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2024-11-15T19:46:50.896292" elapsed="0.076173"/>
+</kw>
+<arg>${locator}</arg>
+<status status="PASS" start="2024-11-15T19:46:50.895299" elapsed="0.078161"/>
+</kw>
+<arg>${tema.btn_claro}</arg>
+<status status="PASS" start="2024-11-15T19:46:50.892455" elapsed="0.081005"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-11-15T19:46:55.976345" level="INFO">Slept 5 seconds.</msg>
+<arg>5s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-11-15T19:46:50.973460" elapsed="5.002885"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-11-15T19:46:56.370632" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-6.png"&gt;&lt;img src="selenium-screenshot-6.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-11-15T19:46:55.977330" elapsed="0.393302"/>
+</kw>
+<status status="PASS" start="2024-11-15T19:46:40.636731" elapsed="15.734891"/>
 </test>
-<status status="FAIL" start="2024-11-12T18:11:27.329521" elapsed="4.859145"/>
+<status status="PASS" start="2024-11-15T19:46:40.321202" elapsed="16.050420"/>
 </suite>
 <statistics>
 <total>
-<stat pass="0" fail="1" skip="0">All Tests</stat>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat pass="0" fail="1" skip="0" id="s1" name="TestThemeToggle">TestThemeToggle</stat>
+<stat pass="1" fail="0" skip="0" id="s1" name="TestThemeToggle">TestThemeToggle</stat>
 </suite>
 </statistics>
 <errors>
