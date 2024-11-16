@@ -45,10 +45,13 @@ const BannerCarousel = () => {
             image: img1,
             buttonText: "Saiba mais...",
         },
-        
     ];
 
     const { currentItem, setCurrentItem } = useCarousel(bannerItems);
+
+    const handleRedirect = () => {
+        window.location.href = "https://acquasense-jypoxjb.gamma.site/";
+    };
 
     return (
         <div className="banner-carousel">
@@ -56,7 +59,7 @@ const BannerCarousel = () => {
                 <img src={bannerItems[currentItem].image} alt={bannerItems[currentItem].title} />
                 <div className="banner-content">
                     <h2>{bannerItems[currentItem].title}</h2>
-                    <button>{bannerItems[currentItem].buttonText}</button>
+                    <button onClick={handleRedirect}>{bannerItems[currentItem].buttonText}</button>
                 </div>
             </div>
             <div className="indicators">
@@ -71,6 +74,7 @@ const BannerCarousel = () => {
         </div>
     );
 };
+
 
 // Componente do carrossel de notícias
 const NewsCarousel = () => {
@@ -164,7 +168,7 @@ const MainContent = () => (
                 <span className='stroke-text'>AcquaSense</span>
                 <span className='fill-text'>AcquaSense</span>
             </h2> 
-            <p>Com AcquaSense, economizar água é tão fácil quanto virar a torneira.</p>
+            <p>Com AcquaSense, economizar água é tão fácil quanto girar a torneira.</p>
         </section>
 
         <div className="cards-container">

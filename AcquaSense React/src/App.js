@@ -11,6 +11,7 @@ import ConfiguHome from "./pages/Configu/ConfiguHome";
 import NotificationHome from "./pages/NotificationHome/NotificationHome";
 
 
+
 function App() {
   return (
     <BrowserRouter>

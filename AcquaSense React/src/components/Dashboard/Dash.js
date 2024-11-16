@@ -31,11 +31,11 @@ const Dash = () => {
   return (
     <section className="dashboard">
       <h2><i className="fas fa-chart-line"></i> Dashboard</h2>
-      <div id="cards-container" className="cards">
-        <div className="card    ">
+      <div id="cards-container" className="cards">  
+        <div className="card">
           <h3>Novidades</h3>
           <p>{dashboardData.news}</p>
-          <button>Veja mais</button>
+          <a href="https://acquasense-jypoxjb.gamma.site/" target="_blank"><button>Veja mais</button></a>
         </div>
         <div className="card">
           <h3>Consumo do dia</h3>
