@@ -1,26 +1,63 @@
 *** Settings ***
 Library    SeleniumLibrary
+Library    String
 
 *** Variables ***
-${URL}           http://localhost:3000/login
-${VALID_USERNAME}    testuser
-${VALID_PASSWORD}    testpassword
-${INVALID_USERNAME}  invaliduser
-${INVALID_PASSWORD}  invalidpassword
+&{login}
+...    url_login=http://localhost:3000/login
+...    url_dashboard=http://localhost:3000/Dashboard
+...    username=Lucas
+...    password=MarveLcas1634?
+...    btn_submit=//button[@type='submit']  
+
+*** Keywords ***
+Acessar sistema
+    [Arguments]    ${url}
+    Open Browser    ${url}    chrome
+    Maximize Browser Window
+    Sleep    1s 
+    Capture Page Screenshot
+
+Preencher Formulário de Login
+    [Arguments]    ${username}    ${password}
+    Input Text    name=username    ${username}
+    Input Text    name=password    ${password}
+    Capture Page Screenshot    
+    Sleep    1s  
+
+
+Submeter Formulário de Login
+    Click Button    ${login.btn_submit} 
+
+Ir Para Dashboard
+    Go To    ${login.url_dashboard}
+    Sleep    1s  
+    Capture Page Screenshot
 
 *** Test Cases ***
-Successful Login
-    Open Browser    ${URL}    chrome
-    Input Text      name=username    ${VALID_USERNAME}
-    Input Text      name=password    ${VALID_PASSWORD}
-    Click Button    xpath=//button[contains(text(), 'Entrar')]
-    Wait Until Page Contains Element    xpath=//h1[contains(text(), 'Dashboard')]
+Teste de Pesquisa Funcional
+    Given que estou na tela de login    ${login.url_login}
+    Sleep    1s  
+    When preencho o formulário de login    ${login.username}    ${login.password}
+    Sleep    1s  
+    And submeto o formulário de login
+    Sleep    1s  
+    Then vou para o dashboard
+    Sleep    1s  
     Close Browser
 
-Unsuccessful Login With Invalid Credentials
-    Open Browser    ${URL}    chrome
-    Input Text      name=username    ${INVALID_USERNAME}
-    Input Text      name=password    ${INVALID_PASSWORD}
-    Click Button    xpath=//button[contains(text(), 'Entrar')]
-    Wait Until Page Contains    Ocorreu um erro
-    Close Browser
+*** Keywords ***
+
+que estou na tela de login
+    [Arguments]    ${url}
+    Acessar sistema    ${url}
+
+ preencho o formulário de login
+    [Arguments]    ${username}    ${password}
+    Preencher Formulário de Login    ${username}    ${password}
+
+submeto o formulário de login
+    Submeter Formulário de Login
+
+vou para o dashboard
+    Ir Para Dashboard
