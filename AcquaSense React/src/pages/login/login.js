@@ -78,6 +78,7 @@ const Login = () => {
             <FontAwesomeIcon icon={faUser} />
             <input
               type="text"
+              id="username"
               name="username"
               placeholder="Username"
               value={formData.username}
@@ -102,6 +103,7 @@ const Login = () => {
             <FontAwesomeIcon icon={faLock} />
             <input
               type={showPassword ? "text" : "password"}
+              id="password"
               name="password"
               placeholder="Password"
               value={formData.password}
@@ -114,7 +116,7 @@ const Login = () => {
               onClick={togglePasswordVisibility}
             />
           </div>
-          <button type="submit" className="acqua-action-button acqua-solid-button">{isSignUp ? "Cadastrar" : "Entrar"}</button>
+          <button type="submit" className="acqua-action-button acqua-solid-button" id="buttonEntrar">{isSignUp ? "Cadastrar" : "Entrar"}</button>
           {!isSignUp && <a href="/forgot-password" clas sName="acqua-forgot-password-link">Esqueci minha senha</a>}
         </form>
         <button className="acqua-action-button acqua-transparent-button" onClick={handleFormToggle}>
