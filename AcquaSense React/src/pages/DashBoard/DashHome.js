@@ -62,7 +62,7 @@ function Dashboard() {
           <ul>
             <li><a href="/Userpage"><i className="fa-solid fa-user"></i><span> Meu Perfil</span></a></li>
             <li><a href="/Dashboard"><i className="fas fa-chart-line"></i><span> Dashboard</span></a></li>
-            <li><a href="/Consumptiondaily"><i className="fas fa-tint"></i><span> Consumo Diário</span></a></li>
+            <li><a href="/Consumptiondaily" id='consumptiondailyButton'><i className="fas fa-tint"></i><span> Consumo Diário</span></a></li>
             <li><a href="/Maintenance"><i className="fas fa-tools"></i><span> Manutenção</span></a></li>
             <li><a href="/SpecificMonitoring"><i className="fas fa-eye"></i><span> Monitoramento Específico</span></a></li>
             <li><a href="/Configuration"><i className="fa-solid fa-gear"></i><span> Configuração</span></a></li>
