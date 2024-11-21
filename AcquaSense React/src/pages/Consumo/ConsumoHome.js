@@ -178,32 +178,40 @@ function ConsumoHome() {
 
   const handleDownloadPDF = () => {
     const input = document.getElementById('graphs-container');
-    html2canvas(input)
-      .then(canvas => {
+    const headerImagePath = 'timbrado2.png'; // Caminho para a imagem do papel timbrado
+    
+    // Cria uma instância de imagem para garantir o carregamento
+    const headerImage = new Image();
+    headerImage.src = headerImagePath;
+  
+    headerImage.onload = () => {
+      html2canvas(input).then(canvas => {
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF('p', 'mm', 'a4');
+  
+        // Adiciona a imagem do timbrado na primeira página
+        pdf.addImage(headerImage, 'PNG', 0, 0, 210, 297); // Ajusta para preencher a página A4
+  
+        // Adiciona os gráficos na segunda página
+        pdf.addPage();
         const imgWidth = 190;
         const pageHeight = 290;
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        let heightLeft = imgHeight;
-        let position = 10;
-
-        // Adiciona o título ao PDF
-        pdf.setFontSize(16);
-        pdf.text('Relatório de Consumo Hídrico Residencial - ACQUASENSE', 10, 10);
-        pdf.addImage(imgData, 'PNG', 10, position + 10, imgWidth, imgHeight); // Adiciona a imagem abaixo do título
-        heightLeft -= pageHeight;
-
-        while (heightLeft >= 0) {
-          position = heightLeft - imgHeight;
-          pdf.addPage();
-          pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-          heightLeft -= pageHeight;
-        }
-        pdf.save('consumo_graficos.pdf');
-      })
-      .catch(error => console.error('Erro ao gerar PDF:', error));
+        const position = 10;
+  
+        pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+  
+        // Salva o PDF
+        pdf.save('Relatório_Consumo.pdf');
+      }).catch(error => console.error('Erro ao gerar PDF:', error));
+    };
+  
+    headerImage.onerror = () => {
+      console.error('Erro ao carregar a imagem do papel timbrado.');
+    };
   };
+  
+  
 
   const handleLogout = () => {
     // Aqui você pode adicionar a lógica de logout
