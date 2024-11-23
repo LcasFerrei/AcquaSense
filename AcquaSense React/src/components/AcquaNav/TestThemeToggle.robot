@@ -23,10 +23,10 @@ Teste Alternar Tema
     Given que estou na tela principal    ${tema.url_acqua}
     When clico para ativar o modo escuro    ${tema.btn_escuro}
     Sleep    5s
-    Capture Page Screenshot    # Captura após ativar o modo escuro
+    Capture Page Screenshot   
     When clico para ativar o modo claro    ${tema.btn_claro}
     Sleep    5s
-    Capture Page Screenshot    # Captura após ativar o modo claro
+    Capture Page Screenshot    
 
 *** Keywords ***
 Given que estou na tela principal

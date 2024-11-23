@@ -14,7 +14,7 @@ Acessar Notificação
     Open Browser    ${url}    chrome
     Maximize Browser Window
     Capture Page Screenshot  
-    Sleep    2s
+    Sleep    5s
 
 
 Verificar Redirecionamento
@@ -26,7 +26,7 @@ Verificar Redirecionamento
 *** Test Cases ***
 Teste de Acesso à Rota Notificação Sem Login
     Dado que tento acessar a rota de notificação sem login    ${notification.url_notification}
-    Então sou redirecionado para a tela de login
+    Então sou redirecionado para a tela de login   
     Close Browser
 
 *** Keywords ***
