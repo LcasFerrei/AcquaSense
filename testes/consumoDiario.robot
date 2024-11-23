@@ -1,5 +1,5 @@
 ** Settings **
-Library      SeleniumLibrary     run_on_failure=NOTHING
+Library      SeleniumLibrary     
 
 ** Variables **
 ${button_connect}        id:connectButton
@@ -21,32 +21,38 @@ Abrir hiveMQ
     Open Browser  https://www.hivemq.com/demos/websocket-client/  chrome
     Maximize Browser Window
     Sleep  2s
+    Capture Page Screenshot  hiveMQ_homepage.png
 
 Conectando o hiveMQ
     Click Element    ${button_connect}
     Sleep  2s
+    Capture Page Screenshot  hiveMQ_connected.png
 
 Adicionando novo topico
     Input Text       ${input_topic}        teste/acquasense
     Sleep  2s
     Click Element    ${button_add_subs}
     Sleep  2s
+    Capture Page Screenshot  hiveMQ_add_topic.png
     Input Text       ${input_subscribe}    teste/acquasense
     Sleep  2s
     Click Element    ${button_subscribe}
     Sleep  2s
+    Capture Page Screenshot  hiveMQ_subscribed.png
 
 Enviando mensagens
     FOR  ${i}  IN RANGE      1     5
-    Input Text    ${textarea_message}    ${i}
-    Click Element    ${button_send}
-    Sleep    2s
+        Input Text    ${textarea_message}    ${i}
+        Click Element    ${button_send}
+        Sleep    2s
+        Capture Page Screenshot  hiveMQ_message_${i}.png
     END
 
 Abrir Acquasense
     Open Browser  http://localhost:3000/  chrome
     Maximize Browser Window
     Sleep  2s
+    Capture Page Screenshot  acquasense_homepage.png
 
 Logar
     Click Element    ${button_portalCliente} 
@@ -57,10 +63,12 @@ Logar
     Sleep  2s
     Click Element    ${button_entrar}  
     Sleep  2s
+    Capture Page Screenshot  acquasense_logged_in.png
 
 Acessar a página de consumo diário
     Click Element    ${button_diario}
     Sleep  5s
+    Capture Page Screenshot  acquasense_daily_consumption.png
 
 ** Test Cases **
 Cenário 1: Inicializando o Hive MQ

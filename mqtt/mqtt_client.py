@@ -11,6 +11,7 @@ class MQTTClient:
 
     def on_connect(self, client, userdata, flags, rc):
         print(f"Conectado com código {rc}")
+        self.client.publish(self.topic, "Conectado com sucesso ao broker MQTT")
         client.subscribe(self.topic)
 
     def on_message(self, client, userdata, msg):
