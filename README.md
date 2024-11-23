@@ -41,5 +41,4 @@ Para usar este projeto, você precisará configurar suas credenciais de Wi-Fi. S
 
 ### Inicia o servidor de desenvolvimento do Django
 - python manage.py runserver
-- 
 
