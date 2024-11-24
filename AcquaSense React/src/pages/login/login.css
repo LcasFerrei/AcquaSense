@@ -173,3 +173,15 @@ h1 a {
 .acqua-logo:hover {
   transform: scale(1.05);
 }
+
+/* Remove a barra de rolagem na horizontal e vertical */
+body {
+  overflow: hidden;
+}
+
+.error-message {
+  color: #5752d4;
+  font-size: 0.875rem; /* Um pouco menor que o texto padrão */
+  margin-top: 5px;
+  text-align: left;
+}
