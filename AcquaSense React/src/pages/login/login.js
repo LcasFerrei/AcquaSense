@@ -13,6 +13,7 @@ const Login = () => {
   const [formData, setFormData] = useState({ username: '', password: '', email: '' });
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(''); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,9 +39,20 @@ const Login = () => {
     logoutUser();
 }, []);
 
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage('');
+      }, 5000); 
+
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage]);
+
   const handleFormToggle = () => {
     setIsSignUp((prev) => !prev);
     setFormData({ username: '', password: '', email: '' });
+    setErrorMessage('');
   };
 
   const handleInputChange = (e) => {
@@ -59,7 +71,7 @@ const Login = () => {
       await axios.post(url, data, { headers: { 'X-CSRFToken': getCsrfToken() }, withCredentials: true });
       navigate('/Dashboard');
     } catch (error) {
-      alert(error.response?.data?.error || 'Ocorreu um erro. Tente novamente.');
+      setErrorMessage(error.response?.data?.error || 'Ocorreu um erro. Tente novamente.');
       setFormData({ username: '', password: '', email: '' });
     }
   };
@@ -85,6 +97,11 @@ const Login = () => {
               onChange={handleInputChange}
               required
             />
+            {errorMessage && (
+              <div className="error-message">
+                {errorMessage}
+              </div>
+            )}
           </div>
           {isSignUp && (
             <div className="acqua-input-group">
@@ -109,6 +126,7 @@ const Login = () => {
               value={formData.password}
               onChange={handleInputChange}
               required
+              
             />
             <FontAwesomeIcon
               icon={showPassword ? faEyeSlash : faEye}
