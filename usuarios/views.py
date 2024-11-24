@@ -16,7 +16,7 @@ from rest_framework.parsers import JSONParser
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from usuarios.models import CustomUser
+from usuarios.models import CustomUser  # Importando o CustomUser
 import json
 from residences.models import Residencia
 
@@ -27,6 +27,7 @@ class RegisterView(APIView):
         username = request.data.get('username')
         password = request.data.get('password')
         email = request.data.get('email')
+        is_custom_user = request.data.get('is_custom_user', False)  # Parâmetro para decidir se é CustomUser
 
         # Verificação de campos obrigatórios
         if not username or not password or not email:
@@ -43,8 +44,11 @@ class RegisterView(APIView):
             with transaction.atomic():
                 if User.objects.filter(username=username).exists():
                     return Response({'error': 'Usuário já existe.'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                # Criar CustomUser (se for o caso)
+                user = User.objects.create_user(username=username, first_name=username, password=password, email=email)
+                user = CustomUser.objects.create_user(first_name=username, password=password, email=email)
 
-                user = User.objects.create_user(username=username, password=password, email=email)
         except IntegrityError:
             return Response({'error': 'Erro ao criar o usuário. Tente novamente.'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -76,13 +80,22 @@ class UserProfileView(APIView):
 
     def get(self, request):
         # Obter informações do usuário autenticado
-        user = CustomUser.objects.filter(id=request.user.id).first()
-        residencia = Residencia.objects.filter(usuario=user).first()
-
+        user = CustomUser.objects.filter(email=request.user.email).first()  # Obter usuário
+        print(user.email)
+        if not user:
+            return Response({"error": "Usuário não encontrado."}, status=status.HTTP_404_NOT_FOUND)  # Verifica se o usuário existe
+        
+        residencia = Residencia.objects.filter(usuario=user).first()  # Obter residência do usuário
+        if residencia:
+            endereco = residencia.endereco
+        else:
+            endereco = "Não cadastrado"
+        
+        # Preparar os dados de resposta
         data = {
             "name": f"{user.first_name} {user.last_name}",
-            "address": residencia.endereco if residencia else "Endereço não cadastrado",  # Pega o endereço da residência
-            "phone": user.phone_number,
+            "address": endereco,  # Pega o endereço da residência
+            "phone": user.phone_number if user.phone_number else "Não cadastrado",  # Verifica se o telefone existe
             "email": user.email,
         }
 
@@ -96,18 +109,30 @@ def user_profile_edit(request):
             data = json.loads(request.body)
 
             # Obtém o usuário e a residência
-            user = CustomUser.objects.filter(id=request.user.id).first()
+            user = CustomUser.objects.filter(email=request.user.email).first()
+            user_2 = User.objects.filter(email=request.user.email).first()
             residencia = Residencia.objects.filter(usuario=user).first()
 
-            # Atualiza os dados
+            # Atualiza os dados do usuário
             user.first_name = data.get("first_name", user.first_name)
+            user_2.first_name = data.get("first_name", user.first_name)
             user.last_name = data.get("last_name", user.last_name)
+            user_2.last_name = data.get("last_name", user.last_name)
             user.phone_number = data.get("phone", user.phone_number)
             user.email = data.get("email", user.email)
+            user_2.email = data.get("email", user.email)
 
+            # Atualiza ou cria a residência
             if residencia:
                 residencia.endereco = data.get("address", residencia.endereco)
                 residencia.save()
+            else:
+                # Cria uma nova residência com os dados fornecidos
+                Residencia.objects.create(
+                    nome=data.get("name", ""),
+                    endereco=data.get("address", ""),
+                    usuario=user
+                )
 
             user.save()
 
