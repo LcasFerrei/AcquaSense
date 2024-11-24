@@ -199,17 +199,21 @@ body {
     position: relative;
   }
   
-  #notification-icon::after {
-    content: "3"; /* Número de notificações não lidas */
+.notification-count {
     position: absolute;
-    top: -5px;
-    right: -5px;
+    top: -12px;
+    right: -10px;
     background-color: red;
     color: white;
+    font-weight: bold;
     font-size: 12px;
     padding: 3px 6px;
     border-radius: 50%;
-  }
+}
+
+.title-notification{
+  font-size: 16px;
+}
 
 .dashboard-notification-dropdown {
     display: none;

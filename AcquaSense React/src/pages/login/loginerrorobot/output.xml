@@ -1,149 +1,149 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.1.1 (Python 3.8.2 on win32)" generated="2024-11-15T20:17:50.608552" rpa="false" schemaversion="5">
+<robot generator="Robot 7.1.1 (Python 3.8.2 on win32)" generated="2024-11-17T17:34:03.064253" rpa="false" schemaversion="5">
 <suite id="s1" name="Login Erro" source="C:\Users\lucas\OneDrive\Documentos\FACULDADE\4 semestre\Projeto aplic plataforma web\AcquaSense\AcquaSense React\src\pages\login\loginerrorobot\login_erro.robot">
-<test id="s1-t1" name="Teste de Login com Email Inválido" line="40">
+<test id="s1-t1" name="Teste de Login com Email Inválido" line="39">
 <kw name="Dado que estou na tela de login">
 <kw name="Acessar sistema">
 <kw name="Open Browser" owner="SeleniumLibrary">
-<msg time="2024-11-15T20:17:50.870557" level="INFO">Opening browser 'chrome' to base url 'http://localhost:3000/dashboard'.</msg>
+<msg time="2024-11-17T17:34:03.260269" level="INFO">Opening browser 'chrome' to base url 'http://localhost:3000/login'.</msg>
 <arg>${url}</arg>
 <arg>chrome</arg>
 <doc>Opens a new browser instance to the optional ``url``.</doc>
-<status status="PASS" start="2024-11-15T20:17:50.870557" elapsed="2.924123"/>
+<status status="PASS" start="2024-11-17T17:34:03.260269" elapsed="2.374023"/>
 </kw>
 <kw name="Maximize Browser Window" owner="SeleniumLibrary">
 <doc>Maximizes current browser window.</doc>
-<status status="PASS" start="2024-11-15T20:17:53.795672" elapsed="0.050862"/>
+<status status="PASS" start="2024-11-17T17:34:05.634292" elapsed="0.028920"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-11-15T20:17:54.904939" level="INFO">Slept 1 second.</msg>
+<msg time="2024-11-17T17:34:06.668198" level="INFO">Slept 1 second.</msg>
 <arg>1s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-11-15T20:17:53.847529" elapsed="1.057410"/>
+<status status="PASS" start="2024-11-17T17:34:05.664210" elapsed="1.003988"/>
 </kw>
 <kw name="Capture Page Screenshot" owner="SeleniumLibrary">
-<msg time="2024-11-15T20:17:55.346805" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-4.png"&gt;&lt;img src="selenium-screenshot-4.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2024-11-17T17:34:07.006489" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-1.png"&gt;&lt;img src="selenium-screenshot-1.png" width="800px"&gt;&lt;/a&gt;</msg>
 <doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<status status="PASS" start="2024-11-15T20:17:54.907014" elapsed="0.440784"/>
+<status status="PASS" start="2024-11-17T17:34:06.668198" elapsed="0.338291"/>
 </kw>
 <arg>${url}</arg>
-<status status="PASS" start="2024-11-15T20:17:50.869546" elapsed="4.480255"/>
+<status status="PASS" start="2024-11-17T17:34:03.260269" elapsed="3.746220"/>
 </kw>
 <arg>${login.url_login}</arg>
-<status status="PASS" start="2024-11-15T20:17:50.867519" elapsed="4.482282"/>
+<status status="PASS" start="2024-11-17T17:34:03.259271" elapsed="3.748224"/>
 </kw>
 <kw name="Quando preencher o campo usuário com email inválido">
 <kw name="Preencher Campo Usuário">
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2024-11-15T20:17:55.358768" level="INFO">Typing text 'testeemail.com' into text field 'name=username'.</msg>
+<msg time="2024-11-17T17:34:07.010477" level="INFO">Typing text 'testeemail.com' into text field 'name=username'.</msg>
 <arg>name=username</arg>
 <arg>${username}</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2024-11-15T20:17:55.354777" elapsed="0.269963"/>
+<status status="PASS" start="2024-11-17T17:34:07.010477" elapsed="0.103722"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-11-15T20:17:56.640833" level="INFO">Slept 1 second.</msg>
+<msg time="2024-11-17T17:34:08.118035" level="INFO">Slept 1 second.</msg>
 <arg>1s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-11-15T20:17:55.625737" elapsed="1.015096"/>
+<status status="PASS" start="2024-11-17T17:34:07.114199" elapsed="1.003836"/>
 </kw>
 <arg>${username}</arg>
-<status status="PASS" start="2024-11-15T20:17:55.350788" elapsed="1.290045"/>
+<status status="PASS" start="2024-11-17T17:34:07.010477" elapsed="1.108564"/>
 </kw>
 <arg>testeemail.com</arg>
-<status status="PASS" start="2024-11-15T20:17:55.349801" elapsed="1.291032"/>
+<status status="PASS" start="2024-11-17T17:34:07.009480" elapsed="1.109561"/>
 </kw>
 <kw name="E preencher o campo senha">
 <kw name="Preencher Campo Senha">
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2024-11-15T20:17:56.642827" level="INFO">Typing text 'qualquer_senha' into text field 'name=password'.</msg>
+<msg time="2024-11-17T17:34:08.124028" level="INFO">Typing text 'numsei' into text field 'name=password'.</msg>
 <arg>name=password</arg>
 <arg>${password}</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2024-11-15T20:17:56.642827" elapsed="0.103728"/>
+<status status="PASS" start="2024-11-17T17:34:08.123079" elapsed="0.078383"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-11-15T20:17:57.753782" level="INFO">Slept 1 second.</msg>
+<msg time="2024-11-17T17:34:09.217414" level="INFO">Slept 1 second.</msg>
 <arg>1s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-11-15T20:17:56.746555" elapsed="1.007227"/>
+<status status="PASS" start="2024-11-17T17:34:08.201462" elapsed="1.015952"/>
 </kw>
 <arg>${password}</arg>
-<status status="PASS" start="2024-11-15T20:17:56.641830" elapsed="1.111952"/>
+<status status="PASS" start="2024-11-17T17:34:08.122083" elapsed="1.096390"/>
 </kw>
-<arg>qualquer_senha</arg>
-<status status="PASS" start="2024-11-15T20:17:56.641830" elapsed="1.111952"/>
+<arg>numsei</arg>
+<status status="PASS" start="2024-11-17T17:34:08.121039" elapsed="1.097434"/>
 </kw>
 <kw name="E tiro uma captura de tela do formulário preenchido">
 <kw name="Capture Page Screenshot" owner="SeleniumLibrary">
-<msg time="2024-11-15T20:17:57.986184" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-5.png"&gt;&lt;img src="selenium-screenshot-5.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2024-11-17T17:34:09.428540" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-2.png"&gt;&lt;img src="selenium-screenshot-2.png" width="800px"&gt;&lt;/a&gt;</msg>
 <doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<status status="PASS" start="2024-11-15T20:17:57.754635" elapsed="0.232332"/>
+<status status="PASS" start="2024-11-17T17:34:09.220463" elapsed="0.208077"/>
 </kw>
-<status status="PASS" start="2024-11-15T20:17:57.754635" elapsed="0.232332"/>
+<status status="PASS" start="2024-11-17T17:34:09.219418" elapsed="0.209122"/>
 </kw>
 <kw name="E submeto o formulário de login">
 <kw name="Submeter Formulário de Login">
 <kw name="Click Button" owner="SeleniumLibrary">
-<msg time="2024-11-15T20:17:57.990956" level="INFO">Clicking button '//button[@type='submit']'.</msg>
+<msg time="2024-11-17T17:34:09.430521" level="INFO">Clicking button '//button[@type='submit']'.</msg>
 <arg>${login.btn_submit}</arg>
 <doc>Clicks the button identified by ``locator``.</doc>
-<status status="PASS" start="2024-11-15T20:17:57.988964" elapsed="0.061434"/>
+<status status="PASS" start="2024-11-17T17:34:09.429522" elapsed="0.041814"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-11-15T20:17:59.057053" level="INFO">Slept 1 second.</msg>
+<msg time="2024-11-17T17:34:10.481089" level="INFO">Slept 1 second.</msg>
 <arg>1s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-11-15T20:17:58.050398" elapsed="1.007654"/>
+<status status="PASS" start="2024-11-17T17:34:09.471336" elapsed="1.009753"/>
 </kw>
-<status status="PASS" start="2024-11-15T20:17:57.988964" elapsed="1.070076"/>
+<status status="PASS" start="2024-11-17T17:34:09.429522" elapsed="1.051567"/>
 </kw>
-<status status="PASS" start="2024-11-15T20:17:57.987964" elapsed="1.071076"/>
+<status status="PASS" start="2024-11-17T17:34:09.429522" elapsed="1.051567"/>
 </kw>
 <kw name="Então o sistema exibe mensagem de erro">
 <kw name="Verificar Alerta">
 <kw name="Handle Alert" owner="SeleniumLibrary">
-<msg time="2024-11-15T20:17:59.064024" level="INFO">HANDLE::&lt;class 'NoneType'&gt;::None</msg>
-<msg time="2024-11-15T20:17:59.068627" level="INFO">${alert_text} = Credenciais inválidas.</msg>
+<msg time="2024-11-17T17:34:10.482092" level="INFO">HANDLE::&lt;class 'NoneType'&gt;::None</msg>
+<msg time="2024-11-17T17:34:10.486079" level="INFO">${alert_text} = Credenciais inválidas.</msg>
 <var>${alert_text}</var>
 <arg>action=ACCEPT</arg>
 <doc>Handles the current alert and returns its message.</doc>
-<status status="PASS" start="2024-11-15T20:17:59.064024" elapsed="0.004603"/>
+<status status="PASS" start="2024-11-17T17:34:10.482092" elapsed="0.003987"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-11-15T20:18:00.074193" level="INFO">Slept 1 second.</msg>
+<msg time="2024-11-17T17:34:11.492639" level="INFO">Slept 1 second.</msg>
 <arg>1s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-11-15T20:17:59.069626" elapsed="1.004567"/>
+<status status="PASS" start="2024-11-17T17:34:10.486079" elapsed="1.006560"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2024-11-15T20:18:00.077186" level="INFO">Alerta exibido: Credenciais inválidas.</msg>
+<msg time="2024-11-17T17:34:11.494553" level="INFO">Alerta exibido: Credenciais inválidas.</msg>
 <arg>Alerta exibido: ${alert_text}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2024-11-15T20:18:00.076187" elapsed="0.001995"/>
+<status status="PASS" start="2024-11-17T17:34:11.493561" elapsed="0.000992"/>
 </kw>
 <kw name="Should Be Equal As Strings" owner="BuiltIn">
 <arg>${alert_text}</arg>
 <arg>Credenciais inválidas.</arg>
 <doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="PASS" start="2024-11-15T20:18:00.078182" elapsed="0.002991"/>
+<status status="PASS" start="2024-11-17T17:34:11.494553" elapsed="0.000997"/>
 </kw>
 <kw name="Capture Page Screenshot" owner="SeleniumLibrary">
-<msg time="2024-11-15T20:18:00.434233" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-6.png"&gt;&lt;img src="selenium-screenshot-6.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2024-11-17T17:34:11.717229" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-3.png"&gt;&lt;img src="selenium-screenshot-3.png" width="800px"&gt;&lt;/a&gt;</msg>
 <doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<status status="PASS" start="2024-11-15T20:18:00.084165" elapsed="0.350068"/>
+<status status="PASS" start="2024-11-17T17:34:11.496547" elapsed="0.220682"/>
 </kw>
-<status status="PASS" start="2024-11-15T20:17:59.063034" elapsed="1.371786"/>
+<status status="PASS" start="2024-11-17T17:34:10.482092" elapsed="1.235137"/>
 </kw>
-<status status="PASS" start="2024-11-15T20:17:59.061035" elapsed="1.373785"/>
+<status status="PASS" start="2024-11-17T17:34:10.481089" elapsed="1.236140"/>
 </kw>
 <kw name="Close Browser" owner="SeleniumLibrary">
 <doc>Closes the current browser.</doc>
-<status status="PASS" start="2024-11-15T20:18:00.435793" elapsed="2.207688"/>
+<status status="PASS" start="2024-11-17T17:34:11.717229" elapsed="2.143114"/>
 </kw>
-<status status="PASS" start="2024-11-15T20:17:50.866522" elapsed="11.776959"/>
+<status status="PASS" start="2024-11-17T17:34:03.258273" elapsed="10.604070"/>
 </test>
-<status status="PASS" start="2024-11-15T20:17:50.610519" elapsed="12.034543"/>
+<status status="PASS" start="2024-11-17T17:34:03.067306" elapsed="10.798073"/>
 </suite>
 <statistics>
 <total>

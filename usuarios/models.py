@@ -24,6 +24,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)  # Novo campo
 
     objects = CustomUserManager()
 
@@ -31,7 +32,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
     def __str__(self):
-        return self.email
+        return self.first_name
 
     groups = models.ManyToManyField(
         'auth.Group',

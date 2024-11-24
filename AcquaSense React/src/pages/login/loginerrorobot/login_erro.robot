@@ -1,6 +1,5 @@
 *** Settings ***
 Library    SeleniumLibrary
-Library    String
 
 *** Variables ***
 &{login}
@@ -40,7 +39,7 @@ Verificar Alerta
 Teste de Login com Email Inválido
     Dado que estou na tela de login    ${login.url_login}
     Quando preencher o campo usuário com email inválido    testeemail.com
-    E preencher o campo senha    qualquer_senha
+    E preencher o campo senha    numsei
     E tiro uma captura de tela do formulário preenchido
     E submeto o formulário de login
     Então o sistema exibe mensagem de erro
