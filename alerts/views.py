@@ -6,7 +6,7 @@ from usuarios.models import CustomUser
 
 @login_required
 def notificacoes(request):
-    user = CustomUser.objects.filter(id=request.user.id).first()
+    user = CustomUser.objects.filter(email=request.user.email).first()
     notificacoes = Notificacao.objects.filter(usuario=user).order_by('-data_hora')
 
     # Transformando as notificações em um formato de dicionário para enviar ao frontend
@@ -27,7 +27,7 @@ def notificacoes(request):
 
 @login_required
 def nao_lidas_notificacoes(request):
-    user = CustomUser.objects.filter(id=request.user.id).first()
+    user = CustomUser.objects.filter(email=request.user.email).first()
     unread_count = Notificacao.objects.filter(usuario=user, lida=False)
 
     # Transformando as notificações em um formato de dicionário para enviar ao frontend
@@ -48,14 +48,14 @@ def nao_lidas_notificacoes(request):
 
 @login_required
 def get_unread_notifications(request):
-    user = CustomUser.objects.filter(id=request.user.id).first()
+    user = CustomUser.objects.filter(email=request.user.email).first()
     unread_count = Notificacao.objects.filter(usuario=user, lida=False).count()
     return JsonResponse({"unread_count": unread_count})
 
 @login_required
 def marcar_como_lida(request, notificacao_id):
     try:
-        user = CustomUser.objects.filter(id=request.user.id).first()
+        user = CustomUser.objects.filter(email=request.user.email).first()
         notificacao = Notificacao.objects.get(id=notificacao_id, usuario=user)
         notificacao.lida = True
         notificacao.save()
