@@ -108,6 +108,10 @@ body {
     background-color: var(--news-button-hover-bg-color);
 }
 
+.card-href{
+    text-decoration: none;
+}
+
 /* Responsividade para telas menores */
 @media (max-width: 768px) {
     .dashboard {

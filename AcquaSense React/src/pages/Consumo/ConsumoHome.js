@@ -328,6 +328,7 @@ function ConsumoHome() {
                   type="monotone"
                   dataKey="consumo"
                   stroke="#8884d8"
+                  strokeWidth={4}
                   dot={false} // Isso remove os pontos, apenas desenhando a linha.
                 />
               </LineChart>
