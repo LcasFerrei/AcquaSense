@@ -1,46 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Noti.css';
 
-const notificationsData = [
-  {
-    id: 1,
-    title: 'AcquaSoft Instalado com sucesso',
-    time: '2 minutos atrás',
-    details: 'O sistema AcquaSoft foi instalado e está pronto para uso.',
-    unread: true,
-  },
-  {
-    id: 2,
-    title: 'Atualização do sistema disponível',
-    time: '1 hora atrás',
-    details: 'Uma nova atualização do sistema está disponível para download.',
-    unread: true,
-  },
-  {
-    id: 3,
-    title: 'Seja Bem-Vindo ao AcquaSense',
-    time: '3 horas atrás',
-    details: 'Obrigado por se registrar no AcquaSense. Explore nossos recursos!',
-    unread: false,
-  }
-];
-
 const Noti = () => {
-  const [notifications, setNotifications] = useState(notificationsData);
-  const [selectedNotification, setSelectedNotification] = useState(notificationsData[0]);
+
+  const [notifications, setNotifications] = useState([]);
+  const [selectedNotification, setSelectedNotification] = useState(null);
   const [filter, setFilter] = useState('all');
 
-  // Função para marcar como lido
-  const handleMarkAsRead = (id) => {
-    setNotifications(notifications.map((notification) =>
-      notification.id === id ? { ...notification, unread: false } : notification
-    ));
-  };
+  // Função para buscar notificações da API Django
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const response = await fetch('http://localhost:8000/alerts/notificacoes/', {
+        method: "GET",
+        credentials: "include", // Envia cookies de autenticação
+      });
+      const data = await response.json();
+      setNotifications(data.notificacoes);
+      console.log(data.notificacoes)
+      if (data.notificacoes.length > 0) {
+        setSelectedNotification(data.notificacoes[0]);
+      }
+    };
+    fetchNotifications();
+  }, []);
 
-  // Função para excluir notificação
-  const handleDeleteNotification = (id) => {
-    setNotifications(notifications.filter((notification) => notification.id !== id));
-    if (selectedNotification.id === id) setSelectedNotification(null);
+  function getCsrfToken() {
+    const name = 'csrftoken';
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  }
+
+  // Função para marcar como lido
+  const handleMarkAsRead = async (id) => {
+    const csrfToken = getCsrfToken(); // Obtém o token CSRF
+
+    try {
+      const response = await fetch(`http://localhost:8000/alerts/notificacao/marcar_como_lida/${id}/`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken,  // Adiciona o CSRF token no cabeçalho
+        },
+        credentials: "include",  // Envia cookies de autenticação
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        setNotifications(notifications.map((notification) =>
+          notification.id === id ? { ...notification, unread: false } : notification
+        ));
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Erro ao marcar como lido:', error);
+      alert('Erro ao marcar a notificação como lida.');
+    }
   };
 
   // Função para filtrar notificações
@@ -54,19 +72,15 @@ const Noti = () => {
 
   return (
     <div className="notifications-container">
-      {/* Cabeçalho das notificações */}
       <div className="notifications-header">
         <h2><i className="fas fa-bell"></i> Notificações</h2>
       </div>
-
-      {/* Filtros de notificações */}
       <div className="notifications-filters">
         <button onClick={() => setFilter('all')}>Todas</button>
         <button onClick={() => setFilter('unread')}>Não lidas</button>
       </div>
 
       <div className="notifications-content">
-        {/* Lista de notificações */}
         <div className="notifications-list">
           {filteredNotifications.map((notification) => (
             <div
@@ -77,7 +91,6 @@ const Noti = () => {
               <div className="notification-info">
                 <h4>{notification.title}</h4>
                 <span className="notification-time">{notification.time}</span>
-                {/* Indicador de nova notificação */}
                 {notification.unread && <span className="new-indicator"></span>}
               </div>
               <i className="fas fa-chevron-right"></i>
@@ -85,7 +98,6 @@ const Noti = () => {
           ))}
         </div>
 
-        {/* Detalhes da notificação */}
         {selectedNotification && (
           <div className="notification-details">
             <div className="details-header">
@@ -94,9 +106,7 @@ const Noti = () => {
             </div>
             <p>{selectedNotification.details}</p>
             <div className="notification-actions">
-              {/* Botões de ações */}
               <button onClick={() => handleMarkAsRead(selectedNotification.id)}>Marcar como lido</button>
-              <button onClick={() => handleDeleteNotification(selectedNotification.id)}>Excluir</button>
             </div>
           </div>
         )}
