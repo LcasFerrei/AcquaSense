@@ -60,7 +60,6 @@ const Login = () => {
       navigate('/Dashboard');
     } catch (error) {
       alert(error.response?.data?.error || 'Ocorreu um erro. Tente novamente.');
-      setFormData({ username: '', password: '', email: '' });
     }
   };
 

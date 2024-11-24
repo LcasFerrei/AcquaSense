@@ -1,33 +1,55 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './User.css'; // Atualize o nome do CSS se necessário
 
 const UserProfile = () => {
+  const [personalInfo, setPersonalInfo] = useState({
+    name: '',
+    address: '',
+    phone: '',
+    email: ''
+  });
   const [paymentMethod, setPaymentMethod] = useState('Cartão de Crédito');
   const [tempPaymentMethod, setTempPaymentMethod] = useState('Cartão de Crédito'); // Estado temporário para a forma de pagamento
-  const [personalInfo, setPersonalInfo] = useState({
-    name: 'Seu nome',
-    address: 'Rua Exemplo, 123',
-    phone: '(XX) 1234-5678',
-    email: 'meuemail@example.com'
-  });
-  const [profileImage, setProfileImage] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [updateMessage, setUpdateMessage] = useState(''); // Mensagem para feedback do usuário
-
-  // Atualizar a lógica para os ícones de pagamento
+  const [updateMessage, setUpdateMessage] = useState('');
   const paymentIcons = {
     'Cartão de Crédito': '/cartao.png', // Imagem do Cartão de Crédito
     'Boleto': '/boleto.png', // Imagem do Boleto
     'PIX': '/pix.png' // Imagem do PIX
   };
-  
 
+  // Fetch user profile data when the component mounts
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/user-profile/', {
+          method: "GET",
+          credentials: "include", // Envia cookies de autenticação
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setPersonalInfo({
+            name: data.name,
+            address: data.address || '',
+            phone: data.phone || '',
+            email: data.email || '',
+          });
+        } else {
+          console.error('Erro ao carregar perfil:', data);
+        }
+      } catch (error) {
+        console.error('Erro na requisição:', error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   const handlePaymentChange = (e) => {
     setTempPaymentMethod(e.target.value); // Atualiza o estado temporário
   };
 
+  // Handle input changes
   const handlePersonalInfoChange = (e) => {
     const { name, value } = e.target;
     setPersonalInfo({
@@ -36,21 +58,6 @@ const UserProfile = () => {
     });
   };
 
-  const handleImageChange = (e) => {
-    if (e.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setProfileImage(e.target.result);
-      };
-      reader.readAsDataURL(e.target.files[0]);
-    }
-  };
-
-  const handleRemoveImage = () => {
-    setProfileImage(null);
-  };
-
-  // Função para atualizar a forma de pagamento
   const handleUpdatePaymentMethod = () => {
     setPaymentMethod(tempPaymentMethod); // Atualiza a forma de pagamento com o estado temporário
     const message = `Forma de pagamento atualizada para: ${tempPaymentMethod}`;
@@ -61,15 +68,53 @@ const UserProfile = () => {
     }, 1000);
   };
 
-  // Adicionando validação ao atualizar informações
-  const handleUpdate = () => {
+  function getCsrfToken() {
+    const name = 'csrftoken';
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  }
+
+  // Update user profile
+  const handleUpdate = async () => {
+    const csrfToken = getCsrfToken(); // Obtém o token CSRF
+
     if (!personalInfo.name || !personalInfo.email) {
       setUpdateMessage('Por favor, preencha todos os campos obrigatórios.');
       return;
     }
-    console.log('Informações Atualizadas:', personalInfo);
-    setIsEditing(false);
-    setUpdateMessage('Informações atualizadas com sucesso!');
+
+    try {
+      const token = localStorage.getItem('authToken'); // Supondo que o token está armazenado no localStorage
+      const response = await fetch('http://localhost:8000/api/user-profile-edit/', {
+        method: 'POST',
+        credentials: "include",
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken,  // Adiciona o CSRF token no cabeçalho
+        },
+        body: JSON.stringify({
+          first_name: personalInfo.name.split(' ')[0],
+          last_name: personalInfo.name.split(' ').slice(1).join(' '),
+          phone: personalInfo.phone,
+          address: personalInfo.address,
+          email: personalInfo.email,
+        }),
+      });
+
+      if (response.ok) {
+        setIsEditing(false);
+        setUpdateMessage('Informações atualizadas com sucesso!');
+      } else {
+        const data = await response.json();
+        console.error('Erro ao atualizar perfil:', data);
+        setUpdateMessage('Erro ao atualizar perfil.');
+      }
+    } catch (error) {
+      console.error('Erro na requisição:', error);
+      setUpdateMessage('Erro ao atualizar perfil.');
+    }
   };
 
   return (
@@ -79,7 +124,6 @@ const UserProfile = () => {
         <div className="profile-info">
           <div className="profile-card">
             <h3>Informações Pessoais</h3>
-            <img src={profileImage || 'https://via.placeholder.com/100'} alt="Perfil" />
             <div className="form-group">
               <label>Nome:</label>
               <input
@@ -120,22 +164,21 @@ const UserProfile = () => {
                 disabled={!isEditing}
               />
             </div>
-            {isEditing && (
-              <div className="form-group">
-                <label>Foto de perfil:</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                />
-                <button className="remove-photo-button" onClick={handleRemoveImage}>Remover Foto</button>
-              </div>
-            )}
             {isEditing ? (
+              <>
+              <div className="button-container">
               <button onClick={handleUpdate}>Salvar</button>
-            ) : (
-              <button onClick={() => setIsEditing(true)}>Editar Informações</button>
-            )}
+              <button 
+                onClick={() => {
+                  setIsEditing(false);
+                }}
+              >
+                Cancelar edição
+              </button></div>
+            </>
+          ) : (
+            <button onClick={() => setIsEditing(true)}>Editar Informações</button>
+          )}
           </div>
         </div>
         <div className="profile-payment">
@@ -170,13 +213,12 @@ const UserProfile = () => {
               </select>
             </div>
             <button onClick={handleUpdatePaymentMethod}>Confirmar forma de pagamento</button>
-            {updateMessage && <p className="update-message update-text">{updateMessage}</p>} {/* Exibe mensagem de atualização */}
 
           </div>
         </div>
       </div>
     </section>
   );
-}
+};
 
 export default UserProfile;

@@ -1,6 +1,8 @@
 # views.py
 from django.shortcuts import redirect
+from django.db import IntegrityError, transaction
 from django.utils.deprecation import MiddlewareMixin
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -10,9 +12,13 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
+from rest_framework.parsers import JSONParser
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from usuarios.models import CustomUser
+import json
+from residences.models import Residencia
 
 class RegisterView(APIView):
     permission_classes = [AllowAny]
@@ -22,20 +28,33 @@ class RegisterView(APIView):
         password = request.data.get('password')
         email = request.data.get('email')
 
+        # Verificação de campos obrigatórios
         if not username or not password or not email:
             return Response({'error': 'Todos os campos são obrigatórios.'}, status=status.HTTP_400_BAD_REQUEST)
 
+        # Validação de senha
         try:
             validate_password(password)
         except ValidationError as e:
-            # Junta todas as mensagens de erro em uma única string
             return Response({'error': ' '.join(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
 
-        if User.objects.filter(username=username).exists():
-            return Response({'error': 'Usuário já existe.'}, status=status.HTTP_400_BAD_REQUEST)
+        # Criar o usuário dentro de uma transação atômica
+        try:
+            with transaction.atomic():
+                if User.objects.filter(username=username).exists():
+                    return Response({'error': 'Usuário já existe.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        user = User.objects.create_user(username=username, password=password, email=email)
-        return Response({'message': 'Usuário registrado com sucesso.'}, status=status.HTTP_201_CREATED)
+                user = User.objects.create_user(username=username, password=password, email=email)
+        except IntegrityError:
+            return Response({'error': 'Erro ao criar o usuário. Tente novamente.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Autenticar e logar o usuário
+        authenticated_user = authenticate(username=username, password=password)
+        if authenticated_user is not None:
+            login(request, authenticated_user)
+            return Response({'message': 'Login bem-sucedido.'}, status=status.HTTP_201_CREATED)
+
+        return Response({'error': 'Erro ao autenticar o usuário.'}, status=status.HTTP_400_BAD_REQUEST)
     
 class LoginView(APIView):
     permission_classes = [AllowAny]
@@ -52,10 +71,59 @@ class LoginView(APIView):
         else:
             return Response({'error': 'Credenciais inválidas.'}, status=status.HTTP_401_UNAUTHORIZED)
 
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        # Obter informações do usuário autenticado
+        user = CustomUser.objects.filter(id=request.user.id).first()
+        residencia = Residencia.objects.filter(usuario=user).first()
+
+        data = {
+            "name": f"{user.first_name} {user.last_name}",
+            "address": residencia.endereco if residencia else "Endereço não cadastrado",  # Pega o endereço da residência
+            "phone": user.phone_number,
+            "email": user.email,
+        }
+
+        return Response(data)
+    
+@login_required
+def user_profile_edit(request):
+    if request.method == 'POST':
+        try:
+            # Parse o corpo da requisição JSON
+            data = json.loads(request.body)
+
+            # Obtém o usuário e a residência
+            user = CustomUser.objects.filter(id=request.user.id).first()
+            residencia = Residencia.objects.filter(usuario=user).first()
+
+            # Atualiza os dados
+            user.first_name = data.get("first_name", user.first_name)
+            user.last_name = data.get("last_name", user.last_name)
+            user.phone_number = data.get("phone", user.phone_number)
+            user.email = data.get("email", user.email)
+
+            if residencia:
+                residencia.endereco = data.get("address", residencia.endereco)
+                residencia.save()
+
+            user.save()
+
+            return JsonResponse({"message": "Perfil atualizado com sucesso!"}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({"message": "Erro ao processar os dados."}, status=400)
+    return JsonResponse({"message": "Método inválido"}, status=400)
+
 @login_required()
 def check_auth(request):
-    print('True')
-    return JsonResponse({'authenticated': True})    
+    return JsonResponse({'authenticated': True})   
+
+@api_view(['GET'])
+@login_required()
+def get_username(request):
+    return Response({'username': request.user.username}) 
 
 @api_view(['GET'])
 def config(request):

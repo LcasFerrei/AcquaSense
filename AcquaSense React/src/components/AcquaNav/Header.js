@@ -4,11 +4,14 @@ import { ThemeContext } from '../ThemeContext';
 import './Header.css';
 
 const HeaderNav = ({ handleMenuToggle }) => {
+  const [notifications, setNotifications] = useState([]);
+  const [username, setUsername] = useState('');
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [noResults, setNoResults] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
   const notificationRef = useRef(null);
   const searchRef = useRef(null);
   const navigate = useNavigate();
@@ -42,6 +45,62 @@ const HeaderNav = ({ handleMenuToggle }) => {
     'Relatórios de Consumo': '/Configuration',
     'Perfil': '/userPage',
   };
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/alerts/notificacao/nao_lidas_notificacoes/', {
+          method: "GET",
+          credentials: "include", // Envia cookies de autenticação
+        });
+        if (!response.ok) throw new Error('Erro ao buscar notificações');
+        const data = await response.json();
+        setNotifications(data.notificacoes);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/username/', {
+          method: "GET",
+          credentials: "include", // Envia cookies de autenticação
+        });
+        if (!response.ok) throw new Error('Erro ao buscar o nome de usuário');
+        
+        const data = await response.json();
+        setUsername(data.username);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUsername();
+  }, []);
+
+  useEffect(() => {
+    const fetchUnreadNotifications = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/alerts/notificacao/unread-notifications/', {
+          method: 'GET',
+          credentials: 'include', // Para garantir que os cookies sejam enviados com a requisição
+        });
+        if (!response.ok) throw new Error('Erro ao buscar notificações não lidas');
+        
+        const data = await response.json();
+        setUnreadCount(data.unread_count);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUnreadNotifications();
+  }, []);
 
   const handleSearch = (event) => {
     const value = event.target.value;
@@ -131,35 +190,34 @@ const HeaderNav = ({ handleMenuToggle }) => {
           </div>
         )}
         <div className="dashboard-user-info">
-          <p>Bem-vindo de volta, <strong>Usuário</strong></p>
+        <p>Bem-vindo de volta, <strong>{username}</strong></p>
           {!isMobileView && (
             <>
-              <div className="dashboard-notification-container" ref={notificationRef}>
-                <i
-                  className="fas fa-bell"
-                  id="notification-icon"
-                  onClick={handleNotificationClick}
-                ></i>
-                {isNotificationOpen && (
-                  <div className="dashboard-notification-dropdown" id="dashboard-notification-dropdown">
-                    <h3><a href="/Notification">Notificações</a></h3>
-                    <ul>
-                      <li onClick={() => navigate('/notification')}>
-                        AcquaSoft Instalando com Sucesso
-                        <span className="notification-time">2 minutos atrás</span>
-                      </li> 
-                      <li onClick={() => navigate('/notification')}>
-                        Atualização do sistema disponível
-                        <span className="notification-time">1 hora atrás</span>
-                      </li>
-                      <li onClick={() => navigate('/notification')}>
-                        Seja Bem Vindo AcquaSense
-                        <span className="notification-time">3 horas atrás</span>
-                      </li>
-                    </ul>
-                  </div>
-                )}
+              <div className="dashboard-notification-container">
+              <div>
+                <i className="fas fa-bell" 
+                id="notification-icon" onClick={handleNotificationClick}>
+                </i>
+                {unreadCount > 0 && <span className="notification-count">{unreadCount}</span>}
               </div>
+              {isNotificationOpen && (
+                <div className="dashboard-notification-dropdown" id="dashboard-notification-dropdown">
+                  <h3><a href="/Notification">Notificações</a></h3>
+                  <ul>
+                    {notifications.length > 0 ? (
+                      notifications.map((notification) => (
+                        <li onClick={() => navigate(`/notification/`)}>
+                          <span className="notification-title"><strong className='title-notification'>{notification.title}</strong></span>
+                          <span className="notification-time">{notification.time}</span>
+                        </li>
+                      ))
+                    ) : (
+                      <li onClick={() => navigate(`/notification/`)}>Sem novas notificações</li>
+                    )}
+                  </ul>
+                </div>
+              )}
+            </div>
               <button id="theme-toggle" onClick={toggleTheme}>
                 <i className={`fa-solid ${isDarkMode ? 'fa-sun' : 'fa-moon'}`}></i> 
                 {isDarkMode ? 'Modo Claro' : 'Modo Escuro'}
