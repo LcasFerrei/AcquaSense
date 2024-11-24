@@ -81,7 +81,7 @@ class UserProfileView(APIView):
     def get(self, request):
         # Obter informações do usuário autenticado
         user = CustomUser.objects.filter(email=request.user.email).first()  # Obter usuário
-        print(user.email)
+        print(user)
         if not user:
             return Response({"error": "Usuário não encontrado."}, status=status.HTTP_404_NOT_FOUND)  # Verifica se o usuário existe
         
@@ -111,6 +111,9 @@ def user_profile_edit(request):
             # Obtém o usuário e a residência
             user = CustomUser.objects.filter(email=request.user.email).first()
             user_2 = User.objects.filter(email=request.user.email).first()
+
+            print(user)
+            print(user_2)
             residencia = Residencia.objects.filter(usuario=user).first()
 
             # Atualiza os dados do usuário
@@ -121,6 +124,9 @@ def user_profile_edit(request):
             user.phone_number = data.get("phone", user.phone_number)
             user.email = data.get("email", user.email)
             user_2.email = data.get("email", user.email)
+
+            print(user.email)
+            print(user_2.email)
 
             # Atualiza ou cria a residência
             if residencia:
@@ -135,6 +141,7 @@ def user_profile_edit(request):
                 )
 
             user.save()
+            user_2.save()
 
             return JsonResponse({"message": "Perfil atualizado com sucesso!"}, status=200)
         except json.JSONDecodeError:

@@ -29,6 +29,7 @@ body {
 
 .acqua-login-wrapper {
   display: grid;
+  overflow-y: hidden;
   grid-template-columns: 1fr 1fr;
   width: 100vw;
   height: 100vh;
@@ -174,10 +175,6 @@ h1 a {
   transform: scale(1.05);
 }
 
-/* Remove a barra de rolagem na horizontal e vertical */
-body {
-  overflow: hidden;
-}
 
 .error-message {
   color: #5752d4;
