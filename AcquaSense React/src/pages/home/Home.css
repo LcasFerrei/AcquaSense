@@ -709,7 +709,6 @@ button, a {
 /* Estilização específica para os parágrafos */
 .card p {
     line-height: 1.6;
-    text-align: justify; /* Justifica o texto para formatação consistente */
 }
 
 /* Estilização adicional para layout responsivo */
