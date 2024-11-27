@@ -1,681 +1,700 @@
 /* Variáveis de tema claro */
 :root {
-    --bg-color: #f8f8f8;
-    --text-color: #333;
-    --sidebar-bg-color: #f3eaff;
-    --logo-color: #6c63ff;
-    --nav-link-color: #333;
-    --nav-link-hover-bg-color: #e0d4ff;
-    --nav-link-hover-color: #6c63ff;
-    --header-bg-color: #fff;
-    --header-border-color: #ddd;
-    --card-bg-color: #fff;
-    --news-card-bg-color: #eef6ff;
-    --news-button-bg-color: #6c63ff;
-    --news-button-hover-bg-color: #5752d4;
+  --bg-color: #f8f8f8;
+  --text-color: #333;
+  --sidebar-bg-color: #f3eaff;
+  --logo-color: #6c63ff;
+  --nav-link-color: #333;
+  --nav-link-hover-bg-color: #e0d4ff;
+  --nav-link-hover-color: #6c63ff;
+  --header-bg-color: #fff;
+  --header-border-color: #ddd;
+  --card-bg-color: #fff;
+  --news-card-bg-color: #eef6ff;
+  --news-button-bg-color: #6c63ff;
+  --news-button-hover-bg-color: #5752d4;
 }
 
 /* Variáveis de tema escuro */
 body.dark-mode {
-    --bg-color: #181818;
-    --text-color: #f0f0f0;
-    --sidebar-bg-color: #222222;
-    --logo-color: #bb86fc;
-    --nav-link-color: #f0f0f0;
-    --nav-link-hover-bg-color: #333333;
-    --nav-link-hover-color: #bb86fc;
-    --header-bg-color: #222222;
-    --header-border-color: #333333;
-    --card-bg-color: #333333;
-    --news-card-bg-color: #2c2c2c;
-    --news-button-bg-color: #bb86fc;
-    --news-button-hover-bg-color: #8e7af7;
+  --bg-color: #181818;
+  --text-color: #f0f0f0;
+  --sidebar-bg-color: #222222;
+  --logo-color: #bb86fc;
+  --nav-link-color: #f0f0f0;
+  --nav-link-hover-bg-color: #333333;
+  --nav-link-hover-color: #bb86fc;
+  --header-bg-color: #222222;
+  --header-border-color: #333333;
+  --card-bg-color: #333333;
+  --news-card-bg-color: #2c2c2c;
+  --news-button-bg-color: #bb86fc;
+  --news-button-hover-bg-color: #8e7af7;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: var(--bg-color);
-    color: var(--text-color);
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 .container {
-    display: flex;
-    height: 100vh;
+  display: flex;
+  height: 100vh;
 }
 
 .dashboard-sidebar {
-    position: fixed; /* Alterei o Posicionamento fixo */
-    width: 340px; /* Muda o roxo do nome AcquaSense */
-    background-color: var(--sidebar-bg-color);
-    padding: 20px;
-    transition: transform 0.5s ease;
+  position: fixed; /* Alterei o Posicionamento fixo */
+  width: 340px; /* Muda o roxo do nome AcquaSense */
+  background-color: var(--sidebar-bg-color);
+  padding: 20px;
+  transition: transform 0.5s ease;
 }
 
 .dashboard-sidebar.hidden {
-    transform: translateX(-100%);
-    transition: transform 0.5s ease;
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
 }
 
 .dashboard-logo-menu {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .dashboard-logo {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 .dashboard-logo h2 {
-    font-size: 35px;
-    color: var(--logo-color);
+  font-size: 35px;
+  color: var(--logo-color);
 }
 
 .dashboard-nav ul {
-    list-style: none;
-    padding: 0;
-    width: 100%;
+  list-style: none;
+  padding: 0;
+  width: 100%;
 }
 
 .dashboard-nav ul li {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .dashboard-nav ul li a {
-    text-decoration: none;
-    color: var(--nav-link-color);
-    font-size: 18px;
-    display: block;
-    width: 100%;
-    padding: 12px 25px;
-    border-radius: 5px; /* Era 5 */ 
+  text-decoration: none;
+  color: var(--nav-link-color);
+  font-size: 18px;
+  display: block;
+  width: 100%;
+  padding: 12px 25px;
+  border-radius: 5px; /* Era 5 */ 
 }
 
 .dashboard-nav ul li a:hover {
-    background-color: var(--nav-link-hover-bg-color);
-    color: var(--nav-link-hover-color);
+  background-color: var(--nav-link-hover-bg-color);
+  color: var(--nav-link-hover-color);
 }
 
 /* Espaçamento para o conteúdo principal devido ao cabeçalho fixo */
 .dashboard-main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    transition: margin-left 0.3s ease; /* Adiciona a transição para mover o conteúdo */
-    margin-left: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease; /* Adiciona a transição para mover o conteúdo */
+  margin-left: 0;
 }
 
 .dashboard-main-content.expanded {
-    margin-left: -250px; /* Move o conteúdo para a esquerda quando a sidebar estiver oculta */
+  margin-left: -250px; /* Move o conteúdo para a esquerda quando a sidebar estiver oculta */
 }
 
 /* Estilo para o cabeçalho fixo */
 .dashboard-header {
-    display: flex;
-    justify-content: space-between; /* Espaça itens horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    padding: 20px;
-    background-color: var(--header-bg-color);
-    border-bottom: 1px solid var(--header-border-color);
-    position: fixed; /* Fixa o cabeçalho no topo */
-    top: 0;
-    left: 250px; /* Alinha ao lado da sidebar a pesquisa */
-    right: 0;
-    z-index: 1000; /* Certifica-se de que o cabeçalho fique acima de outros elementos */
-    height: 80px; /* Define a altura do cabeçalho */
+  display: flex;
+  justify-content: space-between; /* Espaça itens horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  padding: 20px;
+  background-color: var(--header-bg-color);
+  border-bottom: 1px solid var(--header-border-color);
+  position: fixed; /* Fixa o cabeçalho no topo */
+  top: 0;
+  left: 250px; /* Alinha ao lado da sidebar a pesquisa */
+  right: 0;
+  z-index: 1000; /* Certifica-se de que o cabeçalho fique acima de outros elementos */
+  height: 80px; /* Define a altura do cabeçalho */
 }
 
 .dashboard-search-bar {
-    display: flex;
-    align-items: center;
-    position: relative; /* Permite que a lista de sugestões fique posicionada em relação a este elemento */
+  display: flex;
+  align-items: center;
+  position: relative; /* Permite que a lista de sugestões fique posicionada em relação a este elemento */
 
 }
 
 .suggestions-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: var(--card-bg-color); /* Usar a cor de fundo do card baseada no tema */
-    color: var(--text-color); /* Usar a cor do texto baseada no tema */
-    border: 1px solid var(--header-border-color); /* Usar a cor da borda baseada no tema */
-    z-index: 1000;
-    max-height: 200px;
-    overflow-y: auto;
-  }
-  
-  .suggestions-list li {
-    padding: 10px;
-    cursor: pointer;
-    background-color: var(--card-bg-color); /* Cor de fundo para cada item */
-    color: var(--text-color); /* Cor do texto para cada item */
-  }
-  
-  .suggestions-list li:hover {
-    background-color: var(--nav-link-hover-bg-color); /* Destaque no hover baseado no tema */
-    color: var(--nav-link-hover-color); /* Cor do texto no hover baseada no tema */
-  }
-  
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--card-bg-color); /* Usar a cor de fundo do card baseada no tema */
+  color: var(--text-color); /* Usar a cor do texto baseada no tema */
+  border: 1px solid var(--header-border-color); /* Usar a cor da borda baseada no tema */
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.suggestions-list li {
+  padding: 10px;
+  cursor: pointer;
+  background-color: var(--card-bg-color); /* Cor de fundo para cada item */
+  color: var(--text-color); /* Cor do texto para cada item */
+}
+
+.suggestions-list li:hover {
+  background-color: var(--nav-link-hover-bg-color); /* Destaque no hover baseado no tema */
+  color: var(--nav-link-hover-color); /* Cor do texto no hover baseada no tema */
+}
+
 
 .dashboard-search-bar i {
-    font-size: 24px;
-    margin-right: 10px;
-    cursor: pointer;
+  font-size: 24px;
+  margin-right: 10px;
+  cursor: pointer;
 }
 
 .dashboard-search-bar input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 250px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 250px;
 }
 
 .dashboard-user-info {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Alinha à direita */
+  gap: 20px;
+  margin-right: 150px; /* Ajuste o valor conforme necessário */
+  position: fixed; /* Faz os itens ficarem fixos */
+  top: 20px; /* Ajuste a distância do topo conforme necessário */
+  right: -80px; /* Ajuste a distância da borda direita conforme necessário */
+  z-index: 1001; /* Garante que os itens fiquem sobre outros elementos */
 }
-
 .dashboard-user-info p {
-    margin: 0;
+  margin: 0;
+  font-size: 16px; /* Ajuste o tamanho conforme necessário */
 }
 
 .dashboard-notification-container {
-    position: relative;
+  position: relative;
 }
 
 .dashboard-notification-container:hover .dashboard-notification-dropdown {
-    display: block;
-  }
+  display: block;
+}
 
-  #notification-icon {
-    font-size: 24px;
-    cursor: pointer;
-    position: relative;
-  }
-  
+#notification-icon {
+  position: absolute;
+  top: -9px;
+  right: -10px;
+}
+
 .notification-count {
-    position: absolute;
-    top: -12px;
-    right: -10px;
-    background-color: red;
-    color: white;
-    font-weight: bold;
-    font-size: 12px;
-    padding: 3px 6px;
-    border-radius: 50%;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px 10px;
+  font-size: 12px;
 }
 
 .title-notification{
-  font-size: 16px;
+font-size: 16px;
 }
-
+/*parece que é aqui pra ficar igual o do face */
 .dashboard-notification-dropdown {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 400px;
-    background-color: var(--card-bg-color);
-    border: 1px solid var(--header-border-color);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 10;
+  position: fixed;
+  top: 20px;  /* Ajuste a distância do topo conforme necessário */ 
+  right: 20px;
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 999;
 }
 
 .dashboard-notification-dropdown h3 {
-    margin: 0 0 10px 0;
-    font-size: 18px;
-    font-weight: bold;
-  }
+  padding: 10px;
+  margin: 0;
+  background-color: #f4f4f4;
+  font-size: 16px;
+}
 
-  .dashboard-notification-dropdown ul li {
-    padding: 10px;
-    border-bottom: 1px solid var(--header-border-color);
-    font-size: 16px;
-    cursor: pointer;
-  }
+.dashboard-notification-dropdown ul li {
+  padding: 10px;
+  border-bottom: 1px solid var(--header-border-color);
+  font-size: 16px;
+  cursor: pointer;
+}
 
-  .dashboard-notification-dropdown ul li:last-child {
-    border-bottom: none;
-  }
-  
-  .dashboard-notification-dropdown ul li:hover {
-    background-color: var(--nav-link-hover-bg-color);
-    color: var(--nav-link-hover-color);
-  }
-  
-  .dashboard-notification-dropdown ul li span {
-    font-size: 12px;
-    color: #888;
-    display: block;
-    margin-top: 5px;
-  }
-  
-  .dashboard-notification-dropdown ul li .notification-time {
-    font-size: 12px;
-    color: #aaa;
-    margin-top: 5px;
-  }
-  
+.dashboard-notification-dropdown ul li:last-child {
+  border-bottom: none;
+}
+
+.dashboard-notification-dropdown ul li:hover {
+  background-color: var(--nav-link-hover-bg-color);
+  color: var(--nav-link-hover-color);
+}
+
+.dashboard-notification-dropdown ul li span {
+  font-size: 12px;
+  color: #888;
+  display: block;
+  margin-top: 5px;
+}
+
+.dashboard-notification-dropdown ul li .notification-time {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 5px;
+}
+
 
 /* Botão de alternância de tema */
 #theme-toggle {
-    display: flex;
-    align-items: center;
-    padding: 10px 15px;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    font-size: 16px;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  position: relative;
+  z-index: 10;
 }
 
 #theme-toggle i {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
 
 #theme-toggle:hover {
-    background-color: var(--button-hover-bg-color);
+  background-color: var(--button-hover-bg-color);
 }
 
 /* Remove o sublinhado padrão dos links */
 .dashboard-logo-link {
-    text-decoration: none; /* Remove o sublinhado dos links */
-    color: inherit; /* Herda a cor do texto do elemento pai */
+  text-decoration: none; /* Remove o sublinhado dos links */
+  color: inherit; /* Herda a cor do texto do elemento pai */
 }
 
 .dashboard-logo-link h1 {
-    margin: 0; /* Remove margens padrão do h1 */
-    font-size: 35px; /* Define o tamanho da fonte do título */
-    color: #6c63ff; /* Define a cor do texto do título */
+  margin: 0; /* Remove margens padrão do h1 */
+  font-size: 35px; /* Define o tamanho da fonte do título */
+  color: #6c63ff; /* Define a cor do texto do título */
 }
 
 /* Estilo para o efeito hover, se desejado */
 .dashboard-logo-link:hover h1 {
-    color: #5752d4; /* Cor de destaque ao passar o mouse */
+  color: #5752d4; /* Cor de destaque ao passar o mouse */
 }
 
 .dashboard-notification-dropdown a {
-    text-decoration: none; /* Remove o sublinhado */
-    color: inherit; /* Mantém a cor atual do texto */
-  }
-  
-  .dashboard-notification-dropdown a:hover {
-    text-decoration: underline; /* Opcional: adiciona o sublinhado ao passar o mouse */
-  };
-
-  .dashboard-container {
-    display: flex;
-    transition: all 0.3s ease;
-  }
-  
-  .dashboard-sidebar {
-    width: 250px;
-    transition: all 0.3s ease;
-  }
-  
-  .dashboard-sidebar.hidden {
-    width: 0; /* Ocultar a barra lateral */
-    overflow: hidden; /* Esconder o conteúdo interno */
-  }
-  
-  .dashboard-main-content {
-    flex: 1;
-    transition: margin-left 0.3s ease;
-  }
-  
-  .sidebar-open .dashboard-main-content {
-    margin-left: 250px; /* Ajustar a margem quando a barra lateral estiver aberta */
-  }
-  
-  .sidebar-closed .dashboard-main-content {
-    margin-left: 0; /* Ajustar a margem quando a barra lateral estiver fechada */
-  }
-
-  
-  .dashboard-container {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-  }
-  
-  .dashboard-sidebar {
-    width: 340px;
-    transition: width 0.3s ease;
-  }
-  
-  .dashboard-sidebar.closed {
-    display: none; /* Esconder completamente a barra lateral */
-  }
-  
-  .dashboard-main-content {
-    flex-grow: 1;
-    transition: all 0.3s ease;
-    padding: 20px;
-  }
-  
-  .dashboard-main-content.expanded {
-    margin-left: 250px; /* Espaço deixado quando a sidebar está aberta */
-  }
-  
-  .dashboard-main-content.collapsed {
-    margin-left: 0; /* Sem margem quando a sidebar está fechada */
-  }
-  
-
-  .dashboard-container {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-  }
-  
-  .dashboard-sidebar {
-    width: 250px;
-    transition: all 0.3s ease;
-  }
-  
-  .dashboard-sidebar.closed {
-    display: none; /* Esconder completamente a barra lateral */
-  }
-  
-  .dashboard-main-content {
-    flex-grow: 1;
-    transition: all 0.3s ease;
-    padding: 20px;
-    margin-left: 0; /* Inicializa sem margem */
-  }
-  
-  .dashboard-header-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Distribuir corretamente os elementos */
-  }
-  
-  .dashboard-search-bar {
-    flex: 1;
-    display: flex;
-    align-items: center;
-  }
-  
-  .dashboard-user-info {
-    display: flex;
-    align-items: center;
-  }
-  
-
-  @media (max-width: 768px) {
-    .dashboard-sidebar {
-      width: 200px; /* Ajustar a largura da barra lateral em telas menores */
-    }
-  
-    .dashboard-main-content {
-      padding: 10px; /* Ajustar o padding para telas menores */
-    }
-  }
-  
-
-  .dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #fff;
-    border-bottom: 1px solid #e0e0e0;
-  }
-  
-  .dashboard-header-nav {
-    display: flex;
-    justify-content: space-between;
-    width: 100%; /* Certifique-se de que a barra ocupa a largura total */
-  }
-  
-  .dashboard-search-bar {
-    flex: 1; /* Ocupa o máximo de espaço disponível */
-    display: flex;
-    align-items: center;
-  }
-  
-  .dashboard-search-bar input {
-    margin-left: 10px;
-    width: 100%;
-    max-width: 300px; /* Ajustar para o tamanho desejado */
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .dashboard-user-info {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* Espaçamento entre os elementos */
-  }
-  
-  .dashboard-notification-container {
-    position: relative;
-  }
-  
-  .dashboard-notification-dropdown {
-    position: absolute;
-    top: 30px;
-    right: 0;
-    background: white;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    padding: 10px;
-    width: 200px;
-  }
-  
-  #theme-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-  }
-  
-  #menu-toggle {
-    cursor: pointer;
-    font-size: 1.2em;
-  }
-  
-
-  .dashboard-notification-dropdown {
-    position: absolute;
-    top: 100%; /* Posiciona logo abaixo do ícone */
-    right: 0;
-    background-color: var(--card-bg-color, #fff); /* Cor de fundo */
-    border: 1px solid #ddd; /* Borda */
-    border-radius: 8px; /* Bordas arredondadas */
-    width: 250px; /* Define uma largura adequada */
-    padding: 10px; /* Espaço interno */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
-    z-index: 1000; /* Mantém o dropdown acima de outros elementos */
-  }
-  
-  .dashboard-notification-dropdown h3 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  .dashboard-notification-dropdown ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 10px; /* Espaçamento do título */
-  }
-  
-  .dashboard-notification-dropdown ul li {
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .dashboard-notification-dropdown ul li:last-child {
-    border-bottom: none; /* Remove a borda do último item */
-  }
-  
-  .notification-time {
-    display: block;
-    font-size: 12px;
-    color: #888;
-  }
-  
-
-  /* Ajustes para telas menores */
-@media (max-width: 1200px) {
-  .dashboard-sidebar {
-      width: 220px;
-  }
-
-  .dashboard-main-content.expanded {
-      margin-left: 220px;
-  }
+  text-decoration: none; /* Remove o sublinhado */
+  color: inherit; /* Mantém a cor atual do texto */
 }
 
-@media (max-width: 992px) {
-  .dashboard-sidebar {
-      width: 180px;
-  }
+.dashboard-notification-dropdown a:hover {
+  text-decoration: underline; /* Opcional: adiciona o sublinhado ao passar o mouse */
+};
 
-  .dashboard-main-content.expanded {
-      margin-left: 180px;
-  }
+.dashboard-container {
+  display: flex;
+  transition: all 0.3s ease;
 }
+
+.dashboard-sidebar {
+  width: 250px;
+  transition: all 0.3s ease;
+}
+
+.dashboard-sidebar.hidden {
+  width: 0; /* Ocultar a barra lateral */
+  overflow: hidden; /* Esconder o conteúdo interno */
+}
+
+.dashboard-main-content {
+  flex: 1;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar-open .dashboard-main-content {
+  margin-left: 250px; /* Ajustar a margem quando a barra lateral estiver aberta */
+}
+
+.sidebar-closed .dashboard-main-content {
+  margin-left: 0; /* Ajustar a margem quando a barra lateral estiver fechada */
+}
+
+
+.dashboard-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.dashboard-sidebar {
+  width: 340px;
+  transition: width 0.3s ease;
+}
+
+.dashboard-sidebar.closed {
+  display: none; /* Esconder completamente a barra lateral */
+}
+
+.dashboard-main-content {
+  flex-grow: 1;
+  transition: all 0.3s ease;
+  padding: 20px;
+}
+
+.dashboard-main-content.expanded {
+  margin-left: 250px; /* Espaço deixado quando a sidebar está aberta */
+}
+
+.dashboard-main-content.collapsed {
+  margin-left: 0; /* Sem margem quando a sidebar está fechada */
+}
+
+
+.dashboard-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.dashboard-sidebar {
+  width: 250px;
+  transition: all 0.3s ease;
+}
+
+.dashboard-sidebar.closed {
+  display: none; /* Esconder completamente a barra lateral */
+}
+
+.dashboard-main-content {
+  flex-grow: 1;
+  transition: all 0.3s ease;
+  padding: 20px;
+  margin-left: 0; /* Inicializa sem margem */
+}
+
+.dashboard-header-nav {
+  display: flex;
+  justify-content: flex-end; /* Alinha todos os itens à direita */
+  gap: 20px; /* Distância entre os elementos */
+  margin-right: 100px; /* Aumenta a distância da borda direita */
+  position: relative; /* Evita o comportamento de "fora do fluxo" */
+  width: 100%; /* Certifique-se de que a barra ocupa a largura total */
+}
+
+.dashboard-header-nav > * {
+  flex: 1; /* Isso vai garantir que os filhos sejam distribuídos igualmente */
+}
+
+
+body, .dashboard-header {
+  width: 100%;
+  margin: 0; /* Remova margens extras */
+  padding: 0 20px; /* Remova paddings extras */
+  
+}
+
+.dashboard-search-bar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-user-info {
+  display: flex;
+  align-items: center;
+}
+
 
 @media (max-width: 768px) {
   .dashboard-sidebar {
-      position: absolute;
-      width: 200px;
-      transform: translateX(-100%);
-      transition: transform 0.5s ease;
-  }
-
-  .dashboard-sidebar.open {
-      transform: translateX(0);
+    width: 200px; /* Ajustar a largura da barra lateral em telas menores */
   }
 
   .dashboard-main-content {
-      padding: 15px;
-      margin-left: 0;
-  }
-
-  .dashboard-header {
-      left: 0;
+    padding: 10px; /* Ajustar o padding para telas menores */
   }
 }
 
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+
+
+.dashboard-search-bar {
+  flex: 1; /* Ocupa o máximo de espaço disponível */
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-search-bar input {
+  margin-left: 10px;
+  width: 100%;
+  max-width: 300px; /* Ajustar para o tamanho desejado */
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.dashboard-user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Espaçamento entre os elementos */
+}
+
+.dashboard-notification-container {
+  position: relative;
+}
+
+.dashboard-notification-dropdown {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 10px;
+  width: 200px;
+}
+
+#theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+#menu-toggle {
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+
+.dashboard-notification-dropdown {
+  position: absolute;
+  top: 100%; /* Posiciona logo abaixo do ícone */
+  right: 0;
+  background-color: var(--card-bg-color, #fff); /* Cor de fundo */
+  border: 1px solid #ddd; /* Borda */
+  border-radius: 8px; /* Bordas arredondadas */
+  width: 250px; /* Define uma largura adequada */
+  padding: 10px; /* Espaço interno */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+  z-index: 1000; /* Mantém o dropdown acima de outros elementos */
+}
+
+.dashboard-notification-dropdown h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.dashboard-notification-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px; /* Espaçamento do título */
+}
+
+.dashboard-notification-dropdown ul li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.dashboard-notification-dropdown ul li:last-child {
+  border-bottom: none; /* Remove a borda do último item */
+}
+
+.notification-time {
+  display: block;
+  font-size: 12px;
+  color: #888;
+}
+
+
+/* Ajustes para telas menores */
+@media (max-width: 1200px) {
+.dashboard-sidebar {
+    width: 220px;
+}
+
+.dashboard-main-content.expanded {
+    margin-left: 220px;
+}
+}
+
+@media (max-width: 992px) {
+.dashboard-sidebar {
+    width: 180px;
+}
+
+.dashboard-main-content.expanded {
+    margin-left: 180px;
+}
+}
+
+@media (max-width: 768px) {
+.dashboard-sidebar {
+    position: absolute;
+    width: 200px;
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+}
+
+.dashboard-sidebar.open {
+    transform: translateX(0);
+}
+
+.dashboard-main-content {
+    padding: 15px;
+    margin-left: 0;
+}
+
+.dashboard-header {
+    left: 0;
+}
+}
+
 @media (max-width: 576px) {
-  .dashboard-sidebar {
-      width: 100%;
-      height: auto;
-  }
+.dashboard-sidebar {
+    width: 100%;
+    height: auto;
+}
 
-  .dashboard-sidebar .dashboard-logo h1 {
-      font-size: 25px;
-  }
+.dashboard-sidebar .dashboard-logo h1 {
+    font-size: 25px;
+}
 
-  .dashboard-search-bar input {
-      width: 100%;
-  }
+.dashboard-search-bar input {
+    width: 100%;
+}
 
-  .dashboard-header {
-      flex-direction: column;
-      align-items: flex-start;
-  }
+.dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+}
 
-  .dashboard-user-info {
-      display: none; /* Oculta informações do usuário para telas menores */
-  }
+.dashboard-user-info {
+    display: none; /* Oculta informações do usuário para telas menores */
+}
 
-  #notification-icon::after {
-      font-size: 10px;
-  }
+#notification-icon::after {
+    font-size: 10px;
+}
 }
 
 /* Ajustes para telas extra pequenas */
 @media (max-width: 400px) {
-  .dashboard-search-bar input {
-      width: 90%;
-  }
+.dashboard-search-bar input {
+    width: 90%;
+}
 
-  .dashboard-logo h1 {
-      font-size: 24px;
-  }
+.dashboard-logo h1 {
+    font-size: 24px;
+}
 
-  .dashboard-header {
-      padding: 10px 15px;
-  }
+.dashboard-header {
+    padding: 10px 15px;
+}
 
-  .dashboard-nav ul li a {
-      font-size: 16px;
-      padding: 20px;
-  }
+.dashboard-nav ul li a {
+    font-size: 16px;
+    padding: 20px;
+}
 
-  .suggestions-list {
-      font-size: 14px;
-  }
+.suggestions-list {
+    font-size: 14px;
+}
 }
 
 /* Estilo padrão para a sidebar */
 .dashboard-sidebar {
-  width: 250px;
-  transition: transform 0.3s ease;
+width: 250px;
+transition: transform 0.3s ease;
 }
 
 /* Ocultar a sidebar completamente quando estiver fechada */
 .dashboard-sidebar.closed {
-  transform: translateX(-100%);
-  overflow: hidden;
+transform: translateX(-100%);
+overflow: hidden;
 }
 
 /* Ajustes de responsividade para telas menores */
 @media (max-width: 760px) {
-  .dashboard-sidebar {
-    position: absolute;
-    width: 250px;
-    transform: translateX(-100%); /* Inicialmente escondida */
-  }
+.dashboard-sidebar {
+  position: absolute;
+  width: 250px;
+  transform: translateX(-100%); /* Inicialmente escondida */
+}
 
-  .dashboard-sidebar.open {
-    transform: translateX(0); /* Mostra a sidebar ao abrir */
-  }
+.dashboard-sidebar.open {
+  transform: translateX(0); /* Mostra a sidebar ao abrir */
+}
 
-  .dashboard-main-content {
-    margin-left: 0; /* Remove o espaço quando a sidebar está oculta */
-  }
+.dashboard-main-content {
+  margin-left: 0; /* Remove o espaço quando a sidebar está oculta */
+}
 }
 
 /* Esconde o texto ao lado dos ícones em telas menores */
 @media (max-width: 768px) {
-  .dashboard-nav ul li a span {
-    display: none;
-  }
+.dashboard-nav ul li a span {
+  display: none;
+}
 
-  /* Ajuste o padding para centralizar os ícones */
-  .dashboard-nav ul li a {
-    padding: 10px; /* Ajuste o padding para o espaçamento desejado */
-    text-align: center;
-  }
+/* Ajuste o padding para centralizar os ícones */
+.dashboard-nav ul li a {
+  padding: 10px; /* Ajuste o padding para o espaçamento desejado */
+  text-align: center;
+}
 
-  /* Ajuste o tamanho dos ícones, se necessário */
-  .dashboard-nav ul li a i {
-    font-size: 1.5em; /* Ajuste o tamanho do ícone conforme necessário */
-  }
+/* Ajuste o tamanho dos ícones, se necessário */
+.dashboard-nav ul li a i {
+  font-size: 1.5em; /* Ajuste o tamanho do ícone conforme necessário */
+}
 }
 
 .dashboard-logo h1 {
-  font-size: 2.5rem; /* Tamanho padrão da fonte */
-  transition: font-size 0.3s; /* Adiciona uma transição suave ao alterar o tamanho */
+font-size: 2.5rem; /* Tamanho padrão da fonte */
+transition: font-size 0.3s; /* Adiciona uma transição suave ao alterar o tamanho */
 }
 
 @media (max-width: 778px) {
-  .dashboard-logo h1 {
-    font-size: 1.8rem; /* Tamanho da fonte menor para dispositivos móveis */
-  }
+.dashboard-logo h1 {
+  font-size: 1.8rem; /* Tamanho da fonte menor para dispositivos móveis */
+}
 }
