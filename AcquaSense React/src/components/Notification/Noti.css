@@ -26,7 +26,7 @@
 /* Lista de notificações */
 .notifications-list {
   width: 35%;
-  background-color: #f9f9f9;
+  background-color: var(--sidebar-bg-color);
   border-right: 1px solid #ccc;
   padding: 10px;
   overflow-y: auto;
@@ -39,7 +39,7 @@
   display: flex;
   justify-content: space-between; /* Espaçamento entre o texto e o ícone */
   align-items: center; /* Alinhamento vertical */
-  background-color: #fff;
+  background-color: var(--sidebar-bg-color);
   margin-bottom: 10px; /* Espaçamento entre os cards */
   border-radius: 5px; /* Bordas arredondadas */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra do card */
