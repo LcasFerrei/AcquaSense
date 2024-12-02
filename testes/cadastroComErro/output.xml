@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.1.1 (Python 3.12.7 on win32)" generated="2024-12-02T20:02:54.960571" rpa="false" schemaversion="5">
+<suite id="s1" name="cadastroComErro" source="D:\Projetos\Unifor\S4\Proj Aplicado Plataforma Web\Projeto Aplicado\AcquasenseGit\AcquaSense\testes\cadastroComErro\cadastroComErro.robot">
+<test id="s1-t1" name="Cadastro de usuário com sucesso" line="58">
+<kw name="Given que estou na tela de login">
+<kw name="Acessar sistema">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2024-12-02T20:02:55.359067" level="INFO">Opening browser 'chrome' to base url 'http://localhost:3000/login'.</msg>
+<msg time="2024-12-02T20:02:57.540670" level="WARN">The chromedriver version (130.0.6723.91) detected in PATH at E:\python\Scripts\chromedriver.exe might not be compatible with the detected chrome version (131.0.6778.86); currently, chromedriver 131.0.6778.85 is recommended for chrome 131.*, so it is advised to delete the driver in PATH and retry</msg>
+<arg>${url}</arg>
+<arg>chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2024-12-02T20:02:55.359067" elapsed="4.658938"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2024-12-02T20:03:00.018005" elapsed="0.033565"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T20:03:01.052285" level="INFO">Slept 1 second.</msg>
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T20:03:00.051927" elapsed="1.000358"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-12-02T20:03:01.294644" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-1.png"&gt;&lt;img src="selenium-screenshot-1.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-12-02T20:03:01.052285" elapsed="0.243662"/>
+</kw>
+<arg>${url}</arg>
+<status status="PASS" start="2024-12-02T20:02:55.359067" elapsed="5.936880"/>
+</kw>
+<arg>${cadastro.url_cadastro}</arg>
+<status status="PASS" start="2024-12-02T20:02:55.359067" elapsed="5.936880"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T20:03:02.297414" level="INFO">Slept 1 second.</msg>
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T20:03:01.295947" elapsed="1.001467"/>
+</kw>
+<kw name="When clico no botão de cadastro">
+<kw name="Clique no Botão de Cadastro">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${cadastro.btn_cadastro}</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2024-12-02T20:03:02.298432" elapsed="0.025202"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2024-12-02T20:03:02.324694" level="INFO">Clicking element '//*[@id="root"]/div/div[1]/button'.</msg>
+<arg>${cadastro.btn_cadastro}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T20:03:02.323634" elapsed="0.059697"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T20:03:03.384983" level="INFO">Slept 1 second.</msg>
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T20:03:02.384832" elapsed="1.000151"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-12-02T20:03:03.572094" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-2.png"&gt;&lt;img src="selenium-screenshot-2.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-12-02T20:03:03.384983" elapsed="0.187111"/>
+</kw>
+<status status="PASS" start="2024-12-02T20:03:02.298432" elapsed="1.273662"/>
+</kw>
+<status status="PASS" start="2024-12-02T20:03:02.297414" elapsed="1.274680"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T20:03:04.573361" level="INFO">Slept 1 second.</msg>
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T20:03:03.573082" elapsed="1.000279"/>
+</kw>
+<kw name="And preencho o formulário de cadastro">
+<kw name="Preencher Formulário de Cadastro">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>name=username</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2024-12-02T20:03:04.575288" elapsed="0.025024"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2024-12-02T20:03:04.600312" level="INFO">Typing text 'RobotTeste5' into text field 'name=username'.</msg>
+<arg>name=username</arg>
+<arg>${username}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T20:03:04.600312" elapsed="0.140256"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T20:03:05.740645" level="INFO">Slept 1 second.</msg>
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T20:03:04.740568" elapsed="1.000077"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>name=email</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2024-12-02T20:03:05.740645" elapsed="0.023040"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2024-12-02T20:03:05.765196" level="INFO">Typing text 'robotteste@unifor.br' into text field 'name=email'.</msg>
+<arg>name=email</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T20:03:05.763685" elapsed="0.160876"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T20:03:06.924988" level="INFO">Slept 1 second.</msg>
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T20:03:05.924561" elapsed="1.000427"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-12-02T20:03:07.129225" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-3.png"&gt;&lt;img src="selenium-screenshot-3.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-12-02T20:03:06.924988" elapsed="0.204237"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>name=password</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2024-12-02T20:03:07.129225" elapsed="0.029926"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2024-12-02T20:03:07.159151" level="INFO">Typing text '987654321' into text field 'name=password'.</msg>
+<arg>name=password</arg>
+<arg>${password}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T20:03:07.159151" elapsed="0.113713"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-12-02T20:03:07.474693" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-4.png"&gt;&lt;img src="selenium-screenshot-4.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-12-02T20:03:07.272864" elapsed="0.201829"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T20:03:08.475115" level="INFO">Slept 1 second.</msg>
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T20:03:07.474693" elapsed="1.000422"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-12-02T20:03:08.679453" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-5.png"&gt;&lt;img src="selenium-screenshot-5.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-12-02T20:03:08.475115" elapsed="0.204338"/>
+</kw>
+<arg>${username}</arg>
+<arg>${email}</arg>
+<arg>${password}</arg>
+<status status="PASS" start="2024-12-02T20:03:04.575288" elapsed="4.105167"/>
+</kw>
+<arg>${cadastro.username}</arg>
+<arg>${cadastro.email}</arg>
+<arg>${cadastro.password}</arg>
+<status status="PASS" start="2024-12-02T20:03:04.573361" elapsed="4.107094"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T20:03:09.680629" level="INFO">Slept 1 second.</msg>
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T20:03:08.680455" elapsed="1.000174"/>
+</kw>
+<kw name="And submeto o formulário de cadastro">
+<kw name="Submeter Formulário de Cadastro">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${cadastro.btn_submit}</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2024-12-02T20:03:09.681636" elapsed="0.022000"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2024-12-02T20:03:09.704762" level="INFO">Clicking element '//*[@id="buttonEntrar"]'.</msg>
+<arg>${cadastro.btn_submit}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T20:03:09.703636" elapsed="0.057314"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T20:03:11.762198" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T20:03:09.760950" elapsed="2.001248"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-12-02T20:03:11.953448" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-6.png"&gt;&lt;img src="selenium-screenshot-6.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-12-02T20:03:11.762198" elapsed="0.191250"/>
+</kw>
+<status status="PASS" start="2024-12-02T20:03:09.681636" elapsed="2.271812"/>
+</kw>
+<status status="PASS" start="2024-12-02T20:03:09.680629" elapsed="2.272819"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T20:03:13.954082" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T20:03:11.953448" elapsed="2.000634"/>
+</kw>
+<kw name="And acesso o dashboard">
+<kw name="Ir Para Dashboard">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2024-12-02T20:03:13.956652" level="FAIL">Resolving variable '${login.url_dashboard}' failed: Variable '${login}' not found. Did you mean:
+    ${LOG_FILE}</msg>
+<arg>${login.url_dashboard}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="FAIL" start="2024-12-02T20:03:13.955153" elapsed="0.001499">Resolving variable '${login.url_dashboard}' failed: Variable '${login}' not found. Did you mean:
+    ${LOG_FILE}</status>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2024-12-02T20:03:13.956652" elapsed="0.000000"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="NOT RUN" start="2024-12-02T20:03:13.956652" elapsed="0.000000"/>
+</kw>
+<status status="FAIL" start="2024-12-02T20:03:13.955153" elapsed="0.001499">Resolving variable '${login.url_dashboard}' failed: Variable '${login}' not found. Did you mean:
+    ${LOG_FILE}</status>
+</kw>
+<status status="FAIL" start="2024-12-02T20:03:13.955153" elapsed="0.001499">Resolving variable '${login.url_dashboard}' failed: Variable '${login}' not found. Did you mean:
+    ${LOG_FILE}</status>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2024-12-02T20:03:13.956652" elapsed="0.001030"/>
+</kw>
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="NOT RUN" start="2024-12-02T20:03:13.958048" elapsed="0.000000"/>
+</kw>
+<status status="FAIL" start="2024-12-02T20:02:55.359067" elapsed="18.600036">Resolving variable '${login.url_dashboard}' failed: Variable '${login}' not found. Did you mean:
+    ${LOG_FILE}</status>
+</test>
+<status status="FAIL" start="2024-12-02T20:02:54.961760" elapsed="18.998343"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="cadastroComErro">cadastroComErro</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2024-12-02T20:02:57.540670" level="WARN">The chromedriver version (130.0.6723.91) detected in PATH at E:\python\Scripts\chromedriver.exe might not be compatible with the detected chrome version (131.0.6778.86); currently, chromedriver 131.0.6778.85 is recommended for chrome 131.*, so it is advised to delete the driver in PATH and retry</msg>
+</errors>
+</robot>

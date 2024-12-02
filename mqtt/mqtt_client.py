@@ -23,8 +23,8 @@ class MQTTClient:
         from sensors.models import RegistroDeConsumo,SensorDeFluxo
 
         try:
-            message = float(message) # YF-S201
-            sensor = SensorDeFluxo.objects.filter(identificador="SEN-HZ21WA").first()
+            message = float(message) #SEN-HZ21WA 
+            sensor = SensorDeFluxo.objects.filter(identificador="YF-S201").first()
             RegistroDeConsumo.objects.create(sensor=sensor,consumo=message)
         except Exception as e:
             print(f"Erro ao inserir no mqtt -> {e}")
