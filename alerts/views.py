@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from .models import Notificacao
 from django.contrib.auth.decorators import login_required
 from usuarios.models import CustomUser
+from datetime import timedelta
 
 @login_required
 def notificacoes(request):
@@ -14,14 +15,12 @@ def notificacoes(request):
         {
             'id': notificacao.id,
             'title': notificacao.titulo,  # Pega os primeiros 30 caracteres da mensagem
-            'time': notificacao.data_hora.strftime('%H:%M'),
+            'time': (notificacao.data_hora - timedelta(hours=3)).strftime('%H:%M'),
             'details': notificacao.mensagem,
             'unread': not notificacao.lida
         }
         for notificacao in notificacoes
     ]
-
-    print(notificacoes_data)
 
     return JsonResponse({'notificacoes': notificacoes_data})
 
@@ -35,7 +34,7 @@ def nao_lidas_notificacoes(request):
         {
             'id': notificacao.id,
             'title': notificacao.titulo,  # Pega os primeiros 30 caracteres da mensagem
-            'time': notificacao.data_hora.strftime('%H:%M'),
+            'time': (notificacao.data_hora - timedelta(hours=3)).strftime('%H:%M'),
             'details': notificacao.mensagem,
             'unread': not notificacao.lida
         }
