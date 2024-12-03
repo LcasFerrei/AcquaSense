@@ -1,314 +1,365 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.1.1 (Python 3.12.1 on win32)" generated="2024-12-01T23:15:10.856359" rpa="false" schemaversion="5">
-<suite id="s1" name="consumoDadosInvalidos" source="C:\Users\Usuario\AcquaSense\testes\consumoDadosInvalidos.robot">
-<test id="s1-t1" name="Cenário 1: Inicializando o Hive MQ" line="59">
+<robot generator="Robot 7.1.1 (Python 3.12.1 on win32)" generated="2024-12-02T22:41:20.883848" rpa="false" schemaversion="5">
+<suite id="s1" name="consumoDiario" source="C:\Users\Usuario\AcquaSense\testes\consumoDiario.robot">
+<test id="s1-t1" name="Cenário 1: Inicializando o Hive MQ" line="74">
 <kw name="Abrir hiveMQ">
 <kw name="Open Browser" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:11.171043" level="INFO">Opening browser 'chrome' to base url 'https://www.hivemq.com/demos/websocket-client/'.</msg>
+<msg time="2024-12-02T22:41:21.181009" level="INFO">Opening browser 'chrome' to base url 'https://www.hivemq.com/demos/websocket-client/'.</msg>
 <arg>https://www.hivemq.com/demos/websocket-client/</arg>
 <arg>chrome</arg>
 <doc>Opens a new browser instance to the optional ``url``.</doc>
-<status status="PASS" start="2024-12-01T23:15:11.171043" elapsed="2.043361"/>
+<status status="PASS" start="2024-12-02T22:41:21.181009" elapsed="2.697579"/>
 </kw>
 <kw name="Maximize Browser Window" owner="SeleniumLibrary">
 <doc>Maximizes current browser window.</doc>
-<status status="PASS" start="2024-12-01T23:15:13.214404" elapsed="0.509300"/>
+<status status="PASS" start="2024-12-02T22:41:23.878588" elapsed="0.063707"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-12-01T23:15:15.724264" level="INFO">Slept 2 seconds.</msg>
+<msg time="2024-12-02T22:41:25.944111" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-12-01T23:15:13.723762" elapsed="2.000502"/>
+<status status="PASS" start="2024-12-02T22:41:23.942295" elapsed="2.001816"/>
 </kw>
 <kw name="Capture Page Screenshot" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:15.810285" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_homepage.png"&gt;&lt;img src="hiveMQ_homepage.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2024-12-02T22:41:26.041351" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_homepage.png"&gt;&lt;img src="hiveMQ_homepage.png" width="800px"&gt;&lt;/a&gt;</msg>
 <arg>hiveMQ_homepage.png</arg>
 <doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<status status="PASS" start="2024-12-01T23:15:15.724264" elapsed="0.086021"/>
+<status status="PASS" start="2024-12-02T22:41:25.944111" elapsed="0.097240"/>
 </kw>
-<status status="PASS" start="2024-12-01T23:15:11.171043" elapsed="4.639242"/>
+<status status="PASS" start="2024-12-02T22:41:21.181009" elapsed="4.860342"/>
 </kw>
 <kw name="Conectando o hiveMQ">
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:15.810285" level="INFO">Clicking element 'id:connectButton'.</msg>
+<msg time="2024-12-02T22:41:26.052250" level="INFO">Clicking element 'id:connectButton'.</msg>
 <arg>${button_connect}</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:15.810285" elapsed="0.103545"/>
+<status status="PASS" start="2024-12-02T22:41:26.052250" elapsed="0.082443"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-12-01T23:15:17.915520" level="INFO">Slept 2 seconds.</msg>
+<msg time="2024-12-02T22:41:28.135449" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-12-01T23:15:15.913830" elapsed="2.001690"/>
+<status status="PASS" start="2024-12-02T22:41:26.134693" elapsed="2.000756"/>
 </kw>
 <kw name="Capture Page Screenshot" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:18.009941" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_connected.png"&gt;&lt;img src="hiveMQ_connected.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2024-12-02T22:41:28.224581" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_connected.png"&gt;&lt;img src="hiveMQ_connected.png" width="800px"&gt;&lt;/a&gt;</msg>
 <arg>hiveMQ_connected.png</arg>
 <doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<status status="PASS" start="2024-12-01T23:15:17.915520" elapsed="0.094421"/>
+<status status="PASS" start="2024-12-02T22:41:28.135449" elapsed="0.089132"/>
 </kw>
-<status status="PASS" start="2024-12-01T23:15:15.810285" elapsed="2.199656"/>
+<status status="PASS" start="2024-12-02T22:41:26.052250" elapsed="2.172331"/>
 </kw>
 <kw name="Adicionando novo topico">
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:18.010937" level="INFO">Typing text 'teste/acquasense' into text field 'id:publishTopic'.</msg>
+<msg time="2024-12-02T22:41:28.240248" level="INFO">Typing text 'teste/acquasense' into text field 'id:publishTopic'.</msg>
 <arg>${input_topic}</arg>
 <arg>teste/acquasense</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:18.010937" elapsed="0.182647"/>
+<status status="PASS" start="2024-12-02T22:41:28.240248" elapsed="0.186065"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-12-01T23:15:20.195309" level="INFO">Slept 2 seconds.</msg>
+<msg time="2024-12-02T22:41:30.428043" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-12-01T23:15:18.193584" elapsed="2.001725"/>
+<status status="PASS" start="2024-12-02T22:41:28.426313" elapsed="2.001730"/>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:20.195309" level="INFO">Clicking element 'id:addSubButton'.</msg>
+<msg time="2024-12-02T22:41:30.428043" level="INFO">Clicking element 'id:addSubButton'.</msg>
 <arg>${button_add_subs}</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:20.195309" elapsed="0.105840"/>
+<status status="PASS" start="2024-12-02T22:41:30.428043" elapsed="0.103039"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-12-01T23:15:22.302720" level="INFO">Slept 2 seconds.</msg>
+<msg time="2024-12-02T22:41:32.531663" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-12-01T23:15:20.302108" elapsed="2.000612"/>
+<status status="PASS" start="2024-12-02T22:41:30.531082" elapsed="2.000581"/>
 </kw>
 <kw name="Capture Page Screenshot" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:22.393378" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_add_topic.png"&gt;&lt;img src="hiveMQ_add_topic.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2024-12-02T22:41:32.624998" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_add_topic.png"&gt;&lt;img src="hiveMQ_add_topic.png" width="800px"&gt;&lt;/a&gt;</msg>
 <arg>hiveMQ_add_topic.png</arg>
 <doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<status status="PASS" start="2024-12-01T23:15:22.302720" elapsed="0.090658"/>
+<status status="PASS" start="2024-12-02T22:41:32.531663" elapsed="0.093335"/>
 </kw>
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:22.403296" level="INFO">Typing text 'teste/acquasense' into text field 'id:subscribeTopic'.</msg>
+<msg time="2024-12-02T22:41:32.624998" level="INFO">Typing text 'teste/acquasense' into text field 'id:subscribeTopic'.</msg>
 <arg>${input_subscribe}</arg>
 <arg>teste/acquasense</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:22.403296" elapsed="0.145653"/>
+<status status="PASS" start="2024-12-02T22:41:32.624998" elapsed="0.160769"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-12-01T23:15:24.549168" level="INFO">Slept 2 seconds.</msg>
+<msg time="2024-12-02T22:41:34.786855" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-12-01T23:15:22.548949" elapsed="2.000219"/>
+<status status="PASS" start="2024-12-02T22:41:32.785767" elapsed="2.001088"/>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:24.549168" level="INFO">Clicking element 'id:subscribeButton'.</msg>
+<msg time="2024-12-02T22:41:34.786855" level="INFO">Clicking element 'id:subscribeButton'.</msg>
 <arg>${button_subscribe}</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:24.549168" elapsed="0.100105"/>
+<status status="PASS" start="2024-12-02T22:41:34.786855" elapsed="0.085013"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-12-01T23:15:26.649368" level="INFO">Slept 2 seconds.</msg>
+<msg time="2024-12-02T22:41:36.871994" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-12-01T23:15:24.649273" elapsed="2.000095"/>
+<status status="PASS" start="2024-12-02T22:41:34.871868" elapsed="2.000126"/>
 </kw>
 <kw name="Capture Page Screenshot" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:26.743962" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_subscribed.png"&gt;&lt;img src="hiveMQ_subscribed.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2024-12-02T22:41:36.979052" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_subscribed.png"&gt;&lt;img src="hiveMQ_subscribed.png" width="800px"&gt;&lt;/a&gt;</msg>
 <arg>hiveMQ_subscribed.png</arg>
 <doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<status status="PASS" start="2024-12-01T23:15:26.649368" elapsed="0.098201"/>
+<status status="PASS" start="2024-12-02T22:41:36.871994" elapsed="0.108975"/>
 </kw>
-<status status="PASS" start="2024-12-01T23:15:18.010937" elapsed="8.736632"/>
+<status status="PASS" start="2024-12-02T22:41:28.240248" elapsed="8.740721"/>
 </kw>
 <kw name="Enviando mensagens">
 <for flavor="IN RANGE">
 <iter>
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:26.749832" level="INFO">Typing text '-5' into text field 'id:publishPayload'.</msg>
+<msg time="2024-12-02T22:41:36.983766" level="INFO">Typing text '1' into text field 'id:publishPayload'.</msg>
 <arg>${textarea_message}</arg>
 <arg>${i}</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:26.748829" elapsed="0.109815"/>
+<status status="PASS" start="2024-12-02T22:41:36.982924" elapsed="0.105601"/>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:26.859653" level="INFO">Clicking element 'id:publishButton'.</msg>
+<msg time="2024-12-02T22:41:37.088525" level="INFO">Clicking element 'id:publishButton'.</msg>
 <arg>${button_send}</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:26.859653" elapsed="0.067752"/>
+<status status="PASS" start="2024-12-02T22:41:37.088525" elapsed="0.079501"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-12-01T23:15:28.927725" level="INFO">Slept 2 seconds.</msg>
+<msg time="2024-12-02T22:41:39.168574" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-12-01T23:15:26.927405" elapsed="2.000320"/>
+<status status="PASS" start="2024-12-02T22:41:37.168026" elapsed="2.000548"/>
 </kw>
 <kw name="Capture Page Screenshot" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:29.026150" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_message_-5.png"&gt;&lt;img src="hiveMQ_message_-5.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2024-12-02T22:41:39.274236" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_message_1.png"&gt;&lt;img src="hiveMQ_message_1.png" width="800px"&gt;&lt;/a&gt;</msg>
 <arg>hiveMQ_message_${i}.png</arg>
 <doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<status status="PASS" start="2024-12-01T23:15:28.927725" elapsed="0.098425"/>
-</kw>
-<var name="${i}">-5</var>
-<status status="PASS" start="2024-12-01T23:15:26.748829" elapsed="2.277321"/>
-</iter>
-<iter>
-<kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:29.026658" level="INFO">Typing text '-4' into text field 'id:publishPayload'.</msg>
-<arg>${textarea_message}</arg>
-<arg>${i}</arg>
-<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:29.026658" elapsed="0.094907"/>
-</kw>
-<kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:29.121565" level="INFO">Clicking element 'id:publishButton'.</msg>
-<arg>${button_send}</arg>
-<doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:29.121565" elapsed="0.062056"/>
-</kw>
-<kw name="Sleep" owner="BuiltIn">
-<msg time="2024-12-01T23:15:31.184533" level="INFO">Slept 2 seconds.</msg>
-<arg>2s</arg>
-<doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-12-01T23:15:29.183621" elapsed="2.000912"/>
-</kw>
-<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:31.319271" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_message_-4.png"&gt;&lt;img src="hiveMQ_message_-4.png" width="800px"&gt;&lt;/a&gt;</msg>
-<arg>hiveMQ_message_${i}.png</arg>
-<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<status status="PASS" start="2024-12-01T23:15:31.184533" elapsed="0.134738"/>
-</kw>
-<var name="${i}">-4</var>
-<status status="PASS" start="2024-12-01T23:15:29.026658" elapsed="2.292613"/>
-</iter>
-<iter>
-<kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:31.319271" level="INFO">Typing text '-3' into text field 'id:publishPayload'.</msg>
-<arg>${textarea_message}</arg>
-<arg>${i}</arg>
-<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:31.319271" elapsed="0.102982"/>
-</kw>
-<kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:31.424755" level="INFO">Clicking element 'id:publishButton'.</msg>
-<arg>${button_send}</arg>
-<doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:31.424755" elapsed="0.059301"/>
-</kw>
-<kw name="Sleep" owner="BuiltIn">
-<msg time="2024-12-01T23:15:33.484500" level="INFO">Slept 2 seconds.</msg>
-<arg>2s</arg>
-<doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-12-01T23:15:31.484056" elapsed="2.000444"/>
-</kw>
-<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:33.593549" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_message_-3.png"&gt;&lt;img src="hiveMQ_message_-3.png" width="800px"&gt;&lt;/a&gt;</msg>
-<arg>hiveMQ_message_${i}.png</arg>
-<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<status status="PASS" start="2024-12-01T23:15:33.484500" elapsed="0.109049"/>
-</kw>
-<var name="${i}">-3</var>
-<status status="PASS" start="2024-12-01T23:15:31.319271" elapsed="2.274278"/>
-</iter>
-<iter>
-<kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:33.593549" level="INFO">Typing text '-2' into text field 'id:publishPayload'.</msg>
-<arg>${textarea_message}</arg>
-<arg>${i}</arg>
-<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:33.593549" elapsed="0.106403"/>
-</kw>
-<kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:33.699952" level="INFO">Clicking element 'id:publishButton'.</msg>
-<arg>${button_send}</arg>
-<doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:33.699952" elapsed="0.062639"/>
-</kw>
-<kw name="Sleep" owner="BuiltIn">
-<msg time="2024-12-01T23:15:35.763286" level="INFO">Slept 2 seconds.</msg>
-<arg>2s</arg>
-<doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-12-01T23:15:33.762591" elapsed="2.000695"/>
-</kw>
-<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:35.859166" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_message_-2.png"&gt;&lt;img src="hiveMQ_message_-2.png" width="800px"&gt;&lt;/a&gt;</msg>
-<arg>hiveMQ_message_${i}.png</arg>
-<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<status status="PASS" start="2024-12-01T23:15:35.763286" elapsed="0.095880"/>
-</kw>
-<var name="${i}">-2</var>
-<status status="PASS" start="2024-12-01T23:15:33.593549" elapsed="2.266194"/>
-</iter>
-<var>${i}</var>
-<value>-5</value>
-<value>-1</value>
-<status status="PASS" start="2024-12-01T23:15:26.748829" elapsed="9.110914"/>
-</for>
-<for flavor="IN RANGE">
-<iter>
-<kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:35.860613" level="INFO">Typing text 'Teste' into text field 'id:publishPayload'.</msg>
-<arg>${textarea_message}</arg>
-<arg>Teste</arg>
-<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:35.859743" elapsed="0.101315"/>
-</kw>
-<kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:35.961058" level="INFO">Clicking element 'id:publishButton'.</msg>
-<arg>${button_send}</arg>
-<doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:35.961058" elapsed="0.060112"/>
-</kw>
-<kw name="Sleep" owner="BuiltIn">
-<msg time="2024-12-01T23:15:38.021857" level="INFO">Slept 2 seconds.</msg>
-<arg>2s</arg>
-<doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-12-01T23:15:36.021170" elapsed="2.000687"/>
-</kw>
-<var name="${i}">0</var>
-<status status="PASS" start="2024-12-01T23:15:35.859743" elapsed="2.162114"/>
-</iter>
-<iter>
-<kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:38.021857" level="INFO">Typing text 'Teste' into text field 'id:publishPayload'.</msg>
-<arg>${textarea_message}</arg>
-<arg>Teste</arg>
-<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:38.021857" elapsed="0.114624"/>
-</kw>
-<kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:38.137644" level="INFO">Clicking element 'id:publishButton'.</msg>
-<arg>${button_send}</arg>
-<doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2024-12-01T23:15:38.137644" elapsed="0.059498"/>
-</kw>
-<kw name="Sleep" owner="BuiltIn">
-<msg time="2024-12-01T23:15:40.197295" level="INFO">Slept 2 seconds.</msg>
-<arg>2s</arg>
-<doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-12-01T23:15:38.197142" elapsed="2.000153"/>
+<status status="PASS" start="2024-12-02T22:41:39.168574" elapsed="0.110408"/>
 </kw>
 <var name="${i}">1</var>
-<status status="PASS" start="2024-12-01T23:15:38.021857" elapsed="2.175438"/>
+<status status="PASS" start="2024-12-02T22:41:36.982924" elapsed="2.296058"/>
+</iter>
+<iter>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:41:39.278982" level="INFO">Typing text '2' into text field 'id:publishPayload'.</msg>
+<arg>${textarea_message}</arg>
+<arg>${i}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T22:41:39.278982" elapsed="0.089582"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:41:39.369506" level="INFO">Clicking element 'id:publishButton'.</msg>
+<arg>${button_send}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T22:41:39.368564" elapsed="0.076796"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T22:41:41.445640" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T22:41:39.445360" elapsed="2.000280"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:41:41.540358" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_message_2.png"&gt;&lt;img src="hiveMQ_message_2.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>hiveMQ_message_${i}.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-12-02T22:41:41.445640" elapsed="0.094718"/>
+</kw>
+<var name="${i}">2</var>
+<status status="PASS" start="2024-12-02T22:41:39.278982" elapsed="2.261376"/>
+</iter>
+<iter>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:41:41.540358" level="INFO">Typing text '3' into text field 'id:publishPayload'.</msg>
+<arg>${textarea_message}</arg>
+<arg>${i}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T22:41:41.540358" elapsed="0.094106"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:41:41.634464" level="INFO">Clicking element 'id:publishButton'.</msg>
+<arg>${button_send}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T22:41:41.634464" elapsed="0.058258"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T22:41:43.694077" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T22:41:41.693525" elapsed="2.000552"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:41:43.790199" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_message_3.png"&gt;&lt;img src="hiveMQ_message_3.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>hiveMQ_message_${i}.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-12-02T22:41:43.694077" elapsed="0.096122"/>
+</kw>
+<var name="${i}">3</var>
+<status status="PASS" start="2024-12-02T22:41:41.540358" elapsed="2.251023"/>
+</iter>
+<iter>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:41:43.791381" level="INFO">Typing text '4' into text field 'id:publishPayload'.</msg>
+<arg>${textarea_message}</arg>
+<arg>${i}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T22:41:43.791381" elapsed="0.088244"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:41:43.879625" level="INFO">Clicking element 'id:publishButton'.</msg>
+<arg>${button_send}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T22:41:43.879625" elapsed="0.056753"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T22:41:45.936902" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T22:41:43.936378" elapsed="2.000524"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:41:46.039589" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_message_4.png"&gt;&lt;img src="hiveMQ_message_4.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>hiveMQ_message_${i}.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-12-02T22:41:45.936902" elapsed="0.102687"/>
+</kw>
+<var name="${i}">4</var>
+<status status="PASS" start="2024-12-02T22:41:43.791381" elapsed="2.248208"/>
 </iter>
 <var>${i}</var>
-<value>0</value>
-<value>2</value>
-<status status="PASS" start="2024-12-01T23:15:35.859743" elapsed="4.338389"/>
+<value>1</value>
+<value>5</value>
+<status status="PASS" start="2024-12-02T22:41:36.982924" elapsed="9.056665"/>
 </for>
-<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
-<msg time="2024-12-01T23:15:40.317828" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="hiveMQ_message_TESTE.png"&gt;&lt;img src="hiveMQ_message_TESTE.png" width="800px"&gt;&lt;/a&gt;</msg>
-<arg>hiveMQ_message_TESTE.png</arg>
-<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<status status="PASS" start="2024-12-01T23:15:40.198132" elapsed="0.119696"/>
+<status status="PASS" start="2024-12-02T22:41:36.982238" elapsed="9.057351"/>
 </kw>
-<status status="PASS" start="2024-12-01T23:15:26.747569" elapsed="13.570259"/>
-</kw>
-<status status="PASS" start="2024-12-01T23:15:11.171043" elapsed="29.146785"/>
+<status status="PASS" start="2024-12-02T22:41:21.181009" elapsed="24.858580"/>
 </test>
-<status status="PASS" start="2024-12-01T23:15:10.857411" elapsed="29.462540"/>
+<test id="s1-t2" name="Cenário 2: Visualizando dados no acquasense" line="80">
+<kw name="Abrir Acquasense">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:41:46.039589" level="INFO">Opening browser 'chrome' to base url 'http://localhost:3000/'.</msg>
+<arg>http://localhost:3000/</arg>
+<arg>chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2024-12-02T22:41:46.039589" elapsed="3.098260"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2024-12-02T22:41:49.137849" elapsed="0.074210"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T22:41:51.212526" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T22:41:49.212059" elapsed="2.000467"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:41:51.450668" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="acquasense_homepage.png"&gt;&lt;img src="acquasense_homepage.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>acquasense_homepage.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-12-02T22:41:51.212526" elapsed="0.238142"/>
+</kw>
+<status status="PASS" start="2024-12-02T22:41:46.039589" elapsed="5.411079"/>
+</kw>
+<kw name="Logar">
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:41:51.457387" level="INFO">Clicking element 'id:portalCliente'.</msg>
+<arg>${button_portalCliente}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T22:41:51.457387" elapsed="0.331988"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T22:41:54.792967" level="INFO">Slept 3 seconds.</msg>
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T22:41:51.790966" elapsed="3.002001"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:41:54.792967" level="INFO">Typing text 'Saul' into text field 'id:username'.</msg>
+<arg>${input_username}</arg>
+<arg>Saul</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T22:41:54.792967" elapsed="0.137670"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T22:41:56.931139" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T22:41:54.930637" elapsed="2.000502"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:41:56.931139" level="INFO">Typing text 'acquasense' into text field 'id:password'.</msg>
+<arg>${input_password}</arg>
+<arg>acquasense</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T22:41:56.931139" elapsed="0.130469"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T22:41:59.063810" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T22:41:57.062746" elapsed="2.001064"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:41:59.063810" level="INFO">Clicking element 'id:buttonEntrar'.</msg>
+<arg>${button_entrar}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T22:41:59.063810" elapsed="0.095945"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T22:42:01.159999" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T22:41:59.159755" elapsed="2.000244"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:42:01.272261" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="acquasense_logged_in.png"&gt;&lt;img src="acquasense_logged_in.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>acquasense_logged_in.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-12-02T22:42:01.159999" elapsed="0.118200"/>
+</kw>
+<status status="PASS" start="2024-12-02T22:41:51.457387" elapsed="9.820812"/>
+</kw>
+<kw name="Acessar a página de consumo diário">
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:42:01.278806" level="INFO">Clicking element 'id:consumptiondailyButton'.</msg>
+<arg>${button_diario}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2024-12-02T22:42:01.278806" elapsed="0.301961"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-12-02T22:42:06.581193" level="INFO">Slept 5 seconds.</msg>
+<arg>5s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-12-02T22:42:01.580767" elapsed="5.000426"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2024-12-02T22:42:06.737998" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="acquasense_daily_consumption.png"&gt;&lt;img src="acquasense_daily_consumption.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>acquasense_daily_consumption.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2024-12-02T22:42:06.581193" elapsed="0.156805"/>
+</kw>
+<status status="PASS" start="2024-12-02T22:42:01.278806" elapsed="5.459192"/>
+</kw>
+<status status="PASS" start="2024-12-02T22:41:46.039589" elapsed="20.698409"/>
+</test>
+<status status="PASS" start="2024-12-02T22:41:20.883848" elapsed="45.864423"/>
 </suite>
 <statistics>
 <total>
-<stat pass="1" fail="0" skip="0">All Tests</stat>
+<stat pass="2" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat pass="1" fail="0" skip="0" id="s1" name="consumoDadosInvalidos">consumoDadosInvalidos</stat>
+<stat pass="2" fail="0" skip="0" id="s1" name="consumoDiario">consumoDiario</stat>
 </suite>
 </statistics>
 <errors>

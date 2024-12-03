@@ -8,6 +8,8 @@ def specificMonitoring(request):
     # Verifica se a requisição é do tipo GET e contém o parâmetro 'month'
     month = request.GET.get('month')
     
+    print(month)
+
     if not month:
         return JsonResponse({'error': 'Month parameter is required'}, status=400)
     
@@ -15,7 +17,12 @@ def specificMonitoring(request):
         # Converte o parâmetro para um objeto datetime para facilitar o filtro
         month_date = datetime.strptime(month, '%Y-%m')
         start_date = month_date.replace(day=1)
-        end_date = (month_date.replace(month=month_date.month % 12 + 1, day=1) - timedelta(days=1))
+        if month_date.month == 12:
+            next_month_date = month_date.replace(year=month_date.year + 1, month=1)
+        else:
+            next_month_date = month_date.replace(month=month_date.month + 1)
+
+        end_date = next_month_date - timedelta(days=1)
 
         # Filtra os registros de consumo do mês específico
         registros_consumo = RegistroDeConsumo.objects.filter(

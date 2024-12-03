@@ -60,10 +60,6 @@ const Dash = () => {
             </ResponsiveContainer>
           </div>
         </a>
-        <div className="card">
-          <h3>Meta diária</h3>
-          <p>{dashboardData.daily_goal}</p>
-        </div>
         <a className='card-href' href='/SpecificMonitoring'>
         <div className="card">
           <h3>Consumo por Ponto do dia</h3>
