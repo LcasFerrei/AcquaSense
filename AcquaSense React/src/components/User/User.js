@@ -195,11 +195,11 @@ const UserProfile = () => {
             </div>
             <div className="form-group">
               <label>Próxima cobrança:</label>
-              <p className="payment-date">1 de Outubro de 2024 - R$ 62,90</p>
+              <p className="payment-date">13 de Dezembro de 2024 - R$ 62,90</p>
             </div>
             <div className="form-group">
               <label>Último pagamento:</label>
-              <p className="payment-date">1 de Novembro de 2024 - R$ 62,90</p>
+              <p className="payment-date">1 de Novembro de 2024 - R$ 60,90</p>
             </div>
             <div className="form-group">
               <label>Alterar forma de pagamento:</label>
