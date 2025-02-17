@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.1.1 (Python 3.8.2 on win32)" generated="2024-11-21T20:38:54.668099" rpa="false" schemaversion="5">
+<robot generator="Robot 7.1.1 (Python 3.8.2 on win32)" generated="2024-12-04T20:48:28.980756" rpa="false" schemaversion="5">
 <suite id="s1" name="TestThemeToggle" source="C:\Users\lucas\OneDrive\Documentos\FACULDADE\4 semestre\Projeto aplic plataforma web\AcquaSense\AcquaSense React\src\components\AcquaNav\TestThemeToggle.robot">
 <test id="s1-t1" name="Teste Alternar Tema" line="22">
 <kw name="Given que estou na tela principal">
 <kw name="Acessar sistema">
 <kw name="Open Browser" owner="SeleniumLibrary">
-<msg time="2024-11-21T20:38:55.186565" level="INFO">Opening browser 'chrome' to base url 'http://localhost:3000/'.</msg>
+<msg time="2024-12-04T20:48:29.177585" level="INFO">Opening browser 'chrome' to base url 'http://localhost:3000/'.</msg>
 <arg>${url}</arg>
 <arg>chrome</arg>
 <doc>Opens a new browser instance to the optional ``url``.</doc>
-<status status="PASS" start="2024-11-21T20:38:55.185567" elapsed="4.743027"/>
+<status status="PASS" start="2024-12-04T20:48:29.177585" elapsed="2.783138"/>
 </kw>
 <kw name="Maximize Browser Window" owner="SeleniumLibrary">
 <doc>Maximizes current browser window.</doc>
-<status status="PASS" start="2024-11-21T20:38:59.928594" elapsed="0.049873"/>
+<status status="PASS" start="2024-12-04T20:48:31.960723" elapsed="0.031915"/>
 </kw>
 <kw name="Capture Page Screenshot" owner="SeleniumLibrary">
-<msg time="2024-11-21T20:39:00.415479" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-1.png"&gt;&lt;img src="selenium-screenshot-1.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2024-12-04T20:48:32.350808" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-4.png"&gt;&lt;img src="selenium-screenshot-4.png" width="800px"&gt;&lt;/a&gt;</msg>
 <doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<status status="PASS" start="2024-11-21T20:38:59.981457" elapsed="0.434022"/>
+<status status="PASS" start="2024-12-04T20:48:31.992638" elapsed="0.358170"/>
 </kw>
 <arg>${url}</arg>
-<status status="PASS" start="2024-11-21T20:38:55.185567" elapsed="5.229912"/>
+<status status="PASS" start="2024-12-04T20:48:29.177585" elapsed="3.173223"/>
 </kw>
 <arg>${tema.url_acqua}</arg>
-<status status="PASS" start="2024-11-21T20:38:55.184570" elapsed="5.230909"/>
+<status status="PASS" start="2024-12-04T20:48:29.176583" elapsed="3.174225"/>
 </kw>
 <kw name="When clico para ativar o modo escuro">
 <kw name="Realizar clique">
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2024-11-21T20:39:00.417462" level="INFO">Clicking element '//button[contains(.,'Modo Escuro')]'.</msg>
+<msg time="2024-12-04T20:48:32.352831" level="INFO">Clicking element '//button[contains(.,'Modo Escuro')]'.</msg>
 <arg>${locator}</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2024-11-21T20:39:00.416466" elapsed="0.079486"/>
+<status status="PASS" start="2024-12-04T20:48:32.352831" elapsed="0.055051"/>
 </kw>
 <arg>${locator}</arg>
-<status status="PASS" start="2024-11-21T20:39:00.416466" elapsed="0.079572"/>
+<status status="PASS" start="2024-12-04T20:48:32.351807" elapsed="0.056075"/>
 </kw>
 <arg>${tema.btn_escuro}</arg>
-<status status="PASS" start="2024-11-21T20:39:00.416298" elapsed="0.079740"/>
+<status status="PASS" start="2024-12-04T20:48:32.351807" elapsed="0.056075"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-11-21T20:39:05.509163" level="INFO">Slept 5 seconds.</msg>
+<msg time="2024-12-04T20:48:37.423083" level="INFO">Slept 5 seconds.</msg>
 <arg>5s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-11-21T20:39:00.496038" elapsed="5.013125"/>
+<status status="PASS" start="2024-12-04T20:48:32.407882" elapsed="5.015201"/>
 </kw>
 <kw name="Capture Page Screenshot" owner="SeleniumLibrary">
-<msg time="2024-11-21T20:39:05.943622" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-2.png"&gt;&lt;img src="selenium-screenshot-2.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2024-12-04T20:48:37.784872" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-5.png"&gt;&lt;img src="selenium-screenshot-5.png" width="800px"&gt;&lt;/a&gt;</msg>
 <doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<status status="PASS" start="2024-11-21T20:39:05.510156" elapsed="0.433466"/>
+<status status="PASS" start="2024-12-04T20:48:37.424088" elapsed="0.360784"/>
 </kw>
 <kw name="When clico para ativar o modo claro">
 <kw name="Realizar clique">
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2024-11-21T20:39:05.946941" level="INFO">Clicking element '//button[contains(.,'Modo Claro')]'.</msg>
+<msg time="2024-12-04T20:48:37.785896" level="INFO">Clicking element '//button[contains(.,'Modo Claro')]'.</msg>
 <arg>${locator}</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2024-11-21T20:39:05.945977" elapsed="0.067616"/>
+<status status="PASS" start="2024-12-04T20:48:37.785896" elapsed="0.048502"/>
 </kw>
 <arg>${locator}</arg>
-<status status="PASS" start="2024-11-21T20:39:05.945977" elapsed="0.068613"/>
+<status status="PASS" start="2024-12-04T20:48:37.785896" elapsed="0.048502"/>
 </kw>
 <arg>${tema.btn_claro}</arg>
-<status status="PASS" start="2024-11-21T20:39:05.944962" elapsed="0.069628"/>
+<status status="PASS" start="2024-12-04T20:48:37.784872" elapsed="0.049526"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-11-21T20:39:11.028061" level="INFO">Slept 5 seconds.</msg>
+<msg time="2024-12-04T20:48:42.844971" level="INFO">Slept 5 seconds.</msg>
 <arg>5s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-11-21T20:39:06.014590" elapsed="5.013471"/>
+<status status="PASS" start="2024-12-04T20:48:37.835395" elapsed="5.010573"/>
 </kw>
 <kw name="Capture Page Screenshot" owner="SeleniumLibrary">
-<msg time="2024-11-21T20:39:11.461718" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-3.png"&gt;&lt;img src="selenium-screenshot-3.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2024-12-04T20:48:43.193465" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-6.png"&gt;&lt;img src="selenium-screenshot-6.png" width="800px"&gt;&lt;/a&gt;</msg>
 <doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<status status="PASS" start="2024-11-21T20:39:11.028061" elapsed="0.433657"/>
+<status status="PASS" start="2024-12-04T20:48:42.846964" elapsed="0.346501"/>
 </kw>
-<status status="PASS" start="2024-11-21T20:38:55.183572" elapsed="16.279144"/>
+<status status="PASS" start="2024-12-04T20:48:29.175559" elapsed="14.017906"/>
 </test>
-<status status="PASS" start="2024-11-21T20:38:54.669095" elapsed="16.794619"/>
+<status status="PASS" start="2024-12-04T20:48:28.982734" elapsed="14.211730"/>
 </suite>
 <statistics>
 <total>

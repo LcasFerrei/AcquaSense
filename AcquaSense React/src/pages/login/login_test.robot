@@ -5,8 +5,8 @@ Library    SeleniumLibrary
 &{login}
 ...    url_login=http://localhost:3000/login
 ...    url_dashboard=http://localhost:3000/Dashboard
-...    username=Lucas Ferreira
-...    password=testefuncional
+...    username=Saul
+...    password=acquasense
 ...    btn_submit=//button[@type='submit']  
 
 *** Keywords ***
