@@ -6,7 +6,7 @@ export default function Inicio2({ navigation }) {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../assets/terrateste.png")} // Caminho da imagem
+        source={require("../assets/energetika.png")} // Caminho da imagem
         style={styles.image}
       />
       <Text style={styles.title}>Monitore seu consumo de água diário</Text>

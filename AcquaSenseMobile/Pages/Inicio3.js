@@ -1,14 +1,14 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-export default function Inicio2({ navigation }) {
+export default function Inicio3({ navigation }) {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backButtonText}>Voltar</Text>
       </TouchableOpacity>
       <Image
-        source={require("../assets/icon.png")} // Caminho da imagem
+        source={require("../assets/city.png")} // Caminho da imagem
         style={styles.image}
       />
       <Text style={styles.title}>Identifique vazamentos no seu apartamento</Text>
