@@ -1,69 +1,82 @@
-
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity, ImageBackground } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function Inicio2({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Image
-        source={require("../assets/energetika.png")} // Caminho da imagem
-        style={styles.image}
-      />
-      <Text style={styles.title}>Monitore seu consumo de água diário</Text>
-      <Text style={styles.subtitle}>
-        Acompanhe diariamente a quantidade de litros que você consome
-      </Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Inicio3")} // Substitua 'OutraTela' pelo nome da próxima tela
-      >
-        <Text style={styles.buttonText}>Continuar</Text>
-      </TouchableOpacity>
-    </View>
+    <ImageBackground
+      source={require("../assets/Background.png")}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <View style={styles.container}>
+        <Image
+          source={require("../assets/energetika.png")}
+          style={styles.image}
+        />
+        <Text style={styles.title}>Monitore seu consumo de água diário</Text>
+        <Text style={styles.subtitle}>
+          Acompanhe diariamente a quantidade de litros que você consome
+        </Text>
+
+        <TouchableOpacity onPress={() => navigation.navigate("Inicio3")}>
+          <LinearGradient
+            colors={["#A8B6FF", "#92EBFF"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Continuar</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F5F8FF",
     paddingHorizontal: 20,
+    paddingTop: 50, 
+    width: "100%",
   },
   image: {
     width: 200,
     height: 200,
     resizeMode: "contain",
-    marginBottom: 20,
+    marginBottom: 10, 
   },
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#333",
+    color: "#000000",
     textAlign: "center",
-    marginBottom: 10,
+    marginBottom: 5, 
   },
   subtitle: {
     fontSize: 16,
-    color: "#666",
+    color: "#000000",
     textAlign: "center",
-    marginBottom: 30,
+    marginBottom: 15, 
   },
   button: {
-    backgroundColor: "#4CA1FF",
-    borderRadius: 25,
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    elevation: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    borderRadius: 8,
   },
   buttonText: {
-    color: "#FFF",
+    color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+    textAlign: "center",
   },
 });
