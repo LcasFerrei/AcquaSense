@@ -4,12 +4,13 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from "reac
 export default function Inicio4({ navigation }) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.replace('Inicio3')}>
         <Text style={styles.backButtonText}>Voltar</Text>
       </TouchableOpacity>
+
       <View style={styles.content}>
         <Image
-          source={require("../assets/LogoAcquaSense.png")}
+          source={require("../assets/securty.jpg")}
           style={styles.image}
         />
         <Text style={styles.title}>Digite a chave de acesso</Text>

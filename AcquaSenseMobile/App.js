@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Inicio from "./pages/Inicio";
 import Inicio2 from "./pages/Inicio2";
 import Inicio3 from "./pages/Inicio3";
-
+import Inicio4 from "./pages/Inicio4Token" 
 
 const Stack = createStackNavigator();
 
@@ -15,6 +15,7 @@ export default function App() {
         <Stack.Screen name="Inicio" component={Inicio} />
         <Stack.Screen name="Inicio2" component={Inicio2} />
         <Stack.Screen name="Inicio3" component={Inicio3} />
+        <Stack.Screen name="Inicio4" component={Inicio4} />
       </Stack.Navigator>
     </NavigationContainer>
   );
