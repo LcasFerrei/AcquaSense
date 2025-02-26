@@ -1,0 +1,74 @@
+** APIs Acquasense **
+
+1. POST mqtt/publish 
+Objetivo: Este endpoint é usado para publicar mensagens no tópico MQTT.
+
+body {
+  message:message 	
+}
+
+
+2. GET mqtt/message/
+Objetivo: Recupera uma mensagem publicada via MQTT.
+Sem parâmetros: Esse endpoint provavelmente retorna a última mensagem publicada ou mensagens recentes de um tópico específico.
+
+3. GET api/user-profile/
+Objetivo: Retorna o perfil do usuário.
+Detalhes: Este endpoint pode ser usado para obter informações sobre o usuário logado ou autentificado no sistema.
+
+4. GET api/config/
+Objetivo: Retorna as configurações do sistema.
+Detalhes: Pode ser utilizado para recuperar configurações gerais do sistema ou parâmetros que afetam o funcionamento da aplicação.
+
+5. POST api/registe/
+Objetivo: Registra um novo usuário no sistema.
+
+body {
+ username:
+ password:
+ email:
+}
+
+6. PUT api/user-profile-edit/
+Objetivo: Edita o perfil do usuário.
+
+body {
+ username:
+ password:
+ email:
+}
+
+7. GET specificMonitoring/
+Objetivo: Recupera dados de monitoramento específicos.
+Detalhes: Esse endpoint pode ser utilizado para obter dados de monitoramento detalhados com base em um critério específico.
+
+8. POST specificMonitoring/
+Objetivo: Envia dados de monitoramento específicos para o sistema.
+
+body {
+ data-inicio:
+ data-fim: 
+}
+
+9. GET notificacoes/
+Objetivo: Recupera notificações para o usuário.
+Detalhes: Esse endpoint provavelmente retorna uma lista de notificações associadas ao usuário (pode ser uma notificação de consumo de água, alertas, etc.).
+
+10. POST notificacao/marcar_como_lida/
+Objetivo: Marca uma notificação como lida.
+
+body {
+  notificacao_id:
+}
+
+11. ws/dashboard/
+Objetivo: WebSocket para o dashboard.
+Detalhes: Esse é um endpoint WebSocket (note que usa ws:// ao invés de http://). A conexão WebSocket é utilizada para comunicação em tempo real, o que significa que o aplicativo pode receber atualizações instantâneas no dashboard sem a necessidade de fazer requisições repetidas ao servidor.
+
+12. ws/consumo/
+Objetivo: WebSocket para dados de consumo.
+Detalhes: Semelhante ao ws/dashboard/, este endpoint WebSocket é provavelmente utilizado para transmitir dados em tempo real sobre o consumo de água, permitindo que o aplicativo mostre essas informações ao usuário instantaneamente.
+
+13. ws/monitoramento/
+Objetivo: WebSocket para monitoramento em tempo real.
+Detalhes: Esse endpoint WebSocket pode ser utilizado para monitorar eventos ou mudanças no sistema em tempo real, como o status de sensores ou dispositivos IoT que estão sendo monitorados no projeto Acquasense.
