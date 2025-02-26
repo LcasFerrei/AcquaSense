@@ -1,0 +1,249 @@
+[33mcommit 6454b59d5544999b1f6a82d4a0cb66066d1e15a9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: LcasFerrei <lucasferreiraceara@gmail.com>
+Date:   Wed Feb 26 12:34:46 2025 -0300
+
+    Ajustes Visuais na tela 4 Token
+
+[33mcommit b77beaeb11b48107a03b9e46df3d8a1c9fbdf727[m
+Merge: 7412e1f fe5cd99
+Author: Anna Maria <145072189+annamariaoliveira@users.noreply.github.com>
+Date:   Mon Feb 24 19:13:35 2025 -0300
+
+    Merge pull request #259 from LcasFerrei/alteracoes
+    
+    Alerações na tela 3
+
+[33mcommit fe5cd99d23a47038d3ed3615803b26d1a9210449[m
+Author: Anna Maria <annamariadonascimento@gmail.com>
+Date:   Mon Feb 24 19:11:30 2025 -0300
+
+    Alerações na tela 3
+
+[33mcommit 7412e1f6c7ae9d876605ca6f1773a385c5e242f5[m
+Merge: 02a8fb4 38336fc
+Author: Lucas Ferreira <137240081+LcasFerrei@users.noreply.github.com>
+Date:   Mon Feb 24 18:06:18 2025 -0300
+
+    Merge pull request #258 from LcasFerrei/MobileConfi
+    
+    Adicionando pastas, rotas e imagens
+
+[33mcommit 38336fc523d4ebdcab136c9463849f1d22d2e594[m[33m ([m[1;31morigin/MobileConfi[m[33m, [m[1;32mMobileConfi[m[33m, [m[1;32mJardiversion[m[33m)[m
+Author: LcasFerrei <lucasferreiraceara@gmail.com>
+Date:   Mon Feb 24 18:04:43 2025 -0300
+
+    Ajustes tela Inicial 2
+
+[33mcommit 5a68757a1f6ffeef8574496b5475eea98922b7dd[m
+Author: LcasFerrei <lucasferreiraceara@gmail.com>
+Date:   Sun Feb 23 20:22:08 2025 -0300
+
+    Adicionando pastas, rotas e imagens
+
+[33mcommit 02a8fb41015dc78c509005d36e8974e4b05b0401[m
+Merge: 42ef0bc 2cb0a34
+Author: Saul Santos Marinho <127917213+SaulSantos1@users.noreply.github.com>
+Date:   Sun Feb 23 13:44:37 2025 -0300
+
+    Merge pull request #257 from LcasFerrei/token
+    
+    Página de chave de acesso
+
+[33mcommit 2cb0a344834124ac74e6d641f41c7f06308b81bd[m
+Author: SaulSantos1 <saulsantos111@gmail.com>
+Date:   Sun Feb 23 13:37:55 2025 -0300
+
+    Página de chave de acesso
+
+[33mcommit 42ef0bc1e68e82dcc0e149a65537bc7b6338ac69[m[33m ([m[1;31morigin/MobileRotas[m[33m, [m[1;32mMobileRotas[m[33m)[m
+Author: LcasFerrei <lucasferreiraceara@gmail.com>
+Date:   Sat Feb 22 19:38:16 2025 -0300
+
+    Ajustes de Rotas e Instalações de arquivos
+
+[33mcommit 1f2a8bceb342c94fcd15e9a464d9cb7cc8e32f25[m
+Merge: e0df24c 3bb4cf2
+Author: Lucas Ferreira <137240081+LcasFerrei@users.noreply.github.com>
+Date:   Sat Feb 22 19:22:17 2025 -0300
+
+    Merge pull request #256 from LcasFerrei/telainicio3
+    
+    Definindo a Tela 3
+
+[33mcommit 3bb4cf245d7d8de33a55c6de82e01d74a869f5d1[m
+Author: LeoneFernandes <leonewolver@hotmail.com>
+Date:   Sat Feb 22 19:19:31 2025 -0300
+
+    Definindo a Tela 3
+
+[33mcommit e0df24c0574e21a2494290af57c542abecb661fd[m
+Merge: 786dfe8 6cb0610
+Author: LeoneFernandes <141595692+LeoneFernandes@users.noreply.github.com>
+Date:   Sat Feb 22 19:10:53 2025 -0300
+
+    Merge pull request #255 from LcasFerrei/Assets
+    
+    Adicionando as imagens do projeto Mobile
+
+[33mcommit 6cb061039ed44ad5b9d3a6042e06053641d098c4[m
+Author: LeoneFernandes <leonewolver@hotmail.com>
+Date:   Sat Feb 22 19:05:43 2025 -0300
+
+    Adicionando as imagens do projeto Mobile
+
+[33mcommit 786dfe86382137d22b482983aecd2370d116979c[m
+Merge: 399e995 96da7af
+Author: Anna Maria <145072189+annamariaoliveira@users.noreply.github.com>
+Date:   Sat Feb 22 18:52:58 2025 -0300
+
+    Merge pull request #253 from LcasFerrei/Inicio
+    
+    Telas de Inicio criadas
+
+[33mcommit 96da7afa88ced1d6636ac93072248bb76ed71161[m
+Author: Anna Maria <annamariadonascimento@gmail.com>
+Date:   Sat Feb 22 18:47:51 2025 -0300
+
+    Telas de Inicio criadas
+
+[33mcommit 399e995a0ada16b778536c59e953bf3e39059564[m
+Merge: bafe500 ed5a098
+Author: Lucas Ferreira <137240081+LcasFerrei@users.noreply.github.com>
+Date:   Sat Feb 22 11:22:27 2025 -0300
+
+    Merge pull request #252 from LcasFerrei/Mobile
+    
+    Instalando e configurando a área de trabalho para o projeto mobile
+
+[33mcommit ed5a098303d46f044005818c2ca465d2c69773e9[m[33m ([m[1;31morigin/Mobile[m[33m, [m[1;32mMobile[m[33m)[m
+Author: LcasFerrei <lucasferreiraceara@gmail.com>
+Date:   Fri Feb 21 22:11:51 2025 -0300
+
+    Instalando e configurando a area de trabalho para o projeto mobile
+
+[33mcommit bafe500d5a857df37136a1eb3ee1d072a8ce83b6[m
+Merge: dcfe2f5 80da3f9
+Author: Lucas Ferreira <137240081+LcasFerrei@users.noreply.github.com>
+Date:   Mon Feb 17 14:53:39 2025 -0300
+
+    Merge pull request #242 from LcasFerrei/build
+    
+    Build para site
+
+[33mcommit 80da3f90dd6cc335ef21f8d58124221b050a9c95[m[33m ([m[1;31morigin/build[m[33m)[m
+Author: LcasFerrei <lucasferreiraceara@gmail.com>
+Date:   Sun Feb 16 14:47:47 2025 -0300
+
+    Feito o Build para o site, teste
+
+[33mcommit dcfe2f539ca8c278adeb6a9d452223d1a16a9a6f[m
+Merge: 4cfb101 e2ead13
+Author: jardianagalvao <jardianagalvao@gmail.com>
+Date:   Tue Dec 3 17:31:24 2024 -0300
+
+    Merge branch 'main' of https://github.com/LcasFerrei/AcquaSense
+
+[33mcommit 4cfb101064431147ee7b7615c90fc7fe7b19a0be[m
+Author: jardianagalvao <jardianagalvao@gmail.com>
+Date:   Tue Dec 3 17:29:37 2024 -0300
+
+    Ajuste cobrança
+
+[33mcommit e2ead13942f1fb7cdf4ef5905d492d58d0d0e4d5[m
+Author: SaulSantos1 <saulsantos111@gmail.com>
+Date:   Tue Dec 3 17:11:30 2024 -0300
+
+    :sparkles: Dia da Apresentação :sparkles:
+
+[33mcommit 82bdeb2f4cc47cc8b80a696121196a4e31928e7f[m
+Author: SaulSantos1 <saulsantos111@gmail.com>
+Date:   Mon Dec 2 22:52:01 2024 -0300
+
+    Resolvendo bugs
+
+[33mcommit b34f6b2bda3e8ef72e2f6984a57b5f73189f021d[m
+Merge: 6261876 7301516
+Author: jardianagalvao <jardianagalvao@gmail.com>
+Date:   Mon Dec 2 20:41:27 2024 -0300
+
+    :lipstick: testes
+
+[33mcommit 626187694635064fdce4bd52a2a9b8b024e2cd11[m
+Author: jardianagalvao <jardianagalvao@gmail.com>
+Date:   Mon Dec 2 20:40:19 2024 -0300
+
+    TestesRobot
+
+[33mcommit 7301516598462e5a6a4f6fe7337cb66785367985[m
+Author: SaulSantos1 <saulsantos111@gmail.com>
+Date:   Sun Dec 1 23:31:12 2024 -0300
+
+    Robot inserindo dados inválidos
+
+[33mcommit c25a3bc1ef67f8218863c7b13fcf3bc88d868952[m
+Merge: ec714ef 4de9269
+Author: Lucas Ferreira <137240081+LcasFerrei@users.noreply.github.com>
+Date:   Thu Nov 28 19:46:06 2024 -0300
+
+    Merge pull request #228 from LcasFerrei/AjustesFinaisRonnison
+    
+    Ajustes no site final
+
+[33mcommit 4de9269d635413edccdb283f86a69e8dfa6be7b2[m[33m ([m[1;31morigin/AjustesFinaisRonnison[m[33m)[m
+Author: LcasFerrei <lucasferreiraceara@gmail.com>
+Date:   Thu Nov 28 19:43:12 2024 -0300
+
+    Ajustes no site final
+
+[33mcommit ec714ef4b61ada0683ae4acf88c1e5e8485d0c7a[m
+Merge: 102c559 fe663c8
+Author: Lucas Ferreira <137240081+LcasFerrei@users.noreply.github.com>
+Date:   Tue Nov 26 21:08:04 2024 -0300
+
+    Merge pull request #227 from LcasFerrei/unifor
+    
+    Alterações nos arquivos Header.css, Header.js
+
+[33mcommit fe663c8157d6dde6972081f5dcfc317913e2a84c[m[33m ([m[1;31morigin/unifor[m[33m)[m
+Author: LeoneFernandes <leonewolver@hotmail.com>
+Date:   Tue Nov 26 21:00:16 2024 -0300
+
+    Alterações nos arquivos Header.css, Header.js
+
+[33mcommit 102c5594e8c60b370408c0595230d9a40956e978[m
+Author: jardianagalvao <jardianagalvao@gmail.com>
+Date:   Tue Nov 26 20:21:51 2024 -0300
+
+    Removendo pagina Teste
+
+[33mcommit 618ed5d1f749f8b0fee8f3d1268364875389abea[m
+Merge: 008c14f 1ca2f81
+Author: Saul Santos Marinho <127917213+SaulSantos1@users.noreply.github.com>
+Date:   Sun Nov 24 15:38:02 2024 -0300
+
+    Merge pull request #226 from LcasFerrei/Grafico
+    
+    Adicionando graficos no Dash
+
+[33mcommit 1ca2f8159c81b91b46ad7d4f647570e6b0558ffd[m
+Author: SaulSantos1 <saulsantos111@gmail.com>
+Date:   Sun Nov 24 15:37:13 2024 -0300
+
+    Adicionando graficos no Dash
+
+[33mcommit 008c14fb25c12320907a1f4c14559456b3f32f5b[m
+Author: SaulSantos1 <saulsantos111@gmail.com>
+Date:   Sun Nov 24 13:54:23 2024 -0300
+
+    bug scroll e edicao
+
+[33mcommit 1ddfb9238bd3bce089b7ced812b51f7ba0ba348e[m
+Merge: 2df5879 02dc39f
+Author: Saul Santos Marinho <127917213+SaulSantos1@users.noreply.github.com>
+Date:   Sat Nov 23 23:05:39 2024 -0300
+
+    Merge pull request #225 from LcasFerrei/novaBranch
+    
+    Ajustando bugs
+
+[33mcommit 02dc39f669f808864c

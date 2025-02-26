@@ -26,7 +26,9 @@ export default function Inicio5({ navigation }) {
           Crie sua conta e acesse agora mesmo os nossos serviços
         </Text>
 
-        <TouchableOpacity onPress={() => navigation.navigate("Inicio3")}>
+
+        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+     
           <LinearGradient
             colors={["#A8B6FF", "#92EBFF"]}
             start={{ x: 0, y: 0 }}
@@ -104,5 +106,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
-  },
+ 
 });
+
+
+});
+

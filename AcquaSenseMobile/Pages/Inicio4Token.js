@@ -31,7 +31,7 @@ export default function Inicio4({ navigation }) {
             Apenas aqueles que já contrataram nossos serviços terão acesso à chave
           </Text>
 
-          <TouchableOpacity onPress={() => navigation.navigate("Inicio4")}>
+          <TouchableOpacity onPress={() => navigation.navigate("Inicio5")}>
             <LinearGradient
               colors={["#A8B6FF", "#92EBFF"]}
               start={{ x: 0, y: 0 }}
