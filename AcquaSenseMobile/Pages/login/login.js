@@ -19,7 +19,6 @@ export default function Login({ navigation }) {
       <Text style={styles.greeting}>Olá,</Text>
       <Text style={styles.title}>Crie sua conta aqui!</Text>
 
-      {/* Campo de Nome */}
       <TextInput
         placeholder="Nome"
         style={styles.input}
@@ -27,7 +26,6 @@ export default function Login({ navigation }) {
         onChangeText={setNome}
       />
 
-      {/* Campo de Sobrenome */}
       <TextInput
         placeholder="Sobrenome"
         style={styles.input}
@@ -35,7 +33,6 @@ export default function Login({ navigation }) {
         onChangeText={setSobrenome}
       />
 
-      {/* Campo de Email */}
       <TextInput
         placeholder="Email"
         style={styles.input}
@@ -44,7 +41,6 @@ export default function Login({ navigation }) {
         keyboardType="email-address"
       />
 
-      {/* Campo de Senha */}
       <TextInput
         placeholder="Senha"
         style={styles.input}
@@ -53,12 +49,10 @@ export default function Login({ navigation }) {
         secureTextEntry
       />
 
-      {/* Botão de Login */}
-      <TouchableOpacity onPress={() => navigation.navigate("DashboardScreen")}>
+      <TouchableOpacity onPress={() => navigation.navigate("dash")}>
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
 
-      {/* Botões de Login Social */}
       <View style={styles.socialContainer}>
         <TouchableOpacity style={styles.socialButton}>
           <Ionicons name="logo-google" size={24} color="#DB4437" />
@@ -68,7 +62,6 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* Link para Cadastro */}
       <TouchableOpacity onPress={() => navigation.navigate("Cadastro")}>
         <Text style={styles.registerText}>
           Já tem uma conta? Faça seu <Text style={styles.registerLink}>Login</Text>
