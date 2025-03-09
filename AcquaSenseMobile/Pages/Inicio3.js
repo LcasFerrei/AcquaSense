@@ -10,8 +10,8 @@ export default function Inicio3({ navigation }) {
       resizeMode="cover"
     >
       <View style={styles.container}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Text style={styles.backButtonText}>Voltar</Text>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+          <Text style={styles.backButtonText}>❮</Text>
         </TouchableOpacity>
         
         <Image
