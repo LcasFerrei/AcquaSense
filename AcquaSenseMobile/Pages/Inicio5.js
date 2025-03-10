@@ -14,7 +14,7 @@ export default function Inicio5({ navigation }) {
           <Text style={styles.backButtonText}>❮</Text>
         </TouchableOpacity>
 
-        <Text style={styles.welcomeText}>Bem vindos ao Acqua Sense</Text>
+        <Text style={styles.welcomeText}>Bem vindos ao AcquaSense</Text>
 
         <Image
           source={require("../assets/LogoAcquaSense.png")}
@@ -71,16 +71,18 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   welcomeText: {
-    fontSize: 20,
+    fontSize: 22,
     color: "#000",
-    marginBottom: 10,
+    marginBottom: 20,
     textAlign: "center",
+    fontWeight: "600",
   },
   image: {
-    width: 150,
-    height: 150,
+    width: 350,
+    height: 300,
     resizeMode: "contain",
     marginBottom: 20,
+    marginLeft: -60,
   },
   title: {
     fontSize: 18,
@@ -106,9 +108,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
+},
  
 });
 
-
-});
 

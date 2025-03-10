@@ -7,50 +7,99 @@ import {
   StyleSheet,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function Login({ navigation }) {
+  const [isRegister, setIsRegister] = useState(true); 
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const toggleForm = () => {
+    setIsRegister(!isRegister);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.greeting}>Olá,</Text>
-      <Text style={styles.title}>Crie sua conta aqui!</Text>
+      <Text style={styles.title}>{isRegister ? "Crie sua conta aqui" : "Seja bem vindo"}</Text> 
 
-      <TextInput
-        placeholder="Nome"
-        style={styles.input}
-        value={nome}
-        onChangeText={setNome}
-      />
+      {isRegister && (
+        <>
+          <View style={styles.inputContainer}>
+            <Ionicons name="person-outline" size={20} color="#666" style={styles.icon} />
+            <TextInput
+              placeholder="Nome"
+              style={styles.input}
+              value={nome}
+              onChangeText={setNome}
+            />
+          </View>
 
-      <TextInput
-        placeholder="Sobrenome"
-        style={styles.input}
-        value={sobrenome}
-        onChangeText={setSobrenome}
-      />
+          <View style={styles.inputContainer}>
+            <Ionicons name="person-outline" size={20} color="#666" style={styles.icon} />
+            <TextInput
+              placeholder="Sobrenome"
+              style={styles.input}
+              value={sobrenome}
+              onChangeText={setSobrenome}
+            />
+          </View>
+        </>
+      )}
 
-      <TextInput
-        placeholder="Email"
-        style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
+      <View style={styles.inputContainer}>
+        <Ionicons name="mail-outline" size={20} color="#666" style={styles.icon} />
+        <TextInput
+          placeholder="Email"
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+        />
+      </View>
 
-      <TextInput
-        placeholder="Senha"
-        style={styles.input}
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+      <View style={styles.inputContainer}>
+        <Ionicons name="lock-closed-outline" size={20} color="#666" style={styles.icon} />
+        <TextInput
+          placeholder="Senha"
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+        {isRegister && (
+          <Ionicons name="eye-off-outline" size={20} color="#666" style={styles.eyeIcon} />
+        )}
+      </View>
 
-      <TouchableOpacity onPress={() => navigation.navigate("dash")}>
-        <Text style={styles.buttonText}>Entrar</Text>
+      {isRegister && (
+        <View style={styles.checkboxContainer}>
+          <TouchableOpacity>
+            <View style={styles.checkbox}></View>
+          </TouchableOpacity>
+          <Text style={styles.checkboxText}>
+            Ao continuar você aceita nossa política de privacidade e Termo de Uso
+          </Text>
+        </View>
+      )}
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("dash")}
+      >
+        <LinearGradient
+          colors={["#A8B6FF", "#92EBFF"]} 
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          style={styles.button}
+        >
+            <Text style={styles.buttonText}>
+              {isRegister ? "Cadastrar" : "Entrar"}
+            </Text>
+        </LinearGradient>
+       
       </TouchableOpacity>
 
       <View style={styles.socialContainer}>
@@ -62,9 +111,12 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity onPress={() => navigation.navigate("Cadastro")}>
-        <Text style={styles.registerText}>
-          Já tem uma conta? Faça seu <Text style={styles.registerLink}>Login</Text>
+      <TouchableOpacity onPress={toggleForm}>
+        <Text style={styles.toggleText}>
+          Já tem uma conta? Faça seu{" "}
+          <Text style={styles.toggleLink}>
+            {isRegister ? "Login" : "Cadastra-se"}
+          </Text>
         </Text>
       </TouchableOpacity>
     </View>
@@ -76,7 +128,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F7F8FA",
+    backgroundColor: "#F5F5F5",
     padding: 20,
   },
   greeting: {
@@ -88,23 +140,59 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "#000",
-    marginBottom: 20,
+    marginBottom: 30,
   },
-  input: {
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
     width: "100%",
     height: 50,
     backgroundColor: "#FFF",
-    borderRadius: 8,
-    paddingHorizontal: 15,
+    borderRadius: 10,
+    marginBottom: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  icon: {
+    marginLeft: 15,
+    marginRight: 10,
+  },
+  eyeIcon: {
+    position: "absolute",
+    right: 15,
+  },
+  input: {
+    flex: 1,
+    height: "100%",
     fontSize: 16,
-    marginBottom: 10,
+    color: "#333",
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    marginBottom: 20,
+    marginTop: 10,
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
     borderWidth: 1,
     borderColor: "#DDD",
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  checkboxText: {
+    flex: 1,
+    fontSize: 12,
+    color: "#666",
   },
   button: {
     width: "100%",
     height: 50,
-    backgroundColor: "#6c63ff",
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
@@ -114,11 +202,12 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontSize: 16,
     fontWeight: "bold",
+    textAlign: "center",
   },
   socialContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "50%",
+    width: "40%",
     marginBottom: 20,
   },
   socialButton: {
@@ -128,17 +217,18 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#DDD",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
-  registerText: {
+  toggleText: {
     fontSize: 14,
     color: "#666",
   },
-  registerLink: {
+  toggleLink: {
     color: "#6c63ff",
     fontWeight: "bold",
   },
 });
-
-// cometario para teste
