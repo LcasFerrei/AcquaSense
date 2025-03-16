@@ -8,6 +8,10 @@ import Inicio5 from "./pages/Inicio5";
 import Login from "./pages/login/login";
 import Inicio4 from "./pages/Inicio4Token" 
 import dash from "./pages/dashboard/dash" 
+import DashScreen from "./pages/dashboard/DashScreen"
+import SearchScreen from "./pages/search/SearchScreen"
+import ChatScreen from "./pages/Chat/ChatScreen"
+import UserScreen from "./pages/User/UserScreen"
 
 const Stack = createStackNavigator();
 
@@ -22,6 +26,10 @@ export default function App() {
         <Stack.Screen name="Inicio5" component={Inicio5} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="dash" component={dash} />
+        <Stack.Screen name="DashScreen" component={DashScreen} />
+        <Stack.Screen name="SearchScreen" component={SearchScreen} />
+        <Stack.Screen name="ChatScreen" component={ChatScreen} />
+        <Stack.Screen name="UserScreen" component={UserScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
