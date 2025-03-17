@@ -9,26 +9,25 @@ const Hubfooter = () => {
         <>
             {/* Botões fixos na parte inferior */}
             <View style={styles.bottomBar}>
-                <TouchableOpacity style={styles.bottomButton} onPress={() => navigation.navigate("dashcopia")}>
+                <TouchableOpacity style={styles.bottomButton} onPress={() => navigation.navigate("dash")}>
                 <Image 
                         source={require('../assets/Home.png')} 
                         style={{ width: 28, height: 28 }} 
                     />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomButton} onPress={() => navigation.navigate("dashcopia")}>
+                <TouchableOpacity style={styles.bottomButton} onPress={() => navigation.navigate("dash")}>
                 <Image 
                         source={require('../assets/Activity.png')} 
                         style={{ width: 28, height: 28 }} 
                     />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.centralButton} onPress={() => navigation.navigate("SearchScreen")}>
-                    {/* Substituí o Icon por Image */}
                     <Image 
                         source={require('../assets/Search.png')} 
                         style={{ width: 100, height: 100 }} 
                     />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomButton} onPress={() => navigation.navigate("ChatScreen")}>
+                <TouchableOpacity style={styles.bottomButton} onPress={() => navigation.navigate("Grafic")}>
                 <Image 
                         source={require('../assets/Graph.png')} 
                         style={{ width: 28, height: 28 }} 
