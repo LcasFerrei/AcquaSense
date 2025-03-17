@@ -10,7 +10,7 @@ export default function Inicio({ navigation }) {
       navigation.replace("Inicio2");
     }, 5000);
 
-    return () => clearTimeout(timer); // Limpa o temporizador ao desmontar o componente
+    return () => clearTimeout(timer); 
   }, [navigation]);
 
   return (

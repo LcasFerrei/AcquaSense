@@ -1,14 +1,18 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const GoalCard = () => {
+// Recebe a prop `navigation` para realizar a navegação
+const GoalCard = ({ navigation }) => {
   const currentLiters = 160; // Valor atual ajustado para o máximo
   const maxLiters = 200; // Valor máximo (fictício)
   const progressHeight = (currentLiters / maxLiters) * 100; // Calcula a altura do progresso (100%)
 
   return (
-    <View style={styles.card}>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => navigation.navigate('Grafic')} // Navega para a tela Grafic ao clicar
+    >
       <Text style={styles.title}>Meta diária</Text>
       <Text style={styles.subtitle}>Atualizações em tempo real</Text>
       <View style={styles.progressContainer}>
@@ -25,7 +29,7 @@ const GoalCard = () => {
         </View>
       </View>
       <Text style={styles.currentValue}>{currentLiters} Litros</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
