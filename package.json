@@ -11,6 +11,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
+    "cypress": "^13.17.0",
     "jest": "^29.7.0"
   }
 }
