@@ -10,6 +10,9 @@ import Login from "./pages/login/login";
 import Inicio4 from "./pages/Inicio4Token";
 import dash from "./pages/dashboard/dash";
 import Grafic from "./pages/chat/Grafic";
+import VisionGrafic from "./pages/Vision/VisionGeral"
+import Notiview from "./pages/Notiview/Notiview";
+import UserScreen from "./pages/User/UserScreen"
 
 
 
@@ -52,6 +55,9 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="dash" component={dash} />
         <Stack.Screen name="Grafic" component={Grafic} />
+        <Stack.Screen name="UserScreen" component={UserScreen} />
+        <Stack.Screen name="VisionGrafic" component={VisionGrafic} />
+        <Stack.Screen name="Notiview" component={Notiview} />
         
       </Stack.Navigator>
     </NavigationContainer>
