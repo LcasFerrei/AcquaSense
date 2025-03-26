@@ -10,7 +10,7 @@ import Login from "./pages/login/login";
 import Inicio4 from "./pages/Inicio4Token";
 import dash from "./pages/dashboard/dash";
 import Grafic from "./pages/chat/Grafic";
-import VisionGrafic from "./pages/Vision/VisionGeral"
+import VisionGeral from "./pages/VIsion/VisionGeral";
 import Notiview from "./pages/Notiview/Notiview";
 import UserScreen from "./pages/User/UserScreen"
 
