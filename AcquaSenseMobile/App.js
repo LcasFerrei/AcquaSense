@@ -3,17 +3,17 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Importar AsyncStorage
 import { AppState } from 'react-native';
-import Inicio from "./Pages/Inicio";
-import Inicio2 from "./Pages/Inicio2";
-import Inicio3 from "./Pages/Inicio3";
-import Inicio5 from "./Pages/Inicio5";
-import Login from "./Pages/login/login";
-import Inicio4 from "./Pages/Inicio4Token";
-import dash from "./Pages/dashboard/dash";
-import Grafic from "./Pages/chat/Grafic";
-// import VisionGeral from "./Pages/VIsion/VisionGeral";
-// import Notiview from "./Pages/Notiview/Notiview";
-// import UserScreen from "./Pages/User/UserScreen"
+import Inicio from "./pages/Inicio";
+import Inicio2 from "./pages/Inicio2";
+import Inicio3 from "./pages/Inicio3";
+import Inicio5 from "./pages/Inicio5";
+import Login from "./pages/login/login";
+import Inicio4 from "./pages/Inicio4Token";
+import dash from "./pages/dashboard/dash";
+import Grafic from "./pages/chat/Grafic";
+import VisionGeral from "./pages/VIsion/VisionGeral";
+import Notiview from "./pages/Notiview/Notiview";
+import UserScreen from "./pages/User/UserScreen"
 
 const Stack = createStackNavigator();
 
@@ -29,9 +29,9 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="dash" component={dash} />
         <Stack.Screen name="Grafic" component={Grafic} />
-        {/* <Stack.Screen name="UserScreen" component={UserScreen} /> */}
-        {/* <Stack.Screen name="VisionGrafic" component={VisionGrafic} /> */}
-        {/* <Stack.Screen name="Notiview" component={Notiview} /> */}
+        <Stack.Screen name="UserScreen" component={UserScreen} />
+        <Stack.Screen name="VisionGrafic" component={VisionGrafic} />
+        <Stack.Screen name="Notiview" component={Notiview} />
       </Stack.Navigator>
     </NavigationContainer>
   );
