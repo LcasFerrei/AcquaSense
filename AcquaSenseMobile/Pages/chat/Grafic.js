@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
 import backgroundImage from '../../assets/medidorverde.png';
 import Hubfooter from '../../components/hub';
@@ -6,6 +6,42 @@ import ProgressCircle from '../../components/ProgressCircle';
 import ConsumptionChart from '../../components/ConsumptionChart';
 
 const Grafic = ({ navigation }) => {
+  const [consumoData, setConsumoData] = useState({
+    percentual: 0,
+    acumulado_por_hora: {}
+  });
+
+  useEffect(() => {
+    const ws = new WebSocket("ws://192.168.0.4:8000/ws/consumo/");
+
+    ws.onopen = () => {
+      console.log('Conectado ao WebSocket');
+    };
+
+    ws.onmessage = (e) => {
+      const message = JSON.parse(e.data);
+      if (message.type === 'update') {
+        setConsumoData(prev => ({
+          ...prev,
+          percentual: message.data.percentual,
+          acumulado_por_hora: message.data.acumulado_por_hora
+        }));
+      }
+    };
+
+    ws.onerror = (e) => {
+      console.log('Erro no WebSocket:', e.message);
+    };
+
+    ws.onclose = (e) => {
+      console.log('Conexão WebSocket fechada:', e.code, e.reason);
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
+
   return (
     <ImageBackground
       source={backgroundImage}
@@ -34,7 +70,6 @@ const Grafic = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
-          
           <View style={styles.monitorSection}>
             <Text style={styles.monitorTitle}>MONITORE SEU CONSUMO</Text>
             <Text style={styles.monitorDescription}>
@@ -42,11 +77,10 @@ const Grafic = ({ navigation }) => {
             </Text>
           </View>
 
-          <ProgressCircle progress={0.165} size={150} />
+          <ProgressCircle progress={consumoData.percentual / 100} size={150} />
 
-         
           <View style={styles.consumptionChartContainer}>
-            <ConsumptionChart />
+            <ConsumptionChart data={consumoData.acumulado_por_hora} />
           </View>
         </View>
       </ScrollView>

@@ -2,91 +2,146 @@ import React from 'react';
 import { View, Text, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 
-const ConsumptionChart = () => {
+const ConsumptionChart = ({ data }) => {
   const screenWidth = Dimensions.get('window').width;
 
-  // Dados do gráfico
-  const chartData = {
-    labels: ['6:00', '9:00', '12:00', '15:00', '18:00', '21:00'],
-    datasets: [
-      {
-        data: [0, 0, 10, 0, 0, 0], // Dados de exemplo para o gráfico
-        strokeWidth: 2,
-      },
-    ],
-  };
-
-  // Função para determinar a cor dos rótulos com base na hora atual
-  const getLabelColor = (label, opacity = 1) => {
+  // Função para preencher intervalos vazios
+  const preencherIntervalosVazios = (acumuladoPorHora) => {
     const now = new Date();
-    const currentHour = now.getHours();
-    const currentMinutes = now.getMinutes();
-    const currentTime = currentHour + currentMinutes / 60; // Converte para decimal (ex.: 9:30 = 9.5)
+    const horasPreenchidas = {};
+    let ultimoValor = 0;
 
-    // Definindo as faixas de horário
-    const isBetween9And1159 = currentTime >= 9 && currentTime <= 11.99; // 9:00 até 11:59
-    const isBetween18And2059 = currentTime >= 18 && currentTime <= 22.99; // 18:00 até 20:59
-
-    // Cor padrão (preto)
-    let color = `rgba(0, 0, 0, ${opacity})`;
-
-    // Gradiente simulado entre C58BF2 e EEA4CE (média das cores como aproximação)
-    const gradientColor = `rgba(215, 163, 216, ${opacity})`; // Média aproximada entre C58BF2 e EEA4CE
-
-    // Aplica a cor gradiente para o rótulo "9:00" se estiver entre 9:00 e 11:59
-    if (isBetween9And1159 && label === '9:00') {
-      color = gradientColor;
+    // Preenche do início do dia até agora
+    for (let hora = 0; hora <= now.getHours(); hora++) {
+      for (let minuto = 0; minuto < 60; minuto++) {
+        const horario = `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`;
+        
+        if (acumuladoPorHora[horario] !== undefined) {
+          ultimoValor = acumuladoPorHora[horario];
+        }
+        
+        horasPreenchidas[horario] = ultimoValor;
+        
+        if (hora === now.getHours() && minuto === now.getMinutes()) {
+          break;
+        }
+      }
     }
 
-    // Aplica a cor gradiente para o rótulo "18:00" se estiver entre 18:00 e 20:59
-    if (isBetween18And2059 && label === '21:00') {
-      color = gradientColor;
-    }
-
-    return color;
+    return horasPreenchidas;
   };
 
-  // Configuração do gráfico
+  // Processa os dados para o gráfico
+  const processChartData = () => {
+    if (!data || Object.keys(data).length === 0) {
+      return {
+        labels: [],
+        datasets: [{ data: [] }],
+        isEmpty: true
+      };
+    }
+
+    const dadosCompletos = preencherIntervalosVazios(data);
+    const dataArray = Object.entries(dadosCompletos).map(([time, value]) => ({
+      time,
+      value
+    }));
+
+    // Seleciona labels estratégicos (a cada 3 horas)
+    const labels = [];
+    const allTimes = dataArray.map(item => item.time);
+    
+    for (let hora = 0; hora <= 24; hora += 3) {
+      const timeStr = `${hora.toString().padStart(2, '0')}:00`;
+      if (allTimes.includes(timeStr) || hora === 0) {
+        labels.push(timeStr);
+      }
+    }
+
+    // Adiciona o último horário se não estiver incluído
+    const lastTime = dataArray[dataArray.length - 1].time;
+    if (!labels.includes(lastTime)) {
+      labels.push(lastTime);
+    }
+
+    return {
+      labels,
+      datasets: [{
+        data: dataArray.map(item => item.value),
+      }],
+      isEmpty: false
+    };
+  };
+
+  const chartData = processChartData();
+
+  // Configuração do gráfico sem pontos
   const chartConfig = {
-    backgroundColor: '#e6f0fa',
-    backgroundGradientFrom: '#e6f0fa',
-    backgroundGradientTo: '#e6f0fa',
+    backgroundColor: '#ffffff00',  // Cor de fundo branca
+    backgroundGradientFrom: '#ffffff00',  // Cor de fundo branca para o gradiente
+    backgroundGradientTo: '#ffffff00',  // Cor de fundo branca para o gradiente
     decimalPlaces: 0,
-    color: (opacity = 1) => `rgba(0, 122, 255, ${opacity})`, // Cor da linha (azul)
-    labelColor: (labelIndex, opacity = 1) => {
-      // Mapeia o índice do rótulo para o texto do rótulo
-      const label = chartData.labels[labelIndex];
-      return getLabelColor(label, opacity);
-    },
+    color: (opacity = 1) => `rgba(0, 150, 136, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     style: {
       borderRadius: 16,
     },
     propsForDots: {
-      r: '6',
-      strokeWidth: '2',
-      stroke: '#007AFF',
+      r: '0', // Remove completamente os pontos
     },
+    propsForLabels: {
+      fontSize: 10
+    },
+    fillShadowGradient: 'rgba(0, 150, 136, 0.1)',  // Cor de preenchimento com opacidade
+    fillShadowGradientOpacity: 0.1
   };
 
+  // Calcula o consumo total (último valor)
+  const totalConsumption = chartData.isEmpty ? 0 : 
+    chartData.datasets[0].data.slice(-1)[0].toFixed(1);
+
   return (
-    <View style={{ alignItems: 'center', marginVertical: 20 }}>
-      <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>
-        O consumo está equilibrado
+    <View style={{ alignItems: 'center', marginVertical: 20, backgroundColor: 'transparent' }}>
+      <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10, color: '#333' }}>
+        Consumo Acumulado por Hora
       </Text>
-      <LineChart
-        data={chartData}
-        width={screenWidth * 0.9} // 90% da largura da tela
-        height={220}
-        chartConfig={chartConfig}
-        bezier // Curva suave
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
-        withVerticalLines={false} // Remove linhas verticais do grid
-        yAxisLabel=""
-        yAxisSuffix="%"
-      />
+      
+      {chartData.isEmpty ? (
+        <View style={{ 
+          width: screenWidth * 0.9, 
+          height: 220, 
+          justifyContent: 'center', 
+          alignItems: 'center',
+          backgroundColor: 'transparent', // Garantindo fundo transparente
+          borderRadius: 16
+        }}>
+          <Text style={{ color: '#666', backgroundColor:'transparent' }}>...</Text>
+        </View>
+      ) : (
+        <>
+          <LineChart
+            data={chartData}
+            width={screenWidth * 0.9}
+            height={220}
+            chartConfig={chartConfig}
+            bezier
+            style={{
+              marginVertical: 8,
+              borderRadius: 16,
+              backgroundColor: 'transparent',  // Garantindo fundo transparente
+            }}
+            withVerticalLines={false}
+            yAxisLabel=""
+            yAxisSuffix=""
+            fromZero
+            withInnerLines={false}
+            segments={4}
+          />
+          <Text style={{ marginTop: 8, color: '#666' }}>
+            Consumo acumulado: {totalConsumption} litros
+          </Text>
+        </>
+      )}
     </View>
   );
 };
