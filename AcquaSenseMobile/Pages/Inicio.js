@@ -1,16 +1,34 @@
-
 import React, { useEffect } from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
-
-
+import { View, Image, StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Inicio({ navigation }) {
   useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.replace("Inicio2");
-    }, 5000);
+    const checkFirstAccess = async () => {
+      try {
+        const tutorialCompleted = await AsyncStorage.getItem('tutorialCompleted');
+        
+        if (tutorialCompleted === 'true') {
+          // Se já viu o tutorial, vai direto para Inicio4
+          setTimeout(() => {
+            navigation.replace("Inicio4");
+          }, 5000);
+        } else {
+          // Se é o primeiro acesso, vai para Inicio2 após 5 segundos
+          setTimeout(() => {
+            navigation.replace("Inicio2");
+          }, 5000);
+        }
+      } catch (error) {
+        console.error("Erro ao verificar primeiro acesso:", error);
+        // Em caso de erro, vai para Inicio2 por padrão
+        setTimeout(() => {
+          navigation.replace("Inicio2");
+        }, 5000);
+      }
+    };
 
-    return () => clearTimeout(timer); 
+    checkFirstAccess();
   }, [navigation]);
 
   return (
