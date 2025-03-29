@@ -23,7 +23,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="Inicio" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Inicio" component={Inicio} />
         <Stack.Screen name="Inicio2" component={Inicio2} />
-        <Stack.Screen name="Inicio3" component={Inicio3}/>
+        <Stack.Screen name="Inicio3" component={Inicio3} />
         <Stack.Screen name="Inicio4" component={Inicio4} />
         <Stack.Screen name="Inicio5" component={Inicio5} />
         <Stack.Screen name="Login" component={Login} />
