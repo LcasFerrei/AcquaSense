@@ -30,7 +30,7 @@ export default function App() {
         <Stack.Screen name="dash" component={dash} />
         <Stack.Screen name="Grafic" component={Grafic} />
         <Stack.Screen name="UserScreen" component={UserScreen} />
-        <Stack.Screen name="VisionGrafic" component={VisionGrafic} />
+        <Stack.Screen name="VisionGrafic" component={VisionGeral} />
         <Stack.Screen name="Notiview" component={Notiview} />
       </Stack.Navigator>
     </NavigationContainer>

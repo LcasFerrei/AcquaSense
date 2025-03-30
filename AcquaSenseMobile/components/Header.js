@@ -1,10 +1,12 @@
 import React, { useState } from 'react'; // Adicione useState
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import { useNavigation } from '@react-navigation/native';
 
 const Header = () => {
   // Estado para controlar se há notificações (exemplo: true para exibir a bolinha)
   const [hasNotifications, setHasNotifications] = useState(false);
+  const navigation = useNavigation();
 
   return (
     <View style={styles.header}>
@@ -12,7 +14,10 @@ const Header = () => {
         <Text style={styles.greeting}>Bem vindo de volta,</Text>
         <Text style={styles.userName}>Lucas Ferreira</Text>
       </View>
-      <TouchableOpacity style={styles.notificationButton}>
+      <TouchableOpacity 
+        style={styles.notificationButton}
+        onPress={() => navigation.navigate('Notiview')}
+        >
         <View style={styles.iconContainer}>
           <Icon name="bell" size={20} color="#333" />
           {/* Exibe a bolinha vermelha se hasNotifications for true */}
