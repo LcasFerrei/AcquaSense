@@ -15,7 +15,7 @@ const Hubfooter = () => {
                         style={{ width: 28, height: 28 }} 
                     />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomButton} onPress={() => navigation.navigate("dash")}>
+                <TouchableOpacity style={styles.bottomButton} onPress={() => navigation.navigate("VisionGrafic")}>
                 <Image 
                         source={require('../assets/Activity.png')} 
                         style={{ width: 28, height: 28 }} 

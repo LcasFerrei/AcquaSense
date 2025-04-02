@@ -13,7 +13,7 @@ import dash from "./pages/dashboard/dash";
 import Grafic from "./pages/chat/Grafic";
 import VisionGeral from "./pages/VIsion/VisionGeral";
 import Notiview from "./pages/Notiview/Notiview";
-import UserScreen from "./pages/User/UserScreen"
+import UserScreen from "./pages/user/UserScreen"
 
 const Stack = createStackNavigator();
 
