@@ -19,6 +19,7 @@ import DeviceHistory from "./pages/DeviceHistory/DeviceHistory";
 import History from "./pages/DeviceHistory/History";
 
 
+
 const Stack = createStackNavigator();
 
 export default function App() {
