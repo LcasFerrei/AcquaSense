@@ -12,7 +12,7 @@ const Grafic = ({ navigation }) => {
   });
 
   useEffect(() => {
-    const ws = new WebSocket("ws://192.168.0.4:8000/ws/consumo/");
+    const ws = new WebSocket("ws://192.168.56.1:8000/ws/consumo/");
 
     ws.onopen = () => {
       console.log('Conectado ao WebSocket');
@@ -58,7 +58,7 @@ const Grafic = ({ navigation }) => {
           <View style={styles.headerContainer}>
             <TouchableOpacity 
               style={styles.backButton} 
-              onPress={() => navigation.navigate("dashcopia")}
+              onPress={() => navigation.navigate("dash")}
             >
               <Text style={styles.backButtonText}>❮</Text>
             </TouchableOpacity>
@@ -92,7 +92,8 @@ const Grafic = ({ navigation }) => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    width: '100%', 
+    justifyContent: "center",
+    alignItems: "center",
   },
   scrollView: {
     width: '100%', 

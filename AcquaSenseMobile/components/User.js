@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, Alert, Switch } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, Alert, Switch, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -22,6 +22,8 @@ const User = () => {
     darkMode: false,
     emailAlerts: true,
     waterUsageTips: false,
+    language: 'Português', // Idioma
+    waterLimit: '200', // Limite de consumo de água (em litros por dia)
   });
 
   // Estado para controlar a edição do usuário
@@ -31,6 +33,9 @@ const User = () => {
 
   // Estado para adicionar um novo sensor
   const [newSensorName, setNewSensorName] = useState('');
+
+  // Estado para o limite de consumo de água
+  const [newWaterLimit, setNewWaterLimit] = useState(preferences.waterLimit);
 
   // Função para salvar as alterações do usuário
   const handleSaveUserInfo = () => {
@@ -64,6 +69,77 @@ const User = () => {
     }));
   };
 
+  // Função para salvar o limite de consumo de água
+  const handleSaveWaterLimit = () => {
+    if (newWaterLimit.trim() === '' || isNaN(newWaterLimit) || Number(newWaterLimit) <= 0) {
+      Alert.alert('Erro', 'Por favor, insira um valor válido para o limite de consumo de água.');
+      return;
+    }
+
+    setPreferences((prev) => ({
+      ...prev,
+      waterLimit: newWaterLimit,
+    }));
+    Alert.alert('Sucesso', 'Limite de consumo de água atualizado!');
+  };
+
+  // Função para selecionar o idioma
+  const handleLanguageChange = (language) => {
+    setPreferences((prev) => ({
+      ...prev,
+      language: language,
+    }));
+    Alert.alert('Sucesso', `Idioma alterado para ${language}!`);
+  };
+
+  // Função para redefinir configurações
+  const handleResetSettings = () => {
+    Alert.alert(
+      'Redefinir Configurações',
+      'Você tem certeza de que deseja redefinir todas as configurações para os valores padrão?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Sim',
+          onPress: () => {
+            setPreferences({
+              notifications: true,
+              darkMode: false,
+              emailAlerts: true,
+              waterUsageTips: false,
+              language: 'Português',
+              waterLimit: '200',
+            });
+            setSensors([
+              { id: '1', name: 'Sensor PIA 1 - Cozinha' },
+              { id: '2', name: 'Sensor Banheiro 1' },
+            ]);
+            Alert.alert('Sucesso', 'Configurações redefinidas com sucesso!');
+          },
+        },
+      ]
+    );
+  };
+
+  // Função para excluir conta
+  const handleDeleteAccount = () => {
+    Alert.alert(
+      'Excluir Conta',
+      'Você tem certeza de que deseja excluir sua conta? Esta ação não pode ser desfeita.',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Excluir',
+          onPress: () => {
+            Alert.alert('Conta Excluída', 'Sua conta foi excluída com sucesso.');
+            // Aqui você pode adicionar a lógica para excluir a conta (ex.: chamada à API)
+          },
+          style: 'destructive',
+        },
+      ]
+    );
+  };
+
   // Renderizar cada sensor na lista
   const renderSensor = ({ item }) => (
     <View style={styles.sensorItem}>
@@ -79,6 +155,7 @@ const User = () => {
     { key: 'notifications', label: 'Notificações' },
     { key: 'emailAlerts', label: 'Alertas por E-mail' },
     { key: 'waterUsageTips', label: 'Dicas de Uso de Água' },
+    { key: 'darkMode', label: 'Modo Escuro' },
   ];
 
   // Renderizar cada item de preferência
@@ -94,8 +171,15 @@ const User = () => {
     </View>
   );
 
+  // Opções de idioma
+  const languageOptions = [
+    { label: 'Português', value: 'Português' },
+    { label: 'English', value: 'English' },
+    { label: 'Español', value: 'Español' },
+  ];
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {/* Seção: Informações do Usuário */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Informações do Usuário</Text>
@@ -168,9 +252,63 @@ const User = () => {
           data={preferenceList}
           renderItem={renderPreference}
           keyExtractor={(item) => item.key}
-          scrollEnabled={false} // Desativa o scroll do FlatList
-          nestedScrollEnabled={true} // Permite que o ScrollView pai gerencie o scroll
+          scrollEnabled={false}
+          nestedScrollEnabled={true}
         />
+      </View>
+
+      {/* Seção: Idioma */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Idioma</Text>
+        <View style={styles.languageContainer}>
+          {languageOptions.map((language) => (
+            <LinearGradient
+              key={language.value}
+              colors={
+                preferences.language === language.value
+                  ? ['#A8B6FF', '#92EBFF']
+                  : ['#f0f0f0', '#f0f0f0']
+              }
+              start={{ x: 0, y: 0 }}
+              end={{ x: 0, y: 1 }}
+              style={styles.languageButton}
+            >
+              <TouchableOpacity onPress={() => handleLanguageChange(language.value)}>
+                <Text
+                  style={[
+                    styles.languageButtonText,
+                    preferences.language === language.value && styles.selectedLanguageButtonText,
+                  ]}
+                >
+                  {language.label}
+                </Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          ))}
+        </View>
+      </View>
+
+      {/* Seção: Limite de Consumo de Água */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Limite de Consumo de Água (litros/dia)</Text>
+        <TextInput
+          style={styles.input}
+          value={newWaterLimit}
+          onChangeText={setNewWaterLimit}
+          placeholder="Digite o limite de consumo de água (em litros)"
+          keyboardType="numeric"
+        />
+        <Text style={styles.infoText}>Limite atual: {preferences.waterLimit} litros/dia</Text>
+        <LinearGradient
+          colors={['#A8B6FF', '#92EBFF']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          style={styles.button}
+        >
+          <TouchableOpacity onPress={handleSaveWaterLimit}>
+            <Text style={styles.buttonText}>Salvar Limite</Text>
+          </TouchableOpacity>
+        </LinearGradient>
       </View>
 
       {/* Seção: Sensores */}
@@ -181,11 +319,9 @@ const User = () => {
           renderItem={renderSensor}
           keyExtractor={(item) => item.id}
           ListEmptyComponent={<Text style={styles.emptyText}>Nenhum sensor adicionado.</Text>}
-          scrollEnabled={false} // Desativa o scroll do FlatList
-          nestedScrollEnabled={true} // Permite que o ScrollView pai gerencie o scroll
+          scrollEnabled={false}
+          nestedScrollEnabled={true}
         />
-
-        {/* Campo para adicionar novo sensor */}
         <TextInput
           style={styles.input}
           value={newSensorName}
@@ -203,7 +339,37 @@ const User = () => {
           </TouchableOpacity>
         </LinearGradient>
       </View>
-    </View>
+
+      {/* Seção: Redefinir Configurações */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Redefinir Configurações</Text>
+        <LinearGradient
+          colors={['#FF6B6B', '#FF8787']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          style={styles.button}
+        >
+          <TouchableOpacity onPress={handleResetSettings}>
+            <Text style={styles.buttonText}>Redefinir Tudo</Text>
+          </TouchableOpacity>
+        </LinearGradient>
+      </View>
+
+      {/* Seção: Excluir Conta */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Excluir Conta</Text>
+        <LinearGradient
+          colors={['#FF6B6B', '#FF8787']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          style={styles.button}
+        >
+          <TouchableOpacity onPress={handleDeleteAccount}>
+            <Text style={styles.buttonText}>Excluir Conta</Text>
+          </TouchableOpacity>
+        </LinearGradient>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -280,7 +446,25 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
   },
+  languageContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  languageButton: {
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+    width: '48%',
+    alignItems: 'center',
+  },
+  languageButtonText: {
+    fontSize: 14,
+    color: '#fff',
+  },
+  selectedLanguageButtonText: {
+    fontWeight: 'bold',
+  },
 });
-
 
 export default User;
