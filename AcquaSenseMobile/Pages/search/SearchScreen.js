@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, FlatList, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { LinearGradient } from 'expo-linear-gradient'; // Adicione isso
 import HubFooter from '../../components/hub';
 
 const SearchScreen = ({ navigation }) => {
@@ -138,23 +139,28 @@ const SearchScreen = ({ navigation }) => {
         <View style={styles.categoryContainer}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {categories.map((category) => (
-              <TouchableOpacity
+              <LinearGradient
                 key={category}
-                style={[
-                  styles.categoryButton,
-                  selectedCategory === category && styles.categoryButtonSelected,
-                ]}
-                onPress={() => setSelectedCategory(category)}
+                colors={
+                  selectedCategory === category
+                    ? ['#A8B6FF', '#92EBFF'] // Gradiente ciano para o botão selecionado
+                    : ['#f0f0f0', '#f0f0f0'] // Fundo neutro para os outros botões
+                }
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 1 }}
+                style={styles.categoryButton}
               >
-                <Text
-                  style={[
-                    styles.categoryText,
-                    selectedCategory === category && styles.categoryTextSelected,
-                  ]}
-                >
-                  {category}
-                </Text>
-              </TouchableOpacity>
+                <TouchableOpacity onPress={() => setSelectedCategory(category)}>
+                  <Text
+                    style={[
+                      styles.categoryText,
+                      selectedCategory === category && styles.categoryTextSelected,
+                    ]}
+                  >
+                    {category}
+                  </Text>
+                </TouchableOpacity>
+              </LinearGradient>
             ))}
           </ScrollView>
         </View>
@@ -290,13 +296,8 @@ const styles = StyleSheet.create({
   categoryButton: {
     paddingVertical: 8,
     paddingHorizontal: 15,
-    backgroundColor: '#fff',
     borderRadius: 20,
     marginRight: 10,
-    elevation: 2,
-  },
-  categoryButtonSelected: {
-    backgroundColor: '#4BC0C0',
   },
   categoryText: {
     fontSize: 14,

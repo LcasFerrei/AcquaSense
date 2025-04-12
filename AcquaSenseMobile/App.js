@@ -10,10 +10,15 @@ import Inicio5 from "./pages/Inicio5";
 import Login from "./pages/login/login";
 import Inicio4 from "./pages/Inicio4Token";
 import dash from "./pages/dashboard/dash";
+import SearchScreen from "./pages/search/SearchScreen"
 import Grafic from "./pages/chat/Grafic";
 import VisionGeral from "./pages/VIsion/VisionGeral";
 import Notiview from "./pages/Notiview/Notiview";
-import UserScreen from "./pages/user/UserScreen"
+import UserScreen from "./pages/user/UserScreen";
+import DeviceHistory from "./pages/DeviceHistory/DeviceHistory";
+import History from "./pages/DeviceHistory/History";
+
+
 
 const Stack = createStackNavigator();
 
@@ -28,10 +33,14 @@ export default function App() {
         <Stack.Screen name="Inicio5" component={Inicio5} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="dash" component={dash} />
+        <Stack.Screen name="SearchScreen" component={SearchScreen} />
         <Stack.Screen name="Grafic" component={Grafic} />
         <Stack.Screen name="UserScreen" component={UserScreen} />
         <Stack.Screen name="VisionGrafic" component={VisionGeral} />
         <Stack.Screen name="Notiview" component={Notiview} />
+        <Stack.Screen name="DeviceHistory" component={DeviceHistory} />
+        <Stack.Screen name="History" component={History} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
