@@ -10,8 +10,8 @@ export default function Inicio4({ navigation }) {
       resizeMode="cover"
     >
       <View style={styles.container}>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Text style={styles.backButtonText}>❮</Text>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()} testID="back-button-inicio4">
+          <Text style={styles.backButtonText} testID="back-button-text-inicio4">❮</Text>
         </TouchableOpacity>
 
         <View style={styles.content}>
@@ -19,7 +19,7 @@ export default function Inicio4({ navigation }) {
             source={require("../assets/clip-cyber-protection.png")}
             style={styles.image}
           />
-          <Text style={styles.title}>Digite a chave de acesso</Text>
+          <Text style={styles.title} testID="tit-text" >Digite a chave de acesso</Text>
           
           <TextInput
             style={styles.input}
@@ -31,7 +31,7 @@ export default function Inicio4({ navigation }) {
             Apenas aqueles que já contrataram nossos serviços terão acesso à chave
           </Text>
 
-          <TouchableOpacity onPress={() => navigation.navigate("Inicio5")}>
+          <TouchableOpacity onPress={() => navigation.navigate("Inicio5")} testID="continue-button-inicio4">
             <LinearGradient
               colors={["#A8B6FF", "#92EBFF"]}
               start={{ x: 0, y: 0 }}

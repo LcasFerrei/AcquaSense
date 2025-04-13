@@ -36,6 +36,7 @@ export default function Inicio({ navigation }) {
       <Image
         source={require("../assets/LogoAcquaSense.png")}
         style={styles.logo}
+        testID="logo-image"
       />
     </View>
   );
