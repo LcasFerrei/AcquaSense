@@ -13,13 +13,14 @@ export default function Inicio2({ navigation }) {
         <Image
           source={require("../assets/energetika.png")}
           style={styles.image}
+          testID="energetika-image"
         />
-        <Text style={styles.title}>Monitore seu consumo de água diário</Text>
-        <Text style={styles.subtitle}>
+        <Text style={styles.title} testID="title-text">Monitore seu consumo de água diário</Text>
+        <Text style={styles.subtitle} testID="subtitle-text">
           Acompanhe diariamente a quantidade de litros que você consome
         </Text>
 
-        <TouchableOpacity onPress={() => navigation.navigate("Inicio3")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Inicio3")} testID="continue-button">
           <LinearGradient
             colors={["#A8B6FF", "#92EBFF"]}
             start={{ x: 0, y: 0 }}

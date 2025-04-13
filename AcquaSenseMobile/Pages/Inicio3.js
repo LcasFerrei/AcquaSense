@@ -10,22 +10,23 @@ export default function Inicio3({ navigation }) {
       resizeMode="cover"
     >
       <View style={styles.container}>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Text style={styles.backButtonText}>❮</Text>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()} testID="back-button">
+          <Text style={styles.backButtonText} testID="back-button-text">❮</Text>
         </TouchableOpacity>
         
         <Image
           source={require("../assets/city.png")}
           style={styles.image}
+          testID="city-image"
         />
         
-        <Text style={styles.title}>Identifique vazamentos no seu apartamento</Text>
+        <Text style={styles.title} testID="titl-text">Identifique vazamentos no seu apartamento</Text>
         
-        <Text style={styles.subtitle}>
+        <Text style={styles.subtitle} testID="subtitle-text">
           Com o auxílio de sensores, você será prontamente notificado caso haja algum rompimento nas tubulações
         </Text>
         
-        <TouchableOpacity onPress={() => navigation.navigate("Inicio4")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Inicio4")} testID="continu-button">
           <LinearGradient
             colors={["#A8B6FF", "#92EBFF"]}
             start={{ x: 0, y: 0 }}

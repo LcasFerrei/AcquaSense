@@ -15,8 +15,7 @@ import Grafic from "./pages/chat/Grafic";
 import VisionGeral from "./pages/VIsion/VisionGeral";
 import Notiview from "./pages/Notiview/Notiview";
 import UserScreen from "./pages/user/UserScreen";
-import DeviceHistory from "./pages/DeviceHistory/DeviceHistory";
-import History from "./pages/DeviceHistory/History";
+
 
 
 
@@ -38,8 +37,7 @@ export default function App() {
         <Stack.Screen name="UserScreen" component={UserScreen} />
         <Stack.Screen name="VisionGrafic" component={VisionGeral} />
         <Stack.Screen name="Notiview" component={Notiview} />
-        <Stack.Screen name="DeviceHistory" component={DeviceHistory} />
-        <Stack.Screen name="History" component={History} />
+     
         
       </Stack.Navigator>
     </NavigationContainer>
