@@ -1,64 +1,96 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import axios from "axios";
+import * as SecureStore from "expo-secure-store";
+import Cookies from 'js-cookie';
+import { Platform } from "react-native";
 
 export default function Login({ navigation }) {
-  const [isRegister, setIsRegister] = useState(true); 
-  const [nome, setNome] = useState("");
-  const [sobrenome, setSobrenome] = useState("");
-  const [email, setEmail] = useState("");
+  const [isRegister, setIsRegister] = useState(false);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState(""); // para cadastro
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const toggleForm = () => {
     setIsRegister(!isRegister);
+    setUsername("");
+    setPassword("");
+    setEmail("");
+    setErrorMessage("");
+  };
+
+  const handleSubmit = async () => {
+    const url = isRegister
+      ? "http://127.0.0.1:8000/register/"
+      : "http://127.0.0.1:8000/login/";
+    const data = isRegister
+      ? { username, password, email }
+      : { username, password };
+  
+    const csrfToken = Cookies.get("csrftoken"); // pega o token dos cookies
+  
+    try {
+      const response = await axios.post(url, data, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrfToken, // Django exige isso se CSRF estiver ativo
+        },
+      });
+  
+      if (Platform.OS !== 'web') {
+        await SecureStore.setItemAsync("username", username);
+      } else {
+        localStorage.setItem("username", username);  // fallback para web
+      }
+      navigation.navigate("dash");
+    } catch (error) {
+      const msg =
+        error.response?.data?.error || "Erro ao autenticar. Tente novamente.";
+      setErrorMessage(msg);
+      Alert.alert("Erro", msg);
+    }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.greeting}>Olá,</Text>
-      <Text style={styles.title}>{isRegister ? "Crie sua conta aqui" : "Seja bem vindo"}</Text> 
-
-      {isRegister && (
-        <>
-          <View style={styles.inputContainer}>
-            <Ionicons name="person-outline" size={20} color="#666" style={styles.icon} />
-            <TextInput
-              placeholder="Nome"
-              style={styles.input}
-              value={nome}
-              onChangeText={setNome}
-            />
-          </View>
-
-          <View style={styles.inputContainer}>
-            <Ionicons name="person-outline" size={20} color="#666" style={styles.icon} />
-            <TextInput
-              placeholder="Sobrenome"
-              style={styles.input}
-              value={sobrenome}
-              onChangeText={setSobrenome}
-            />
-          </View>
-        </>
-      )}
+      <Text style={styles.title}>
+        {isRegister ? "Crie sua conta aqui" : "Seja bem vindo"}
+      </Text>
 
       <View style={styles.inputContainer}>
-        <Ionicons name="mail-outline" size={20} color="#666" style={styles.icon} />
+        <Ionicons name="person-outline" size={20} color="#666" style={styles.icon} />
         <TextInput
-          placeholder="Email"
+          placeholder="Username"
           style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
+          value={username}
+          onChangeText={setUsername}
         />
       </View>
+
+      {isRegister && (
+        <View style={styles.inputContainer}>
+          <Ionicons name="mail-outline" size={20} color="#666" style={styles.icon} />
+          <TextInput
+            placeholder="Email"
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+          />
+        </View>
+      )}
 
       <View style={styles.inputContainer}>
         <Ionicons name="lock-closed-outline" size={20} color="#666" style={styles.icon} />
@@ -69,37 +101,19 @@ export default function Login({ navigation }) {
           onChangeText={setPassword}
           secureTextEntry
         />
-        {isRegister && (
-          <Ionicons name="eye-off-outline" size={20} color="#666" style={styles.eyeIcon} />
-        )}
       </View>
 
-      {isRegister && (
-        <View style={styles.checkboxContainer}>
-          <TouchableOpacity>
-            <View style={styles.checkbox}></View>
-          </TouchableOpacity>
-          <Text style={styles.checkboxText}>
-            Ao continuar você aceita nossa política de privacidade e Termo de Uso
-          </Text>
-        </View>
-      )}
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("dash")}
-      >
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <LinearGradient
-          colors={["#A8B6FF", "#92EBFF"]} 
+          colors={["#A8B6FF", "#92EBFF"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 0, y: 1 }}
           style={styles.button}
         >
-            <Text style={styles.buttonText}>
-              {isRegister ? "Cadastrar" : "Entrar"}
-            </Text>
+          <Text style={styles.buttonText}>
+            {isRegister ? "Cadastrar" : "Entrar"}
+          </Text>
         </LinearGradient>
-       
       </TouchableOpacity>
 
       <View style={styles.socialContainer}>
@@ -113,10 +127,9 @@ export default function Login({ navigation }) {
 
       <TouchableOpacity onPress={toggleForm}>
         <Text style={styles.toggleText}>
-          Já tem uma conta? Faça seu{" "}
-          <Text style={styles.toggleLink}>
-            {isRegister ? "Login" : "Cadastra-se"}
-          </Text>
+          {isRegister
+            ? "Já tem uma conta? Faça Login"
+            : "Ainda não tem conta? Cadastre-se"}
         </Text>
       </TouchableOpacity>
     </View>

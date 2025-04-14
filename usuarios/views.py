@@ -14,52 +14,60 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.parsers import JSONParser
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from usuarios.models import CustomUser  # Importando o CustomUser
 import json
 from residences.models import Residencia
-
+@method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
-        email = request.data.get('email')
-        is_custom_user = request.data.get('is_custom_user', False)  # Parâmetro para decidir se é CustomUser
 
-        # Verificação de campos obrigatórios
-        if not username or not password or not email:
-            return Response({'error': 'Todos os campos são obrigatórios.'}, status=status.HTTP_400_BAD_REQUEST)
+        with transaction.atomic():
+            print("Recebendo request do mobile")
+            print(request.headers)
+            username = request.data.get('username')
+            password = request.data.get('password')
+            email = request.data.get('email')
 
-        # Validação de senha
-        try:
-            validate_password(password)
-        except ValidationError as e:
-            return Response({'error': ' '.join(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
+            print(request.data)
 
-        # Criar o usuário dentro de uma transação atômica
-        try:
-            with transaction.atomic():
+            if not username or not password or not email:
+                return Response({'error': 'Todos os campos são obrigatórios.'}, status=status.HTTP_400_BAD_REQUEST)
+            print("Passsou 1")
+            try:
+                validate_password(password)
+            except ValidationError as e:
+                return Response({'error': ' '.join(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
+            print("Passsou 2")
+
+            try:
                 if User.objects.filter(username=username).exists():
                     return Response({'error': 'Usuário já existe.'}, status=status.HTTP_400_BAD_REQUEST)
-                
-                # Criar CustomUser (se for o caso)
-                user = User.objects.create_user(username=username, first_name=username, password=password, email=email)
-                user = CustomUser.objects.create_user(first_name=username, password=password, email=email)
 
-        except IntegrityError:
-            return Response({'error': 'Erro ao criar o usuário. Tente novamente.'}, status=status.HTTP_400_BAD_REQUEST)
+                CustomUser.objects.create_user(email=email, password=password, first_name=username, last_name='')
+                User.objects.create_user(username=username, email=email, password=password, first_name=username, last_name='')
 
-        # Autenticar e logar o usuário
-        authenticated_user = authenticate(username=username, password=password)
-        if authenticated_user is not None:
-            login(request, authenticated_user)
-            return Response({'message': 'Login bem-sucedido.'}, status=status.HTTP_201_CREATED)
+            except IntegrityError:
+                return Response({'error': 'Erro ao criar o usuário. Tente novamente.'}, status=status.HTTP_400_BAD_REQUEST)
+            print("Passsou 3")
 
-        return Response({'error': 'Erro ao autenticar o usuário.'}, status=status.HTTP_400_BAD_REQUEST)
-    
+            authenticated_user = authenticate(request, email=email, password=password)
+
+            print("Passsou 4")
+            print(authenticated_user)
+
+            if authenticated_user is not None:
+                login(request, authenticated_user)
+                print("Passsou 5")
+                return Response({'message': 'Login bem-sucedido.'}, status=status.HTTP_201_CREATED)
+
+            return Response({'error': 'Erro ao autenticar o usuário.'}, status=status.HTTP_400_BAD_REQUEST)
+
+@method_decorator(csrf_exempt, name='dispatch')
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
@@ -74,7 +82,6 @@ class LoginView(APIView):
             return Response({'message': 'Login bem-sucedido.'}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Credenciais inválidas.'}, status=status.HTTP_401_UNAUTHORIZED)
-
 class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
