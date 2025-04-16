@@ -5,10 +5,10 @@ import { LineChart } from 'react-native-chart-kit';
 // Dimensões da tela para o gráfico
 const screenWidth = Dimensions.get('window').width;
 
-const VisionGrafic = () => {
+const VisionGrafic = ({ navigation }) => {
   // Dados fictícios para o gráfico (você pode ajustar conforme necessário)
   const data = {
-    labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL'],
+    labels: ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL'],
     datasets: [
       {
         data: [20, 45, 28, 80, 99, 43, 50], // PIA 1
@@ -39,7 +39,10 @@ const VisionGrafic = () => {
 
   // Renderizar cada item do histórico
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.historyItem}>
+    <TouchableOpacity
+      style={styles.historyItem}
+      onPress={() => navigation.navigate('DeviceHistory', { deviceTitle: item.title })} // Adiciona a navegação
+    >
       <View style={styles.historyContent}>
         <Text style={styles.historyIcon}>{item.icon}</Text>
         <Text style={styles.historyText}>{item.title}</Text>
