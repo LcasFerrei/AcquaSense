@@ -1,125 +1,173 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
-#include <time.h>  // Biblioteca para trabalhar com data e hora
-#include "secrets.h"  // Inclua o arquivo com as credenciais
+#include <time.h>
 
+// =========================
+// Configurações de Rede e MQTT
+// =========================
+#define WIFI_SSID "Jardis"
+#define WIFI_PASSWORD "85071626"
+#define MQTT_BROKER "broker.hivemq.com"
+#define MQTT_PORT 1883
+#define MQTT_TOPIC "teste/acquasense"
 
-const int sensorPin = 13;  // GPIO 13 para o sensor de fluxo
-
-// Os dados de conexão ao wifi devem ser criados usando o arquivo secrets, conforme exemplo
-// const char* ssid = "rede wi-fi";           
-// const char* password = "password";     
-
-const char* mqtt_broker = "broker.hivemq.com";  
-const int mqtt_port = 1883;            
-const char *topic = "teste/SaulSantos1";  
+// =========================
+// Constantes e Variáveis
+// =========================
+constexpr int SENSOR_PIN = 13;
+constexpr float ML_PER_PULSE = 133.33;
+const int MAX_WIFI_TIMEOUT = 10000;
+const int MAX_MQTT_TRIES = 5;
 
 volatile int pulseCount = 0;
-float flowRate = 0.0;
 unsigned long totalMilliLitres = 0;
-unsigned long oldTime = 0; // Armazena o tempo da última medição
+unsigned long oldTime = 0;
+unsigned long totalPublishedMilliLitres = 0;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-// Função para contar os pulsos do sensor
+// =========================
+// Funções de Callback
+// =========================
 void IRAM_ATTR pulseCounter() {
   pulseCount++;
 }
 
-// Função para inicializar o Wi-Fi
+// =========================
+// Inicialização do WiFi
+// =========================
 void initWiFi() {
-  WiFi.begin(ssid, password);
-  Serial.print("Conectando ao WiFi...");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  Serial.print("Conectando ao WiFi");
+
+  unsigned long startAttemptTime = millis();
+  while (WiFi.status() != WL_CONNECTED && millis() - startAttemptTime < MAX_WIFI_TIMEOUT) {
+    delay(500);
     Serial.print(".");
   }
-  Serial.println("Conectado ao WiFi");
-  Serial.println(WiFi.localIP());
+
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("\nWiFi conectado");
+    Serial.println(WiFi.localIP());
+  } else {
+    Serial.println("\nFalha ao conectar ao WiFi");
+  }
 }
 
-// Função para configurar o NTP e obter a hora
+// =========================
+// Inicialização do Tempo (NTP)
+// =========================
 void initTime() {
-  configTime(-3 * 3600, 0, "pool.ntp.org", "time.nist.gov");  // Configura o NTP com fuso UTC-3 (Brasília)
+  configTime(-3 * 3600, 0, "pool.ntp.org", "time.nist.gov");
   Serial.print("Aguardando sincronização de tempo");
-  while (!time(nullptr)) {
+
+  unsigned long start = millis();
+  while (!time(nullptr) && millis() - start < MAX_WIFI_TIMEOUT) {
     Serial.print(".");
-    delay(1000);
+    delay(500);
   }
-  Serial.println("\nSincronizado com o NTP");
+
+  if (time(nullptr)) {
+    Serial.println("\nTempo sincronizado com NTP");
+  } else {
+    Serial.println("\nFalha na sincronização com NTP");
+  }
 }
 
-// Função para reconectar ao broker MQTT, se necessário
-void reconnect() {
-  while (!client.connected()) {
-    String cID = "esp32";
-    Serial.printf("Tentando conectar ao broker MQTT com ID %s...\n", cID.c_str());
-    if (client.connect(cID.c_str())) {
+// =========================
+// Reconectar ao Broker MQTT
+// =========================
+bool reconnect() {
+  int tries = 0;
+  while (!client.connected() && tries < MAX_MQTT_TRIES) {
+    String clientId = "esp32-" + String(random(0xffff), HEX);
+    Serial.printf("Tentando conectar ao MQTT (%d/%d)...\n", tries + 1, MAX_MQTT_TRIES);
+
+    if (client.connect(clientId.c_str())) {
       Serial.println("Conectado ao broker MQTT");
-    } else {
-      Serial.print("Falha ao conectar, código de erro: ");
-      Serial.println(client.state());
-      delay(5000);  // Espera 5 segundos antes de tentar reconectar
+      return true;
     }
+
+    Serial.print("Erro: ");
+    Serial.println(client.state());
+    delay(2000);
+    tries++;
   }
+
+  return false;
 }
 
-// Função para obter o horário atual formatado
+// =========================
+// Obter Hora Formatada
+// =========================
 String getTimeString() {
   time_t now;
   struct tm timeinfo;
   time(&now);
   localtime_r(&now, &timeinfo);
-  char buffer[80];
+  char buffer[20];
   strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", &timeinfo);
   return String(buffer);
 }
 
+// =========================
+// Setup
+// =========================
 void setup() {
   Serial.begin(115200);
   initWiFi();
-  initTime();  // Inicializa o NTP para sincronização de tempo
-  client.setServer(mqtt_broker, mqtt_port);
+  initTime();
+  client.setServer(MQTT_BROKER, MQTT_PORT);
 
-  pinMode(sensorPin, INPUT_PULLUP);  // Configura o pino do sensor com resistor pull-up interno
-  attachInterrupt(digitalPinToInterrupt(sensorPin), pulseCounter, FALLING); // Interrupção para o sensor
-
-  oldTime = millis(); // Armazena o tempo inicial
+  pinMode(SENSOR_PIN, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(SENSOR_PIN), pulseCounter, FALLING);
+  oldTime = millis();
 }
 
+// =========================
+// Loop Principal
+// =========================
 void loop() {
   if (!client.connected()) {
-    reconnect();  // Reconecta ao broker se a conexão for perdida
+    if (!reconnect()) return;
   }
-  
-  client.loop();  // Mantém a conexão ativa
+
+  client.loop();
 
   unsigned long currentTime = millis();
   unsigned long elapsedTime = currentTime - oldTime;
 
-  if (elapsedTime >= 1000) {  // Atualiza a cada 1 segundo
-    // Cálculo do fluxo de água em Litros por minuto
-    flowRate = (pulseCount / 7.5); // Conversão de pulsos para L/min
-    
-    unsigned int flowMilliLitres = (flowRate / 60) * 1000; // Conversão para mililitros por segundo
+  if (elapsedTime >= 1000) {
+    float flowMilliLitres = (pulseCount * ML_PER_PULSE);
     totalMilliLitres += flowMilliLitres;
 
-    // Verifica se há fluxo de água
-    if (pulseCount > 0) {
-      // Obtém a hora atual
-      String timeString = getTimeString();
+    Serial.printf("Pulsos: %d | Fluxo (ml): %.2f\n", pulseCount, flowMilliLitres);
 
-      // Cria a mensagem a ser enviada para o broker MQTT
-      String message = "Horário: " + timeString + ", Fluxo: " + String(flowRate, 2) + " L/min, Total: " + String(totalMilliLitres) + " mL";
-      
-      // Publica a mensagem no tópico MQTT
-      client.publish(topic, message.c_str());
-      Serial.print("Mensagem publicada: ");
-      Serial.println(message);
+    if (flowMilliLitres > 0) {
+      totalPublishedMilliLitres += flowMilliLitres;
+
+      // Criar mensagem em JSON
+      char payload[128];
+      snprintf(payload, sizeof(payload),
+               "{\"fluxo_ml\": %.2f, \"timestamp\": \"%s\"}",
+               flowMilliLitres, getTimeString().c_str());
+
+      // Publicar no MQTT
+      if (client.publish(MQTT_TOPIC, payload)) {
+        Serial.print("Publicado MQTT: ");
+        Serial.println(payload);
+      } else {
+        Serial.println("Erro ao publicar no MQTT");
+      }
+    } else {
+      Serial.println("Sem consumo detectado.");
     }
 
-    pulseCount = 0;  // Reseta o contador de pulsos para a próxima medição
-    oldTime = currentTime;  // Atualiza o tempo para a próxima medição
+    Serial.print("Total publicado (ml): ");
+    Serial.println(totalPublishedMilliLitres);
+
+    pulseCount = 0;
+    oldTime = currentTime;
   }
 }
