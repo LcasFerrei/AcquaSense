@@ -1,16 +1,22 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const PipeStatusCard = () => {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.card}>
-      <Text style={styles.title}>Tubulações</Text>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => navigation.navigate('History')} // Navega para a tela History
+    >
+      <Text style={styles.title}>Histórico</Text>
       <Text style={styles.status}>Normal</Text>
       {/* Simulação de gráfico de linha */}
       <View style={styles.lineChart}>
         <View style={styles.line} />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
