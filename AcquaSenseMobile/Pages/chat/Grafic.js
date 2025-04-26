@@ -12,7 +12,7 @@ const Grafic = ({ navigation }) => {
   });
 
   useEffect(() => {
-    const ws = new WebSocket("ws://192.168.56.1:8000/ws/consumo/");
+    const ws = new WebSocket("ws://10.50.72.182:8000/ws/consumo/");
 
     ws.onopen = () => {
       console.log('Conectado ao WebSocket');
