@@ -31,8 +31,8 @@ export default function Login({ navigation }) {
 
   const handleSubmit = async () => {
     const url = isRegister
-      ? "http://127.0.0.1:8000/register/"
-      : "http://127.0.0.1:8000/login/";
+      ? "http://192.168.56.1:8000/register/"
+      : "http://192.168.56.1:8000/login/";
     const data = isRegister
       ? { username, password, email }
       : { username, password };
