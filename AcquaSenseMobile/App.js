@@ -18,6 +18,7 @@ import Notiview from "./pages/Notiview/Notiview";
 import UserScreen from "./pages/user/UserScreen";
 import DeviceHistory from "./pages/DeviceHistory/DeviceHistory";
 
+
 // Configurar o comportamento das notificações
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -106,6 +107,7 @@ export default function App() {
         <Stack.Screen name="VisionGrafic" component={VisionGeral} />
         <Stack.Screen name="Notiview" component={Notiview} />
         <Stack.Screen name="DeviceHistory" component={DeviceHistory} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
