@@ -1,15 +1,25 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Linking } from 'react-native'; // Importe o Linking
 import { LinearGradient } from 'expo-linear-gradient';
 
 const News = () => {
+  // Função para abrir o link
+  const handlePress = async () => {
+    const url = 'https://acquasensetech.com.br/';
+    const supported = await Linking.canOpenURL(url); // Verifica se a URL pode ser aberta
+    if (supported) {
+      await Linking.openURL(url); // Abre a URL no navegador padrão
+    } else {
+      console.log(`Não foi possível abrir a URL: ${url}`);
+    }
+  };
+
   return (
     <LinearGradient colors={['#A1C4FD', '#C2E0FA']} style={styles.container}>
-      {/*  Container para as bolinhas de fundo decorativas */}
+      {/* Container para as bolinhas de fundo decorativas */}
       <View style={styles.backgroundDots}>
-         {/* Trecho de bolinhas para ficar espalhadas na tela, apenas efeito */}
-        <View style={[styles.dot, styles.bigDot, { top: 10, left: 20 }]} /> 
-        <View style={[styles.dot, styles.bigDot, { bottom: 20, right: 30 }]} /> 
+        <View style={[styles.dot, styles.bigDot, { top: 10, left: 20 }]} />
+        <View style={[styles.dot, styles.bigDot, { bottom: 20, right: 30 }]} />
         <View style={[styles.dot, { top: 40, left: 80, width: 10, height: 10 }]} />
         <View style={[styles.dot, { bottom: 50, right: 100, width: 8, height: 8 }]} />
         <View style={[styles.dot, { top: 90, right: 50, width: 12, height: 12 }]} />
@@ -27,7 +37,7 @@ const News = () => {
               Após a criação do AquaSense, tivemos uma redução em mais de 20% do consumo de água com consciência de Fortaleza
             </Text>
           </View>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={handlePress}>
             <LinearGradient colors={['#C58BF2', '#EEA4CE']} style={styles.buttonGradient}>
               <Text style={styles.buttonText}>Veja Mais</Text>
             </LinearGradient>
@@ -143,5 +153,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
-export default News;

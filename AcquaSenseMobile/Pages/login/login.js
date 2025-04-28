@@ -5,21 +5,22 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Alert
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import { Platform } from "react-native";
 
 export default function Login({ navigation }) {
   const [isRegister, setIsRegister] = useState(false);
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState(""); // para cadastro
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // Novo estado para visibilidade da senha
 
   const toggleForm = () => {
     setIsRegister(!isRegister);
@@ -36,22 +37,22 @@ export default function Login({ navigation }) {
     const data = isRegister
       ? { username, password, email }
       : { username, password };
-  
-    const csrfToken = Cookies.get("csrftoken"); // pega o token dos cookies
-  
+
+    const csrfToken = Cookies.get("csrftoken");
+
     try {
       const response = await axios.post(url, data, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
-          "X-CSRFToken": csrfToken, // Django exige isso se CSRF estiver ativo
+          "X-CSRFToken": csrfToken,
         },
       });
-  
-      if (Platform.OS !== 'web') {
+
+      if (Platform.OS !== "web") {
         await SecureStore.setItemAsync("username", username);
       } else {
-        localStorage.setItem("username", username);  // fallback para web
+        localStorage.setItem("username", username);
       }
       navigation.navigate("dash");
     } catch (error) {
@@ -99,8 +100,18 @@ export default function Login({ navigation }) {
           style={styles.input}
           value={password}
           onChangeText={setPassword}
-          secureTextEntry
+          secureTextEntry={!showPassword} // Controla a visibilidade da senha
         />
+        <TouchableOpacity
+          style={styles.eyeIcon}
+          onPress={() => setShowPassword(!showPassword)} // Alterna o estado
+        >
+          <Ionicons
+            name={showPassword ? "eye-outline" : "eye-off-outline"} // Muda o ícone com base no estado
+            size={20}
+            color="#666"
+          />
+        </TouchableOpacity>
       </View>
 
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
@@ -175,33 +186,14 @@ const styles = StyleSheet.create({
   },
   eyeIcon: {
     position: "absolute",
-    right: 15,
+    right: 15, // Posiciona o ícone do olho à direita
   },
   input: {
     flex: 1,
     height: "100%",
     fontSize: 16,
     color: "#333",
-  },
-  checkboxContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    marginBottom: 20,
-    marginTop: 10,
-  },
-  checkbox: {
-    width: 20,
-    height: 20,
-    borderWidth: 1,
-    borderColor: "#DDD",
-    borderRadius: 5,
-    marginRight: 10,
-  },
-  checkboxText: {
-    flex: 1,
-    fontSize: 12,
-    color: "#666",
+    paddingRight: 40, // Adiciona espaço para o ícone do olho
   },
   button: {
     width: "100%",
@@ -239,9 +231,5 @@ const styles = StyleSheet.create({
   toggleText: {
     fontSize: 14,
     color: "#666",
-  },
-  toggleLink: {
-    color: "#6c63ff",
-    fontWeight: "bold",
   },
 });
