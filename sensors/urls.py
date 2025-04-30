@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import specificMonitoring
+from . import views 
 
 urlpatterns = [
-    path('SpecificMonitoring/', specificMonitoring, name='specificMonitoring'),
+    path('SpecificMonitoring/', views.specificMonitoring, name='specificMonitoring'),
+    path('relatorio-consumo/', views.consumo_relatorio, name='historico_consumo'),
 ]

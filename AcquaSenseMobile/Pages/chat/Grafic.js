@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import backgroundImage from '../../assets/medidorverde.png';
 import Hubfooter from '../../components/hub';
 import ProgressCircle from '../../components/ProgressCircle';
@@ -11,60 +12,46 @@ const Grafic = ({ navigation }) => {
     acumulado_por_hora: {}
   });
 
-  useEffect(() => {
-    const ws = new WebSocket("ws://10.50.72.182:8000/ws/consumo/");
+  useFocusEffect(
+    React.useCallback(() => {
+      const ws = new WebSocket("ws://192.168.0.3:8000/ws/consumo/");
+      console.log('WebSocket conectado');
 
-    ws.onopen = () => {
-      console.log('Conectado ao WebSocket');
-    };
+      ws.onmessage = (e) => {
+        const message = JSON.parse(e.data);
+        if (message.type === 'update') {
+          setConsumoData(prev => ({
+            ...prev,
+            percentual: message.data.percentual,
+            acumulado_por_hora: message.data.acumulado_por_hora
+          }));
+        }
+      };
 
-    ws.onmessage = (e) => {
-      const message = JSON.parse(e.data);
-      if (message.type === 'update') {
-        setConsumoData(prev => ({
-          ...prev,
-          percentual: message.data.percentual,
-          acumulado_por_hora: message.data.acumulado_por_hora
-        }));
-      }
-    };
+      ws.onerror = (e) => {
+        console.log('Erro no WebSocket:', e.message);
+      };
 
-    ws.onerror = (e) => {
-      console.log('Erro no WebSocket:', e.message);
-    };
+      ws.onclose = (e) => {
+        console.log('Conexão WebSocket fechada:', e.code, e.reason);
+      };
 
-    ws.onclose = (e) => {
-      console.log('Conexão WebSocket fechada:', e.code, e.reason);
-    };
-
-    return () => {
-      ws.close();
-    };
-  }, []);
+      return () => {
+        console.log('Tela desfocada, fechando WebSocket');
+        ws.close();
+      };
+    }, [])
+  );
 
   return (
-    <ImageBackground
-      source={backgroundImage}
-      style={styles.background}
-      resizeMode="cover"
-    >
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={true}
-        scrollIndicatorInsets={{ right: 0 }} 
-        style={styles.scrollView} 
-      >
+    <ImageBackground source={backgroundImage} style={styles.background} resizeMode="cover">
+      <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={true} scrollIndicatorInsets={{ right: 0 }} style={styles.scrollView}>
         <View style={styles.container}>
           <View style={styles.headerContainer}>
-            <TouchableOpacity 
-              style={styles.backButton} 
-              onPress={() => navigation.navigate("dash")}
-            >
+            <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("dash")}>
               <Text style={styles.backButtonText}>❮</Text>
             </TouchableOpacity>
-
             <Text style={styles.headerTitle}>Consumo diário</Text>
-
             <TouchableOpacity style={styles.menuButton}>
               <Text style={styles.menuButtonText}>⋮</Text>
             </TouchableOpacity>
@@ -96,17 +83,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   scrollView: {
-    width: '100%', 
+    width: '100%',
   },
   scrollContainer: {
     flexGrow: 1,
     width: '100%',
     paddingBottom: 100,
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   container: {
     width: '100%',
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   headerContainer: {
     flexDirection: 'row',
