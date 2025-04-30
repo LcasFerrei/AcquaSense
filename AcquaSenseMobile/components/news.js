@@ -1,23 +1,13 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Linking } from 'react-native'; // Importe o Linking
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const News = () => {
-  // Função para abrir o link
-  const handlePress = async () => {
-    const url = 'https://acquasensetech.com.br/';
-    const supported = await Linking.canOpenURL(url); // Verifica se a URL pode ser aberta
-    if (supported) {
-      await Linking.openURL(url); // Abre a URL no navegador padrão
-    } else {
-      console.log(`Não foi possível abrir a URL: ${url}`);
-    }
-  };
-
   return (
     <LinearGradient colors={['#A1C4FD', '#C2E0FA']} style={styles.container}>
-      {/* Container para as bolinhas de fundo decorativas */}
+      {/*  Container para as bolinhas de fundo decorativas */}
       <View style={styles.backgroundDots}>
+        {/* Trecho de bolinhas para ficar espalhadas na tela, apenas efeito */}
         <View style={[styles.dot, styles.bigDot, { top: 10, left: 20 }]} />
         <View style={[styles.dot, styles.bigDot, { bottom: 20, right: 30 }]} />
         <View style={[styles.dot, { top: 40, left: 80, width: 10, height: 10 }]} />
@@ -37,7 +27,7 @@ const News = () => {
               Após a criação do AquaSense, tivemos uma redução em mais de 20% do consumo de água com consciência de Fortaleza
             </Text>
           </View>
-          <TouchableOpacity style={styles.button} onPress={handlePress}>
+          <TouchableOpacity style={styles.button}>
             <LinearGradient colors={['#C58BF2', '#EEA4CE']} style={styles.buttonGradient}>
               <Text style={styles.buttonText}>Veja Mais</Text>
             </LinearGradient>
@@ -65,7 +55,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 5,
     position: 'relative',
-    overflow: 'hidden', 
+    overflow: 'hidden',
   },
   backgroundDots: {
     position: 'absolute',
@@ -74,7 +64,7 @@ const styles = StyleSheet.create({
   },
   dot: {  // Estilo para as bolinhas de efeito
     position: 'absolute',
-    backgroundColor: 'rgba(255, 255, 255, 0.3)', 
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
     borderRadius: 50,
   },
   bigDot: { // Estilo das bolinhas maiores
@@ -153,3 +143,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export default News;
