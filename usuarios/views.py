@@ -1,7 +1,7 @@
 # views.py
 from django.shortcuts import redirect
 from django.db import IntegrityError, transaction
-from django.utils.deprecation import MiddlewareMixin
+from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -12,7 +12,6 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
-from rest_framework.parsers import JSONParser
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -20,68 +19,60 @@ from django.http import JsonResponse
 from usuarios.models import CustomUser  # Importando o CustomUser
 import json
 from residences.models import Residencia
-@method_decorator(csrf_exempt, name='dispatch')
-class RegisterView(APIView):
-    permission_classes = [AllowAny]
+from django.middleware.csrf import get_token
 
-    def post(self, request):
 
-        with transaction.atomic():
-            print("Recebendo request do mobile")
-            print(request.headers)
-            username = request.data.get('username')
-            password = request.data.get('password')
-            email = request.data.get('email')
+def clear_csrf(request):
+    response = JsonResponse({'status': 'CSRF cookie cleared'})
+    response.delete_cookie('csrftoken')
+    return response
 
-            print(request.data)
+@ensure_csrf_cookie
+def get_csrf_token(request):
+    return JsonResponse({'csrfToken': request.META.get('CSRF_COOKIE')})
 
-            if not username or not password or not email:
-                return Response({'error': 'Todos os campos são obrigatórios.'}, status=status.HTTP_400_BAD_REQUEST)
-            print("Passsou 1")
-            try:
-                validate_password(password)
-            except ValidationError as e:
-                return Response({'error': ' '.join(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
-            print("Passsou 2")
+@api_view(['POST'])
+def register_user(request):
+    username = request.data.get('username')
+    email = request.data.get('email')
+    password = request.data.get('password')
 
-            try:
-                if User.objects.filter(username=username).exists():
-                    return Response({'error': 'Usuário já existe.'}, status=status.HTTP_400_BAD_REQUEST)
+    if not username or not password:
+        return Response({"error": "Usuário e senha são obrigatórios."}, status=400)
 
-                CustomUser.objects.create_user(email=email, password=password, first_name=username, last_name='')
-                User.objects.create_user(username=username, email=email, password=password, first_name=username, last_name='')
+    if User.objects.filter(username=username).exists():
+        return Response({"error": "Nome de usuário já existe."}, status=400)
 
-            except IntegrityError:
-                return Response({'error': 'Erro ao criar o usuário. Tente novamente.'}, status=status.HTTP_400_BAD_REQUEST)
-            print("Passsou 3")
+    user = User.objects.create_user(username=username, email=email, password=password)
+    return Response({"success": True, "message": "Usuário criado com sucesso."}, status=201)
+        
+def login_view(request):
+    if request.method == 'POST':
+        print("Origin Header:", request.headers.get('Origin'))
+        print("Host Header:", request.headers.get('Host'))
+        data = json.loads(request.body)
+        username = data.get('username')
+        password = data.get('password')
 
-            authenticated_user = authenticate(request, email=email, password=password)
-
-            print("Passsou 4")
-            print(authenticated_user)
-
-            if authenticated_user is not None:
-                login(request, authenticated_user)
-                print("Passsou 5")
-                return Response({'message': 'Login bem-sucedido.'}, status=status.HTTP_201_CREATED)
-
-            return Response({'error': 'Erro ao autenticar o usuário.'}, status=status.HTTP_400_BAD_REQUEST)
-
-@method_decorator(csrf_exempt, name='dispatch')
-class LoginView(APIView):
-    permission_classes = [AllowAny]
-
-    def post(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
-
-        user = authenticate(username=username, password=password)
-
-        if user is not None:
+        user = authenticate(request, username=username, password=password)
+        if user:
             login(request, user)
-            return Response({'message': 'Login bem-sucedido.'}, status=status.HTTP_200_OK)
-        else:
-            return Response({'error': 'Credenciais inválidas.'}, status=status.HTTP_401_UNAUTHORIZED)
+            response = JsonResponse({'success': True})
+            response.set_cookie(
+                'sessionid',
+                request.session.session_key,
+                domain='127.0.0.1',  # Adicione isso
+                samesite='Lax',      # Mude de 'None' para 'Lax' para desenvolvimento local
+                secure=False,
+                httponly=True,
+                max_age=86400        # Define tempo de expiração (opcional)
+            )
+            # Headers CORS OBRIGATÓRIOS
+            response['Access-Control-Allow-Origin'] = request.headers['Origin']
+            response['Access-Control-Allow-Credentials'] = 'true'
+            return response
+    return JsonResponse({'error': 'Login failed'}, status=401)
+        
 class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
