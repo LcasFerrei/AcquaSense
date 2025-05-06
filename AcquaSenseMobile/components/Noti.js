@@ -1,31 +1,127 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, Alert, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import * as SecureStore from 'expo-secure-store';
+
 
 const Noti = () => {
-  const notifications = [
-    {
-      id: '1',
-      title: 'Limite de Consumo Excedido',
-      description: 'O consumo diário na PIA 1 - Cozinha excedeu o limite de 20 L/H às 14:30.',
-      date: 'Hoje, 14:30',
-      icon: 'warning',
-    },
-    {
-      id: '2',
-      title: 'Manutenção Agendada',
-      description: 'Manutenção programada para o Banheiro 1 amanhã às 10:00.',
-      date: 'Ontem, 09:15',
-      icon: 'event',
-    },
-    {
-      id: '3',
-      title: 'Dica de Economia',
-      description: 'Feche a torneira enquanto escova os dentes para economizar água!',
-      date: '15/03/2025, 08:00',
-      icon: 'lightbulb',
-    },
-  ];
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Função para obter o token de forma universal
+  const getToken = async () => {
+    if (Platform.OS === 'web') {
+      return localStorage.getItem('auth_access_token');
+    } else {
+      try {
+        return await SecureStore.getItemAsync('auth_access_token');
+      } catch (error) {
+        console.error('Erro ao acessar SecureStore:', error);
+        return null;
+      }
+    }
+  };
+
+  // Função para renovar o token
+  const refreshToken = async () => {
+    try {
+      let refreshToken;
+      
+      if (Platform.OS === 'web') {
+        refreshToken = localStorage.getItem('auth_refresh_token');
+      } else {
+        refreshToken = await SecureStore.getItemAsync('auth_refresh_token');
+      }
+
+      const response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ refresh: refreshToken }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Falha ao renovar token');
+      }
+
+      const data = await response.json();
+      
+      // Armazena o novo token
+      if (Platform.OS === 'web') {
+        localStorage.setItem('auth_access_token', data.access);
+      } else {
+        await SecureStore.setItemAsync('auth_access_token', data.access);
+      }
+      
+      return data.access;
+    } catch (error) {
+      console.error('Erro ao renovar token:', error);
+      // Limpa os tokens e redireciona para login
+      if (Platform.OS === 'web') {
+        localStorage.removeItem('auth_access_token');
+        localStorage.removeItem('auth_refresh_token');
+        window.location.href = '/login';
+      } else {
+        await SecureStore.deleteItemAsync('auth_access_token');
+        await SecureStore.deleteItemAsync('auth_refresh_token');
+        navigation.navigate('Login');
+      }
+      return null;
+    }
+  };
+
+  const fetchNotifications = async () => {
+    try {
+      const token = await getToken();
+      
+      if (!token) {
+        throw new Error('Usuário não autenticado');
+      }
+
+      const response = await fetch('http://127.0.0.1:8000/alerts/notificacoes/', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 401) {
+        // Token expirado - tentar renovar
+        const newToken = await refreshToken();
+        if (newToken) {
+          return fetchNotifications(); // Tentar novamente com novo token
+        }
+        throw new Error('Sessão expirada - faça login novamente');
+      }
+
+      if (!response.ok) {
+        throw new Error(`Erro ao carregar notificações: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      const mapped = data.notificacoes.map((item) => ({
+        id: item.id.toString(),
+        title: item.title,
+        description: item.details,
+        date: item.time,
+        icon: item.unread ? 'notifications' : 'notifications-none',
+      }));
+      
+      setNotifications(mapped);
+    } catch (error) {
+      console.error('Erro ao buscar notificações:', error);
+      Alert.alert('Erro', error.message || 'Não foi possível carregar as notificações');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
 
   const renderNotification = ({ item }) => (
     <TouchableOpacity
@@ -46,14 +142,18 @@ const Noti = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.sectionTitle}>Notificações</Text>
-      <FlatList
-        data={notifications}
-        renderItem={renderNotification}
-        keyExtractor={(item) => item.id}
-        ListEmptyComponent={<Text style={styles.emptyText}>Nenhuma notificação disponível.</Text>}
-        scrollEnabled={false} // Desativa o scroll do FlatList
-        nestedScrollEnabled={true} // Permite que o ScrollView pai gerencie o scroll
-      />
+      {loading ? (
+        <ActivityIndicator size="large" color="#4BC0C0" />
+      ) : (
+        <FlatList
+          data={notifications}
+          renderItem={renderNotification}
+          keyExtractor={(item) => item.id}
+          ListEmptyComponent={<Text style={styles.emptyText}>Nenhuma notificação disponível.</Text>}
+          scrollEnabled={false}
+          nestedScrollEnabled={true}
+        />
+      )}
     </View>
   );
 };

@@ -11,8 +11,34 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
-import Cookies from "js-cookie";
 import { Platform } from "react-native";
+
+// Serviço de armazenamento universal
+const storage = {
+  async setItem(key, value) {
+    if (Platform.OS === 'web') {
+      localStorage.setItem(key, value);
+    } else {
+      await SecureStore.setItemAsync(key, value);
+    }
+  },
+
+  async getItem(key) {
+    if (Platform.OS === 'web') {
+      return localStorage.getItem(key);
+    } else {
+      return await SecureStore.getItemAsync(key);
+    }
+  },
+
+  async removeItem(key) {
+    if (Platform.OS === 'web') {
+      localStorage.removeItem(key);
+    } else {
+      await SecureStore.deleteItemAsync(key);
+    }
+  }
+};
 
 export default function Login({ navigation }) {
   const [isRegister, setIsRegister] = useState(false);
@@ -20,7 +46,8 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // Novo estado para visibilidade da senha
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleForm = () => {
     setIsRegister(!isRegister);
@@ -30,39 +57,103 @@ export default function Login({ navigation }) {
     setErrorMessage("");
   };
 
+  const storeAuthData = async (accessToken, refreshToken) => {
+    try {
+      await Promise.all([
+        storage.setItem('auth_access_token', accessToken),
+        storage.setItem('auth_refresh_token', refreshToken),
+        storage.setItem('auth_username', username),
+      ]);
+      return true;
+    } catch (error) {
+      console.error('Erro ao armazenar tokens:', error);
+      throw error;
+    }
+  };
+
   const handleSubmit = async () => {
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    setErrorMessage("");
+
     const url = isRegister
-      ? "http://192.168.0.3:8000/register/"
-      : "http://192.168.0.3:8000/login/";
+      ? "http://127.0.0.1:8000/register/"
+      : "http://127.0.0.1:8000/api/token/";
+
     const data = isRegister
       ? { username, password, email }
       : { username, password };
 
-    const csrfToken = Cookies.get("csrftoken");
-
     try {
       const response = await axios.post(url, data, {
-        withCredentials: true,
         headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": csrfToken,
+          'Content-Type': 'application/json',
         },
       });
 
-      if (Platform.OS !== "web") {
-        await SecureStore.setItemAsync("username", username);
-      } else {
-        localStorage.setItem("username", username);
+      if (isRegister) {
+        Alert.alert('Sucesso', 'Registro concluído! Fazendo login...');
+        return handleLogin(username, password);
       }
-      navigation.navigate("dash");
+
+      await handleLoginResponse(response.data);
     } catch (error) {
-      const msg =
-        error.response?.data?.error || "Erro ao autenticar. Tente novamente.";
-      setErrorMessage(msg);
-      Alert.alert("Erro", msg);
+      handleAuthError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  const handleLogin = async (username, password) => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/token/",
+        { username, password },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+      await handleLoginResponse(response.data);
+    } catch (error) {
+      handleAuthError(error);
+    }
+  };
+
+  const handleLoginResponse = async (authData) => {
+    if (!authData.access || !authData.refresh) {
+      throw new Error('Resposta de autenticação inválida');
+    }
+
+    await storeAuthData(authData.access, authData.refresh);
+    
+    // Redirecionamento universal para web e mobile
+    if (Platform.OS === 'web') {
+      navigation.navigate("dash");
+    } else {
+      navigation.navigate("dash");
+    }
+  };
+
+  const handleAuthError = (error) => {
+    console.error('Erro de autenticação:', error);
+    
+    let errorMessage = "Erro ao autenticar. Tente novamente.";
+    
+    if (error.response) {
+      if (error.response.data.detail) {
+        errorMessage = error.response.data.detail;
+      } else if (error.response.data.non_field_errors) {
+        errorMessage = error.response.data.non_field_errors.join(', ');
+      } else if (error.response.data.error) {
+        errorMessage = error.response.data.error;
+      }
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
+    setErrorMessage(errorMessage);
+    Alert.alert("Erro", errorMessage);
+  };
+  
   return (
     <View style={styles.container}>
       <Text style={styles.greeting}>Olá,</Text>
