@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Modal,
   Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,7 +17,7 @@ import { Platform } from "react-native";
 // Serviço de armazenamento universal
 const storage = {
   async setItem(key, value) {
-    if (Platform.OS === 'web') {
+    if (Platform.OS === "web") {
       localStorage.setItem(key, value);
     } else {
       await SecureStore.setItemAsync(key, value);
@@ -24,7 +25,7 @@ const storage = {
   },
 
   async getItem(key) {
-    if (Platform.OS === 'web') {
+    if (Platform.OS === "web") {
       return localStorage.getItem(key);
     } else {
       return await SecureStore.getItemAsync(key);
@@ -32,12 +33,12 @@ const storage = {
   },
 
   async removeItem(key) {
-    if (Platform.OS === 'web') {
+    if (Platform.OS === "web") {
       localStorage.removeItem(key);
     } else {
       await SecureStore.deleteItemAsync(key);
     }
-  }
+  },
 };
 
 export default function Login({ navigation }) {
@@ -48,6 +49,12 @@ export default function Login({ navigation }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [forgotPasswordModal, setForgotPasswordModal] = useState(false);
+  const [forgotPasswordStep, setForgotPasswordStep] = useState("email");
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetCode, setResetCode] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
 
   const toggleForm = () => {
     setIsRegister(!isRegister);
@@ -60,20 +67,20 @@ export default function Login({ navigation }) {
   const storeAuthData = async (accessToken, refreshToken) => {
     try {
       await Promise.all([
-        storage.setItem('auth_access_token', accessToken),
-        storage.setItem('auth_refresh_token', refreshToken),
-        storage.setItem('auth_username', username),
+        storage.setItem("auth_access_token", accessToken),
+        storage.setItem("auth_refresh_token", refreshToken),
+        storage.setItem("auth_username", username),
       ]);
       return true;
     } catch (error) {
-      console.error('Erro ao armazenar tokens:', error);
+      console.error("Erro ao armazenar tokens:", error);
       throw error;
     }
   };
 
   const handleSubmit = async () => {
     if (isLoading) return;
-    
+
     setIsLoading(true);
     setErrorMessage("");
 
@@ -88,12 +95,12 @@ export default function Login({ navigation }) {
     try {
       const response = await axios.post(url, data, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
       if (isRegister) {
-        Alert.alert('Sucesso', 'Registro concluído! Fazendo login...');
+        Alert.alert("Sucesso", "Registro concluído! Fazendo login...");
         return handleLogin(username, password);
       }
 
@@ -110,7 +117,7 @@ export default function Login({ navigation }) {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/token/",
         { username, password },
-        { headers: { 'Content-Type': 'application/json' } }
+        { headers: { "Content-Type": "application/json" } }
       );
       await handleLoginResponse(response.data);
     } catch (error) {
@@ -120,13 +127,12 @@ export default function Login({ navigation }) {
 
   const handleLoginResponse = async (authData) => {
     if (!authData.access || !authData.refresh) {
-      throw new Error('Resposta de autenticação inválida');
+      throw new Error("Resposta de autenticação inválida");
     }
 
     await storeAuthData(authData.access, authData.refresh);
-    
-    // Redirecionamento universal para web e mobile
-    if (Platform.OS === 'web') {
+
+    if (Platform.OS === "web") {
       navigation.navigate("dash");
     } else {
       navigation.navigate("dash");
@@ -134,15 +140,15 @@ export default function Login({ navigation }) {
   };
 
   const handleAuthError = (error) => {
-    console.error('Erro de autenticação:', error);
-    
+    console.error("Erro de autenticação:", error);
+
     let errorMessage = "Erro ao autenticar. Tente novamente.";
-    
+
     if (error.response) {
       if (error.response.data.detail) {
         errorMessage = error.response.data.detail;
       } else if (error.response.data.non_field_errors) {
-        errorMessage = error.response.data.non_field_errors.join(', ');
+        errorMessage = error.response.data.non_field_errors.join(", ");
       } else if (error.response.data.error) {
         errorMessage = error.response.data.error;
       }
@@ -153,7 +159,56 @@ export default function Login({ navigation }) {
     setErrorMessage(errorMessage);
     Alert.alert("Erro", errorMessage);
   };
-  
+
+  const handleForgotPassword = () => {
+    setForgotPasswordModal(true);
+    setForgotPasswordStep("email");
+    setResetEmail("");
+    setResetCode("");
+    setNewPassword("");
+  };
+
+  const handleResetSubmit = async () => {
+    if (isLoading) return;
+
+    setIsLoading(true);
+    try {
+      if (forgotPasswordStep === "email") {
+        await axios.post(
+          "http://127.0.0.1:8000/forgot-password/",
+          { email: resetEmail },
+          { headers: { "Content-Type": "application/json" } }
+        );
+        setForgotPasswordStep("code");
+        Alert.alert("Sucesso", "Um código de verificação foi enviado para o seu e-mail.");
+      } else if (forgotPasswordStep === "code") {
+        await axios.post(
+          "http://127.0.0.1:8000/verify-reset-code/",
+          { email: resetEmail, code: resetCode },
+          { headers: { "Content-Type": "application/json" } }
+        );
+        setForgotPasswordStep("newPassword");
+        Alert.alert("Sucesso", "Código verificado. Insira sua nova senha.");
+      } else if (forgotPasswordStep === "newPassword") {
+        await axios.post(
+          "http://127.0.0.1:8000/reset-password/",
+          { email: resetEmail, code: resetCode, new_password: newPassword },
+          { headers: { "Content-Type": "application/json" } }
+        );
+        setForgotPasswordModal(false);
+        Alert.alert("Sucesso", "Senha redefinida com sucesso! Faça login com sua nova senha.");
+      }
+    } catch (error) {
+      let errorMessage = "Erro ao processar a solicitação.";
+      if (error.response && error.response.data.detail) {
+        errorMessage = error.response.data.detail;
+      }
+      Alert.alert("Erro", errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.greeting}>Olá,</Text>
@@ -168,6 +223,7 @@ export default function Login({ navigation }) {
           style={styles.input}
           value={username}
           onChangeText={setUsername}
+
         />
       </View>
 
@@ -191,19 +247,27 @@ export default function Login({ navigation }) {
           style={styles.input}
           value={password}
           onChangeText={setPassword}
-          secureTextEntry={!showPassword} // Controla a visibilidade da senha
+        
+          secureTextEntry={!showPassword}
         />
         <TouchableOpacity
           style={styles.eyeIcon}
-          onPress={() => setShowPassword(!showPassword)} // Alterna o estado
+          onPress={() => setShowPassword(!showPassword)}
+    
         >
           <Ionicons
-            name={showPassword ? "eye-outline" : "eye-off-outline"} // Muda o ícone com base no estado
+            name={showPassword ? "eye-outline" : "eye-off-outline"}
             size={20}
             color="#666"
           />
         </TouchableOpacity>
       </View>
+
+      {!isRegister && (
+        <TouchableOpacity onPress={handleForgotPassword} style={styles.forgotPassword}>
+          <Text style={styles.forgotPasswordText}>Esqueci a senha</Text>
+        </TouchableOpacity>
+      )}
 
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <LinearGradient
@@ -212,7 +276,7 @@ export default function Login({ navigation }) {
           end={{ x: 0, y: 1 }}
           style={styles.button}
         >
-          <Text style={styles.buttonText}>
+          <Text style={styles.buttonText} >
             {isRegister ? "Cadastrar" : "Entrar"}
           </Text>
         </LinearGradient>
@@ -234,6 +298,103 @@ export default function Login({ navigation }) {
             : "Ainda não tem conta? Cadastre-se"}
         </Text>
       </TouchableOpacity>
+
+      {/* Modal para recuperação de senha */}
+      <Modal
+        visible={forgotPasswordModal}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setForgotPasswordModal(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setForgotPasswordModal(false)}
+            >
+              <Ionicons name="close" size={24} color="#666" />
+            </TouchableOpacity>
+
+            <Text style={styles.modalTitle}>
+              {forgotPasswordStep === "email"
+                ? "Recuperar Senha"
+                : forgotPasswordStep === "code"
+                ? "Verificar Código"
+                : "Nova Senha"}
+            </Text>
+
+            {forgotPasswordStep === "email" && (
+              <View style={styles.inputContainer}>
+                <Ionicons name="mail-outline" size={20} color="#666" style={styles.icon} />
+                <TextInput
+                  placeholder="Digite seu e-mail cadastrado"
+                  style={styles.input}
+                  value={resetEmail}
+                  onChangeText={setResetEmail}
+                  keyboardType="email-address"
+                
+                />
+              </View>
+            )}
+
+            {forgotPasswordStep === "code" && (
+              <View style={styles.inputContainer}>
+                <Ionicons name="key-outline" size={20} color="#666" style={styles.icon} />
+                <TextInput
+                  placeholder="Digite o código recebido"
+                  style={styles.input}
+                  value={resetCode}
+                  onChangeText={setResetCode}
+                  keyboardType="numeric"
+            
+                />
+              </View>
+            )}
+
+            {forgotPasswordStep === "newPassword" && (
+              <View style={styles.inputContainer}>
+                <Ionicons name="lock-closed-outline" size={20} color="#666" style={styles.icon} />
+                <TextInput
+                  placeholder="Digite sua nova senha"
+                  style={styles.input}
+                  value={newPassword}
+                  onChangeText={setNewPassword}
+                  secureTextEntry={!showNewPassword}
+                  testID="input-new-password"
+                />
+                <TouchableOpacity
+                  style={styles.eyeIcon}
+                  onPress={() => setShowNewPassword(!showNewPassword)}
+                  
+                >
+                  <Ionicons
+                    name={showNewPassword ? "eye-outline" : "eye-off-outline"}
+                    size={20}
+                    color="#666"
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+
+            <TouchableOpacity style={styles.button} onPress={handleResetSubmit} testID="botao-reset-submit">
+              <LinearGradient
+                colors={["#A8B6FF", "#92EBFF"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 1 }}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>
+                  {forgotPasswordStep === "email"
+                    ? "Enviar Código"
+                    : forgotPasswordStep === "code"
+                    ? "Verificar Código"
+                    : "Redefinir Senha"}
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -277,14 +438,23 @@ const styles = StyleSheet.create({
   },
   eyeIcon: {
     position: "absolute",
-    right: 15, // Posiciona o ícone do olho à direita
+    right: 15,
   },
   input: {
     flex: 1,
     height: "100%",
     fontSize: 16,
     color: "#333",
-    paddingRight: 40, // Adiciona espaço para o ícone do olho
+    paddingRight: 40,
+  },
+  forgotPassword: {
+    alignSelf: "flex-end",
+    marginBottom: 15,
+  },
+  forgotPasswordText: {
+    fontSize: 14,
+    color: "#666",
+    textDecorationLine: "underline",
   },
   button: {
     width: "100%",
@@ -322,5 +492,29 @@ const styles = StyleSheet.create({
   toggleText: {
     fontSize: 14,
     color: "#666",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: "90%",
+    backgroundColor: "#F5F5F5",
+    borderRadius: 10,
+    padding: 20,
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#000",
+    marginBottom: 20,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 10,
+    right: 10,
   },
 });
