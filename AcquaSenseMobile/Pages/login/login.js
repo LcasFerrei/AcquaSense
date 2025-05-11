@@ -210,7 +210,7 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="login-screen">
       <Text style={styles.greeting}>Olá,</Text>
       <Text style={styles.title}>
         {isRegister ? "Crie sua conta aqui" : "Seja bem vindo"}
@@ -223,7 +223,7 @@ export default function Login({ navigation }) {
           style={styles.input}
           value={username}
           onChangeText={setUsername}
-
+          testID="input-username"
         />
       </View>
 
@@ -236,6 +236,7 @@ export default function Login({ navigation }) {
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
+            testID="input-email"
           />
         </View>
       )}
@@ -247,18 +248,19 @@ export default function Login({ navigation }) {
           style={styles.input}
           value={password}
           onChangeText={setPassword}
-        
           secureTextEntry={!showPassword}
+          testID="input-senha" // Corrigido de testeID para testID
         />
         <TouchableOpacity
           style={styles.eyeIcon}
           onPress={() => setShowPassword(!showPassword)}
-    
+          testID="toggle-senha" // Corrigido de testeID para testID
         >
           <Ionicons
             name={showPassword ? "eye-outline" : "eye-off-outline"}
             size={20}
             color="#666"
+            testID={showPassword ? "eye-icon-visible" : "eye-icon-hidden"}
           />
         </TouchableOpacity>
       </View>
@@ -269,7 +271,7 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
       )}
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+      <TouchableOpacity style={styles.button} onPress={handleSubmit} testID="botao-entrar">
         <LinearGradient
           colors={["#A8B6FF", "#92EBFF"]}
           start={{ x: 0, y: 0 }}
@@ -332,7 +334,7 @@ export default function Login({ navigation }) {
                   value={resetEmail}
                   onChangeText={setResetEmail}
                   keyboardType="email-address"
-                
+                  testID="input-reset-email"
                 />
               </View>
             )}
@@ -346,7 +348,7 @@ export default function Login({ navigation }) {
                   value={resetCode}
                   onChangeText={setResetCode}
                   keyboardType="numeric"
-            
+                  testID="input-reset-code"
                 />
               </View>
             )}
@@ -365,12 +367,14 @@ export default function Login({ navigation }) {
                 <TouchableOpacity
                   style={styles.eyeIcon}
                   onPress={() => setShowNewPassword(!showNewPassword)}
-                  
+                  testID="toggle-new-password"
+
                 >
                   <Ionicons
                     name={showNewPassword ? "eye-outline" : "eye-off-outline"}
                     size={20}
                     color="#666"
+                    testID={showNewPassword ? "eye-icon-new-visible" : "eye-icon-new-hidden"}
                   />
                 </TouchableOpacity>
               </View>
