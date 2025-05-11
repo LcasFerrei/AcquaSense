@@ -278,7 +278,7 @@ export default function Login({ navigation }) {
           end={{ x: 0, y: 1 }}
           style={styles.button}
         >
-          <Text style={styles.buttonText}>
+          <Text style={styles.buttonText} >
             {isRegister ? "Cadastrar" : "Entrar"}
           </Text>
         </LinearGradient>
@@ -368,6 +368,7 @@ export default function Login({ navigation }) {
                   style={styles.eyeIcon}
                   onPress={() => setShowNewPassword(!showNewPassword)}
                   testID="toggle-new-password"
+
                 >
                   <Ionicons
                     name={showNewPassword ? "eye-outline" : "eye-off-outline"}
