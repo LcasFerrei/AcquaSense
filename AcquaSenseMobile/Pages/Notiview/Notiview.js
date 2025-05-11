@@ -11,7 +11,7 @@ const Notiview = ({ navigation }) => {
       style={styles.backgroundImage}
       resizeMode="cover"
     >
-      <View style={styles.container}>
+      <View style={styles.container} testID="notiview-screen">
         {/* Seção para o header */}
         <View style={styles.headerContainer}>
           <TouchableOpacity 
@@ -21,7 +21,7 @@ const Notiview = ({ navigation }) => {
             <Text style={styles.backButtonText}>❮</Text>
           </TouchableOpacity>
 
-          <Text style={styles.headerTitle}>Notificações</Text>
+          <Text style={styles.headerTitle} testID="notiview-title" >Notificações</Text>
 
           <TouchableOpacity style={styles.menuButton}>
             <Text style={styles.menuButtonText}>⋮</Text>

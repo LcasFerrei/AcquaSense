@@ -17,8 +17,9 @@ const Header = () => {
       <TouchableOpacity 
         style={styles.notificationButton}
         onPress={() => navigation.navigate('Notiview')}
+        testID="notification-button"
         >
-        <View style={styles.iconContainer}>
+        <View style={styles.iconContainer} testID="bell-icon">
           <Icon name="bell" size={20} color="#333" />
           {/* Exibe a bolinha vermelha se hasNotifications for true */}
           {hasNotifications && <View style={styles.notificationBadge} />}
