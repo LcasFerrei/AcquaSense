@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, Alert, Switch, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { getToken } from './Noti';
+import axios from 'axios'; // Importe o axios
 
 const User = () => {
   // Estado para as informações do usuário
   const [userInfo, setUserInfo] = useState({
-    name: 'Lucas Ferreira',
-    email: 'lucas@email.com',
+    name: '',
+    email: '',
+    phone: '',
+    address: ''
   });
 
   // Estado para os sensores com limite de consumo
@@ -23,13 +27,15 @@ const User = () => {
     emailAlerts: true,
     waterUsageTips: false,
     language: 'Português',
-    waterLimit: '200', // Limite geral
+    waterLimit: '200',
   });
 
   // Estado para controlar a edição do usuário
   const [isEditing, setIsEditing] = useState(false);
-  const [newName, setNewName] = useState(userInfo.name);
-  const [newEmail, setNewEmail] = useState(userInfo.email);
+  const [newName, setNewName] = useState('');
+  const [newLastName, setNewLastName] = useState('');
+  const [newEmail, setNewEmail] = useState('');
+  const [newPhone, setNewPhone] = useState('');
 
   // Estado para adicionar um novo sensor
   const [newSensorName, setNewSensorName] = useState('');
@@ -38,16 +44,84 @@ const User = () => {
   // Estado para o limite geral de consumo de água
   const [newWaterLimit, setNewWaterLimit] = useState(preferences.waterLimit);
 
-  // Estado para os limites de consumo por sensor
-  const [sensorWaterLimits, setSensorWaterLimits] = useState(
-    sensors.reduce((acc, sensor) => ({ ...acc, [sensor.id]: sensor.waterLimit }), {})
-  );
+  // Estado para carregamento
+  const [loading, setLoading] = useState(true);
+
+  // Função para buscar os dados do usuário
+  const fetchUserProfile = async () => {
+    try {
+      const token = await getToken();
+
+      setLoading(true);
+      // Substitua pela URL do seu backend
+      const response = await axios.get('http://127.0.0.1:8000/api/user-profile/', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      const data = response.data;
+      setUserInfo({
+        name: data.name,
+        last_name: data.last_name,
+        email: data.email,
+        phone: data.phone,
+        address: data.address
+      });
+      
+      // Atualize também os estados de edição
+      setNewName(data.name);
+      setNewLastName(data.last_name);
+      setNewEmail(data.email);
+      setNewPhone(data.phone);
+      
+    } catch (error) {
+      console.error('Erro ao buscar perfil do usuário:', error);
+      Alert.alert('Erro', 'Não foi possível carregar os dados do usuário.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Buscar os dados do usuário quando o componente for montado
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
 
   // Função para salvar as alterações do usuário
-  const handleSaveUserInfo = () => {
-    setUserInfo({ name: newName, email: newEmail });
-    setIsEditing(false);
-    Alert.alert('Sucesso', 'Informações do usuário atualizadas!');
+  const handleSaveUserInfo = async () => {
+    try {
+      const token = await getToken();
+      console.log(token)
+      // Aqui você pode adicionar uma chamada para atualizar os dados no backend
+      await axios.patch('http://127.0.0.1:8000/api/user-profile-edit/',
+        { // dados do corpo da requisição
+          name: newName,
+          last_name: newLastName,
+          email: newEmail,
+          phone: newPhone,
+          address: userInfo.address // se precisar enviar o endereço também
+        },
+        { // configurações (headers)
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      setUserInfo({ 
+        name: newName, 
+        lastName: newLastName, 
+        email: newEmail,
+        phone: newPhone,
+        address: userInfo.address // Mantém o endereço existente
+      });
+      setIsEditing(false);
+      Alert.alert('Sucesso', 'Informações do usuário atualizadas!');
+    } catch (error) {
+      console.error('Erro ao atualizar perfil:', error);
+      Alert.alert('Erro', 'Não foi possível atualizar as informações.');
+    }
   };
 
   // Função para adicionar um novo sensor
@@ -213,7 +287,9 @@ const User = () => {
       {/* Seção: Informações do Usuário */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Informações do Usuário</Text>
-        {isEditing ? (
+        {loading ? (
+          <Text>Carregando...</Text>
+        ) : isEditing ? (
           <View>
             <TextInput
               style={styles.input}
@@ -223,10 +299,23 @@ const User = () => {
             />
             <TextInput
               style={styles.input}
+              value={newLastName}
+              onChangeText={setNewLastName}
+              placeholder="Sobrenome"
+            />
+            <TextInput
+              style={styles.input}
               value={newEmail}
               onChangeText={setNewEmail}
               placeholder="E-mail"
               keyboardType="email-address"
+            />
+            <TextInput
+              style={styles.input}
+              value={newPhone}
+              onChangeText={setNewPhone}
+              placeholder="Telefone"
+              keyboardType="phone-pad"
             />
             <View style={styles.buttonRow}>
               <LinearGradient
@@ -249,7 +338,9 @@ const User = () => {
                   onPress={() => {
                     setIsEditing(false);
                     setNewName(userInfo.name);
+                    setNewLastName(userInfo.last_name);
                     setNewEmail(userInfo.email);
+                    setNewPhone(userInfo.phone);
                   }}
                 >
                   <Text style={styles.buttonText}>Cancelar</Text>
@@ -260,7 +351,10 @@ const User = () => {
         ) : (
           <View>
             <Text style={styles.infoText}>Nome: {userInfo.name}</Text>
+            <Text style={styles.infoText}>Sobrenome: {userInfo.last_name}</Text>
             <Text style={styles.infoText}>E-mail: {userInfo.email}</Text>
+            <Text style={styles.infoText}>Telefone: {userInfo.phone || 'Não cadastrado'}</Text>
+            <Text style={styles.infoText}>Endereço: {userInfo.address || 'Não cadastrado'}</Text>
             <LinearGradient
               colors={['#A8B6FF', '#92EBFF']}
               start={{ x: 0, y: 0 }}

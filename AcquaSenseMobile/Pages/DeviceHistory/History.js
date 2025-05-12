@@ -38,7 +38,7 @@ const History = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch(`http://192.168.0.7:8000/relatorio-consumo/?periodo=${selectedPeriod}`);
+      const response = await fetch(`http://127.0.0.1:8000/relatorio-consumo/?periodo=${selectedPeriod}`);
       const data = await response.json();
 
       if (data.status === 'success') {

@@ -13,5 +13,5 @@ urlpatterns = [
     path('configuration/', views.config, name='configuration'),
     path('api/username/', get_username, name='get_username'),
     path('api/user-profile/', UserProfileView.as_view(), name='user-profile'),
-    path('api/user-profile-edit/', user_profile_edit, name='user-profile'),
+    path('api/user-profile-edit/', UserProfileViewEdit.as_view(), name='user-profile'),
 ]

@@ -14,7 +14,7 @@ const Grafic = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      const ws = new WebSocket("ws://192.168.0.7:8000/ws/consumo/");
+      const ws = new WebSocket("ws://127.0.0.1:8000/ws/consumo/");
       console.log('WebSocket conectado');
 
       ws.onmessage = (e) => {

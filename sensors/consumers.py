@@ -47,7 +47,7 @@ class ConsumoConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def get_daily_percentage(self):
-        limite_litros = 120
+        limite_litros = 200
         inicio_do_dia = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
 
         consumo_diario = RegistroDeConsumo.objects.filter(
