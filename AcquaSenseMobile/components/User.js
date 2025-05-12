@@ -14,10 +14,15 @@ const User = () => {
     address: ''
   });
 
+  const [sensorWaterLimits, setSensorWaterLimits] = useState({
+    '1': '100',
+    '2': '50',
+  });
+
   // Estado para os sensores com limite de consumo
   const [sensors, setSensors] = useState([
-    { id: '1', name: 'Sensor PIA 1 - Cozinha', waterLimit: '100' },
-    { id: '2', name: 'Sensor Banheiro 1', waterLimit: '50' },
+    { id: '1', name: 'Sensor PIA 1 - Cozinha', waterLimit: sensorWaterLimits['1'] },
+    { id: '2', name: 'Sensor Banheiro 1', waterLimit: sensorWaterLimits['2'] },
   ]);
 
   // Estado para as preferências
