@@ -14,10 +14,10 @@ const User = () => {
     address: ''
   });
 
-  // Estado para os sensores
+  // Estado para os sensores com limite de consumo
   const [sensors, setSensors] = useState([
-    { id: '1', name: 'Sensor PIA 1 - Cozinha' },
-    { id: '2', name: 'Sensor Banheiro 1' },
+    { id: '1', name: 'Sensor PIA 1 - Cozinha', waterLimit: '100' },
+    { id: '2', name: 'Sensor Banheiro 1', waterLimit: '50' },
   ]);
 
   // Estado para as preferências
@@ -39,8 +39,9 @@ const User = () => {
 
   // Estado para adicionar um novo sensor
   const [newSensorName, setNewSensorName] = useState('');
+  const [newSensorWaterLimit, setNewSensorWaterLimit] = useState('');
 
-  // Estado para o limite de consumo de água
+  // Estado para o limite geral de consumo de água
   const [newWaterLimit, setNewWaterLimit] = useState(preferences.waterLimit);
 
   // Estado para carregamento
@@ -129,14 +130,21 @@ const User = () => {
       Alert.alert('Erro', 'Por favor, insira o nome do sensor.');
       return;
     }
+    if (newSensorWaterLimit.trim() === '' || isNaN(newSensorWaterLimit) || Number(newSensorWaterLimit) <= 0) {
+      Alert.alert('Erro', 'Por favor, insira um limite válido para o sensor.');
+      return;
+    }
 
     const newSensor = {
       id: (sensors.length + 1).toString(),
       name: newSensorName,
+      waterLimit: newSensorWaterLimit,
     };
 
     setSensors([...sensors, newSensor]);
+    setSensorWaterLimits({ ...sensorWaterLimits, [newSensor.id]: newSensorWaterLimit });
     setNewSensorName('');
+    setNewSensorWaterLimit('');
     Alert.alert('Sucesso', 'Sensor adicionado com sucesso!');
   };
 
@@ -148,7 +156,7 @@ const User = () => {
     }));
   };
 
-  // Função para salvar o limite de consumo de água
+  // Função para salvar o limite geral de consumo de água
   const handleSaveWaterLimit = () => {
     if (newWaterLimit.trim() === '' || isNaN(newWaterLimit) || Number(newWaterLimit) <= 0) {
       Alert.alert('Erro', 'Por favor, insira um valor válido para o limite de consumo de água.');
@@ -160,6 +168,20 @@ const User = () => {
       waterLimit: newWaterLimit,
     }));
     Alert.alert('Sucesso', 'Limite de consumo de água atualizado!');
+  };
+
+  // Função para salvar limites de consumo por sensor
+  const handleSaveSensorWaterLimit = (sensorId) => {
+    const limit = sensorWaterLimits[sensorId];
+    if (limit.trim() === '' || isNaN(limit) || Number(limit) <= 0) {
+      Alert.alert('Erro', 'Por favor, insira um valor válido para o limite do sensor.');
+      return;
+    }
+
+    setSensors(sensors.map(sensor =>
+      sensor.id === sensorId ? { ...sensor, waterLimit: limit } : sensor
+    ));
+    Alert.alert('Sucesso', `Limite do sensor atualizado para ${limit} litros/dia!`);
   };
 
   // Função para selecionar o idioma
@@ -190,9 +212,13 @@ const User = () => {
               waterLimit: '200',
             });
             setSensors([
-              { id: '1', name: 'Sensor PIA 1 - Cozinha' },
-              { id: '2', name: 'Sensor Banheiro 1' },
+              { id: '1', name: 'Sensor PIA 1 - Cozinha', waterLimit: '100' },
+              { id: '2', name: 'Sensor Banheiro 1', waterLimit: '50' },
             ]);
+            setSensorWaterLimits({
+              '1': '100',
+              '2': '50',
+            });
             Alert.alert('Sucesso', 'Configurações redefinidas com sucesso!');
           },
         },
@@ -211,7 +237,6 @@ const User = () => {
           text: 'Excluir',
           onPress: () => {
             Alert.alert('Conta Excluída', 'Sua conta foi excluída com sucesso.');
-            // Aqui você pode adicionar a lógica para excluir a conta (ex.: chamada à API)
           },
           style: 'destructive',
         },
@@ -394,10 +419,10 @@ const User = () => {
           style={styles.input}
           value={newWaterLimit}
           onChangeText={setNewWaterLimit}
-          placeholder="Digite o limite de consumo de água (em litros)"
+          placeholder="Digite o limite geral de consumo (em litros)"
           keyboardType="numeric"
         />
-        <Text style={styles.infoText}>Limite atual: {preferences.waterLimit} litros/dia</Text>
+        <Text style={styles.infoText}>Limite geral atual: {preferences.waterLimit} litros/dia</Text>
         <LinearGradient
           colors={['#A8B6FF', '#92EBFF']}
           start={{ x: 0, y: 0 }}
@@ -405,9 +430,39 @@ const User = () => {
           style={styles.button}
         >
           <TouchableOpacity onPress={handleSaveWaterLimit}>
-            <Text style={styles.buttonText}>Salvar Limite</Text>
+            <Text style={styles.buttonText}>Salvar Limite Geral</Text>
           </TouchableOpacity>
         </LinearGradient>
+
+        {/* Limites por Sensor */}
+        <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Limites por Sensor</Text>
+        {sensors.map((sensor) => (
+          <View key={sensor.id} style={styles.sensorLimitContainer}>
+            <Text style={styles.sensorText}>{sensor.name}</Text>
+            <TextInput
+              style={styles.input}
+              value={sensorWaterLimits[sensor.id] || ''}
+              onChangeText={(text) =>
+                setSensorWaterLimits({ ...sensorWaterLimits, [sensor.id]: text })
+              }
+              placeholder="Limite (litros/dia)"
+              keyboardType="numeric"
+            />
+            <Text style={styles.infoText}>
+              Limite atual: {sensor.waterLimit || 'Não definido'} litros/dia
+            </Text>
+            <LinearGradient
+              colors={['#A8B6FF', '#92EBFF']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 0, y: 1 }}
+              style={styles.button}
+            >
+              <TouchableOpacity onPress={() => handleSaveSensorWaterLimit(sensor.id)}>
+                <Text style={styles.buttonText}>Salvar Limite</Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+        ))}
       </View>
 
       {/* Seção: Sensores */}
@@ -426,6 +481,13 @@ const User = () => {
           value={newSensorName}
           onChangeText={setNewSensorName}
           placeholder="Nome do novo sensor"
+        />
+        <TextInput
+          style={styles.input}
+          value={newSensorWaterLimit}
+          onChangeText={setNewSensorWaterLimit}
+          placeholder="Limite de consumo (litros/dia)"
+          keyboardType="numeric"
         />
         <LinearGradient
           colors={['#A8B6FF', '#92EBFF']}
@@ -563,6 +625,9 @@ const styles = StyleSheet.create({
   },
   selectedLanguageButtonText: {
     fontWeight: 'bold',
+  },
+  sensorLimitContainer: {
+    marginBottom: 15,
   },
 });
 

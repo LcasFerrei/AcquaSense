@@ -1,26 +1,65 @@
-import React, { useState } from 'react'; // Adicione useState
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getToken } from './Noti';
 
 const Header = () => {
-  // Estado para controlar se há notificações (exemplo: true para exibir a bolinha)
   const [hasNotifications, setHasNotifications] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+
+        const token = await getToken();
+        
+        const response = await axios.get('http://127.0.0.1:8000/api/user-profile/', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        // Extrai o nome completo da resposta
+        const fullName = `${response.data.name} ${response.data.last_name}` || 'Usuário';
+        // Pega apenas o primeiro nome para exibir
+        setUserName(fullName);
+        
+      } catch (error) {
+        console.error('Erro ao buscar nome do usuário:', error);
+        setUserName('Usuário'); // Valor padrão em caso de erro
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserName();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.header}>
+        <ActivityIndicator size="small" color="#999" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.header}>
       <View>
         <Text style={styles.greeting}>Bem vindo de volta,</Text>
-        <Text style={styles.userName}>Lucas Ferreira</Text>
+        <Text style={styles.userName}>{userName}</Text>
       </View>
       <TouchableOpacity 
         style={styles.notificationButton}
         onPress={() => navigation.navigate('Notiview')}
-        >
+      >
         <View style={styles.iconContainer}>
           <Icon name="bell" size={20} color="#333" />
-          {/* Exibe a bolinha vermelha se hasNotifications for true */}
           {hasNotifications && <View style={styles.notificationBadge} />}
         </View>
       </TouchableOpacity>

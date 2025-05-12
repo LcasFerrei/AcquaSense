@@ -1,37 +1,71 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import axios from 'axios';
+import { getToken } from './Noti';
 
 const BarChart = () => {
-const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
-const data = [30, 85, 50, 100, 40, 70, 90];
-const HIGH_THRESHOLD = 70;
-const MAX_HEIGHT = Math.max(...data);
+  const [consumoData, setConsumoData] = useState(null);
+  const HIGH_THRESHOLD = 70;
+  const MAX_CHART_HEIGHT = 150; // Altura máxima do gráfico
+  const MAX_VALUE = 200; // Valor que deve ocupar a altura máxima
 
-return (
- <View style={styles.container}>
-     <View style={styles.chart}>
-      {data.map((value, index) => {
-          const isHighConsumption = value > HIGH_THRESHOLD;
-          const colors = isHighConsumption 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = await getToken();
+        const response = await axios.get('http://127.0.0.1:8000/relatorio-consumo-semanal/', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setConsumoData(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!consumoData) {
+    return <Text>Carregando...</Text>;
+  }
+
+  // Normaliza os valores para que 120 ocupe MAX_CHART_HEIGHT
+  const normalizedData = consumoData.consumos.map(value =>
+    Math.min((value / MAX_VALUE) * MAX_CHART_HEIGHT, MAX_CHART_HEIGHT)
+  );
+
+  return (
+    <View style={styles.container}>
+      {/* Labels dos dias acima das barras */}
+      <View style={styles.labelsContainer}>
+        {consumoData.dias.map((day, index) => (
+          <Text key={index} style={styles.dayLabel}>{day}</Text>
+        ))}
+      </View>
+
+      {/* Gráfico de barras */}
+      <View style={[styles.chart, { height: MAX_CHART_HEIGHT }]}>
+        {normalizedData.map((value, index) => {
+          const isHighConsumption = consumoData.consumos[index] > HIGH_THRESHOLD;
+          const colors = isHighConsumption
             ? ['#C58BF2', '#EEA4CE']
             : ['#92A3FD', '#9DCEFF'];
 
           return (
-            <View key={index} style={styles.barContainer}>
-              <View style={[styles.barBackground, { height: MAX_HEIGHT }]} />
-              <LinearGradient
-                colors={colors}
-                style={[styles.bar, { height: value }]}
-              />
+            <View key={index} style={styles.barColumn}>
+              <View style={styles.barContainer}>
+                <View style={[styles.barBackground, { height: MAX_CHART_HEIGHT }]} />
+                <LinearGradient
+                  colors={colors}
+                  style={[styles.bar, { height: value }]}
+                />
+              </View>
             </View>
           );
         })}
-      </View>
-      <View style={styles.labelsContainer}>
-        {days.map((day, index) => (
-          <Text key={index} style={styles.dayLabel}>{day}</Text>
-        ))}
       </View>
     </View>
   );
@@ -39,50 +73,51 @@ return (
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 20,
-    marginVertical: 10,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 30,
-    padding: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  chart: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'flex-end',
-    height: 100,
-  },
-  barContainer: {
     alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-  barBackground: {
-    width: 14,
-    backgroundColor: '#E6F0FA',
-    borderTopLeftRadius: 7,
-    borderTopRightRadius: 7,
-  },
-  bar: {
-    width: 14,
-    borderTopLeftRadius: 7,
-    borderTopRightRadius: 7,
-    position: 'absolute',
-    bottom: 0,
+    justifyContent: 'center',
+    paddingVertical: 20,
   },
   labelsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: 8,
+    width: '100%',
+    paddingHorizontal: 20,
+    marginBottom: 10, // Espaço entre os labels e as barras
   },
   dayLabel: {
     fontSize: 12,
-    color: '#666',
+    color: '#1D1617',
     textAlign: 'center',
-    width: 30,
+    width: 40, // Largura fixa para cada label
+  },
+  chart: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    width: '100%',
+    paddingHorizontal: 20,
+  },
+  barColumn: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  barContainer: {
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    position: 'relative',
+  },
+  barBackground: {
+    width: 20,
+    backgroundColor: '#F7F8F8',
+    borderRadius: 20,
+    position: 'absolute',
+    bottom: 0,
+  },
+  bar: {
+    width: 20,
+    borderRadius: 20,
+    marginBottom: 4,
   },
 });
 
