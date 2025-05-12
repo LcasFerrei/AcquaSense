@@ -194,7 +194,7 @@ def consumo_relatorio(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def consumo_semanal(request):
-    # Obtém a data atual no horário local
+    # Obtém a data atual no horário locall
     hoje = localtime(timezone.now()).date()
 
     # Calcula o domingo da semana atual (considerando que domingo é o primeiro dia)
