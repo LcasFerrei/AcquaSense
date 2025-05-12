@@ -1,5 +1,3 @@
-AcquaSenseMobile\components\Header.js
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
