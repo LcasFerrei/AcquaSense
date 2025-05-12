@@ -262,7 +262,6 @@ export default function Login({ navigation }) {
           style={styles.input}
           value={username}
           onChangeText={setUsername}
-
         />
       </View>
 
