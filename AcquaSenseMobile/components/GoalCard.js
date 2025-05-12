@@ -49,7 +49,7 @@ const GoalCard = ({ navigation }) => {
           />
         </View>
         <View style={styles.labels}>
-          {[180, 150, 120, 90, 60, 30, 0].map((value, index) => (
+          {[200, 180, 150, 120, 90, 60, 30, 0].map((value, index) => (
             <Text key={index} style={styles.label}>{value} Litros</Text>
           ))}
         </View>
