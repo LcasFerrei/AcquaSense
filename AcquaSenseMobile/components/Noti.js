@@ -3,13 +3,8 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as SecureStore from 'expo-secure-store';
 
-
-const Noti = () => {
-  const [notifications, setNotifications] = useState([]);
-  const [loading, setLoading] = useState(true);
-
   // Função para obter o token de forma universal
-  const getToken = async () => {
+  export const getToken = async () => {
     if (Platform.OS === 'web') {
       return localStorage.getItem('auth_access_token');
     } else {
@@ -21,6 +16,10 @@ const Noti = () => {
       }
     }
   };
+
+const Noti = () => {
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Função para renovar o token
   const refreshToken = async () => {

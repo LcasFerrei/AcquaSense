@@ -44,6 +44,9 @@ const storage = {
 export default function Login({ navigation }) {
   const [isRegister, setIsRegister] = useState(false);
   const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -61,6 +64,9 @@ export default function Login({ navigation }) {
     setUsername("");
     setPassword("");
     setEmail("");
+    setFirstName("");
+    setLastName("");
+    setPhone("");
     setErrorMessage("");
   };
 
@@ -78,6 +84,26 @@ export default function Login({ navigation }) {
     }
   };
 
+  const validateRegisterFields = () => {
+    if (!firstName.trim()) {
+      setErrorMessage("Por favor, insira seu primeiro nome");
+      return false;
+    }
+    if (!lastName.trim()) {
+      setErrorMessage("Por favor, insira seu sobrenome");
+      return false;
+    }
+    if (!phone.trim()) {
+      setErrorMessage("Por favor, insira seu telefone");
+      return false;
+    }
+    if (!/^\d+$/.test(phone)) {
+      setErrorMessage("O telefone deve conter apenas números");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async () => {
     if (isLoading) return;
 
@@ -89,7 +115,14 @@ export default function Login({ navigation }) {
       : "http://127.0.0.1:8000/api/token/";
 
     const data = isRegister
-      ? { username, password, email }
+      ? { 
+        username, 
+        first_name: firstName, 
+        last_name: lastName, 
+        phone,
+        email, 
+        password 
+      }
       : { username, password };
 
     try {
@@ -216,6 +249,12 @@ export default function Login({ navigation }) {
         {isRegister ? "Crie sua conta aqui" : "Seja bem vindo"}
       </Text>
 
+      {errorMessage ? (
+        <Text style={styles.errorText}>
+          ⚠️ {errorMessage}
+        </Text>
+      ) : null}
+
       <View style={styles.inputContainer}>
         <Ionicons name="person-outline" size={20} color="#666" style={styles.icon} />
         <TextInput
@@ -228,16 +267,48 @@ export default function Login({ navigation }) {
       </View>
 
       {isRegister && (
-        <View style={styles.inputContainer}>
-          <Ionicons name="mail-outline" size={20} color="#666" style={styles.icon} />
-          <TextInput
-            placeholder="Email"
-            style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-          />
-        </View>
+        <>
+          <View style={styles.inputContainer}>
+            <Ionicons name="person-outline" size={20} color="#666" style={styles.icon} />
+            <TextInput
+              placeholder="Primeiro Nome"
+              style={styles.input}
+              value={firstName}
+              onChangeText={setFirstName}
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Ionicons name="person-outline" size={20} color="#666" style={styles.icon} />
+            <TextInput
+              placeholder="Sobrenome"
+              style={styles.input}
+              value={lastName}
+              onChangeText={setLastName}
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Ionicons name="at-outline" size={20} color="#666" style={styles.icon} />
+            <TextInput
+              placeholder="Email"
+              style={styles.input}
+              value={email}
+              onChangeText={setEmail}
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Ionicons name="call-outline" size={20} color="#666" style={styles.icon} />
+            <TextInput
+              placeholder="Telefone"
+              style={styles.input}
+              value={phone}
+              onChangeText={setPhone}
+              keyboardType="phone-pad"
+            />
+          </View>
+        </>
       )}
 
       <View style={styles.inputContainer}>
@@ -517,4 +588,19 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
   },
+  errorText: {
+    color: '#fff',
+    backgroundColor: '#ff4d4d',
+    padding: 10,
+    borderRadius: 8,
+    marginVertical: 10,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 14,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },  
 });

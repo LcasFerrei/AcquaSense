@@ -35,7 +35,14 @@ def get_csrf_token(request):
 def register_user(request):
     username = request.data.get('username')
     email = request.data.get('email')
+    first_name = request.data.get('first_name')
+    last_name = request.data.get('last_name')
+    phone = request.data.get('phone')
     password = request.data.get('password')
+
+    print(request.data)
+    print({'username':username,'email':email,'password':password,
+           'first_name':first_name,'last_name':last_name, 'phone':phone})
 
     if not username or not password:
         return Response({"error": "Usuário e senha são obrigatórios."}, status=400)
@@ -43,7 +50,12 @@ def register_user(request):
     if User.objects.filter(username=username).exists():
         return Response({"error": "Nome de usuário já existe."}, status=400)
 
-    user = User.objects.create_user(username=username, email=email, password=password)
+    with transaction.atomic():
+        User.objects.create_user(username=username, email=email,first_name=first_name,
+                                        last_name=last_name, password=password)
+        
+        CustomUser.objects.create(email=email,first_name=first_name,
+                                        last_name=last_name, password=password, phone_number=phone)
     return Response({"success": True, "message": "Usuário criado com sucesso."}, status=201)
         
 def login_view(request):
@@ -65,7 +77,6 @@ def login_view(request):
                 samesite='Lax',      # Mude de 'None' para 'Lax' para desenvolvimento local
                 secure=False,
                 httponly=True,
-                max_age=86400        # Define tempo de expiração (opcional)
             )
             # Headers CORS OBRIGATÓRIOS
             response['Access-Control-Allow-Origin'] = request.headers['Origin']
@@ -91,7 +102,8 @@ class UserProfileView(APIView):
         
         # Preparar os dados de resposta
         data = {
-            "name": f"{user.first_name} {user.last_name}",
+            "name": {user.first_name},
+            "last_name": {user.last_name},
             "address": endereco,  # Pega o endereço da residência
             "phone": user.phone_number if user.phone_number else "Não cadastrado",  # Verifica se o telefone existe
             "email": user.email,
@@ -99,12 +111,15 @@ class UserProfileView(APIView):
 
         return Response(data)
     
-@login_required
-def user_profile_edit(request):
-    if request.method == 'POST':
+class UserProfileViewEdit(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def patch(self, request):
         try:
             # Parse o corpo da requisição JSON
             data = json.loads(request.body)
+
+            print(data)
 
             # Obtém o usuário e a residência
             user = CustomUser.objects.filter(email=request.user.email).first()
@@ -123,9 +138,6 @@ def user_profile_edit(request):
             user.email = data.get("email", user.email)
             user_2.email = data.get("email", user.email)
 
-            print(user.email)
-            print(user_2.email)
-
             # Atualiza ou cria a residência
             if residencia:
                 residencia.endereco = data.get("address", residencia.endereco)
@@ -141,10 +153,9 @@ def user_profile_edit(request):
             user.save()
             user_2.save()
 
-            return JsonResponse({"message": "Perfil atualizado com sucesso!"}, status=200)
+            return Response({"message": "Perfil atualizado com sucesso!"}, status=200)
         except json.JSONDecodeError:
-            return JsonResponse({"message": "Erro ao processar os dados."}, status=400)
-    return JsonResponse({"message": "Método inválido"}, status=400)
+            return Response({"message": "Erro ao processar os dados."}, status=400)
 
 @login_required()
 def check_auth(request):
