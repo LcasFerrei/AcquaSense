@@ -4,12 +4,12 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import HubFooter from '../../components/hub';
 import User from '../../components/User'; // Importando o componente User
 
-const UserScreen = () => {
+const UserScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.headerContainer}>
-        <TouchableOpacity style={styles.backButton} onPress={() => { /* Adicione a navegação de volta aqui */ }}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Text style={styles.backButtonText}>❮</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Configurações do Usuário</Text>

@@ -1,14 +1,17 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from .models import Notificacao
 from django.contrib.auth.decorators import login_required
 from usuarios.models import CustomUser
 from datetime import timedelta
 
-@login_required
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def notificacoes(request):
-    user = CustomUser.objects.filter(email=request.user.email).first()
-    notificacoes = Notificacao.objects.filter(usuario=user).order_by('-data_hora')
+    user = request.user
+    notificacoes = Notificacao.objects.filter(usuario__first_name=user).order_by('-data_hora')
 
     # Transformando as notificações em um formato de dicionário para enviar ao frontend
     notificacoes_data = [

@@ -2,8 +2,15 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.db.models import Sum, Q
 from django.utils import timezone
-from datetime import datetime, timedelta  # Importar timedelta para calcular datas
+from django.utils.timezone import localtime
+from django.utils.timezone import make_aware
+from datetime import datetime, timedelta
+import pytz
 from .models import RegistroDeConsumo, SensorDeFluxo, PontoDeUsoDeAgua
+from residences.models import Residencia
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 def specificMonitoring(request):
     # Verifica se a requisição é do tipo GET e contém o parâmetro 'month'
@@ -183,3 +190,117 @@ def consumo_relatorio(request):
             'status': 'error',
             'message': str(e)
         }, status=500)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def consumo_semanal(request):
+    # Obtém a data atual no horário locall
+    hoje = localtime(timezone.now()).date()
+
+    # Calcula o domingo da semana atual (considerando que domingo é o primeiro dia)
+    domingo = hoje - timedelta(days=hoje.weekday() + 1 if hoje.weekday() < 6 else 0)
+
+    # Converte domingo 00:00 no horário local para UTC
+    fuso = pytz.timezone('America/Sao_Paulo')
+    inicio_semana_local = make_aware(datetime.combine(domingo, datetime.min.time()), timezone=fuso)
+    inicio_semana_utc = inicio_semana_local.astimezone(pytz.UTC)
+
+    # Cria um dicionário para armazenar os consumos por dia
+    consumos_semana = {
+        'Domingo': 0,
+        'Segunda': 0,
+        'Terca': 0,
+        'Quarta': 0,
+        'Quinta': 0,
+        'Sexta': 0,
+        'Sabado': 0,
+    }
+
+    # Obtém todas as residências do usuário logado
+    residencias = Residencia.objects.filter(usuario__email=request.user.email)
+
+    # Para cada residência, obtém os sensores e seus registros
+    for residencia in residencias:
+        pontos_uso = PontoDeUsoDeAgua.objects.filter(residencia=residencia)
+        for ponto in pontos_uso:
+            sensores = SensorDeFluxo.objects.filter(ponto_uso=ponto)
+            for sensor in sensores:
+                # Filtra registros da semana atual (em UTC)
+                registros = RegistroDeConsumo.objects.filter(
+                    sensor=sensor,
+                    data_hora__gte=inicio_semana_utc
+                )
+
+                # Agrupa por dia da semana e soma o consumo
+                for registro in registros:
+                    # Converte para horário local para saber o dia corretamente
+                    data_local = localtime(registro.data_hora)
+                    dia_semana = data_local.strftime('%A')
+
+                    # Traduz os dias da semana para português
+                    if dia_semana == 'Sunday':
+                        consumos_semana['Domingo'] += float(registro.consumo)
+                    elif dia_semana == 'Monday':
+                        consumos_semana['Segunda'] += float(registro.consumo)
+                    elif dia_semana == 'Tuesday':
+                        consumos_semana['Terca'] += float(registro.consumo)
+                    elif dia_semana == 'Wednesday':
+                        consumos_semana['Quarta'] += float(registro.consumo)
+                    elif dia_semana == 'Thursday':
+                        consumos_semana['Quinta'] += float(registro.consumo)
+                    elif dia_semana == 'Friday':
+                        consumos_semana['Sexta'] += float(registro.consumo)
+                    elif dia_semana == 'Saturday':
+                        consumos_semana['Sabado'] += float(registro.consumo)
+
+    # Formata os dados para o gráfico
+    dados_grafico = {
+        'dias': ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+        'consumos': [
+            consumos_semana['Domingo'],
+            consumos_semana['Segunda'],
+            consumos_semana['Terca'],
+            consumos_semana['Quarta'],
+            consumos_semana['Quinta'],
+            consumos_semana['Sexta'],
+            consumos_semana['Sabado']
+        ]
+    }
+
+    print(dados_grafico)
+
+    return Response(dados_grafico)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def consumo_diario(request):
+    # Obtém a data atual (sem hora)
+    hoje = localtime(timezone.now()).date()
+    
+    # Obtém todas as residências do usuário logado
+    residencias = Residencia.objects.filter(usuario__email=request.user.email)
+    
+    consumo_total = 0
+    
+    # Para cada residência, obtém os sensores e seus registros do dia atual
+    for residencia in residencias:
+        pontos_uso = PontoDeUsoDeAgua.objects.filter(residencia=residencia)
+        for ponto in pontos_uso:
+            sensores = SensorDeFluxo.objects.filter(ponto_uso=ponto)
+            for sensor in sensores:
+                registros = RegistroDeConsumo.objects.filter(
+                    sensor=sensor,
+                    data_hora__date=hoje
+                ).aggregate(total=Sum('consumo'))
+                
+                if registros['total']:
+                    consumo_total += float(registros['total'])
+    
+    consumo_dash = consumo_total + 10 if consumo_total != 0 else consumo_total
+
+    return Response({
+        'data': hoje.strftime('%d/%m/%Y'),
+        'consumo_dash':consumo_dash,
+        'consumo': consumo_total,
+        'meta': 200  # Você pode ajustar isso para ser dinâmico se necessário
+    })

@@ -10,7 +10,7 @@ export default function Inicio5({ navigation }) {
       resizeMode="cover"
     >
       <View style={styles.container}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}testID="back-button-inicio5"> 
           <Text style={styles.backButtonText}>❮</Text>
         </TouchableOpacity>
 
@@ -27,7 +27,7 @@ export default function Inicio5({ navigation }) {
         </Text>
 
 
-        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Login")} testID="botao-criar-conta">
      
           <LinearGradient
             colors={["#A8B6FF", "#92EBFF"]}
@@ -111,5 +111,3 @@ const styles = StyleSheet.create({
 },
  
 });
-
-

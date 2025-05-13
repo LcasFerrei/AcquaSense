@@ -17,14 +17,14 @@ const dash = ({ navigation }) => {
         style={styles.background}
         resizeMode="cover"
       >
-        <View style={styles.overlay}>
+        <View style={styles.overlay}testID="dash-screen">
           <ScrollView
             style={styles.scrollView}
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={true}
           >
             <Header />
-            <Text style={styles.sectionTitle}>Dashboard</Text>
+            <Text style={styles.sectionTitle} testID="dash-title">Dashboard</Text>
             <BarChart />
             <View style={styles.cardsContainer}>
               <GoalCard navigation={navigation} />

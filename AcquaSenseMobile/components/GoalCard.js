@@ -1,34 +1,60 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import axios from 'axios';
+import { getToken } from './Noti';
 
-// Recebe a prop `navigation` para realizar a navegação
 const GoalCard = ({ navigation }) => {
-  const currentLiters = 160; // Valor atual ajustado para o máximo
-  const maxLiters = 200; // Valor máximo (fictício)
-  const progressHeight = (currentLiters / maxLiters) * 100; // Calcula a altura do progresso (100%)
+  const [consumoData, setConsumoData] = useState(null);
+  const maxLiters = 200; // Meta diária
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = await getToken();
+        const response = await axios.get('http://127.0.0.1:8000/consumo-diario/', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setConsumoData(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!consumoData) {
+    return <Text>Carregando...</Text>;
+  }
+
+  const currentLiters = consumoData.consumo;
+
+  const progressHeight = (consumoData.consumo_dash / maxLiters) * 100;
 
   return (
     <TouchableOpacity
       style={styles.card}
-      onPress={() => navigation.navigate('Grafic')} // Navega para a tela Grafic ao clicar
+      onPress={() => navigation.navigate('Grafic')}
     >
       <Text style={styles.title}>Meta diária</Text>
-      <Text style={styles.subtitle}>Atualizações em tempo real</Text>
+      <Text style={styles.subtitle}>Atualizado em {consumoData.data}</Text>
       <View style={styles.progressContainer}>
         <View style={styles.progressBar}>
           <LinearGradient
-            colors={['#F28B8B', '#F28B8B', '#F9FFB8', '#F9FFB8', '#B8FFB7']} // Gradiente com as cores solicitadas
+            colors={['#F28B8B', '#F28B8B', '#F9FFB8', '#F9FFB8', '#B8FFB7']}
             style={[styles.progress, { height: `${progressHeight}%` }]}
           />
         </View>
         <View style={styles.labels}>
-          {[180, 150, 120, 90, 60, 30, 0].map((value, index) => (
+          {[200, 180, 150, 120, 90, 60, 30, 0].map((value, index) => (
             <Text key={index} style={styles.label}>{value} Litros</Text>
           ))}
         </View>
       </View>
-      <Text style={styles.currentValue}>{currentLiters} Litros</Text>
+      <Text style={styles.currentValue}>{currentLiters.toFixed(1)} Litros</Text>
     </TouchableOpacity>
   );
 };
