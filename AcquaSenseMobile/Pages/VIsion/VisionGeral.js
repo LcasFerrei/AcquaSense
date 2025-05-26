@@ -12,7 +12,7 @@ const VisionGeral = () => {
       source={require('../../assets/Pag_Home.png')} 
       style={styles.backgroundImage}
     >
-      <View style={styles.container}>
+      <View>
         {/* Seção para o header */}
         <View style={styles.headerContainer}>
           <TouchableOpacity 
@@ -69,10 +69,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 50,
     paddingBottom: 20,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
   },
   backButton: {
     backgroundColor: '#fff',

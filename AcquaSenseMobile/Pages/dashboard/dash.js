@@ -24,6 +24,7 @@ const dash = ({ navigation }) => {
             showsVerticalScrollIndicator={true}
           >
             <Header />
+            <News />
             <Text style={styles.sectionTitle} testID="dash-title">Dashboard</Text>
             <BarChart />
             <View style={styles.cardsContainer}>

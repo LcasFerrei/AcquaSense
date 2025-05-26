@@ -20,25 +20,16 @@ const screenWidth = Dimensions.get('window').width;
 
 const History = () => {
   const navigation = useNavigation();
-  const [selectedPeriod, setSelectedPeriod] = useState('6 meses');
-  const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [consumoData, setConsumoData] = useState(null);
   const [error, setError] = useState(null);
 
-  const periodOptions = [
-    { label: 'Últimos 6 meses', value: '6 meses' },
-    { label: 'Últimos 3 meses', value: '3 meses' },
-    { label: 'Último 1 mês', value: '1 mês' },
-    { label: 'Última 1 semana', value: '1 semana' },
-  ];
-
   const fetchConsumoData = async () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch(`http://127.0.0.1:8000/relatorio-consumo/?periodo=${selectedPeriod}`);
+      const response = await fetch('http://127.0.0.1:8000/relatorio-consumo/');
       const data = await response.json();
 
       if (data.status === 'success') {
@@ -62,19 +53,14 @@ const History = () => {
 
   useEffect(() => {
     fetchConsumoData();
-  }, [selectedPeriod]);
+  }, []);
 
   const renderHistoryItem = ({ item }) => (
     <View style={styles.historyItem}>
       <Text style={styles.historyDate}>{item.date}</Text>
-      <Text style={styles.historyPercentage}>{item.percentage}</Text>
+      <Text style={styles.historyValue}>{item.value}</Text>
     </View>
   );
-
-  const getSelectedPeriodLabel = () => {
-    const selected = periodOptions.find((option) => option.value === selectedPeriod);
-    return selected ? selected.label : 'Últimos 6 meses';
-  };
 
   if (loading && !refreshing) {
     return (
@@ -120,13 +106,13 @@ const History = () => {
             style={styles.backButton} 
             onPress={() => navigation.goBack()}
           >
-            <Text style={styles.backButtonText}>{"<"}</Text>
+            <Text style={styles.backButtonText}>❮</Text>
           </TouchableOpacity>
 
           <Text style={styles.headerTitle}>Histórico de Consumo</Text>
 
           <TouchableOpacity style={styles.menuButton}>
-            <Text style={styles.menuButtonText}>{"..."}</Text>
+            <Text style={styles.menuButtonText}>⋮</Text>
           </TouchableOpacity>
         </View>
 
@@ -148,116 +134,59 @@ const History = () => {
               <Text style={styles.summaryValue}>
                 {consumoData?.semana_atual?.total_litros?.toFixed(1) || '0.0'} L
               </Text>
+              <Text style={styles.summaryPercentage}>
+                {consumoData?.semana_atual?.porcentagem_consumo?.toFixed(1) || '0'}% da meta
+              </Text>
               <Text style={styles.summaryPeriod}>
-                {consumoData?.semana_atual?.periodo?.inicio || '--/--/----'} - {consumoData?.semana_atual?.periodo?.fim || '--/--/----'}
+                {consumoData?.semana_atual?.periodo?.inicio || '--/--/----'} a {consumoData?.semana_atual?.periodo?.fim || '--/--/----'}
               </Text>
             </View>
 
             <View style={styles.summaryCard}>
-              <Text style={styles.summaryTitle}>Últimos 5 Dias</Text>
-              <Text style={[styles.summaryValue, 
-                {color: (consumoData?.ultimos_5_dias?.porcentagem_consumo || 0) > 80 ? '#FF4500' : '#007AFF'}]}>
-                {consumoData?.ultimos_5_dias?.porcentagem_consumo || '--'}%
+              <Text style={styles.summaryTitle}>Ano 2025</Text>
+              <Text style={styles.summaryValue}>
+                {consumoData?.ano_2025?.total_litros?.toFixed(1) || '0.0'} L
               </Text>
               <Text style={styles.summaryPeriod}>
-                {consumoData?.ultimos_5_dias?.total_litros?.toFixed(1) || '--'}L de {consumoData?.ultimos_5_dias?.meta_litros || '--'}L
+                {consumoData?.ano_2025?.periodo?.inicio || '--/--/----'} a {consumoData?.ano_2025?.periodo?.fim || '--/--/----'}
               </Text>
             </View>
           </View>
 
-          {/* Gráfico de Linha para os últimos 5 dias */}
-          {consumoData?.ultimos_5_dias?.consumo_por_dia && (
+          {/* Gráfico de Barras: Consumo mensal 2025 */}
+          {consumoData?.ano_2025?.grafico_mensal && (
             <View style={styles.chartContainer}>
-              <Text style={styles.sectionTitle}>Consumo nos últimos 5 dias</Text>
-              <LineChart
+              <Text style={styles.sectionTitle}>Consumo Mensal 2025</Text>
+              <BarChart
                 data={{
-                  labels: consumoData.ultimos_5_dias.consumo_por_dia.labels,
+                  labels: consumoData.ano_2025.grafico_mensal.meses,
                   datasets: [{
-                    data: consumoData.ultimos_5_dias.consumo_por_dia.valores,
-                    color: (opacity = 1) => `rgba(0, 122, 255, ${opacity})`,
-                    strokeWidth: 2
+                    data: consumoData.ano_2025.grafico_mensal.consumo
                   }]
                 }}
                 width={screenWidth - 40}
                 height={220}
                 yAxisSuffix="L"
-                yAxisInterval={1}
                 chartConfig={{
                   backgroundColor: '#fff',
                   backgroundGradientFrom: '#fff',
                   backgroundGradientTo: '#fff',
-                  decimalPlaces: 1,
-                  color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                  decimalPlaces: 0,
+                  color: (opacity = 1) => `rgba(0, 122, 255, ${opacity})`,
                   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
                   style: {
                     borderRadius: 16,
                   },
-                  propsForDots: {
-                    r: '5',
-                    strokeWidth: '2',
-                    stroke: '#007AFF',
-                  },
+                  barPercentage: 0.5,
                 }}
-                bezier
                 style={{
                   marginVertical: 8,
                   borderRadius: 16,
                 }}
               />
               <Text style={styles.chartNote}>
-                Total: {consumoData.ultimos_5_dias.total_litros?.toFixed(1) || '0.0'}L ({consumoData.ultimos_5_dias.porcentagem_consumo || '0'}% da meta)
+                Total: {consumoData.ano_2025.total_litros?.toFixed(1) || '0.0'}L
               </Text>
-            </View>
-          )}
-
-          {/* Gráfico de Linha: Histórico */}
-          {consumoData?.line_chart && (
-            <View style={styles.chartContainer}>
-              <View style={styles.chartHeader}>
-                <Text style={styles.sectionTitle}>Histórico de Consumo</Text>
-                <TouchableOpacity
-                  style={styles.dropdownButton}
-                  onPress={() => setModalVisible(true)}
-                >
-                  <Text style={styles.dropdownButtonText}>{getSelectedPeriodLabel()}</Text>
-                  <Text style={styles.dropdownArrow}>▼</Text>
-                </TouchableOpacity>
-              </View>
-              <LineChart
-                data={{
-                  labels: consumoData.line_chart.labels,
-                  datasets: [{
-                    data: consumoData.line_chart.datasets[0].data,
-                    color: (opacity = 1) => `rgba(0, 122, 255, ${opacity})`,
-                    strokeWidth: 2
-                  }]
-                }}
-                width={screenWidth - 40}
-                height={220}
-                yAxisSuffix="L"
-                yAxisInterval={1}
-                chartConfig={{
-                  backgroundColor: '#fff',
-                  backgroundGradientFrom: '#fff',
-                  backgroundGradientTo: '#fff',
-                  decimalPlaces: 0,
-                  color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                  labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                  style: {
-                    borderRadius: 16,
-                  },
-                  propsForDots: {
-                    r: '5',
-                    strokeWidth: '2',
-                    stroke: '#007AFF',
-                  },
-                }}
-                bezier
-                style={{
-                  marginVertical: 8,
-                  borderRadius: 16,
-                }}
-              />
             </View>
           )}
 
@@ -292,23 +221,31 @@ const History = () => {
                   borderRadius: 16,
                 }}
               />
+              <View style={styles.datesContainer}>
+                {consumoData.semana_atual.grafico_diario.datas?.map((data, index) => (
+                  <Text key={index} style={styles.dateText}>{data}</Text>
+                ))}
+              </View>
+              <Text style={styles.chartNote}>
+                Total semanal: {consumoData.semana_atual.total_litros?.toFixed(1) || '0.0'}L ({consumoData.semana_atual.porcentagem_consumo?.toFixed(1) || '0'}% da meta)
+              </Text>
             </View>
           )}
 
           {/* Lista de Histórico */}
           <View style={styles.historyContainer}>
-            <Text style={styles.sectionTitle}>Registros Recentes</Text>
+            <Text style={styles.sectionTitle}>Resumo Anual</Text>
             <FlatList
               data={[
                 { 
                   id: '1', 
-                  date: consumoData?.semana_atual?.periodo?.inicio || '--/--/----', 
-                  percentage: `${consumoData?.semana_atual?.total_litros ? Math.round((consumoData.semana_atual.total_litros / 350) * 100) : '--'}%` 
+                  date: '2024', 
+                  value: `${consumoData?.ano_2024?.total_litros?.toFixed(1) || '--'}L` 
                 },
                 { 
                   id: '2', 
-                  date: 'Últimos 5 dias', 
-                  percentage: `${consumoData?.ultimos_5_dias?.porcentagem_consumo || '--'}%` 
+                  date: '2025', 
+                  value: `${consumoData?.ano_2025?.total_litros?.toFixed(1) || '--'}L` 
                 },
               ]}
               renderItem={renderHistoryItem}
@@ -317,45 +254,6 @@ const History = () => {
             />
           </View>
         </ScrollView>
-
-        {/* Modal para seleção de período */}
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}
-        >
-          <TouchableOpacity
-            style={styles.modalOverlay}
-            activeOpacity={1}
-            onPress={() => setModalVisible(false)}
-          >
-            <View style={styles.modalContent}>
-              {periodOptions.map((option) => (
-                <TouchableOpacity
-                  key={option.value}
-                  style={[
-                    styles.modalItem,
-                    selectedPeriod === option.value && styles.selectedModalItem,
-                  ]}
-                  onPress={() => {
-                    setSelectedPeriod(option.value);
-                    setModalVisible(false);
-                  }}
-                >
-                  <Text
-                    style={[
-                      styles.modalItemText,
-                      selectedPeriod === option.value && styles.selectedModalItemText,
-                    ]}
-                  >
-                    {option.label}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </TouchableOpacity>
-        </Modal>
 
         <Hubfooter />
       </View>
@@ -366,48 +264,11 @@ const History = () => {
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
-    width: '100%',
-    height: '100%',
+    resizeMode: 'cover',
   },
   container: {
     flex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
-  },
-  loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: '#007AFF',
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
     padding: 20,
-  },
-  errorText: {
-    fontSize: 16,
-    color: '#FF0000',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  retryButton: {
-    backgroundColor: '#007AFF',
-    padding: 12,
-    borderRadius: 5,
-    minWidth: 150,
-    alignItems: 'center',
-  },
-  retryButtonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
-    fontSize: 16,
   },
   headerContainer: {
     flexDirection: 'row',
@@ -416,14 +277,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 50,
     paddingBottom: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
   },
   backButton: {
     padding: 10,
@@ -431,20 +284,12 @@ const styles = StyleSheet.create({
   backButtonText: {
     color: '#000',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 16,
   },
   headerTitle: {
-    color: '#000',
     fontSize: 20,
     fontWeight: 'bold',
-  },
-  menuButton: {
-    padding: 10,
-  },
-  menuButtonText: {
-    color: '#000',
-    fontSize: 20,
-    fontWeight: 'bold',
+    color: '#333',
   },
   scrollContainer: {
     flex: 1,
@@ -452,12 +297,10 @@ const styles = StyleSheet.create({
   summaryContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   summaryCard: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     borderRadius: 12,
     padding: 15,
     width: '48%',
@@ -471,12 +314,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     marginBottom: 5,
-    fontWeight: '600',
   },
   summaryValue: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#007AFF',
+    marginBottom: 5,
+  },
+  summaryPercentage: {
+    fontSize: 14,
+    color: '#FF4500',
     marginBottom: 5,
   },
   summaryPeriod: {
@@ -484,90 +331,42 @@ const styles = StyleSheet.create({
     color: '#999',
   },
   chartContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     borderRadius: 12,
     padding: 15,
-    marginHorizontal: 20,
-    marginVertical: 10,
+    marginBottom: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
-  chartHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
+    marginBottom: 10,
     color: '#333',
   },
   chartNote: {
-    fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
-    marginTop: 10,
-  },
-  dropdownButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f0f0f0',
-    borderRadius: 20,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  dropdownButtonText: {
-    fontSize: 14,
-    color: '#666',
-    fontWeight: '500',
-  },
-  dropdownArrow: {
     fontSize: 12,
     color: '#666',
-    marginLeft: 5,
+    marginTop: 10,
+    textAlign: 'center',
   },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+  datesContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 5,
   },
-  modalContent: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    width: 250,
-    paddingVertical: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalItem: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-  },
-  selectedModalItem: {
-    backgroundColor: '#007AFF',
-  },
-  modalItemText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  selectedModalItemText: {
-    color: '#fff',
-    fontWeight: 'bold',
+  dateText: {
+    fontSize: 10,
+    color: '#666',
   },
   historyContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     borderRadius: 12,
     padding: 15,
-    margin: 20,
-    marginBottom: 100,
+    marginBottom: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -577,19 +376,59 @@ const styles = StyleSheet.create({
   historyItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
+    paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
   historyDate: {
-    fontSize: 15,
+    fontSize: 14,
     color: '#333',
-    fontWeight: '500',
   },
-  historyPercentage: {
-    fontSize: 15,
+  historyValue: {
+    fontSize: 14,
+    fontWeight: 'bold',
     color: '#007AFF',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#007AFF',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorText: {
+    fontSize: 16,
+    color: '#FF4500',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  retryButton: {
+    backgroundColor: '#007AFF',
+    padding: 10,
+    borderRadius: 5,
+  },
+  retryButtonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+  menuButton: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 5,
+    elevation: 2,
+  },
+  menuButtonText: {
+    color: '#000',
+    fontSize: 16,
     fontWeight: 'bold',
   },
 });
