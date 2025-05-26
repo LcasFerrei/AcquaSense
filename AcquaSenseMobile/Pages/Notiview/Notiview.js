@@ -70,10 +70,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 50,
     paddingBottom: 20,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
   },
   backButton: {
     backgroundColor: '#fff',
