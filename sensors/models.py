@@ -1,5 +1,6 @@
 from django.db import models
 from residences.models import PontoDeUsoDeAgua
+from rest_framework import serializers
 
 class SensorDeFluxo(models.Model):
     STATUS_CHOICES = [
@@ -22,3 +23,9 @@ class RegistroDeConsumo(models.Model):
 
     def __str__(self):
         return f"{self.consumo}L em {self.data_hora}"
+
+class RegistroDeConsumoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RegistroDeConsumo
+        fields = ['id', 'sensor', 'data_hora', 'consumo']
+        read_only_fields = ['data_hora']

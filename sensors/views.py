@@ -1,16 +1,17 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from django.db.models import Sum, Q
+from django.db.models import Sum, Q, F, ExpressionWrapper, FloatField
 from django.utils import timezone
 from django.utils.timezone import localtime
 from django.utils.timezone import make_aware
 from datetime import datetime, timedelta
 import pytz
-from .models import RegistroDeConsumo, SensorDeFluxo, PontoDeUsoDeAgua
+from .models import RegistroDeConsumo, SensorDeFluxo, PontoDeUsoDeAgua, RegistroDeConsumoSerializer
 from residences.models import Residencia
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework import status
 
 def specificMonitoring(request):
     # Verifica se a requisição é do tipo GET e contém o parâmetro 'month'
@@ -85,7 +86,31 @@ def consumo_relatorio(request):
             data_hora__range=(inicio_2024, fim_2024)
         ).aggregate(total=Sum('consumo'))['total'] or 0
 
-        # 2. Dados da semana atual (segunda a domingo)
+        # 2. Dados de 2025 (do início do ano até o mês atual)
+        inicio_2025 = timezone.make_aware(datetime(2025, 1, 1))
+        fim_2025 = hoje  # Até a data/hora atual
+        
+        # Consumo por mês em 2025 para o gráfico
+        meses_2025 = []
+        consumo_mensal_2025 = []
+        for mes in range(1, hoje.month + 1):
+            inicio_mes = timezone.make_aware(datetime(2025, mes, 1))
+            if mes == hoje.month:
+                fim_mes = hoje
+            else:
+                fim_mes = timezone.make_aware(datetime(2025, mes+1, 1)) - timedelta(seconds=1)
+            
+            consumo_mes = RegistroDeConsumo.objects.filter(
+                filtro_sensor,
+                data_hora__range=(inicio_mes, fim_mes)
+            ).aggregate(total=Sum('consumo'))['total'] or 0
+            
+            meses_2025.append(inicio_mes.strftime('%b'))  # Nome abreviado do mês
+            consumo_mensal_2025.append(float(consumo_mes))
+
+        consumo_total_2025 = sum(consumo_mensal_2025)
+
+        # 3. Dados da semana atual (segunda a domingo)
         inicio_semana = hoje - timedelta(days=hoje.weekday())
         inicio_semana = inicio_semana.replace(hour=0, minute=0, second=0)
         fim_semana = inicio_semana + timedelta(days=6, hours=23, minutes=59, seconds=59)
@@ -93,6 +118,8 @@ def consumo_relatorio(request):
         # Consumo por dia da semana para o gráfico
         dias_semana = []
         consumo_diario_semana = []
+        datas_semana = []
+        
         for i in range(7):
             dia = inicio_semana + timedelta(days=i)
             dia_fim = dia.replace(hour=23, minute=59, second=59)
@@ -103,48 +130,13 @@ def consumo_relatorio(request):
             ).aggregate(total=Sum('consumo'))['total'] or 0
             
             dias_semana.append(dia.strftime('%a'))  # Nome abreviado do dia
+            datas_semana.append(dia.date().strftime('%d/%m/%Y'))
             consumo_diario_semana.append(float(consumo_dia))
 
         consumo_semana = sum(consumo_diario_semana)
-
-        # 3. Dados dos últimos 5 dias (com detalhamento diário)
-        cinco_dias_atras = (hoje - timedelta(days=5)).replace(hour=0, minute=0, second=0)
-
-        # Criar lista de consumo diário para os últimos 5 dias
-        consumo_por_dia = []
-        dias_labels = []
-        for i in range(5):
-            dia_inicio = cinco_dias_atras + timedelta(days=i)
-            dia_fim = dia_inicio.replace(hour=23, minute=59, second=59)
-            
-            consumo_dia = RegistroDeConsumo.objects.filter(
-                filtro_sensor,
-                data_hora__range=(dia_inicio, dia_fim)
-            ).aggregate(total=Sum('consumo'))['total'] or 0
-            
-            consumo_por_dia.append(float(consumo_dia))
-            dias_labels.append(f'Dia {i+1}')
-
-        consumo_5dias = sum(consumo_por_dia)
-        porcentagem_5dias = (consumo_5dias / 120) * 100 if 120 != 0 else 0
-
-        # 4. Dados mensais para o gráfico de histórico
-        meses = []
-        consumo_mensal = []
-        for mes in range(1, 13):
-            inicio_mes = timezone.make_aware(datetime(2024, mes, 1))
-            if mes == 12:
-                fim_mes = timezone.make_aware(datetime(2024, 12, 31, 23, 59, 59))
-            else:
-                fim_mes = timezone.make_aware(datetime(2024, mes+1, 1)) - timedelta(seconds=1)
-            
-            consumo_mes = RegistroDeConsumo.objects.filter(
-                filtro_sensor,
-                data_hora__range=(inicio_mes, fim_mes)
-            ).aggregate(total=Sum('consumo'))['total'] or 0
-            
-            meses.append(inicio_mes.strftime('%b'))  # Nome abreviado do mês
-            consumo_mensal.append(float(consumo_mes))
+        
+        # Calcular porcentagem da semana atual (considerando meta de 350L)
+        porcentagem_semana = (consumo_semana / 350) * 100 if 350 != 0 else 0
 
         response_data = {
             'ano_2024': {
@@ -152,36 +144,34 @@ def consumo_relatorio(request):
                 'periodo': {
                     'inicio': inicio_2024.strftime('%d/%m/%Y'),
                     'fim': fim_2024.strftime('%d/%m/%Y')
+                }
+            },
+            'ano_2025': {
+                'total_litros': float(consumo_total_2025),
+                'periodo': {
+                    'inicio': inicio_2025.strftime('%d/%m/%Y'),
+                    'fim': fim_2025.strftime('%d/%m/%Y')
                 },
                 'grafico_mensal': {
-                    'meses': meses,
-                    'consumo': consumo_mensal
+                    'meses': meses_2025,
+                    'consumo': consumo_mensal_2025
                 }
             },
             'semana_atual': {
                 'total_litros': float(consumo_semana),
+                'porcentagem_consumo': round(porcentagem_semana, 2),
                 'periodo': {
                     'inicio': inicio_semana.strftime('%d/%m/%Y'),
                     'fim': fim_semana.strftime('%d/%m/%Y')
                 },
                 'grafico_diario': {
                     'dias': dias_semana,
+                    'datas': datas_semana,
                     'consumo': consumo_diario_semana
-                }
-            },
-            'ultimos_5_dias': {
-                'total_litros': float(consumo_5dias),
-                'porcentagem_consumo': round(porcentagem_5dias, 2),
-                'meta_litros': 120,
-                'consumo_por_dia': {
-                    'labels': dias_labels,
-                    'valores': consumo_por_dia
                 }
             },
             'status': 'success'
         }
-
-        print(response_data)
 
         return JsonResponse(response_data)
 
@@ -297,10 +287,163 @@ def consumo_diario(request):
                     consumo_total += float(registros['total'])
     
     consumo_dash = consumo_total + 10 if consumo_total != 0 else consumo_total
+    meta = 200
+    porcentagem = (consumo_total / meta) * 100 if meta > 0 else 0
 
     return Response({
         'data': hoje.strftime('%d/%m/%Y'),
         'consumo_dash':consumo_dash,
         'consumo': consumo_total,
-        'meta': 200  # Você pode ajustar isso para ser dinâmico se necessário
+        'meta': meta,  # Você pode ajustar isso para ser dinâmico se necessário
+        'porcentagem': round(porcentagem, 1)  # Arredonda para 1 casa decimal
     })
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def consumo_ponto_uso(request):
+    # Obter parâmetros da requisição
+    periodo = request.query_params.get('periodo', '1mes')
+    residencia_id = request.query_params.get('residencia_id')
+    
+    # Verificar permissão
+    try:
+        residencia = Residencia.objects.filter(id=residencia_id).first()
+        if not residencia:
+            return Response(
+                {'error': 'Acesso não autorizado'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+    except:
+        return Response(
+            {'error': 'ID inválido'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    # Calcular datas
+    hoje = timezone.now()
+    periodos = {
+        '1semana': 7,
+        '1mes': 30,
+        '3meses': 90,
+        '6meses': 180,
+        '1ano': 365
+    }
+    dias = periodos.get(periodo, 30)
+    data_inicio = hoje - timedelta(days=dias)
+
+    # Obter pontos de uso
+    pontos_uso = PontoDeUsoDeAgua.objects.filter(residencia_id=residencia_id)
+    
+    # Gerar labels para o gráfico
+    labels = gerar_labels_periodo(periodo)
+    
+    resultado = {
+        'periodo': periodo,
+        'labels': labels,
+        'data_inicio': data_inicio,
+        'data_fim': hoje,
+        'pontos': []
+    }
+
+    print("DATA_INICIO", data_inicio)
+    for ponto in pontos_uso:
+        ponto_data = {
+            'ponto_id': ponto.id,
+            'nome': ponto.nome,
+            'tipo': ponto.tipo_ponto,
+            'comodo': ponto.comodos,
+            'sensores': [],
+            'registros': []
+        }
+
+        for sensor in ponto.sensores_fluxo.all():
+            # Obter registros brutos
+            registros = sensor.registros_consumo.filter(
+                data_hora__range=(data_inicio, hoje)
+            ).order_by('data_hora')
+            
+            # Agregar por período
+            print(data_inicio)
+            print(hoje)
+            print(registros)
+            dados_grafico = agregar_consumo_por_periodo(registros, periodo, data_inicio, hoje)
+            
+            # Calcular totais
+            consumo_total = registros.aggregate(total=Sum('consumo'))['total'] or 0.0
+            horas_total = (hoje - data_inicio).total_seconds() / 3600
+            vazao_media = float(consumo_total) / horas_total if horas_total > 0 else 0.0
+            
+            sensor_data = {
+                'sensor_id': sensor.id,
+                'identificador': sensor.identificador,
+                'consumo_total': float(consumo_total),
+                'vazao_media': round(vazao_media, 2),
+                'status': sensor.status,
+                'dados_grafico': dados_grafico,
+                'registros': RegistroDeConsumoSerializer(registros, many=True).data
+            }
+            
+            ponto_data['sensores'].append(sensor_data)
+            ponto_data['registros'].extend(sensor_data['registros'])
+        
+        resultado['pontos'].append(ponto_data)
+
+    return Response(resultado, status=status.HTTP_200_OK)
+
+
+# Funções auxiliares
+def gerar_labels_periodo(periodo):
+    if periodo == '1semana':
+        return [f'Dia {i}' for i in range(1, 8)]
+    elif periodo == '1mes':
+        return ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4']
+    elif periodo == '3meses':
+        return ['Mês 1', 'Mês 2', 'Mês 3']
+    elif periodo == '6meses':
+        return [f'Mês {i}' for i in range(1, 7)]
+    elif periodo == '1ano':
+        return [f'{mes}/2025' for mes in ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']]
+    return ['Período 1', 'Período 2', 'Período 3', 'Período 4']
+
+def agregar_consumo_por_periodo(registros, periodo, data_inicio, data_fim):
+    if periodo == '1semana':
+        return agregar_por_dia(registros, data_inicio, 7)
+    elif periodo == '1mes':
+        semanas = 4  # 4 semanas em um mês
+        return agregar_por_semana(registros, data_inicio, data_fim, semanas)
+    elif periodo in ['3meses', '6meses', '1ano']:
+        return agregar_por_mes(registros, data_inicio, data_fim)
+    return []
+
+def agregar_por_dia(registros, data_inicio, num_dias):
+    dados = [0.0] * num_dias
+    for registro in registros:
+        delta = (registro.data_hora - data_inicio).days
+        if 0 <= delta < num_dias:
+            dados[delta] += float(registro.consumo)
+    return dados
+
+def agregar_por_semana(registros, data_inicio, data_fim, num_semanas):
+    dados = [0.0] * num_semanas
+    dias_por_semana = 7
+    total_dias = (data_fim - data_inicio).days
+    
+    for registro in registros:
+        delta_dias = (registro.data_hora - data_inicio).days
+        if 0 <= delta_dias <= total_dias:
+            semana = delta_dias // dias_por_semana
+            if semana < num_semanas:
+                dados[semana] += float(registro.consumo)
+    return dados
+
+def agregar_por_mes(registros, data_inicio, data_fim):
+    # Calcula o número de meses entre as datas
+    num_meses = (data_fim.year - data_inicio.year) * 12 + (data_fim.month - data_inicio.month) + 1
+    dados = [0.0] * num_meses
+    
+    for registro in registros:
+        if data_inicio <= registro.data_hora <= data_fim:
+            delta_meses = (registro.data_hora.year - data_inicio.year) * 12 + (registro.data_hora.month - data_inicio.month)
+            if 0 <= delta_meses < num_meses:
+                dados[delta_meses] += float(registro.consumo)
+    return dados
