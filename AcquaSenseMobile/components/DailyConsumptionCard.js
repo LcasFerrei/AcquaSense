@@ -1,60 +1,87 @@
-// DailyConsumptionCard.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import axios from 'axios';
+import { getToken } from './Noti';
 
 const DailyConsumptionCard = () => {
-  const consumption = 96.48; // Consumo fictício
-  const percentage = 80.4; // Percentual fictício
+  const [consumptionData, setConsumptionData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchDailyConsumption = async () => {
+      try {
+        const token = await getToken();
+        const response = await axios.get('http://127.0.0.1:8000/consumo-diario/', {
+          headers: {
+            'Authorization': `Bearer ${token}` // Supondo autenticação JWT
+          }
+        });
+        setConsumptionData(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDailyConsumption();
+  }, []);
+
+  if (loading) return <Text>Carregando...</Text>;
+  if (error) return <Text>Erro: {error}</Text>;
 
   return (
     <View style={styles.card}>
       <Text style={styles.title}>Consumo do dia</Text>
-      <Text style={styles.consumption}>{consumption} Litros</Text>
       <View style={styles.circle}>
-        <Text style={styles.percentage}>{percentage}%</Text>
+        <Text style={styles.percentage}>{consumptionData.porcentagem}%</Text>
       </View>
+      <Text style={styles.meta}>Meta: {consumptionData.meta} Litros</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFF',
+    backgroundColor: '#fff',
     borderRadius: 15,
-    padding: 15,
-    marginHorizontal: 20,
-    marginVertical: 10,
+    padding: 20,
+    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
-    alignItems: 'center',
+    shadowRadius: 4,
+    elevation: 3,
+    margin: 10,
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    marginBottom: 10,
   },
   consumption: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
-    marginVertical: 10,
+    marginBottom: 15,
   },
   circle: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#E6F0FA',
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#f0f0f0',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 10,
   },
   percentage: {
-    fontSize: 16,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
   },
+  meta: {
+    fontSize: 14,
+    color: '#7f8c8d',
+  },
 });
-
-export default DailyConsumptionCard;

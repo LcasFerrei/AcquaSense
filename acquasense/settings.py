@@ -53,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -66,17 +66,31 @@ AUTHENTICATION_BACKENDS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication', 
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ]
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # Se estiver usando JWT
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "exp://192.168.*.*:19000",
+]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8081",
     "http://127.0.0.1:8000",
+    "exp://192.168.*.*:19000",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
+
 CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'acquasense.urls'
@@ -152,7 +166,15 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-SESSION_COOKIE_SAMESITE = 'None'
-SESSION_COOKIE_SECURE = False 
-CSRF_COOKIE_SAMESITE = 'None'
-CSRF_COOKIE_SECURE = False
+# Configurações de sessão e autenticação
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SECURE = False  # True em produção com HTTPS
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_NAME = 'sessionid'
+SESSION_COOKIE_DOMAIN = 'localhost'  # Ou seu domínio em produção
+
+# Configurações de login
+LOGIN_URL = None  # Desativa o redirecionamento padrão
+CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_HTTPONLY = False  # Permitir que JavaScript acesse o CSRF token
+CSRF_USE_SESSIONS = False
