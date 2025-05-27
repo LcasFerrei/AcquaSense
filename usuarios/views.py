@@ -1,4 +1,3 @@
-# views.py
 from django.shortcuts import redirect
 from django.db import IntegrityError, transaction
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -60,8 +59,6 @@ def register_user(request):
         
 def login_view(request):
     if request.method == 'POST':
-        print("Origin Header:", request.headers.get('Origin'))
-        print("Host Header:", request.headers.get('Host'))
         data = json.loads(request.body)
         username = data.get('username')
         password = data.get('password')
@@ -69,19 +66,34 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            response = JsonResponse({'success': True})
-            response.set_cookie(
-                'sessionid',
-                request.session.session_key,
-                domain='127.0.0.1',  # Adicione isso
-                samesite='Lax',      # Mude de 'None' para 'Lax' para desenvolvimento local
-                secure=False,
-                httponly=True,
-            )
-            # Headers CORS OBRIGATÓRIOS
-            response['Access-Control-Allow-Origin'] = request.headers['Origin']
-            response['Access-Control-Allow-Credentials'] = 'true'
-            return response
+            
+            # Verifica se é uma requisição do React Native (por cabeçalho ou parâmetro)
+            is_native_app = request.headers.get('X-Requested-With') == 'ReactNative' or 'native' in request.GET
+            
+            if is_native_app:
+                # Gera tokens JWT para o app nativo
+                from rest_framework_simplejwt.tokens import RefreshToken
+                refresh = RefreshToken.for_user(user)
+                return JsonResponse({
+                    'success': True,
+                    'access': str(refresh.access_token),
+                    'refresh': str(refresh),
+                })
+            else:
+                # Autenticação tradicional com sessão/cookie para web
+                response = JsonResponse({'success': True})
+                response.set_cookie(
+                    'sessionid',
+                    request.session.session_key,
+                    domain='localhost',
+                    samesite='Lax',
+                    secure=False,
+                    httponly=True,
+                )
+                response['Access-Control-Allow-Origin'] = request.headers.get('Origin', 'http://localhost:3000')
+                response['Access-Control-Allow-Credentials'] = 'true'
+                return response
+                
     return JsonResponse({'error': 'Login failed'}, status=401)
         
 class UserProfileView(APIView):
@@ -157,9 +169,9 @@ class UserProfileViewEdit(APIView):
         except json.JSONDecodeError:
             return Response({"message": "Erro ao processar os dados."}, status=400)
 
-@login_required()
-def check_auth(request):
-    return JsonResponse({'authenticated': True})   
+@login_required(login_url=None)  # Desativa o redirecionamento padrão
+def check_auth_view(request):
+    return JsonResponse({'authenticated': True})
 
 @api_view(['GET'])
 @login_required()
@@ -180,6 +192,10 @@ def config(request):
 
 @csrf_exempt
 @api_view(['POST'])
-def user_logout(request):
+def logout_view(request):
     logout(request)
-    return JsonResponse({"message": "Usuário deslogado com sucesso"})
+    response = JsonResponse({'success': True})
+    response.delete_cookie('sessionid')
+    response['Access-Control-Allow-Origin'] = request.headers.get('Origin', 'http://localhost:3000')
+    response['Access-Control-Allow-Credentials'] = 'true'
+    return response
