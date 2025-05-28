@@ -354,14 +354,14 @@ export default function Login({ navigation }) {
         </LinearGradient>
       </TouchableOpacity>
 
-      <View style={styles.socialContainer}>
+     {/* <View style={styles.socialContainer}>
         <TouchableOpacity style={styles.socialButton}>
           <Ionicons name="logo-google" size={24} color="#DB4437" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.socialButton}>
           <Ionicons name="logo-facebook" size={24} color="#4267B2" />
         </TouchableOpacity>
-      </View>
+      </View>*/}
 
       <TouchableOpacity onPress={toggleForm}>
         <Text style={styles.toggleText}>
@@ -371,7 +371,7 @@ export default function Login({ navigation }) {
         </Text>
       </TouchableOpacity>
 
-      {/* Modal para recuperação de senha */}
+      {/* Modal para recuperação de senha*/}
       <Modal
         visible={forgotPasswordModal}
         animationType="slide"
