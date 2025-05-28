@@ -1,0 +1,23 @@
+# Django
+Django>=5.0,<6.0
+
+# Django REST Framework
+djangorestframework>=3.15.0,<4.0
+
+# Channels (WebSocket)
+channels>=4.0,<5.0
+
+# Daphne (servidor ASGI)
+daphne>=4.1,<5.0
+
+# MQTT Client
+paho-mqtt>=1.6.1,<2.0
+
+# (Opcional) Redis para Channels Layer
+channels_redis>=4.1.0,<5.0
+
+# (Recomendado) .env support
+python-decouple>=3.8,<4.0
+
+# (Recomendado) PostgreSQL se você usa no Render
+psycopg[binary]>=3.1.0,<4.0
