@@ -27,15 +27,14 @@ const News = () => {
               Após a criação do AquaSense, tivemos uma redução em mais de 20% do consumo de água com consciência de Fortaleza
             </Text>
           </View>
-          <TouchableOpacity style={styles.button}>
+          {/* <TouchableOpacity style={styles.button}>
             <LinearGradient colors={['#C58BF2', '#EEA4CE']} style={styles.buttonGradient}>
               <Text style={styles.buttonText}>Veja Mais</Text>
             </LinearGradient>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={styles.circleContainer}>
           <View style={styles.circle}>
-            <View style={styles.progress} />
             <Text style={styles.percentage}>20,1%</Text>
           </View>
         </View>
