@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import HeaderNav from "../../components/AcquaNav/Header";
 import Dash from "../../components/Dashboard/Dash";
 import './DashHome.css';
@@ -10,21 +11,24 @@ function Dashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Verifica a autenticação do usuário ao carregar o componente
     const checkAuth = async () => {
       try {
-        const response = await fetch("http://localhost:8000/check-auth/", {
-          method: "GET",
-          credentials: "include", // Envia cookies de autenticação
+        const response = await axios.get("http://localhost:8000/check-auth/", {
+          withCredentials: true, // Para enviar cookies
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          validateStatus: function (status) {
+            return status < 500; // Aceita 401 como resposta válida
+          }
         });
 
-        if (response.ok) {
-          const data = await response.json();
-          setIsAuthenticated(data.authenticated);
-          console.log(data)
+        if (response.data.authenticated) {
+          setIsAuthenticated(true);
         } else {
-          setIsAuthenticated(false); // Se a resposta não for ok, assume que não está autenticado
-          navigate('/login'); // Redireciona para a página de login
+          setIsAuthenticated(false);
+          navigate('/login');
         }
       } catch (error) {
         console.error('Erro ao verificar autenticação:', error);
@@ -33,20 +37,32 @@ function Dashboard() {
       }
     };
 
-    checkAuth(); // Chama a função para verificar a autenticação
-
+    checkAuth();
   }, [navigate]);
-  
-  if (isAuthenticated !== true) {
-    return <div></div>;
+
+  // Adicione um estado de carregamento
+  if (isAuthenticated === null) {
+    return <div className="loading-screen">Carregando...</div>;
+  }
+
+  if (isAuthenticated === false) {
+    return null; // Ou um redirecionamento alternativo
   }
 
   const handleMenuToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const handleLogout = () => {
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await axios.post("http://localhost:8000/logout/", {}, {
+        withCredentials: true
+      });
+    } catch (error) {
+      console.error('Erro durante logout:', error);
+    } finally {
+      navigate('/login');
+    }
   };
 
   return (
