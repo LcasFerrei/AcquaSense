@@ -21,3 +21,9 @@ python-decouple>=3.8,<4.0
 
 # (Recomendado) PostgreSQL se você usa no Render
 psycopg[binary]>=3.1.0,<4.0
+
+djangorestframework-simplejwt>=5.3.1,<6.0
+
+django-cors-headers>=4.3.1,<5.0
+
+pytz>=2024.1,<2025.0
