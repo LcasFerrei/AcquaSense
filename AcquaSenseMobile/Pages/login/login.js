@@ -129,6 +129,7 @@ export default function Login({ navigation }) {
       const response = await axios.post(url, data, {
         headers: {
           "Content-Type": "application/json",
+          "X-Requested-With": "ReactNative" 
         },
       });
 
