@@ -86,20 +86,28 @@ const UserProfile = () => {
     }
 
     try {
+      const nameString = personalInfo.name ? String(personalInfo.name) : '';
+    
+      // Divide o nome em partes, garantindo que sempre terá valores
+      const nameParts = nameString.trim().split(' ');
+      const firstName = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || '';
+
       const token = localStorage.getItem('authToken'); // Supondo que o token está armazenado no localStorage
       const response = await fetch('http://localhost:8000/api/user-profile-edit/', {
-        method: 'POST',
-        credentials: "include",
+        method: 'PATCH', // Usar PATCH para atualizações parciais
+        credentials: 'include', // Importante para enviar cookies de sessão
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRFToken': csrfToken,  // Adiciona o CSRF token no cabeçalho
+          'X-CSRFToken': csrfToken,
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Adiciona token JWT se estiver usando
         },
         body: JSON.stringify({
-          first_name: personalInfo.name.split(' ')[0],
-          last_name: personalInfo.name.split(' ').slice(1).join(' '),
-          phone: personalInfo.phone,
-          address: personalInfo.address,
-          email: personalInfo.email,
+          first_name: firstName,
+          last_name: lastName,
+          phone: personalInfo.phone || '',
+          address: personalInfo.address || '',
+          email: personalInfo.email || '',
         }),
       });
 

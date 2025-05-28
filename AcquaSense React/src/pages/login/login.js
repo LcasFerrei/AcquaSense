@@ -63,17 +63,29 @@ const Login = () => {
   const getCsrfToken = () => Cookies.get('csrftoken');
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const url = isSignUp ? 'http://localhost:8000/register/' : 'http://localhost:8000/login/';
-    const data = { username: formData.username, password: formData.password, ...(isSignUp && { email: formData.email }) };
+      e.preventDefault();
+      const url = isSignUp ? 'http://localhost:8000/register/' : 'http://localhost:8000/login/';
+      const data = { username: formData.username, password: formData.password, ...(isSignUp && { email: formData.email }) };
 
-    try {
-      await axios.post(url, data, { headers: { 'X-CSRFToken': getCsrfToken() }, withCredentials: true });
-      navigate('/Dashboard');
-    } catch (error) {
-      setErrorMessage(error.response?.data?.error || 'Ocorreu um erro. Tente novamente.');
-      setFormData({ username: '', password: '', email: '' });
-    }
+      try {
+        const response = await axios.post(url, data, { 
+          headers: { 
+            'X-CSRFToken': getCsrfToken(),
+            'Content-Type': 'application/json'
+          }, 
+          withCredentials: true 
+        });
+        
+        // Verifica autenticação
+        const authCheck = await axios.get('http://localhost:8000/check-auth/', {
+          withCredentials: true
+        });
+        
+        navigate('/Dashboard');
+      } catch (error) {
+        setErrorMessage(error.response?.data?.error || 'Ocorreu um erro. Tente novamente.');
+        setFormData({ username: '', password: '', email: '' });
+      }
   };
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
