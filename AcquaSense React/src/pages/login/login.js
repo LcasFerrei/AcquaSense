@@ -24,13 +24,14 @@ const Login = () => {
                 .find(row => row.startsWith('csrftoken='))
                 ?.split('=')[1];
 
-            await fetch("https://acquasense.onrender.com/logout/", {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": csrfToken,
-                },
-                credentials: "include",
-            });
+          const response = await fetch("https://acquasense.onrender.com/logout/", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  "X-CSRFToken": csrfToken || '', // Envia vazio se não houver token
+              },
+              credentials: "include", // Importante para enviar cookies
+          });
 
           if (response.ok) {
               // Limpa o localStorage (caso esteja usando JWT)

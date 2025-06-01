@@ -111,8 +111,8 @@ export default function Login({ navigation }) {
     setErrorMessage("");
 
     const url = isRegister
-      ? "http://127.0.0.1:8000/register/"
-      : "http://127.0.0.1:8000/api/token/";
+      ? "https://acquasense.onrender.com/register/"
+      : "https://acquasense.onrender.com/api/token/";
 
     const data = isRegister
       ? { 
