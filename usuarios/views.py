@@ -124,7 +124,7 @@ class UserProfileView(APIView):
         return Response(data)
     
 class UserProfileViewEdit(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     
     def patch(self, request):
         try:

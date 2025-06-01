@@ -13,7 +13,9 @@ const Dash = () => {
   });
 
   useEffect(() => {
-    const socket = new WebSocket('ws://acquasense.onrender.com/ws/Dashboard/');
+    const socket = new WebSocket('wss://acquasense.onrender.com/ws/Dashboard/');
+    socket.onopen = () => console.log("Connected!");
+    socket.onclose = () => console.log("Disconnected");
   
     socket.onmessage = function(event) {
       const data = JSON.parse(event.data);
