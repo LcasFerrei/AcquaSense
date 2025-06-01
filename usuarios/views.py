@@ -85,13 +85,11 @@ def login_view(request):
                 response.set_cookie(
                     'sessionid',
                     request.session.session_key,
-                    domain='localhost',
-                    samesite='Lax',
-                    secure=False,
-                    httponly=True,
+                    domain='.acquasense.onrender.com',
+                    secure=True,
+                    samesite='None',
+                    max_age=1209600  # 2 semanas
                 )
-                response['Access-Control-Allow-Origin'] = request.headers.get('Origin', 'http://localhost:3000')
-                response['Access-Control-Allow-Credentials'] = 'true'
                 return response
                 
     return JsonResponse({'error': 'Login failed'}, status=401)
@@ -196,7 +194,6 @@ def config(request):
 def logout_view(request):
     logout(request)
     response = JsonResponse({'success': True})
-    response.delete_cookie('sessionid')
-    response['Access-Control-Allow-Origin'] = request.headers.get('Origin', 'http://localhost:3000')
-    response['Access-Control-Allow-Credentials'] = 'true'
+    response.delete_cookie('sessionid', domain='.acquasense.onrender.com')
+    response.delete_cookie('csrftoken', domain='.acquasense.onrender.com')
     return response
