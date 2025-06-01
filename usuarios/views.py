@@ -56,7 +56,9 @@ def register_user(request):
         CustomUser.objects.create(email=email,first_name=first_name,
                                         last_name=last_name, password=password, phone_number=phone)
     return Response({"success": True, "message": "Usuário criado com sucesso."}, status=201)
-        
+
+@ensure_csrf_cookie
+@api_view(['POST'])
 def login_view(request):
     if request.method == 'POST':
         data = json.loads(request.body)
