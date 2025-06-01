@@ -172,3 +172,19 @@ CSRF_COOKIE_SAMESITE = 'None'
 CSRF_COOKIE_HTTPONLY = False  # Permitir que JavaScript acesse o CSRF token
 CSRF_COOKIE_SECURE = True
 CSRF_USE_SESSIONS = False
+
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.security.csrf': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
