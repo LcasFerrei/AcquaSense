@@ -1,4 +1,3 @@
-from django.shortcuts import redirect
 from django.db import IntegrityError, transaction
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework.permissions import IsAuthenticated
@@ -7,22 +6,21 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.contrib.auth.password_validation import validate_password
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import AllowAny
 from django.core.exceptions import ValidationError
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from usuarios.models import CustomUser  # Importando o CustomUser
 import json
 from residences.models import Residencia
-from django.middleware.csrf import get_token
 
 
 def clear_csrf(request):
     response = JsonResponse({'status': 'CSRF cookie cleared'})
+    print(response)
     response.delete_cookie('csrftoken')
     return response
 
@@ -57,9 +55,12 @@ def register_user(request):
                                         last_name=last_name, password=password, phone_number=phone)
     return Response({"success": True, "message": "Usuário criado com sucesso."}, status=201)
 
+@csrf_exempt
 @api_view(['POST'])
+@permission_classes([AllowAny])  # ⬅️ Adicione esta linha
 def login_view(request):
     if request.method == 'POST':
+        print(data)
         data = json.loads(request.body)
         username = data.get('username')
         password = data.get('password')
@@ -192,6 +193,7 @@ def config(request):
 
 @csrf_exempt
 @api_view(['POST'])
+@permission_classes([AllowAny])  # ⬅️ Adicione esta linha
 def logout_view(request):
     logout(request)
     response = JsonResponse({'success': True})

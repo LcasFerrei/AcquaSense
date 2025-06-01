@@ -10,7 +10,7 @@ const Noti = () => {
   // Função para buscar notificações da API Django
   useEffect(() => {
     const fetchNotifications = async () => {
-      const response = await fetch('http://localhost:8000/alerts/notificacoes/', {
+      const response = await fetch('https://acquasense.onrender.com/alerts/notificacoes/', {
         method: "GET",
         credentials: "include", // Envia cookies de autenticação
       });

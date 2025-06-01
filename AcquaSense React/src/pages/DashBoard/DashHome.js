@@ -13,7 +13,7 @@ function Dashboard() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/check-auth/", {
+        const response = await axios.get("https://acquasense.onrender.com/check-auth/", {
           withCredentials: true, // Para enviar cookies
           headers: {
             'Accept': 'application/json',

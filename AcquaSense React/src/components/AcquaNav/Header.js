@@ -45,7 +45,7 @@ const HeaderNav = ({ handleMenuToggle }) => {
   useEffect(() => {
     const fetchUsername = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/username/', {
+        const response = await fetch('https://acquasense.onrender.com/api/username/', {
           method: "GET",
           credentials: "include",
         });
@@ -64,7 +64,7 @@ const HeaderNav = ({ handleMenuToggle }) => {
   useEffect(() => {
     const fetchUnreadNotifications = async () => {
       try {
-        const response = await fetch('http://localhost:8000/alerts/notificacao/unread-notifications/', {
+        const response = await fetch('https://acquasense.onrender.com/alerts/notificacao/unread-notifications/', {
           method: 'GET',
           credentials: 'include',
         });

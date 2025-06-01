@@ -94,7 +94,7 @@ const UserProfile = () => {
       const lastName = nameParts.slice(1).join(' ') || '';
 
       const token = localStorage.getItem('authToken'); // Supondo que o token está armazenado no localStorage
-      const response = await fetch('http://localhost:8000/api/user-profile-edit/', {
+      const response = await fetch('https://acquasense.onrender.com/api/user-profile-edit/', {
         method: 'PATCH', // Usar PATCH para atualizações parciais
         credentials: 'include', // Importante para enviar cookies de sessão
         headers: {
