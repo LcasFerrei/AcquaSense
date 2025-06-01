@@ -149,7 +149,7 @@ export default function Login({ navigation }) {
   const handleLogin = async (username, password) => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/token/",
+        "https://acquasense.onrender.com/api/token/",
         { username, password },
         { headers: { "Content-Type": "application/json" } }
       );
