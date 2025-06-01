@@ -173,19 +173,3 @@ CSRF_COOKIE_HTTPONLY = False  # Permitir que JavaScript acesse o CSRF token
 CSRF_COOKIE_SECURE = True
 CSRF_USE_SESSIONS = False
 CSRF_COOKIE_DOMAIN = 'acquasense.onrender.com'
-
-LOGGING = {
-    'version': 1,
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django.security.csrf': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-    },
-}
