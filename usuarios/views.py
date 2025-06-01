@@ -1,6 +1,7 @@
 from django.db import IntegrityError, transaction
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import JSONParser
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -124,50 +125,57 @@ class UserProfileView(APIView):
         return Response(data)
     
 class UserProfileViewEdit(APIView):
-    permission_classes = [AllowAny]
-    
+    permission_classes = [IsAuthenticated]  # Changed from AllowAny
+    parser_classes = [JSONParser]  # To properly parse JSON data
+
     def patch(self, request):
         try:
-            # Parse o corpo da requisição JSON
-            data = json.loads(request.body)
+            # No need for json.loads() - DRF already parses the JSON
+            data = request.data
+            
+            print("Received data:", data)
 
-            print(data)
-
-            # Obtém o usuário e a residência
+            # Get user objects
             user = CustomUser.objects.filter(email=request.user.email).first()
-            user_2 = User.objects.filter(email=request.user.email).first()
+            user_2 = User.objects.filter(username=request.user.username).first()
 
-            print(user)
-            print(user_2)
-            residencia = Residencia.objects.filter(usuario=user).first()
+            if not user or not user_2:
+                return Response({"message": "User not found"}, status=404)
 
-            # Atualiza os dados do usuário
-            user.first_name = data.get("first_name", user.first_name)
-            user_2.first_name = data.get("first_name", user.first_name)
-            user.last_name = data.get("last_name", user.last_name)
-            user_2.last_name = data.get("last_name", user.last_name)
-            user.phone_number = data.get("phone", user.phone_number)
-            user.email = data.get("email", user.email)
-            user_2.email = data.get("email", user.email)
+            # Update user data
+            if "first_name" in data:
+                user.first_name = user_2.first_name = data["first_name"]
+            if "last_name" in data:
+                user.last_name = user_2.last_name = data["last_name"]
+            if "phone" in data:
+                user.phone_number = data["phone"]
+            if "email" in data:
+                new_email = data["email"]
+                if User.objects.exclude(pk=user_2.pk).filter(email=new_email).exists():
+                    return Response({"message": "Email already in use"}, status=400)
+                user.email = user_2.email = new_email
 
-            # Atualiza ou cria a residência
-            if residencia:
-                residencia.endereco = data.get("address", residencia.endereco)
+            # Update or create residence
+            residencia, created = Residencia.objects.get_or_create(
+                usuario=user,
+                defaults={
+                    'nome': data.get("name", ""),
+                    'endereco': data.get("address", "")
+                }
+            )
+            
+            if not created and "address" in data:
+                residencia.endereco = data["address"]
                 residencia.save()
-            else:
-                # Cria uma nova residência com os dados fornecidos
-                Residencia.objects.create(
-                    nome=data.get("name", ""),
-                    endereco=data.get("address", ""),
-                    usuario=user
-                )
 
             user.save()
             user_2.save()
 
-            return Response({"message": "Perfil atualizado com sucesso!"}, status=200)
-        except json.JSONDecodeError:
-            return Response({"message": "Erro ao processar os dados."}, status=400)
+            return Response({"message": "Profile updated successfully!"}, status=200)
+            
+        except Exception as e:
+            print("Error:", str(e))
+            return Response({"message": "An error occurred"}, status=400)
 
 def check_auth_view(request):
     if not request.user.is_authenticated:
