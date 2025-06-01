@@ -86,7 +86,7 @@ def login_view(request):
                 response.set_cookie(
                     'sessionid',
                     request.session.session_key,
-                    domain='.acquasense.onrender.com',
+                    domain='acquasense.onrender.com',
                     secure=True,
                     samesite='None',
                     max_age=1209600  # 2 semanas
@@ -195,6 +195,6 @@ def config(request):
 def logout_view(request):
     logout(request)
     response = JsonResponse({'success': True})
-    response.delete_cookie('sessionid', domain='.acquasense.onrender.com')
-    response.delete_cookie('csrftoken', domain='.acquasense.onrender.com')
+    response.delete_cookie('sessionid', domain='acquasense.onrender.com')
+    response.delete_cookie('csrftoken', domain='acquasense.onrender.com')
     return response
