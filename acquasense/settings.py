@@ -75,18 +75,19 @@ REST_FRAMEWORK = {
     ],
 }
 
-CSRF_TRUSTED_ORIGINS = [
+
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "https://acquasense.onrender.com",
-    "exp://192.168.*.*:19000",
-]
+    "exp://192.168.*.*:19000"
+]  
 
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = []  # Remova ou deixe vazio
-CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
 
 ROOT_URLCONF = 'acquasense.urls'
 
@@ -160,13 +161,14 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configurações de sessão e autenticação
-SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SECURE = True  # True em produção com HTTPS
 SESSION_COOKIE_NAME = 'sessionid'
 SESSION_COOKIE_DOMAIN = 'acquasense.onrender.com'
 
 # Configurações de login
 LOGIN_URL = None  # Desativa o redirecionamento padrão
-CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'None'
 CSRF_COOKIE_HTTPONLY = False  # Permitir que JavaScript acesse o CSRF token
+CSRF_COOKIE_SECURE = True
 CSRF_USE_SESSIONS = False
