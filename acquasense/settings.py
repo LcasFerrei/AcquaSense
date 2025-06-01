@@ -84,15 +84,8 @@ CSRF_TRUSTED_ORIGINS = [
     "exp://192.168.*.*:19000",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8081",
-    "http://127.0.0.1:8000",
-    "exp://192.168.*.*:19000",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "https://acquasense.onrender.com",
-]
-
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = []  # Remova ou deixe vazio
 CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'acquasense.urls'
@@ -143,8 +136,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True  # Ou especifique quais origens são permitidas
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -172,7 +163,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_COOKIE_SAMESITE = 'Lax'
 SESSION_COOKIE_SECURE = True  # True em produção com HTTPS
 SESSION_COOKIE_NAME = 'sessionid'
-SESSION_COOKIE_DOMAIN = 'localhost'  # Ou seu domínio em produção
+SESSION_COOKIE_DOMAIN = 'acquasense.onrender.com'
 
 # Configurações de login
 LOGIN_URL = None  # Desativa o redirecionamento padrão
