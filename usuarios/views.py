@@ -169,8 +169,9 @@ class UserProfileViewEdit(APIView):
         except json.JSONDecodeError:
             return Response({"message": "Erro ao processar os dados."}, status=400)
 
-@login_required(login_url=None)  # Desativa o redirecionamento padrão
 def check_auth_view(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'authenticated': False}, status=401)
     return JsonResponse({'authenticated': True})
 
 @api_view(['GET'])
