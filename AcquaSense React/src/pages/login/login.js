@@ -31,6 +31,16 @@ const Login = () => {
                 },
                 credentials: "include",
             });
+
+          if (response.ok) {
+              // Limpa o localStorage (caso esteja usando JWT)
+              localStorage.removeItem('authToken');
+              
+              // Redireciona para a página de login
+              navigate('/login');
+          } else {
+              console.error("Falha no logout:", await response.json());
+          }
         } catch (error) {
             console.error("Erro ao deslogar:", error);
         }

@@ -204,6 +204,6 @@ def config(request):
 def logout_view(request):
     logout(request)
     response = JsonResponse({'success': True})
-    response.delete_cookie('sessionid', domain='localhost:3000')
-    response.delete_cookie('csrftoken', domain='localhost:3000')
+    response.delete_cookie('sessionid', domain='acquasense.onrender.com', path='/')
+    response.delete_cookie('csrftoken', domain='acquasense.onrender.com', path='/')
     return response
