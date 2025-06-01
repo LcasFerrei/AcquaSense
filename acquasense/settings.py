@@ -80,6 +80,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
+    "https://acquasense.onrender.com",
     "exp://192.168.*.*:19000",
 ]
 
@@ -89,6 +90,7 @@ CORS_ALLOWED_ORIGINS = [
     "exp://192.168.*.*:19000",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://acquasense.onrender.com",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -168,8 +170,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configurações de sessão e autenticação
 SESSION_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_SECURE = False  # True em produção com HTTPS
-SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True  # True em produção com HTTPS
 SESSION_COOKIE_NAME = 'sessionid'
 SESSION_COOKIE_DOMAIN = 'localhost'  # Ou seu domínio em produção
 

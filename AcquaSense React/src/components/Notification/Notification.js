@@ -37,7 +37,7 @@ const Noti = () => {
     const csrfToken = getCsrfToken(); // Obtém o token CSRF
 
     try {
-      const response = await fetch(`http://localhost:8000/alerts/notificacao/marcar_como_lida/${id}/`, {
+      const response = await fetch(`https://acquasense.onrender.com/alerts/notificacao/marcar_como_lida/${id}/`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

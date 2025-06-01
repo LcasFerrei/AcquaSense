@@ -55,7 +55,7 @@ function Dashboard() {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:8000/logout/", {}, {
+      await axios.post("https://acquasense.onrender.com/logout/", {}, {
         withCredentials: true
       });
     } catch (error) {

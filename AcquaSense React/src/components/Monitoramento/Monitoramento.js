@@ -13,7 +13,7 @@ const SpecificMonitoring = () => {
     useEffect(() => {
         const fetchConsumptionData = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/SpecificMonitoring/?month=${month}`);
+                const response = await fetch(`https://acquasense.onrender.com/SpecificMonitoring/?month=${month}`);
                 if (!response.ok) {
                     throw new Error('Erro na requisição');
                 }

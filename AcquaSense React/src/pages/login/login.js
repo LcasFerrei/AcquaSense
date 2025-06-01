@@ -24,7 +24,7 @@ const Login = () => {
                 .find(row => row.startsWith('csrftoken='))
                 ?.split('=')[1];
 
-            await fetch("http://localhost:8000/logout/", {
+            await fetch("https://acquasense.onrender.com/logout/", {
                 method: "POST",
                 headers: {
                     "X-CSRFToken": csrfToken,
@@ -64,7 +64,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
       e.preventDefault();
-      const url = isSignUp ? 'http://localhost:8000/register/' : 'http://localhost:8000/login/';
+      const url = isSignUp ? 'https://acquasense.onrender.com/register/' : 'https://acquasense.onrender.com/login/';
       const data = { username: formData.username, password: formData.password, ...(isSignUp && { email: formData.email }) };
 
       try {
@@ -77,7 +77,7 @@ const Login = () => {
         });
         
         // Verifica autenticação
-        const authCheck = await axios.get('http://localhost:8000/check-auth/', {
+        const authCheck = await axios.get('https://acquasense.onrender.com/check-auth/', {
           withCredentials: true
         });
         

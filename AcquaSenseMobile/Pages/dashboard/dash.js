@@ -9,7 +9,7 @@ import DailyConsumptionCard from '../../components/DailyConsumptionCard';
 import Hubfooter from '../../components/hub';
 import backgroundImage from '../../assets/dash.png';
 
-const dash = ({ navigation }) => {
+const Dash = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ImageBackground
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default dash;
+export default Dash;

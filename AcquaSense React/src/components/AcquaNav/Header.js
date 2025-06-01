@@ -27,7 +27,7 @@ const HeaderNav = ({ handleMenuToggle }) => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await fetch('http://localhost:8000/alerts/notificacao/nao_lidas_notificacoes/', {
+        const response = await fetch('https://acquasense.onrender.com/alerts/notificacao/nao_lidas_notificacoes/', {
           method: "GET",
           credentials: "include",
         });

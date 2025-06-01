@@ -13,7 +13,7 @@ const Dash = () => {
   });
 
   useEffect(() => {
-    const socket = new WebSocket('ws://localhost:8000/ws/Dashboard/');
+    const socket = new WebSocket('ws://acquasense.onrender.com/ws/Dashboard/');
   
     socket.onmessage = function(event) {
       const data = JSON.parse(event.data);

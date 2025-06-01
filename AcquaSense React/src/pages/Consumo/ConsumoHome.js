@@ -128,7 +128,7 @@ function ConsumoHome() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch('http://localhost:8000/check-auth/', {
+        const response = await fetch('https://acquasense.onrender.com/check-auth/', {
           method: 'GET',
           credentials: 'include', // Envia os cookies de sessão
         });

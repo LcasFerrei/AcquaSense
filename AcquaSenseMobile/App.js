@@ -10,7 +10,7 @@ import Inicio3 from "./pages/Inicio3";
 import Inicio5 from "./pages/Inicio5";
 import Login from "./pages/login/login";
 import Inicio4 from "./pages/Inicio4Token";
-import dash from "./pages/dashboard/dash";
+import Dash from "./pages/dashboard/dash";
 import SearchScreen from "./pages/search/SearchScreen";
 import Grafic from "./pages/chat/Grafic";
 import VisionGeral from "./pages/VIsion/VisionGeral";
@@ -101,7 +101,7 @@ export default function App() {
         <Stack.Screen name="Inicio4" component={Inicio4} />
         <Stack.Screen name="Inicio5" component={Inicio5} />
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="dash" component={dash} />
+        <Stack.Screen name="dash" component={Dash} />
         <Stack.Screen name="SearchScreen" component={SearchScreen} />
         <Stack.Screen name="Grafic" component={Grafic} />
         <Stack.Screen name="UserScreen" component={UserScreen} />
