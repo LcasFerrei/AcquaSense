@@ -125,8 +125,7 @@ class UserProfileView(APIView):
         return Response(data)
     
 class UserProfileViewEdit(APIView):
-    permission_classes = [AllowAny]  # Changed from AllowAny
-    parser_classes = [JSONParser]  # To properly parse JSON data
+    permission_classes = [IsAuthenticated]  # Changed from AllowAny
 
     def patch(self, request):
         try:

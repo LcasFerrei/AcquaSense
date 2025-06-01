@@ -68,13 +68,7 @@ const UserProfile = () => {
     }, 1000);
   };
 
-  function getCsrfToken() {
-    const name = 'csrftoken';
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-    return null;
-  }
+  const getCsrfToken = () => Cookies.get('csrftoken');
 
   // Update user profile
   const handleUpdate = async () => {
@@ -100,7 +94,7 @@ const UserProfile = () => {
         headers: {
           'Content-Type': 'application/json',
           'X-CSRFToken': csrfToken,
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Adiciona token JWT se estiver usando
+          'Authorization': `Bearer ${token}` // Adiciona token JWT se estiver usando
         },
         body: JSON.stringify({
           first_name: firstName,
