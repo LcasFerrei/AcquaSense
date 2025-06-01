@@ -60,8 +60,8 @@ def register_user(request):
 @permission_classes([AllowAny])  # ⬅️ Adicione esta linha
 def login_view(request):
     if request.method == 'POST':
-        print(data)
         data = json.loads(request.body)
+        print(data)
         username = data.get('username')
         password = data.get('password')
 
