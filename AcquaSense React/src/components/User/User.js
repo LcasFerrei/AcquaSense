@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import './User.css'; // Atualize o nome do CSS se necessário
 
 const UserProfile = () => {
@@ -68,11 +69,8 @@ const UserProfile = () => {
     }, 1000);
   };
 
-  const getCsrfToken = () => Cookies.get('csrftoken');
-
   // Update user profile
   const handleUpdate = async () => {
-    const csrfToken = getCsrfToken(); // Obtém o token CSRF
 
     if (!personalInfo.name || !personalInfo.email) {
       setUpdateMessage('Por favor, preencha todos os campos obrigatórios.');
@@ -80,8 +78,10 @@ const UserProfile = () => {
     }
 
     try {
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
       const nameString = personalInfo.name ? String(personalInfo.name) : '';
-    
+      console.log(csrfToken)
       // Divide o nome em partes, garantindo que sempre terá valores
       const nameParts = nameString.trim().split(' ');
       const firstName = nameParts[0] || '';

@@ -20,8 +20,32 @@ function MonitoringHome() {
     window.location.href = '/login';
   };
 
+    const getCsrfToken = () => {
+    try {
+      // Método 1: Usando a API de cookies
+      const value = document.cookie
+        .split('; ')
+        .find(row => row.trim().startsWith('csrftoken='))
+        ?.split('=')[1];
+      
+      // Método 2: Usando API mais robusta
+      if (!value) {
+        const cookies = document.cookie.split(';').map(c => c.trim());
+        const csrfCookie = cookies.find(c => c.startsWith('csrftoken='));
+        return csrfCookie ? decodeURIComponent(csrfCookie.split('=')[1]) : null;
+      }
+      
+      return value;
+    } catch (e) {
+      console.error('Erro ao ler CSRF token:', e);
+      return null;
+    }
+  };
+
   useEffect(() => {
     // Verifica a autenticação do usuário ao carregar o componente
+    const csrfToken = getCsrfToken();
+    console.log(csrfToken)
     const checkAuth = async () => {
       try {
         const response = await fetch("https://acquasense.onrender.com/check-auth/", {
