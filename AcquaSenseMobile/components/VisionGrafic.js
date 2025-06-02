@@ -27,7 +27,7 @@ const VisionGrafic = ({ navigation }) => {
       setLoading(true);
       const token = await getToken();
       const response = await fetch(
-        `http://127.0.0.1:8000/consumo-ponto-uso/?periodo=${periodoSelecionado}&residencia_id=1`,
+        `https://acquasense.onrender.com/consumo-ponto-uso/?periodo=${periodoSelecionado}&residencia_id=1`,
         {
           headers: {
             'Authorization': `Bearer ${token}`

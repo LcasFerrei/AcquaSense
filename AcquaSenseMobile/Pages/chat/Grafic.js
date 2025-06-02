@@ -14,7 +14,7 @@ const Grafic = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      const ws = new WebSocket("ws://127.0.0.1:8000/ws/consumo/");
+      const ws = new WebSocket("wss://acquasense.onrender.com/ws/consumo/");
       console.log('WebSocket conectado');
 
       ws.onmessage = (e) => {

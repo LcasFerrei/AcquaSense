@@ -12,7 +12,7 @@ const GoalCard = ({ navigation }) => {
     const fetchData = async () => {
       try {
         const token = await getToken();
-        const response = await axios.get('http://127.0.0.1:8000/consumo-diario/', {
+        const response = await axios.get('https://acquasense.onrender.com/consumo-diario/', {
           headers: {
             'Authorization': `Bearer ${token}`
           }

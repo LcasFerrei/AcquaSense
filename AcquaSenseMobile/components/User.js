@@ -59,7 +59,7 @@ const User = () => {
 
       setLoading(true);
       // Substitua pela URL do seu backend
-      const response = await axios.get('http://127.0.0.1:8000/api/user-profile/', {
+      const response = await axios.get('https://acquasense.onrender.com/api/user-profile/', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -99,7 +99,7 @@ const User = () => {
       const token = await getToken();
       console.log(token)
       // Aqui você pode adicionar uma chamada para atualizar os dados no backend
-      await axios.patch('http://127.0.0.1:8000/api/user-profile-edit/',
+      await axios.patch('https://acquasense.onrender.com/api/user-profile-edit/',
         { // dados do corpo da requisição
           name: newName,
           last_name: newLastName,

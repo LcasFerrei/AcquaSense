@@ -78,7 +78,7 @@ const Noti = () => {
         throw new Error('Usuário não autenticado');
       }
 
-      const response = await fetch('http://127.0.0.1:8000/alerts/notificacoes/', {
+      const response = await fetch('https://acquasense.onrender.com/alerts/notificacoes/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -14,7 +14,7 @@ const BarChart = () => {
     const fetchData = async () => {
       try {
         const token = await getToken();
-        const response = await axios.get('http://127.0.0.1:8000/relatorio-consumo-semanal/', {
+        const response = await axios.get('https://acquasense.onrender.com/relatorio-consumo-semanal/', {
           headers: {
             'Authorization': `Bearer ${token}`
           }

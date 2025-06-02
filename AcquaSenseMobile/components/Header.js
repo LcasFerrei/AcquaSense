@@ -18,7 +18,7 @@ const Header = () => {
 
         const token = await getToken();
         
-        const response = await axios.get('http://127.0.0.1:8000/api/user-profile/', {
+        const response = await axios.get('https://acquasense.onrender.com/api/user-profile/', {
           headers: {
             Authorization: `Bearer ${token}`
           }

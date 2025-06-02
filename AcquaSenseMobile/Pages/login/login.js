@@ -209,7 +209,7 @@ export default function Login({ navigation }) {
     try {
       if (forgotPasswordStep === "email") {
         await axios.post(
-          "http://127.0.0.1:8000/forgot-password/",
+          "http://acquasense.onrender.com/forgot-password/",
           { email: resetEmail },
           { headers: { "Content-Type": "application/json" } }
         );
@@ -217,7 +217,7 @@ export default function Login({ navigation }) {
         Alert.alert("Sucesso", "Um código de verificação foi enviado para o seu e-mail.");
       } else if (forgotPasswordStep === "code") {
         await axios.post(
-          "http://127.0.0.1:8000/verify-reset-code/",
+          "http://acquasense.onrender.com/verify-reset-code/",
           { email: resetEmail, code: resetCode },
           { headers: { "Content-Type": "application/json" } }
         );
@@ -225,7 +225,7 @@ export default function Login({ navigation }) {
         Alert.alert("Sucesso", "Código verificado. Insira sua nova senha.");
       } else if (forgotPasswordStep === "newPassword") {
         await axios.post(
-          "http://127.0.0.1:8000/reset-password/",
+          "http://acquasense.onrender.com/reset-password/",
           { email: resetEmail, code: resetCode, new_password: newPassword },
           { headers: { "Content-Type": "application/json" } }
         );
