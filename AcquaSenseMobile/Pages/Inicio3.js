@@ -20,10 +20,10 @@ export default function Inicio3({ navigation }) {
           testID="city-image"
         />
         
-        <Text style={styles.title} testID="titl-text">Identifique vazamentos no seu apartamento</Text>
+        <Text style={styles.title} testID="titl-text">Visualize seu padrão de consumo</Text>
         
         <Text style={styles.subtitle} testID="subtitle-text">
-          Com o auxílio de sensores, você será prontamente notificado caso haja algum rompimento nas tubulações
+          Com o auxílio de sensores e com gráficos intuitivos, entenda como e quando você utiliza a água para otimizar seu uso
         </Text>
         
         <TouchableOpacity onPress={() => navigation.navigate("Inicio4")} testID="continu-button">

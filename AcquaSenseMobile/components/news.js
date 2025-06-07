@@ -35,7 +35,7 @@ const News = () => {
         </View>
         <View style={styles.circleContainer}>
           <View style={styles.circle}>
-            <Text style={styles.percentage}>20,1%</Text>
+            <Text style={styles.percentage}>20%</Text>
           </View>
         </View>
       </View>

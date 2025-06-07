@@ -4,6 +4,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { getToken } from './Noti';
 import axios from 'axios'; // Importe o axios
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const User = () => {
   // Estado para as informações do usuário
@@ -87,6 +90,9 @@ const User = () => {
       setLoading(false);
     }
   };
+
+    const navigation = useNavigation();
+
 
   // Buscar os dados do usuário quando o componente for montado
   useEffect(() => {
@@ -231,19 +237,22 @@ const User = () => {
     );
   };
 
-  // Função para excluir conta
-  const handleDeleteAccount = () => {
+  // Função para sair
+  const handleLogout = async () => {
     Alert.alert(
-      'Excluir Conta',
-      'Você tem certeza de que deseja excluir sua conta? Esta ação não pode ser desfeita.',
+      'Sair da Conta',
+      'Tem certeza que deseja sair da sua conta?',
       [
         { text: 'Cancelar', style: 'cancel' },
         {
-          text: 'Excluir',
-          onPress: () => {
-            Alert.alert('Conta Excluída', 'Sua conta foi excluída com sucesso.');
-          },
-          style: 'destructive',
+          text: 'Sair',
+          onPress: async () => {
+            await AsyncStorage.removeItem('userToken'); // ou o nome da chave usada
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'Login' }], // nome da sua tela de login
+            });
+          }
         },
       ]
     );
@@ -522,19 +531,10 @@ const User = () => {
       </View>
 
       {/* Seção: Excluir Conta */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Excluir Conta</Text>
-        <LinearGradient
-          colors={['#FF6B6B', '#FF8787']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
-          style={styles.button}
-        >
-          <TouchableOpacity onPress={handleDeleteAccount}>
-            <Text style={styles.buttonText}>Excluir Conta</Text>
-          </TouchableOpacity>
-        </LinearGradient>
-      </View>
+      <TouchableOpacity onPress={handleLogout}>
+  <Text style={styles.logoutText}>Sair da Conta</Text>
+</TouchableOpacity>
+
     </ScrollView>
   );
 };
@@ -550,6 +550,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     elevation: 2,
   },
+  logoutText: {
+    color: 'red',
+    fontSize: 16,
+    marginTop: 20,
+    textAlign: 'center',
+  },  
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
