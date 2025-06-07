@@ -29,6 +29,7 @@ def clear_csrf(request):
 def get_csrf_token(request):
     return JsonResponse({'csrfToken': request.META.get('CSRF_COOKIE')})
 
+@csrf_exempt
 @api_view(['POST'])
 def register_user(request):
     username = request.data.get('username')
