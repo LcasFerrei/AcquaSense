@@ -31,6 +31,7 @@ def get_csrf_token(request):
 
 @csrf_exempt
 @api_view(['POST'])
+@permission_classes([AllowAny])  # ⬅️ Adicione esta linha
 def register_user(request):
     username = request.data.get('username')
     email = request.data.get('email')
