@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
 import Hubfooter from '../../components/hub';
 import Noti from '../../components/Noti';

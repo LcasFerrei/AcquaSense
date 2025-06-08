@@ -1,5 +1,4 @@
-import React from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, Platform } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 
 const ConsumptionChart = ({ data }) => {
@@ -75,11 +74,11 @@ const ConsumptionChart = ({ data }) => {
 
   const chartData = processChartData();
 
-  // Configuração do gráfico sem pontos
+  // Configuração otimizada para Android
   const chartConfig = {
-    backgroundColor: '#ffffff00',  // Cor de fundo branca
-    backgroundGradientFrom: '#ffffff00',  // Cor de fundo branca para o gradiente
-    backgroundGradientTo: '#ffffff00',  // Cor de fundo branca para o gradiente
+    backgroundColor: '#ffffff',
+    backgroundGradientFrom: '#ffffff',
+    backgroundGradientTo: '#ffffff',
     decimalPlaces: 0,
     color: (opacity = 1) => `rgba(0, 150, 136, ${opacity})`,
     labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
@@ -87,22 +86,42 @@ const ConsumptionChart = ({ data }) => {
       borderRadius: 16,
     },
     propsForDots: {
-      r: '0', // Remove completamente os pontos
+      r: '0',
     },
     propsForLabels: {
       fontSize: 10
     },
-    fillShadowGradient: 'rgba(0, 150, 136, 0.1)',  // Cor de preenchimento com opacidade
-    fillShadowGradientOpacity: 0.1
+    fillShadowGradient: 'rgba(0, 150, 136, 0.1)',
+    fillShadowGradientOpacity: 0.1,
+    // Configurações específicas para Android
+    useShadowColorFromDataset: false,
+    barPercentage: Platform.OS === 'android' ? 0.8 : 1,
+    propsForBackgroundLines: {
+      strokeWidth: Platform.OS === 'android' ? 0.5 : 1,
+      strokeDasharray: "",
+    }
   };
 
-  // Calcula o consumo total (último valor)
   const totalConsumption = chartData.isEmpty ? 0 : 
     chartData.datasets[0].data.slice(-1)[0].toFixed(1);
 
   return (
-    <View style={{ alignItems: 'center', marginVertical: 20, backgroundColor: 'transparent' }}>
-      <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10, color: '#333' }}>
+    <View style={{ 
+      alignItems: 'center', 
+      marginVertical: 20, 
+      backgroundColor: 'transparent',
+      // Adicionado para melhorar performance no Android
+      renderToHardwareTextureAndroid: true
+    }}>
+      <Text style={{ 
+        fontSize: 16, 
+        fontWeight: 'bold', 
+        marginBottom: 10, 
+        color: '#333',
+        // Adicionado para melhorar renderização no Android
+        includeFontPadding: false,
+        textAlignVertical: 'center'
+      }}>
         Consumo Acumulado por Hora
       </Text>
       
@@ -112,32 +131,53 @@ const ConsumptionChart = ({ data }) => {
           height: 220, 
           justifyContent: 'center', 
           alignItems: 'center',
-          backgroundColor: 'transparent', // Garantindo fundo transparente
-          borderRadius: 16
+          backgroundColor: 'white',
+          borderRadius: 16,
+          elevation: Platform.OS === 'android' ? 2 : 0, // Sombra no Android
+          shadowOpacity: Platform.OS === 'ios' ? 0.2 : 0, // Sombra no iOS
         }}>
-          <Text style={{ color: '#666', backgroundColor:'transparent' }}>...</Text>
+          <Text style={{ color: '#666' }}>...</Text>
         </View>
       ) : (
         <>
-          <LineChart
-            data={chartData}
-            width={screenWidth * 0.9}
-            height={220}
-            chartConfig={chartConfig}
-            bezier
-            style={{
-              marginVertical: 8,
-              borderRadius: 16,
-              backgroundColor: 'transparent',  // Garantindo fundo transparente
-            }}
-            withVerticalLines={false}
-            yAxisLabel=""
-            yAxisSuffix=""
-            fromZero
-            withInnerLines={false}
-            segments={4}
-          />
-          <Text style={{ marginTop: 8, color: '#666' }}>
+          <View style={{
+            width: screenWidth * 0.9,
+            height: 220,
+            borderRadius: 16,
+            backgroundColor: 'white',
+            elevation: Platform.OS === 'android' ? 2 : 0, // Sombra no Android
+            shadowOpacity: Platform.OS === 'ios' ? 0.2 : 0, // Sombra no iOS
+            overflow: 'hidden' // Importante para Android
+          }}>
+            <LineChart
+              data={chartData}
+              width={screenWidth * 0.9}
+              height={220}
+              chartConfig={chartConfig}
+              bezier
+              withVerticalLines={false}
+              yAxisLabel=""
+              yAxisSuffix=""
+              fromZero
+              withInnerLines={false}
+              segments={4}
+              // Configurações específicas para Android
+              withHorizontalLabels={Platform.OS === 'android'}
+              transparent={false}
+              style={{
+                marginVertical: 8,
+                borderRadius: 16,
+                paddingRight: Platform.OS === 'android' ? 20 : 0,
+              }}
+            />
+          </View>
+          <Text style={{ 
+            marginTop: 8, 
+            color: '#666',
+            // Adicionado para melhorar renderização no Android
+            includeFontPadding: false,
+            textAlignVertical: 'center'
+          }}>
             Consumo acumulado: {totalConsumption} litros
           </Text>
         </>

@@ -25,7 +25,7 @@ const Header = () => {
         });
 
         // Extrai o nome completo da resposta
-        const fullName = `${response.data.name} ${response.data.last_name}` || 'Usuário';
+        const fullName = `${response.data.name} ${response.data.last_name[0]}` || 'Usuário';
         // Pega apenas o primeiro nome para exibir
         setUserName(fullName);
         
