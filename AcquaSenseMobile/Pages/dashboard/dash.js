@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, Text, ScrollView, StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
 import Header from '../../components/Header';
 import News from '../../components/news';

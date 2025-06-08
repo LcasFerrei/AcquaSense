@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import HubFooter from '../../components/hub';
