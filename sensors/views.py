@@ -61,6 +61,8 @@ def specificMonitoring(request):
         return JsonResponse({'error': 'Invalid month format. Use YYYY-MM.'}, status=400)
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def consumo_relatorio(request):
     try:
         # Verifica se foi passado um ponto de uso específico

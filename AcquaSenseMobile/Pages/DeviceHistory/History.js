@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Hubfooter from '../../components/hub';
+import { getToken } from './Noti';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -66,7 +67,12 @@ const History = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch('https://acquasense.onrender.com/relatorio-consumo/');
+      const token = await getToken();
+      const response = await fetch('https://acquasense.onrender.com/relatorio-consumo/', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       const data = await response.json();
 
       if (data.status === 'success') {
