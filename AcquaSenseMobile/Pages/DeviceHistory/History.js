@@ -13,10 +13,48 @@ import {
   RefreshControl 
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { LineChart, BarChart } from 'react-native-chart-kit';
 import Hubfooter from '../../components/hub';
+import { getToken } from '../../components/Noti';
 
 const screenWidth = Dimensions.get('window').width;
+
+// Componente de Barra Customizado
+const CustomBar = ({ value, maxValue, color }) => {
+  const barHeight = (value / maxValue) * 100;
+  
+  return (
+    <View style={styles.barContainer}>
+      <View style={[styles.bar, { height: `${barHeight}%`, backgroundColor: color }]} />
+      <Text style={styles.barValue}>{value}</Text>
+    </View>
+  );
+};
+
+// Componente de Gráfico Customizado
+const CustomBarChart = ({ title, labels, data, color, suffix }) => {
+  const maxValue = Math.max(...data, 1);
+  
+  return (
+    <View style={styles.customChartContainer}>
+      <Text style={styles.sectionTitle}>{title}</Text>
+      <View style={styles.chartBarsContainer}>
+        {data.map((value, index) => (
+          <View key={`${title}-${index}`} style={styles.barColumn}>
+            <CustomBar 
+              value={value} 
+              maxValue={maxValue} 
+              color={color}
+            />
+            <Text style={styles.barLabel}>{labels[index]}</Text>
+          </View>
+        ))}
+      </View>
+      <Text style={styles.chartNote}>
+        Total: {data.reduce((a, b) => a + b, 0).toFixed(1)}{suffix}
+      </Text>
+    </View>
+  );
+};
 
 const History = () => {
   const navigation = useNavigation();
@@ -29,7 +67,12 @@ const History = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch('https://acquasense.onrender.com/relatorio-consumo/');
+      const token = await getToken();
+      const response = await fetch('https://acquasense.onrender.com/relatorio-consumo/', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       const data = await response.json();
 
       if (data.status === 'success') {
@@ -154,72 +197,25 @@ const History = () => {
           </View>
 
           {/* Gráfico de Barras: Consumo mensal 2025 */}
-          {consumoData?.ano_2025?.grafico_mensal && (
-            <View style={styles.chartContainer}>
-              <Text style={styles.sectionTitle}>Consumo Mensal 2025</Text>
-              <BarChart
-                data={{
-                  labels: consumoData.ano_2025.grafico_mensal.meses,
-                  datasets: [{
-                    data: consumoData.ano_2025.grafico_mensal.consumo
-                  }]
-                }}
-                width={screenWidth - 40}
-                height={220}
-                yAxisSuffix="L"
-                chartConfig={{
-                  backgroundColor: '#fff',
-                  backgroundGradientFrom: '#fff',
-                  backgroundGradientTo: '#fff',
-                  decimalPlaces: 0,
-                  color: (opacity = 1) => `rgba(0, 122, 255, ${opacity})`,
-                  labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                  style: {
-                    borderRadius: 16,
-                  },
-                  barPercentage: 0.5,
-                }}
-                style={{
-                  marginVertical: 8,
-                  borderRadius: 16,
-                }}
-              />
-              <Text style={styles.chartNote}>
-                Total: {consumoData.ano_2025.total_litros?.toFixed(1) || '0.0'}L
-              </Text>
-            </View>
+                    {consumoData?.ano_2025?.grafico_mensal && (
+            <CustomBarChart
+              title="Consumo Mensal 2025"
+              labels={consumoData.ano_2025.grafico_mensal.meses}
+              data={consumoData.ano_2025.grafico_mensal.consumo}
+              color="#A8B6FF"
+              suffix="L"
+            />
           )}
 
           {/* Gráfico de Barras: Consumo semanal */}
           {consumoData?.semana_atual?.grafico_diario && (
-            <View style={styles.chartContainer}>
+            <View style={styles.customChartContainer}>
               <Text style={styles.sectionTitle}>Consumo Diário (Semana Atual)</Text>
-              <BarChart
-                data={{
-                  labels: consumoData.semana_atual.grafico_diario.dias,
-                  datasets: [{
-                    data: consumoData.semana_atual.grafico_diario.consumo
-                  }]
-                }}
-                width={screenWidth - 40}
-                height={220}
-                yAxisSuffix="L"
-                chartConfig={{
-                  backgroundColor: '#fff',
-                  backgroundGradientFrom: '#fff',
-                  backgroundGradientTo: '#fff',
-                  decimalPlaces: 0,
-                  color: (opacity = 1) => `rgba(255, 99, 132, ${opacity})`,
-                  labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                  style: {
-                    borderRadius: 16,
-                  },
-                  barPercentage: 0.5,
-                }}
-                style={{
-                  marginVertical: 8,
-                  borderRadius: 16,
-                }}
+              <CustomBarChart
+                labels={consumoData.semana_atual.grafico_diario.dias}
+                data={consumoData.semana_atual.grafico_diario.consumo}
+                color="#92EBFF"
+                suffix="L"
               />
               <View style={styles.datesContainer}>
                 {consumoData.semana_atual.grafico_diario.datas?.map((data, index) => (
@@ -227,7 +223,8 @@ const History = () => {
                 ))}
               </View>
               <Text style={styles.chartNote}>
-                Total semanal: {consumoData.semana_atual.total_litros?.toFixed(1) || '0.0'}L ({consumoData.semana_atual.porcentagem_consumo?.toFixed(1) || '0'}% da meta)
+                Total semanal: {consumoData.semana_atual.total_litros?.toFixed(1) || '0.0'}L 
+                ({consumoData.semana_atual.porcentagem_consumo?.toFixed(1) || '0'}% da meta)
               </Text>
             </View>
           )}
@@ -431,6 +428,48 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  customChartContainer: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 15,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  chartBarsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'flex-end',
+    height: 200,
+    marginVertical: 10,
+  },
+  barColumn: {
+    alignItems: 'center',
+    width: `${100 / 7}%`, // Ajuste conforme número de barras
+  },
+  barContainer: {
+    height: '100%',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  bar: {
+    width: 20,
+    borderRadius: 4,
+    marginBottom: 5,
+  },
+  barValue: {
+    fontSize: 10,
+    color: '#666',
+  },
+  barLabel: {
+    fontSize: 10,
+    color: '#666',
+    textAlign: 'center',
+    marginTop: 5,
+  }
 });
 
 export default History;
