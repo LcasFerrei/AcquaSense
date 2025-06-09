@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Hubfooter from '../../components/hub';
-import { getToken } from './Noti';
+import { getToken } from '../../components/Noti';
 
 const screenWidth = Dimensions.get('window').width;
 
