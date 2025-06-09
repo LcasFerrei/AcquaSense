@@ -72,7 +72,10 @@ def consumo_relatorio(request):
             except PontoDeUsoDeAgua.DoesNotExist:
                 return JsonResponse({'error': 'Ponto de uso não encontrado'}, status=404)
         else:
-            filtro_sensor = Q()
+            # FILTRO ADICIONADO: Mostrar apenas pontos de uso do usuário logado
+            residencias_usuario = Residencia.objects.filter(usuario__email=request.user.email)
+            pontos_uso_usuario = PontoDeUsoDeAgua.objects.filter(residencia__in=residencias_usuario)
+            filtro_sensor = Q(sensor__ponto_uso__in=pontos_uso_usuario)
 
         hoje = timezone.now()
         data_atual = hoje.date()
@@ -136,7 +139,7 @@ def consumo_relatorio(request):
         consumo_semana = sum(consumo_diario_semana)
         
         # Calcular porcentagem da semana atual (considerando meta de 350L)
-        porcentagem_semana = (consumo_semana / 350) * 100 if 350 != 0 else 0
+        porcentagem_semana = (consumo_semana / 200) * 100 if 200 != 0 else 0
 
         response_data = {
             'ano_2024': {

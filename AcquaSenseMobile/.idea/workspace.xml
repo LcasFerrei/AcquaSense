@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="84e3b744-fb33-4502-9e21-6086966fae32" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../eas.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/DeviceHistory/History.js" beforeDir="false" afterPath="$PROJECT_DIR$/Pages/DeviceHistory/History.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/VIsion/VisionGeral.js" beforeDir="false" afterPath="$PROJECT_DIR$/Pages/VIsion/VisionGeral.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/chat/Grafic.js" beforeDir="false" afterPath="$PROJECT_DIR$/Pages/chat/Grafic.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ConsumptionChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/ConsumptionChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ProgressCircle.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/ProgressCircle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2yBw6Ydd6NSi11QUsHWiMRO1GGl" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;AnalyzeApkAction.lastApkPath&quot;: &quot;C:/Users/Usuario/Downloads/application-3d2feeb3-8fe4-4392-ae20-945ce7cab4a6.apk&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Usuario/Downloads/application-3d2feeb3-8fe4-4392-ae20-945ce7cab4a6.apk&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="84e3b744-fb33-4502-9e21-6086966fae32" name="Changes" comment="" />
+      <created>1749321101109</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1749321101109</updated>
+    </task>
+    <servers />
+  </component>
+</project>

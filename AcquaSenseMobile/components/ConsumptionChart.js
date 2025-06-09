@@ -1,189 +1,141 @@
-import { View, Text, Dimensions, Platform } from 'react-native';
-import { LineChart } from 'react-native-chart-kit';
+import React from 'react';
+import { View, Text, Dimensions, StyleSheet } from 'react-native';
 
-const ConsumptionChart = ({ data }) => {
-  const screenWidth = Dimensions.get('window').width;
-
-  // Função para preencher intervalos vazios
-  const preencherIntervalosVazios = (acumuladoPorHora) => {
-    const now = new Date();
-    const horasPreenchidas = {};
-    let ultimoValor = 0;
-
-    // Preenche do início do dia até agora
-    for (let hora = 0; hora <= now.getHours(); hora++) {
-      for (let minuto = 0; minuto < 60; minuto++) {
-        const horario = `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`;
-        
-        if (acumuladoPorHora[horario] !== undefined) {
-          ultimoValor = acumuladoPorHora[horario];
-        }
-        
-        horasPreenchidas[horario] = ultimoValor;
-        
-        if (hora === now.getHours() && minuto === now.getMinutes()) {
-          break;
-        }
-      }
-    }
-
-    return horasPreenchidas;
-  };
-
-  // Processa os dados para o gráfico
-  const processChartData = () => {
-    if (!data || Object.keys(data).length === 0) {
-      return {
-        labels: [],
-        datasets: [{ data: [] }],
-        isEmpty: true
-      };
-    }
-
-    const dadosCompletos = preencherIntervalosVazios(data);
-    const dataArray = Object.entries(dadosCompletos).map(([time, value]) => ({
-      time,
-      value
-    }));
-
-    // Seleciona labels estratégicos (a cada 3 horas)
-    const labels = [];
-    const allTimes = dataArray.map(item => item.time);
-    
-    for (let hora = 0; hora <= 24; hora += 3) {
-      const timeStr = `${hora.toString().padStart(2, '0')}:00`;
-      if (allTimes.includes(timeStr) || hora === 0) {
-        labels.push(timeStr);
-      }
-    }
-
-    // Adiciona o último horário se não estiver incluído
-    const lastTime = dataArray[dataArray.length - 1].time;
-    if (!labels.includes(lastTime)) {
-      labels.push(lastTime);
-    }
-
-    return {
-      labels,
-      datasets: [{
-        data: dataArray.map(item => item.value),
-      }],
-      isEmpty: false
+const ConsumptionChart = ({ data = {}, width = Dimensions.get('window').width * 0.9, height = 200 }) => {
+  // Processa os dados de forma segura
+  const processData = () => {
+    const result = {
+      labels: [],
+      values: [],
+      maxValue: 0
     };
-  };
 
-  const chartData = processChartData();
-
-  // Configuração otimizada para Android
-  const chartConfig = {
-    backgroundColor: '#ffffff',
-    backgroundGradientFrom: '#ffffff',
-    backgroundGradientTo: '#ffffff',
-    decimalPlaces: 0,
-    color: (opacity = 1) => `rgba(0, 150, 136, ${opacity})`,
-    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-    style: {
-      borderRadius: 16,
-    },
-    propsForDots: {
-      r: '0',
-    },
-    propsForLabels: {
-      fontSize: 10
-    },
-    fillShadowGradient: 'rgba(0, 150, 136, 0.1)',
-    fillShadowGradientOpacity: 0.1,
-    // Configurações específicas para Android
-    useShadowColorFromDataset: false,
-    barPercentage: Platform.OS === 'android' ? 0.8 : 1,
-    propsForBackgroundLines: {
-      strokeWidth: Platform.OS === 'android' ? 0.5 : 1,
-      strokeDasharray: "",
+    try {
+      if (!data || Object.keys(data).length === 0) return result;
+      
+      const entries = Object.entries(data).sort();
+      result.labels = entries.map(([time]) => time);
+      result.values = entries.map(([, value]) => parseFloat(value) || 0);
+      result.maxValue = Math.max(...result.values, 1); // Mínimo de 1 para evitar divisão por zero
+      
+      return result;
+    } catch (error) {
+      console.error('Error processing data:', error);
+      return result;
     }
   };
 
-  const totalConsumption = chartData.isEmpty ? 0 : 
-    chartData.datasets[0].data.slice(-1)[0].toFixed(1);
+  const { labels, values, maxValue } = processData();
+  const hasData = values.length > 0;
+
+  // Calcula a largura de cada barra
+  const barWidth = hasData ? (width - 40) / values.length : 0;
 
   return (
-    <View style={{ 
-      alignItems: 'center', 
-      marginVertical: 20, 
-      backgroundColor: 'transparent',
-      // Adicionado para melhorar performance no Android
-      renderToHardwareTextureAndroid: true
-    }}>
-      <Text style={{ 
-        fontSize: 16, 
-        fontWeight: 'bold', 
-        marginBottom: 10, 
-        color: '#333',
-        // Adicionado para melhorar renderização no Android
-        includeFontPadding: false,
-        textAlignVertical: 'center'
-      }}>
-        Consumo Acumulado por Hora
-      </Text>
+    <View style={[styles.container, { width }]}>
+      <Text style={styles.title}>Consumo Acumulado por Hora</Text>
       
-      {chartData.isEmpty ? (
-        <View style={{ 
-          width: screenWidth * 0.9, 
-          height: 220, 
-          justifyContent: 'center', 
-          alignItems: 'center',
-          backgroundColor: 'white',
-          borderRadius: 16,
-          elevation: Platform.OS === 'android' ? 2 : 0, // Sombra no Android
-          shadowOpacity: Platform.OS === 'ios' ? 0.2 : 0, // Sombra no iOS
-        }}>
-          <Text style={{ color: '#666' }}>...</Text>
+      {!hasData ? (
+        <View style={[styles.emptyState, { height }]}>
+          <Text style={styles.emptyText}>Nenhum dado disponível</Text>
         </View>
       ) : (
         <>
-          <View style={{
-            width: screenWidth * 0.9,
-            height: 220,
-            borderRadius: 16,
-            backgroundColor: 'white',
-            elevation: Platform.OS === 'android' ? 2 : 0, // Sombra no Android
-            shadowOpacity: Platform.OS === 'ios' ? 0.2 : 0, // Sombra no iOS
-            overflow: 'hidden' // Importante para Android
-          }}>
-            <LineChart
-              data={chartData}
-              width={screenWidth * 0.9}
-              height={220}
-              chartConfig={chartConfig}
-              bezier
-              withVerticalLines={false}
-              yAxisLabel=""
-              yAxisSuffix=""
-              fromZero
-              withInnerLines={false}
-              segments={4}
-              // Configurações específicas para Android
-              withHorizontalLabels={Platform.OS === 'android'}
-              transparent={false}
-              style={{
-                marginVertical: 8,
-                borderRadius: 16,
-                paddingRight: Platform.OS === 'android' ? 20 : 0,
-              }}
-            />
+          {/* Gráfico de barras */}
+          <View style={styles.chartContainer}>
+            {values.map((value, index) => (
+              <View key={`bar-${index}`} style={styles.barContainer}>
+                <View style={[
+                  styles.bar,
+                  { 
+                    height: (value / maxValue) * (height - 60),
+                    width: barWidth * 0.8
+                  }
+                ]}>
+                  <View style={styles.barFill} />
+                </View>
+                {index % 2 === 0 && (
+                  <Text style={styles.label}>
+                    {labels[index]}
+                  </Text>
+                )}
+              </View>
+            ))}
           </View>
-          <Text style={{ 
-            marginTop: 8, 
-            color: '#666',
-            // Adicionado para melhorar renderização no Android
-            includeFontPadding: false,
-            textAlignVertical: 'center'
-          }}>
-            Consumo acumulado: {totalConsumption} litros
-          </Text>
+
+          {/* Legenda */}
+          <View style={styles.legend}>
+            <Text style={styles.summary}>
+              Consumo acumulado: {values[values.length - 1]?.toFixed(1) || '0.0'} litros
+            </Text>
+          </View>
         </>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginVertical: 20,
+    alignItems: 'center'
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#333',
+  },
+  emptyState: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+    borderRadius: 8,
+  },
+  emptyText: {
+    color: '#666',
+  },
+  chartContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    height: 200,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+  },
+  barContainer: {
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    height: '100%',
+  },
+  bar: {
+    backgroundColor: '#A8B6FF',
+    borderRadius: 4,
+    marginHorizontal: 2,
+    overflow: 'hidden',
+  },
+  barFill: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: '100%',
+    backgroundColor: '#A8B6FF',
+  },
+  label: {
+    fontSize: 10,
+    color: '#666',
+    marginTop: 4,
+    textAlign: 'center',
+  },
+  legend: {
+    marginTop: 10,
+  },
+  summary: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+  },
+});
 
 export default ConsumptionChart;
