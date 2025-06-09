@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "89be13c7-2b6c-4f22-bb5f-64db5573d915"
+      }
+    },
+    "android": {
+      "package": "com.lcasferrei.acquasense"
+    }
+  }
+}

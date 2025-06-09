@@ -28,7 +28,7 @@ function ConsumoHome() {
   const [isAuthenticated, setIsAuthenticated] = useState(null); // Estado para controlar a autenticação
   const navigate = useNavigate();
 
-  const limiteMaximo = 120;
+  const limiteMaximo = 200;
   const consumoAtual = limiteMaximo * (porcentagemConsumo / 100);
   const consumoRestante = Math.max(0, limiteMaximo - consumoAtual);
 

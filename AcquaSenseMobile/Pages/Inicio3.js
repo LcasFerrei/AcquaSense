@@ -25,7 +25,7 @@ export default function Inicio3({ navigation }) {
           Com o auxílio de sensores e com gráficos intuitivos, entenda como e quando você utiliza a água para otimizar seu uso
         </Text>
         
-        <TouchableOpacity onPress={() => navigation.navigate("Inicio4")} testID="continu-button">
+        <TouchableOpacity onPress={() => navigation.navigate("Inicio5")} testID="continu-button">
           <LinearGradient
             colors={["#A8B6FF", "#92EBFF"]}
             start={{ x: 0, y: 0 }}
