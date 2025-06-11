@@ -101,22 +101,30 @@ class ConsumoConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def send_notification(self, percentual, threshold):
-        """Cria uma notificação no banco de dados"""
-        # Get the actual user instance by awaiting .get_user()
-        user = self.scope["user"].get_user()  # This resolves the lazy object
+        """Cria uma notificação no banco de dados sempre para o usuário ID 1"""
+        from django.contrib.auth import get_user_model
         
-        messages = {
-            50: f'O consumo atingiu 50% do limite diário ({percentual}%)',
-            80: f'Alerta: consumo atingiu 80% do limite diário ({percentual}%)',
-            100: f'ATENÇÃO: consumo atingiu 100% do limite diário ({percentual}%)'
-        }
-        
-        Notificacao.objects.create(
-            titulo=f'Alerta de Consumo ({threshold}%)',
-            mensagem=messages[threshold],
-            tipo_notificacao='ALERTA',
-            usuario=user  # Now using the resolved user
-        )
+        try:
+            # Obtém o usuário com ID 1
+            User = get_user_model()
+            usuario = User.objects.get(id=1)
+            
+            messages = {
+                50: f'O consumo atingiu 50% do limite diário ({percentual}%)',
+                80: f'Alerta: consumo atingiu 80% do limite diário ({percentual}%)',
+                100: f'ATENÇÃO: consumo atingiu 100% do limite diário ({percentual}%)'
+            }
+            
+            Notificacao.objects.create(
+                titulo=f'Alerta de Consumo ({threshold}%)',
+                mensagem=messages[threshold],
+                tipo_notificacao='ALERTA',
+                usuario=usuario  # Usa sempre o usuário com ID 1
+            )
+        except User.DoesNotExist:
+            logger.error("Usuário com ID 1 não encontrado")
+        except Exception as e:
+            logger.error(f"Erro ao criar notificação: {str(e)}")
     
     @sync_to_async
     def get_accumulated_consumption(self):
