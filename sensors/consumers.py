@@ -102,7 +102,8 @@ class ConsumoConsumer(AsyncWebsocketConsumer):
     @sync_to_async
     def send_notification(self, percentual, threshold):
         """Cria uma notificação no banco de dados"""
-        usuario = self.scope["user"]  # Ajuste conforme sua implementação
+        # Get the actual user instance by awaiting .get_user()
+        user = self.scope["user"].get_user()  # This resolves the lazy object
         
         messages = {
             50: f'O consumo atingiu 50% do limite diário ({percentual}%)',
@@ -114,7 +115,7 @@ class ConsumoConsumer(AsyncWebsocketConsumer):
             titulo=f'Alerta de Consumo ({threshold}%)',
             mensagem=messages[threshold],
             tipo_notificacao='ALERTA',
-            usuario=usuario
+            usuario=user  # Now using the resolved user
         )
     
     @sync_to_async
