@@ -4,9 +4,8 @@ import logging
 from django.db.models import Q
 from django.db import models
 from channels.generic.websocket import AsyncWebsocketConsumer
-from alerts.models import Notificacao
-from sensors.models import RegistroDeConsumo
-from usuarios.models import CustomUser  # Importe seu CustomUser
+from sensors.models import RegistroDeConsumo, Notificacao
+from usuarios.models import CustomUser
 from asgiref.sync import sync_to_async
 from django.db.models import Sum
 from datetime import datetime, timedelta
@@ -19,19 +18,17 @@ logger = logging.getLogger(__name__)
 class ConsumoConsumer(AsyncWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Dicionário para controlar quais notificações já foram enviadas hoje
-        self.notifications_sent_today = {
-            50: False,
-            80: False,
-            100: False
-        }
+        self.notification_sent_today = False  # Flag para controlar se a notificação foi enviada hoje
 
     async def connect(self):
         await self.accept()
         print("WebSocket conectado")
+
+        # Inicia a tarefa de enviar registros a cada 10 segundos
         self.send_records_task = asyncio.create_task(self.send_records_periodically())
 
     async def disconnect(self, close_code):
+        # Cancela a tarefa ao desconectar
         print(f"WebSocket desconectado: {close_code}")
         self.send_records_task.cancel()
 
@@ -44,11 +41,13 @@ class ConsumoConsumer(AsyncWebsocketConsumer):
                 percentual = await self.get_daily_percentage()
                 accumulated = await self.get_accumulated_consumption()
                 
-                # Verifica se é um novo dia para resetar as flags
+                # Verifica se é um novo dia para resetar a flag
                 await self.check_new_day()
                 
-                # Verifica os limiares de notificação
-                await self.check_notification_thresholds(percentual)
+                # Verifica se a porcentagem atingiu 5% e se ainda não foi enviada notificação hoje
+                if percentual >= 50 and not self.notification_sent_today:
+                    await self.send_notification(percentual)
+                    self.notification_sent_today = True
                 
                 await self.send(text_data=json.dumps({
                     "type": "update",
@@ -75,30 +74,17 @@ class ConsumoConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def check_new_day(self):
-        """Verifica se é um novo dia para resetar as flags de notificação"""
+        """Verifica se é um novo dia para resetar a flag de notificação"""
         hoje = timezone.now().date()
-        
-        # Verifica se já existe alguma notificação de hoje
-        has_notification_today = Notificacao.objects.filter(
+        ultima_notificacao = Notificacao.objects.filter(
             tipo_notificacao='ALERTA',
-            data_hora__date=hoje
-        ).exists()
+            titulo='Alerta de Consumo',
+            data_hora__date__lt=hoje
+        ).order_by('-data_hora').first()
         
-        # Se não houver notificações hoje, reseta todas as flags
-        if not has_notification_today:
-            for threshold in self.notifications_sent_today:
-                self.notifications_sent_today[threshold] = False
-
-    async def check_notification_thresholds(self, percentual):
-        """Verifica cada limiar e envia notificação se necessário"""
-        thresholds = [50, 80, 100]
-        
-        for threshold in thresholds:
-            if (percentual >= threshold and 
-                not self.notifications_sent_today.get(threshold, True)):
-                
-                await self.send_notification(percentual, threshold)
-                self.notifications_sent_today[threshold] = True
+        if ultima_notificacao:
+            # Se a última notificação foi de um dia anterior, reseta a flag
+            self.notification_sent_today = False
 
     @sync_to_async
     def send_notification(self, percentual, threshold):  
