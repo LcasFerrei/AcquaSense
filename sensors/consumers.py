@@ -6,6 +6,7 @@ from django.db import models
 from channels.generic.websocket import AsyncWebsocketConsumer
 from alerts.models import Notificacao
 from sensors.models import RegistroDeConsumo
+from usuarios.models import CustomUser  # Importe seu CustomUser
 from asgiref.sync import sync_to_async
 from django.db.models import Sum
 from datetime import datetime, timedelta
@@ -100,14 +101,10 @@ class ConsumoConsumer(AsyncWebsocketConsumer):
                 self.notifications_sent_today[threshold] = True
 
     @sync_to_async
-    def send_notification(self, percentual, threshold):
-        """Cria uma notificação no banco de dados sempre para o usuário ID 1"""
-        from django.contrib.auth import get_user_model
-        
+    def send_notification(self, percentual, threshold):  
         try:
-            # Obtém o usuário com ID 1
-            User = get_user_model()
-            usuario = User.objects.get(id=1)
+            # Obtém o usuário com ID 1 usando seu CustomUser
+            usuario = CustomUser.objects.get(id=1)
             
             messages = {
                 50: f'O consumo atingiu 50% do limite diário ({percentual}%)',
@@ -119,10 +116,10 @@ class ConsumoConsumer(AsyncWebsocketConsumer):
                 titulo=f'Alerta de Consumo ({threshold}%)',
                 mensagem=messages[threshold],
                 tipo_notificacao='ALERTA',
-                usuario=usuario  # Usa sempre o usuário com ID 1
+                usuario=usuario  # Usa sempre o CustomUser com ID 1
             )
-        except User.DoesNotExist:
-            logger.error("Usuário com ID 1 não encontrado")
+        except CustomUser.DoesNotExist:
+            logger.error("CustomUser com ID 1 não encontrado")
         except Exception as e:
             logger.error(f"Erro ao criar notificação: {str(e)}")
     
