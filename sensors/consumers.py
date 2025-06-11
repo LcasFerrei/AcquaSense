@@ -4,7 +4,8 @@ import logging
 from django.db.models import Q
 from django.db import models
 from channels.generic.websocket import AsyncWebsocketConsumer
-from sensors.models import RegistroDeConsumo, Notificacao
+from alerts.models import Notificacao
+from sensors.models import RegistroDeConsumo
 from usuarios.models import CustomUser
 from asgiref.sync import sync_to_async
 from django.db.models import Sum
