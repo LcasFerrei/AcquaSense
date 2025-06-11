@@ -87,20 +87,14 @@ class ConsumoConsumer(AsyncWebsocketConsumer):
             self.notification_sent_today = False
 
     @sync_to_async
-    def send_notification(self, percentual, threshold):  
+    def send_notification(self, percentual):  
         try:
             # Obtém o usuário com ID 1 usando seu CustomUser
             usuario = CustomUser.objects.get(id=1)
             
-            messages = {
-                50: f'O consumo atingiu 50% do limite diário ({percentual}%)',
-                80: f'Alerta: consumo atingiu 80% do limite diário ({percentual}%)',
-                100: f'ATENÇÃO: consumo atingiu 100% do limite diário ({percentual}%)'
-            }
-            
             Notificacao.objects.create(
-                titulo=f'Alerta de Consumo ({threshold}%)',
-                mensagem=messages[threshold],
+                titulo='Alerta de Consumo',
+                mensagem=f'O consumo atingiu {percentual}% do limite diário',
                 tipo_notificacao='ALERTA',
                 usuario=usuario  # Usa sempre o CustomUser com ID 1
             )
