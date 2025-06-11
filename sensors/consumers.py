@@ -46,9 +46,8 @@ class ConsumoConsumer(AsyncWebsocketConsumer):
                 await self.check_new_day()
                 
                 # Verifica se a porcentagem atingiu 5% e se ainda não foi enviada notificação hoje
-                if percentual >= 50 and not self.notification_sent_today:
+                if percentual >= 50 and not await self.was_notification_sent_today():
                     await self.send_notification(percentual)
-                    self.notification_sent_today = True
                 
                 await self.send(text_data=json.dumps({
                     "type": "update",
@@ -88,22 +87,36 @@ class ConsumoConsumer(AsyncWebsocketConsumer):
             self.notification_sent_today = False
 
     @sync_to_async
-    def send_notification(self, percentual):  
+    def was_notification_sent_today(self):
+        hoje = timezone.now().date()
+        return Notificacao.objects.filter(
+            tipo_notificacao='ALERTA',
+            titulo='Alerta de Consumo',
+            data_hora__date=hoje
+        ).exists()
+
+    @sync_to_async
+    def send_notification(self, percentual):
+        hoje = timezone.now().date()
+        # Verifica se já existe uma notificação hoje antes de criar outra
+        if Notificacao.objects.filter(
+            tipo_notificacao='ALERTA',
+            titulo='Alerta de Consumo',
+            data_hora__date=hoje
+        ).exists():
+            return  # Já foi enviada hoje
+
         try:
-            # Obtém o usuário com ID 1 usando seu CustomUser
             usuario = CustomUser.objects.get(id=1)
-            
             Notificacao.objects.create(
                 titulo='Alerta de Consumo',
                 mensagem=f'O consumo atingiu {percentual}% do limite diário',
                 tipo_notificacao='ALERTA',
-                usuario=usuario  # Usa sempre o CustomUser com ID 1
+                usuario=usuario
             )
-        except CustomUser.DoesNotExist:
-            logger.error("CustomUser com ID 1 não encontrado")
         except Exception as e:
             logger.error(f"Erro ao criar notificação: {str(e)}")
-    
+        
     @sync_to_async
     def get_accumulated_consumption(self):
         # Define o início do dia
