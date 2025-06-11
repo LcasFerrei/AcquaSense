@@ -4,23 +4,17 @@ import logging
 from django.db.models import Q
 from django.db import models
 from channels.generic.websocket import AsyncWebsocketConsumer
-from alerts.models import Notificacao
 from sensors.models import RegistroDeConsumo
-from usuarios.models import CustomUser
 from asgiref.sync import sync_to_async
+from alerts.models import Notificacao
+from usuarios.models import CustomUser
 from django.db.models import Sum
 from datetime import datetime, timedelta
-from django.utils import timezone
 
 # Configuração básica do logger
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
-
 class ConsumoConsumer(AsyncWebsocketConsumer):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.notification_sent_today = False  # Flag para controlar se a notificação foi enviada hoje
-
     async def connect(self):
         await self.accept()
         print("WebSocket conectado")
@@ -34,6 +28,7 @@ class ConsumoConsumer(AsyncWebsocketConsumer):
         self.send_records_task.cancel()
 
     async def receive(self, text_data):
+        # Lógica de recebimento de mensagens (se necessário)
         print(f"Mensagem recebida: {text_data}")
 
     async def send_records_periodically(self):
@@ -41,14 +36,10 @@ class ConsumoConsumer(AsyncWebsocketConsumer):
             try:
                 percentual = await self.get_daily_percentage()
                 accumulated = await self.get_accumulated_consumption()
-                
-                # Verifica se é um novo dia para resetar a flag
-                await self.check_new_day()
-                
-                # Verifica se a porcentagem atingiu 5% e se ainda não foi enviada notificação hoje
-                if percentual >= 50 and not await self.was_notification_sent_today():
-                    await self.send_notification(percentual)
-                
+
+                # Verifica e envia a notificação se necessário
+                await self.check_and_send_notification(percentual)
+
                 await self.send(text_data=json.dumps({
                     "type": "update",
                     "data": {
@@ -61,62 +52,46 @@ class ConsumoConsumer(AsyncWebsocketConsumer):
                 print(f"Erro: {e}")
 
     @sync_to_async
+    def check_and_send_notification(self, percentual):
+        if percentual <= 50:
+            return  # Ainda não atingiu o limite
+
+        hoje = datetime.now().date()
+        try:
+            usuario = CustomUser.objects.get(id=1)
+        except CustomUser.DoesNotExist:
+            return
+
+        # Verifica se já existe notificação enviada hoje
+        notificacao_enviada = Notificacao.objects.filter(
+            usuario=usuario,
+            data_hora__date=hoje,
+            tipo_notificacao='ALERTA',
+            titulo='Consumo acima de 50%'
+        ).exists()
+
+        if not notificacao_enviada:
+            # Cria a notificação
+            Notificacao.objects.create(
+                usuario=usuario,
+                titulo='Consumo acima de 50%',
+                mensagem=f'O consumo de água ultrapassou 50% do limite diário.',
+                tipo_notificacao='ALERTA',
+            )
+            print(f"🔔 Notificação enviada para {usuario.first_name}")
+
+    @sync_to_async
     def get_daily_percentage(self):
         limite_litros = 200
-        inicio_do_dia = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        inicio_do_dia = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
 
         consumo_diario = RegistroDeConsumo.objects.filter(
             data_hora__gte=inicio_do_dia
         ).aggregate(total_consumo=Sum('consumo'))['total_consumo'] or 0
 
         porcentagem = (consumo_diario / limite_litros) * 100 if limite_litros else 0
-        return float(round(porcentagem, 2))
-
-    @sync_to_async
-    def check_new_day(self):
-        """Verifica se é um novo dia para resetar a flag de notificação"""
-        hoje = timezone.now().date()
-        ultima_notificacao = Notificacao.objects.filter(
-            tipo_notificacao='ALERTA',
-            titulo='Alerta de Consumo',
-            data_hora__date__lt=hoje
-        ).order_by('-data_hora').first()
-        
-        if ultima_notificacao:
-            # Se a última notificação foi de um dia anterior, reseta a flag
-            self.notification_sent_today = False
-
-    @sync_to_async
-    def was_notification_sent_today(self):
-        hoje = timezone.now().date()
-        return Notificacao.objects.filter(
-            tipo_notificacao='ALERTA',
-            titulo='Alerta de Consumo',
-            data_hora__date=hoje
-        ).exists()
-
-    @sync_to_async
-    def send_notification(self, percentual):
-        hoje = timezone.now().date()
-        # Verifica se já existe uma notificação hoje antes de criar outra
-        if Notificacao.objects.filter(
-            tipo_notificacao='ALERTA',
-            titulo='Alerta de Consumo',
-            data_hora__date=hoje
-        ).exists():
-            return  # Já foi enviada hoje
-
-        try:
-            usuario = CustomUser.objects.get(id=1)
-            Notificacao.objects.create(
-                titulo='Alerta de Consumo',
-                mensagem=f'O consumo atingiu {percentual}% do limite diário',
-                tipo_notificacao='ALERTA',
-                usuario=usuario
-            )
-        except Exception as e:
-            logger.error(f"Erro ao criar notificação: {str(e)}")
-        
+        return float(round(porcentagem, 2))  # Converte para float antes de retornar
+    
     @sync_to_async
     def get_accumulated_consumption(self):
         # Define o início do dia
