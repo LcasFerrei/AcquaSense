@@ -46,7 +46,6 @@ const Grafic = ({ navigation }) => {
   return (
     <ImageBackground source={backgroundImage} style={styles.background} resizeMode="cover">
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={true} scrollIndicatorInsets={{ right: 0 }} style={styles.scrollView}>
-        <View style={styles.container}>
           <View style={styles.headerContainer}>
             <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("dash")}>
               <Text style={styles.backButtonText}>❮</Text>
@@ -69,7 +68,6 @@ const Grafic = ({ navigation }) => {
           <View style={styles.consumptionChartContainer}>
             <ConsumptionChart data={consumoData.acumulado_por_hora} />
           </View>
-        </View>
       </ScrollView>
       <Hubfooter />
     </ImageBackground>
@@ -93,7 +91,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: '100%',
-    alignItems: 'center',
+    alignItems: 'left',
   },
   headerContainer: {
     flexDirection: 'row',
@@ -151,8 +149,8 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   consumptionChartContainer: {
-    marginTop: 30,
-    alignItems: 'center',
+      marginTop: 30,
+      alignItems: 'flex-start', // Mudar de 'center' para 'flex-start'
   },
 });
 

@@ -90,15 +90,34 @@ const VisionGeral = () => {
   };
 
   const gerarLabels = (periodo) => {
-    const labelsMap = {
-      '1semana': ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-      '1mes': ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
-      '3meses': ['Mês 1', 'Mês 2', 'Mês 3'],
-      '6meses': ['Mês 1', 'Mês 2', 'Mês 3', 'Mês 4', 'Mês 5', 'Mês 6'],
-      '1ano': ['Jan', 'Mar', 'Mai', 'Jul', 'Set', 'Nov'],
-    };
-    return labelsMap[periodo] || Array(4).fill().map((_, i) => `Sem ${i + 1}`);
+  if (periodo === '1semana') {
+    // Array com os dias da semana em ordem
+    const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    
+    // Obter o dia atual (0 = Domingo, 1 = Segunda, etc.)
+    const diaAtual = new Date().getDay();
+    
+    // Gerar os labels começando pelo dia atual e voltando
+    const labels = [];
+    for (let i = 0; i < 7; i++) {
+      // Calcula o índice do dia (começando pelo atual e indo para trás)
+      const indiceDia = (diaAtual - i + 7) % 7;
+      labels.unshift(diasSemana[indiceDia]); // Adiciona no início do array
+    }
+    
+    return labels;
+  }
+
+  // Para outros períodos, mantemos o mapeamento original
+  const labelsMap = {
+    '1mes': ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+    '3meses': ['Mês 1', 'Mês 2', 'Mês 3'],
+    '6meses': ['Mês 1', 'Mês 2', 'Mês 3', 'Mês 4', 'Mês 5', 'Mês 6'],
+    '1ano': ['Jan', 'Mar', 'Mai', 'Jul', 'Set', 'Nov'],
   };
+  
+  return labelsMap[periodo] || Array(4).fill().map((_, i) => `Sem ${i + 1}`);
+};
 
   const getEmoji = (tipo) => {
     const emojis = {
